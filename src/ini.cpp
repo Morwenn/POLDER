@@ -58,7 +58,7 @@ size_t section_exists(const char* fname, const char* section)
 
     // Create the searched word : [section]
     size_t length = strlen(section) + 2;
-    char searched_word[length+1];
+    char* searched_word = new char[length+1];
     strcpy(searched_word, "[");
     strcat(searched_word, section);
     strcat(searched_word, "]");
@@ -97,7 +97,7 @@ size_t key_exists(const char* fname, const char* section, const char* key)
 
     // Create the searched word : [section]
     size_t length = strlen(section) + 2;
-    char searched_word[length+1];
+    char* searched_word = new char[length+1];
     strcpy(searched_word, "[");
     strcat(searched_word, section);
     strcat(searched_word, "]");
@@ -164,7 +164,7 @@ char* read_string(const char* fname, const char* section, const char* key, char*
 
     // Create the searched word : [section]
     size_t length = strlen(section) + 2;
-    char searched_word[length+1];
+    char* searched_word = new char[length+1];
     strcpy(searched_word, "[");
     strcat(searched_word, section);
     strcat(searched_word, "]");
@@ -230,7 +230,7 @@ double read_real(const char* fname, const char* section, const char* key, double
 
     // Create the searched word : [section]
     size_t length = strlen(section) + 2;
-    char searched_word[length+1];
+    char* searched_word = new char[length+1];
     strcpy(searched_word, "[");
     strcat(searched_word, section);
     strcat(searched_word, "]");
@@ -302,7 +302,7 @@ ini_error section_delete(const char* fname, const char* section)
 
     // Create the searched word : [section]
     size_t length = strlen(section) + 2;
-    char searched_word[length+1];
+    char* searched_word = new char[length+1];
     strcpy(searched_word, "[");
     strcat(searched_word, section);
     strcat(searched_word, "]");
@@ -373,7 +373,7 @@ ini_error key_delete(const char* fname, const char* section, const char* key)
 
     // Create the searched word : [section]
     size_t length = strlen(section) + 2;
-    char searched_word[length+1];
+    char* searched_word = new char[length+1];
     strcpy(searched_word, "[");
     strcat(searched_word, section);
     strcat(searched_word, "]");
@@ -479,7 +479,7 @@ ini_error write_string(const char* fname, const char* section, const char* key, 
 
     // Create the searched word : [section]
     size_t length = strlen(section) + 2;
-    char searched_word[length+1];
+    char* searched_word = new char[length+1];
     strcpy(searched_word, "[");
     strcat(searched_word, section);
     strcat(searched_word, "]");
@@ -628,7 +628,7 @@ ini_error write_real(const char* fname, const char* section, const char* key, do
 
     // Create the searched word : [section]
     size_t length = strlen(section) + 2;
-    char searched_word[length+1];
+    char* searched_word = new char[length+1];
     strcpy(searched_word, "[");
     strcat(searched_word, section);
     strcat(searched_word, "]");
@@ -773,14 +773,14 @@ ini_error section_rename(const char* fname, const char* section, const char* new
 
     // Create the searched word : [section]
     size_t length = strlen(section) + 2;
-    char searched_word[length+1];
+    char* searched_word = new char[length+1];
     strcpy(searched_word, "[");
     strcat(searched_word, section);
     strcat(searched_word, "]");
 
     // Create the searched word : [new_section]
     size_t new_length = strlen(new_section) + 2;
-    char new_searched_word[new_length+1];
+    char* new_searched_word = new char[new_length+1];
     strcpy(new_searched_word, "[");
     strcat(new_searched_word, new_section);
     strcat(new_searched_word, "]");
@@ -850,7 +850,7 @@ ini_error key_rename(const char* fname, const char* section, const char* key, co
 
     // Create the searched word : [section]
     size_t length = strlen(section) + 2;
-    char searched_word[length+1];
+    char* searched_word = new char[length+1];
     strcpy(searched_word, "[");
     strcat(searched_word, section);
     strcat(searched_word, "]");

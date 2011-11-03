@@ -180,7 +180,7 @@ float operator*(v2d V1, v2d V2)
 // Cross product
 float operator^(v2d V1, v2d V2)
 {
-    return math::determinant(2, V1.x, V1.y, V2.x, V2.y);
+    return V1.x*V2.y - V1.y*V2.x;
 }
 
 
@@ -210,7 +210,7 @@ float Distance(Point2d P1, Point2d P2)
 {
     float X = P2->x - P1->x;
     float Y = P2->y - P1->y;
-    return sqrt(X*X + Y*Y);
+    return hypot(X, Y);
 }
 
 // Distance between a point and a line
@@ -550,7 +550,7 @@ float Norm(Vector2d V)
 {
     float x = V->x;
     float y = V->y;
-    return sqrt(x*x + y*y);
+    return hypot(x, y);
 }
 
 

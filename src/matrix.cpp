@@ -659,7 +659,68 @@ size_t Matrix::count(double d) const
 double Matrix::determinant() const
 {
     assert(is_square());
-    return math::determinant(_height, _data);
+
+    if (_height == 2)
+    {
+        // Return the number corresponding to the determinant of degree two
+        return _data[0]*_data[3] - _data[1]*_data[2];
+    }
+    else
+    {
+        double res = 0;
+
+        // For all numbers in the first line
+        for (size_t i = 0 ; i < _width ; ++i)
+        {
+            // Create a matrix 1 degree lesser than the first one
+            Matrix _sub(_height-1, _width-1);
+
+            size_t count = 0;
+            // Fill the new matrix
+            for (size_t j = 1 ; j < _height ; ++j)
+            {
+                const size_t temp = j * _width;
+                for (size_t k = 0 ; k < _width ; ++k)
+                {
+                    if (k != i)
+                    {
+                        _sub._data[count++] = _data[temp+k];
+                    }
+                }
+            }
+            res += _data[i] * _sub.determinant() * pow(-1, i);
+        }
+        return res;
+    }
+}
+
+double Matrix::minor(size_t x, size_t y) const
+{
+    assert(x < _height && y < _width);
+
+    // Create a matrix 1 degree lesser than the first one
+    Matrix _sub(_height-1, _width-1);
+
+    size_t count = 0;
+    // Fill the new matrix
+    for (size_t i = 0 ; i < _height ; ++i)
+    {
+        const size_t temp = i * _width;
+        for (size_t j = 0 ; j < _width ; ++j)
+        {
+            if (i != x && j != y)
+            {
+                _sub._data[count++] = _data[temp+j];
+            }
+        }
+    }
+    return _sub.determinant();
+}
+
+double Matrix::cofactor(size_t x, size_t y) const
+{
+    assert(x < _height && y < _width);
+    return minor(x, y) * pow(-1, x+y);
 }
 
 
@@ -1053,16 +1114,16 @@ Matrix adjugate(const Matrix& M)
     else // Full version for a NxN Matrix
     {
         const size_t degree = M.height();
-        double* tmp_tab = (double*) malloc((degree-1)*(degree-1) * sizeof(double));
-        int sign = 1; // + or -
+        //Matrix _sub(degree-1, degree-1);
+        //int sign = 1; // + or -
 
         // For each cell of the Matrix
         for (size_t i = 0 ; i < degree ; ++i)
         {
             for (size_t j = 0 ; j < degree ; ++j)
             {
-                // Fill the temporary tab
-                size_t count = 0;
+                // Fill the temporary Matrix
+                /*auto count = _sub.begin();
                 sign = (((i+j) % 2 == 0) ? 1 : -1);
                 for (size_t k = 0 ; k < degree ; ++k)
                 {
@@ -1070,11 +1131,13 @@ Matrix adjugate(const Matrix& M)
                     {
                         if (k != i && l != j)
                         {
-                            tmp_tab[count++] = M[k][l];
+                            *count = M[k][l];
+                            ++count;
                         }
                     }
                 }
-                res[i][j] = sign * math::determinant(degree-1, tmp_tab);
+                res[i][j] = sign * _sub.determinant();*/
+                res[i][j] = M.cofactor(i, j);
             }
         }
     }

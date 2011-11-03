@@ -88,6 +88,12 @@ double radian(double deg)
     return deg * M_PI / 180.0f;
 }
 
+// Cardinal sinus
+double sinc(double x)
+{
+    return sin(x) / x;
+}
+
 
 ////////////////////////////////////////////////////////////
 /// Miscellaneous functions
@@ -239,65 +245,6 @@ unsigned int lcm(unsigned int a, unsigned int b)
     }
 
     return a*b / gcd(a, b);
-}
-
-// Determinant
-double determinant(unsigned int degree, const double* vals)
-{
-    double system[degree][degree];
-
-    // Create the matrix corresponding to the system with the given values
-    double square = degree*degree;
-    for (size_t a = 0 ; a < square ; ++a)
-    {
-        int i = a / degree;
-        int j = a % degree;
-        system[i][j] = vals[a];
-    }
-    if (degree == 2)
-    {
-        // Return the number corresponding to the determinant of degree two
-        return system[0][0]*system[1][1] - system[0][1]*system[1][0];
-    }
-    else
-    {
-        double res = 0;
-        // For all numbers in the first line
-        for (size_t i = 0 ; i < degree ; ++i)
-        {
-            double values[(degree-1)*(degree-1)];
-            size_t count = 0;
-            // Fill the argument vector
-            for (size_t j = 1 ; j < degree ; ++j)
-            {
-                for (size_t k = 0 ; k < degree ; ++k)
-                {
-                    if (k != i)
-                    {
-                        values[count] = system[j][k];
-                        ++count;
-                    }
-                }
-            }
-            res += system[0][i] * determinant(degree-1, values) * pow(-1, i);
-        }
-        return res;
-    }
-}
-
-// Determinant (alternative writing)
-double determinant(unsigned int degree, ...)
-{
-    unsigned int square = degree*degree;
-    double alias[square];
-    va_list args;
-    va_start(args, degree);
-    for (unsigned int i = 0 ; i < square ; ++i)
-    {
-        alias[i] = va_arg(args, double);
-    }
-    va_end(args);
-    return determinant(degree, alias);
 }
 
 
