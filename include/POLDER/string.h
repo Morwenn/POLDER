@@ -123,7 +123,7 @@ void reduce_all(char* str);
 ///
 ////////////////////////////////////////////////////////////
 char* upper(const char* str);
-void touppercase(char* str);
+void to_upper(char* str);
 
 ////////////////////////////////////////////////////////////
 /// Return a given string with all the letters as minuscules
@@ -132,7 +132,7 @@ void touppercase(char* str);
 ///
 ////////////////////////////////////////////////////////////
 char* lower(const char* str);
-void tolowercase(char* str);
+void to_lower(char* str);
 
 
 } // namespace string

@@ -352,7 +352,7 @@ char* lower(const char* str)
     }
     return res_str;
 }
-void tolowercase(char* str)
+void to_lower(char* str)
 {
     for (int i = -1 ; str[++i] ;)
     {
@@ -375,7 +375,7 @@ char* upper(const char* str)
     }
     return res_str;
 }
-void touppercase(char* str)
+void to_upper(char* str)
 {
     for (int i = -1 ; str[++i] ;)
     {
