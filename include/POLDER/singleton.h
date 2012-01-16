@@ -56,7 +56,9 @@ class Singleton
 
     public:
 
-        // Prevent the object from being copied
+        /**
+         * Prevent the object from being copied
+         */
         Singleton(const Singleton&) = delete;
         Singleton& operator=(const Singleton&) = delete;
 

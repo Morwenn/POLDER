@@ -21,8 +21,8 @@
  * Headers
  */
 #include <cmath>
-#include "exceptions.h"
-#include "math.h"
+#include <POLDER/exceptions.h>
+#include <POLDER/math.h>
 
 
 namespace polder
@@ -32,7 +32,7 @@ namespace polder
 /**
  * @brief Rational numbers
  *
- * Only integral types can be used as a template parameter
+ * Only integral types should be used as a template parameter
  */
 template<typename T>
 struct rational
@@ -411,14 +411,20 @@ rational<T> make_rational(T numerator, T denominator)
 // So that the functions can be called with or without std::
 inline namespace std
 {
-    // abs function overloading
+    /**
+     * @brief Absolute value of a number
+     * @see std::abs(double);
+     */
     template<typename T>
     polder::rational<T> abs(const polder::rational<T>& r)
     {
         return polder::rational<T>(abs(r.numerator()), abs(r.denominator()));
     }
 
-    // pow function overloading
+    /**
+     * @brief Power of a number
+     * @see std::pow(double, double);
+     */
     template<typename T>
     polder::rational<T> pow(const polder::rational<T>& r, int n)
     {

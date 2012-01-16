@@ -31,66 +31,68 @@ namespace polder
 namespace string
 {
 
-////////////////////////////////////////////////////////////
-/// Read a line from a text file
-///
-/// \param line: Variable where to put the line
-/// \param f: File where to read the line
-///
-////////////////////////////////////////////////////////////
+/**
+ * @brief Reads a line from a text file
+ *
+ * @param line Variable where to put the line
+ * @param f File where to read the line
+ * @return true if it is not the end of file
+ */
 bool fgetl(char** line, FILE* f);
 
-////////////////////////////////////////////////////////////
-/// Returns the nth word of the given string
-/// Returns an empty string if there is not N words in the string
-///
-/// \param str: Tested string
-/// \param N: Number of the word to search
-///
-////////////////////////////////////////////////////////////
+/**
+ * @brief Returns the nth word of the given string
+ *
+ * @param str Tested string
+ * @param searched_word_number Number of the word to search
+ * @return nth word or an empty string if not found
+ */
 char* read_word(const char* str, size_t searched_word_number);
 
-////////////////////////////////////////////////////////////
-/// Initializes the reading of a string
-///
-/// \param str: String to read
-///
-////////////////////////////////////////////////////////////
+/**
+ * @brief Initializes the reading of a string
+ *
+ * @param str String to read
+ * @return First word of the string
+ */
 char* read_word_first(const char* str);
 
-////////////////////////////////////////////////////////////
-/// Returns the "next" word in a string
-///
-/// \param str: String to read
-///
-////////////////////////////////////////////////////////////
+/**
+ * @brief Reads the "next" word in a string
+ *
+ * You need to initilize the reading of the string with
+ * read_word_first(), then to use this function for
+ * each word in the string until there is not anything more
+ * to read.
+ *
+ * @param str String to read
+ * @return "Next" word in the string
+ */
 char* read_word_next();
 
-////////////////////////////////////////////////////////////
-/// Returns a sub-string of the given string
-///
-/// \param str: Tested string
-/// \param index_begin: Index of the first character of the sub-string in the string
-/// \param index_end: Index of the last character of the sub-string in the string
-///
-////////////////////////////////////////////////////////////
+/**
+ * @brief Returns a sub-string of the given string
+ *
+ * @param str Tested string
+ * @param index_begin Index of the first character of the sub-string in the string
+ * @param index_end Index of the last character of the sub-string in the string
+ * @return Substring between the two given indexes
+ */
 char* substr(const char* str, size_t index_begin, size_t index_end);
 
-////////////////////////////////////////////////////////////
-/// Delete all the occurences of the given character in the given string
-///
-/// \param str: String to modify
-/// \param c: character to delete
-///
-////////////////////////////////////////////////////////////
+/**
+ * @brief Delete all the occurences of the given character
+ *
+ * @param str String to modify
+ * @param c character to delete
+ */
 void delchr(char* str, const char c);
 
-////////////////////////////////////////////////////////////
-/// Deletes the spaces at the beginning and the end of a string
-///
-/// \param str: String to modify
-///
-////////////////////////////////////////////////////////////
+/**
+ * @brief Deletes the spaces at the beginning and the end of a string
+ *
+ * @param str String to modify
+ */
 void strip(char* str);
 void lstrip(char* str);
 void rstrip(char* str);
@@ -98,39 +100,36 @@ char* stripped(const char* str);
 char* lstripped(const char* str);
 char* rstripped(const char* str);
 
-////////////////////////////////////////////////////////////
-/// If the given character has more than one successive occurence, successive occurences are deleted until one remain
-///
-/// \param str: String to modify
-/// \param c: Character to test
-///
-////////////////////////////////////////////////////////////
+/**
+ * @brief Reduce all the successive occurences of a character to one
+ *
+ * @param str String to modify
+ * @param c Character to reduce
+ */
 void reduce_char(char* str, char c);
 
-////////////////////////////////////////////////////////////
-/// Reduce all the successive occurences of a character to one
-///
-/// \param str: String to modify
-/// \param c: Character to test
-///
-////////////////////////////////////////////////////////////
+/**
+ * @brief Reduce all the successive occurences of all characters to one
+ *
+ * @param str String to modify
+ */
 void reduce_all(char* str);
 
-////////////////////////////////////////////////////////////
-/// Return a given string with all the letters as majuscules
-///
-/// \param str: Tested string
-///
-////////////////////////////////////////////////////////////
+/**
+ * @brief Converts all the lower case letters of a string to upper case
+ *
+ * @param str Tested string
+ * @return Modified string
+ */
 char* upper(const char* str);
 void to_upper(char* str);
 
-////////////////////////////////////////////////////////////
-/// Return a given string with all the letters as minuscules
-///
-/// \param str: Tested string
-///
-////////////////////////////////////////////////////////////
+/**
+ * @brief Converts all the upper case letters of a string to lower case
+ *
+ * @param str Tested string
+ * @return Modified string
+ */
 char* lower(const char* str);
 void to_lower(char* str);
 

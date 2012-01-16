@@ -21,12 +21,12 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <utility>
-#include "../math.h"
-#include "../object.h"
-#include "hypersphere.h"
-#include "limits.h"
-#include "line.h"
-#include "point.h"
+#include <POLDER/math.h>
+#include <POLDER/object.h>
+#include <POLDER/geometry/hypersphere.h>
+#include <POLDER/geometry/limits.h>
+#include <POLDER/geometry/line.h>
+#include <POLDER/geometry/point.h>
 
 
 namespace polder
@@ -132,7 +132,7 @@ Object intersection(const Line<N>& L, const Hypersphere<N>& HS)
 /**
  * @brief Intersection between a Line and an Hypersphere
  *
- * See intersection(const Line<N>&, const Hypersphere<N>&)
+ * @see intersection(const Line<N>&, const Hypersphere<N>&)
  */
 template<size_t N>
 inline Object intersection(const Hypersphere<N>& HS, const Line<N>& L)

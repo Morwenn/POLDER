@@ -20,11 +20,11 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include <cstdarg>
 #include <initializer_list>
-#include "limits.h"
+#include <POLDER/geometry/limits.h>
 
 
 namespace polder

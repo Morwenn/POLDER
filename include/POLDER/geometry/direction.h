@@ -21,8 +21,8 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <algorithm>
-#include "limits.h"
-#include "point.h"
+#include <POLDER/geometry/limits.h>
+#include <POLDER/geometry/point.h>
 
 
 namespace polder

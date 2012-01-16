@@ -20,35 +20,51 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include "reference_counted.h"
+#include <POLDER/reference_counted.h>
 
 
 namespace polder
 {
 
 
+/**
+ * Generic wrapper for any object
+ * Allows to avoid using void* in many objects
+ * Moreover, the references to Wrapper may be counted
+ */
 template<class T>
 class Wrapper:
     public ReferenceCounted
 {
-    // We explicitly delete the default functions
-    // to ensure there will not be useless copies
+    /**
+     * A Wrapper can not be copied
+     */
     Wrapper(const Wrapper&) = delete;
     Wrapper& operator=(const Wrapper&) = delete;
 
     public:
 
+        /**
+         * @brief Initilization constructor
+         * @param other Object to wrap
+         */
         Wrapper(const T& other):
             _object(other)
         {}
 
-        // Return the object
+        /**
+         * @brief Object accessor
+         * @return Reference to the enclosed object
+         */
         const T& get() const
         {
             return _object;
         }
 
-        // Return a pointer to the object
+        /**
+         * @brief Object accessor
+         * @return Pointer to the enclosed object
+         */
         virtual const void* get_pointer() const
         {
             return &_object;
@@ -56,7 +72,7 @@ class Wrapper:
 
     private:
 
-        T _object;
+        T _object;  /** Wrapped object */
 };
 
 

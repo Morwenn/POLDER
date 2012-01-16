@@ -18,39 +18,45 @@
 #define _POLDER_EVALUATION_H
 
 ////////////////////////////////////////////////////////////
-/// Headers
+// Headers
 ////////////////////////////////////////////////////////////
 #include <cctype>
 #include <cmath>
 #include <cstring>
+#include <exception>
 #include <sstream>
 #include <stack>
 #include <string>
 #include <vector>
-#include "math.h"
-#include "ptype.h"
-#include "string.h"
+#include <POLDER/math.h>
+#include <POLDER/ptype.h>
+#include <POLDER/string.h>
 
 
 namespace polder
 {
 
+
 ////////////////////////////////////////////////////////////
-/// Errors/Exceptions handling
+// Errors/Exceptions handling
 ////////////////////////////////////////////////////////////
 
-// Error types (internal, not to be used)
+/**
+ * Error types (internal, not to be used)
+ */
 enum class _eval_error
 {
-    UNKNOWN_OPERATOR,
-    UNEXPECTED_CHARACTER,
-    EXPECTED_CHARACTER,
-    LAST_CHARACTER,
-    INVALID_NUMBER
+    UNKNOWN_OPERATOR,       /**< An unknown string has been considered as an operator. */
+    UNEXPECTED_CHARACTER,   /**< Character not to be used in a mathematical/logical expression. */
+    EXPECTED_CHARACTER,     /**< Some open parenthesis has not been closed. */
+    LAST_CHARACTER,         /**< The last character can not be the one found. */
+    INVALID_NUMBER          /**< The given operand is not a number (syntax error, etc...). */
 };
 
-// An evaluation_error exception is raised (or should be) whenever
-// there is a syntax error in the expression to evaluate
+
+/**
+ * Exceptions raised when a syntax error is found in the expression to evaluate.
+ */
 class evaluation_error:
     public std::exception
 {
@@ -63,15 +69,23 @@ class evaluation_error:
         virtual const char* what() const throw();
 
     private:
-        std::string msg;
+        std::string msg; /**< Error message */
 };
 
 
 ////////////////////////////////////////////////////////////
-/// Functions
+// Functions
 ////////////////////////////////////////////////////////////
 
-// Evaluation function
+/**
+ * @brief Evaluates a mathematical/logical expression
+ *
+ * For further explanations, I recommended you to go see
+ * the POLDER/evaluate.h article on Morwenn wiki.
+ *
+ * @param expr Expression to evaluate
+ * @return Resultat of the expression
+ */
 double evaluate(const char* expr);
 
 

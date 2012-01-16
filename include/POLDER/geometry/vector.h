@@ -24,8 +24,8 @@
 #include <cmath>
 #include <cstdarg>
 #include <initializer_list>
-#include "direction.h"
-#include "point.h"
+#include <POLDER/geometry/direction.h>
+#include <POLDER/geometry/point.h>
 
 
 namespace polder
@@ -34,13 +34,15 @@ namespace geometry
 {
 
 
-// Different norms
+/**
+ * Different mathematical vector norms
+ */
 enum class Norm
 {
-    Euclidean,
-    Manhattan,
-    Maximum,
-    P
+    Euclidean,  /**< Euclidean norm (norm 2) */
+    Manhattan,  /**< Manhattan, Taxicab norm (norm 1) */
+    Maximum,    /**< Maximum norm (norm infinite) */
+    P           /**< P norm */
 };
 
 // Forward declaration

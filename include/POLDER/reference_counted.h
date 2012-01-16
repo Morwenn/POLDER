@@ -18,7 +18,7 @@
 #define _POLDER_REFERENCE_COUNTED_H
 
 ////////////////////////////////////////////////////////////
-/// Headers
+// Headers
 ////////////////////////////////////////////////////////////
 #include <cstdlib>
 
@@ -27,53 +27,75 @@ namespace polder
 {
 
 
+/**
+ * @brief Class whose references to can be counted
+ */
 class ReferenceCounted
 {
     public:
 
         ////////////////////////////////////////////////////////////
-        /// Constructors
+        // Constructors
         ////////////////////////////////////////////////////////////
 
-        // Default constructor
+        /**
+         * Default constructor
+         */
         ReferenceCounted();
 
-        // Copy constructor
+        /**
+         * Copy constructor
+         */
         ReferenceCounted(const ReferenceCounted&);
 
-        // Destructor
+        /**
+         * Destructor
+         */
         virtual ~ReferenceCounted();
 
 
         ////////////////////////////////////////////////////////////
-        /// Setters
+        // Setters
         ////////////////////////////////////////////////////////////
 
-        // Adds a reference to the object
+        /**
+         * @brief Adds a reference to the object
+         */
         void add_reference();
 
-        // Removes a reference to the object
+        /**
+         * @brief Removes a reference to the object
+         */
         void remove_reference();
 
 
         ////////////////////////////////////////////////////////////
-        /// Getters
+        // Getters
         ////////////////////////////////////////////////////////////
 
-        // Returns whether the object is pointed
+        /**
+         * @brief Returns whether the object is pointed
+         * @return true if there is at least one reference to the object
+         */
         bool is_referenced() const;
 
-        // Returns whether the object is pointed more than once
+        /**
+         * @brief Returns whether the object is pointed more than once
+         * @return true if there are a least two references to the object
+         */
         bool is_shared() const;
 
-        // Returns a pointer to the object
+        /**
+         * @brief Provides a pointer to the object
+         * @return Pointer to the pointed object
+         */
         virtual const void* get_pointer() const;
 
 
     protected:
 
-        // Number of references to the objects
-        size_t count;
+        // Member data
+        size_t count;   /**< Number of references to the objects */
 };
 
 

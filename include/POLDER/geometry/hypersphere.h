@@ -22,8 +22,8 @@
 ////////////////////////////////////////////////////////////
 #include <cmath>
 #include <cstdlib>
-#include "point.h"
-#include "vector.h"
+#include <POLDER/geometry/point.h>
+#include <POLDER/geometry/vector.h>
 
 
 namespace polder
@@ -32,7 +32,7 @@ namespace geometry
 {
 
 
-// Line definition
+// Hypersphere definition
 template<size_t N>
 class Hypersphere
 {

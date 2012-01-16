@@ -63,8 +63,10 @@ void reset_margin_error();
 
 /**
  * @brief Compares two doubles taking in account the margin error
+ *
  * @param a First double to compare
  * @param b Second double to compare
+ * @return true if a and b are "equal"
  */
 bool round_equal(double a, double b);
 
@@ -74,6 +76,7 @@ bool round_equal(double a, double b);
  * @param first Iterator on the first element of the first set of data to compare
  * @param last Iterator on the last element of the first set of data to compare
  * @param first2 Iterator on the first element of the second set of data to compare
+ * @return true if the two sets of data are "equal"
 */
 template<typename InputIterator>
 bool round_equal(InputIterator first, InputIterator last, InputIterator first2)

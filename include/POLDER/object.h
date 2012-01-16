@@ -22,8 +22,8 @@
 ////////////////////////////////////////////////////////////
 #include <iostream>
 #include <typeinfo>
-#include "wrapper.h"
-#include "reference_counted.h"
+#include <POLDER/reference_counted.h>
+#include <POLDER/wrapper.h>
 
 
 namespace polder

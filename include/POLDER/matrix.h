@@ -29,7 +29,7 @@
 #include <initializer_list>
 #include <ostream>
 #include <stdexcept>
-#include "exceptions.h"
+#include <POLDER/exceptions.h>
 
 
 namespace polder
@@ -394,10 +394,6 @@ class Matrix
         {
             return determinant();
         }
-        /*inline const Matrix dot(const Matrix& m, const Matrix& n)
-        {
-            return m * n;
-        }*/
 
 
         ////////////////////////////////////////////////////////////

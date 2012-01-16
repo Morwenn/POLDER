@@ -21,10 +21,10 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <cstdlib>
-#include "direction.h"
-#include "limits.h"
-#include "point.h"
-#include "vector.h"
+#include <POLDER/geometry/direction.h>
+#include <POLDER/geometry/limits.h>
+#include <POLDER/geometry/point.h>
+#include <POLDER/geometry/vector.h>
 
 
 namespace polder
