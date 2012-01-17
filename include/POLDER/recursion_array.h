@@ -93,7 +93,7 @@ class RecursionArray
         {
             if (n < 0)
             {
-                throw std::out_of_bounds("RecursionArray can only store results for positive integers.");
+                throw std::out_of_range("RecursionArray can only store results for positive integers.");
             }
             while (values.size() <= n)
             {
