@@ -1,12 +1,6 @@
 # Version
 cmake_minimum_required(VERSION 2.6)
 
-# The projects
-project(polder)
-project(polder-s)
-# project(polder-d) # TODO
-# project(polder-d-s) # TODO
-
 # .a output directory
 set(LIBRARY_OUTPUT_PATH lib/)
 
@@ -31,19 +25,47 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 endif()
 
+# Check the build type
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-### Create the libraries ###
+	# Create the projects
+	project(polder-d)
+	project(polder-d-s)
 
-# polder.dll and libpolder.a
-add_library(
-	polder SHARED
-	${source_files}
-)
-set_target_properties(polder PROPERTIES PREFIX "")				# libpolder.dll 	--> polder.dll
-set_target_properties(polder PROPERTIES IMPORT_SUFFIX ".a")		# libpolder.dll.a 	--> libpolder.a
+	# polder-d.dll and libpolder-d.a
+	add_library(
+		polder-d SHARED
+		${source_files}
+	)
+	set_target_properties(polder-d PROPERTIES PREFIX "")
+	set_target_properties(polder-d PROPERTIES IMPORT_SUFFIX ".a")
 
-# libpolder-s.a
-add_library(
-	polder-s STATIC
-	${source_files}
-)
+	# libpolder-d-s.a
+	add_library(
+		polder-d-s STATIC
+		${source_files}
+	)
+	
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+
+	# Create the projects
+	project(polder)
+	project(polder-s)
+	
+	### Create the libraries ###
+
+	# polder.dll and libpolder.a
+	add_library(
+		polder SHARED
+		${source_files}
+	)
+	set_target_properties(polder PROPERTIES PREFIX "")
+	set_target_properties(polder PROPERTIES IMPORT_SUFFIX ".a")
+
+	# libpolder-s.a
+	add_library(
+		polder-s STATIC
+		${source_files}
+	)
+	
+endif()
