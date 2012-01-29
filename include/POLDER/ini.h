@@ -29,7 +29,6 @@
 #include <POLDER/string.h>
 #include <POLDER/ptype.h>
 
-#include <POLDER/geometry/line.h>
 
 namespace polder
 {
