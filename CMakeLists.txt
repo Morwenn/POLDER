@@ -26,45 +26,61 @@ endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-	# Create the projects
-	project(polder-d)
-	project(polder-d-s)
-
-	# polder-d.dll and libpolder-d.a
-	add_library(
-		polder-d SHARED
-		${source_files}
-	)
-	set_target_properties(polder-d PROPERTIES PREFIX "")
-	set_target_properties(polder-d PROPERTIES IMPORT_SUFFIX ".a")
-
-	# libpolder-d-s.a
-	add_library(
-		polder-d-s STATIC
-		${source_files}
-	)
+	if(COMPILE_MODE STREQUAL "Dynamic") # Build a dll
+		
+		project(polder-d)
+		
+		# Define POLDER_DYNAMIC and POLDER_EXPORTS
+		add_definitions(-DPOLDER_DYNAMIC -DPOLDER_EXPORTS)
+		
+		# polder-d.dll and libpolder-d.a
+		add_library(
+			polder-d SHARED
+			${source_files}
+		)
+		set_target_properties(polder-d PROPERTIES PREFIX "")
+		set_target_properties(polder-d PROPERTIES IMPORT_SUFFIX ".a")
+		
+	elseif(COMPILE_MODE STREQUAL "Static") # Build a static library
+	
+		project(polder-d-s)
+		
+		# libpolder-d-s.a
+		add_library(
+			polder-d-s STATIC
+			${source_files}
+		)
+	
+	endif()
 	
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 
-	# Create the projects
-	project(polder)
-	project(polder-s)
+	if(COMPILE_MODE STREQUAL "Dynamic") # Build a dll
+		
+		project(polder)
+		
+		# Define POLDER_DYNAMIC and POLDER_EXPORTS
+		add_definitions(-DPOLDER_DYNAMIC -DPOLDER_EXPORTS)
+		
+		# polder.dll and libpolder.a
+		add_library(
+			polder SHARED
+			${source_files}
+		)
+		set_target_properties(polder PROPERTIES PREFIX "")
+		set_target_properties(polder PROPERTIES IMPORT_SUFFIX ".a")
+		
+	elseif(COMPILE_MODE STREQUAL "Static") # Build a static library
 	
-	### Create the libraries ###
-
-	# polder.dll and libpolder.a
-	add_library(
-		polder SHARED
-		${source_files}
-	)
-	set_target_properties(polder PROPERTIES PREFIX "")
-	set_target_properties(polder PROPERTIES IMPORT_SUFFIX ".a")
-
-	# libpolder-s.a
-	add_library(
-		polder-s STATIC
-		${source_files}
-	)
+		project(polder-s)
+		
+		# libpolder-s.a
+		add_library(
+			polder-s STATIC
+			${source_files}
+		)
+	
+	endif()
 	
 endif()
 
