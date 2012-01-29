@@ -18,12 +18,13 @@
 #define _POLDER_MATH_H
 
 ////////////////////////////////////////////////////////////
-/// Headers
+// Headers
 ////////////////////////////////////////////////////////////
 #include <cmath>
 #include <complex>
 #include <cstdlib>
 #include <utility>
+#include <POLDER/config.h>
 
 
 /* Some of these constants should be included in math.h
@@ -76,6 +77,16 @@ it as a constexpr for more type safety. */
 
 namespace polder
 {
+
+/**
+ * @namespace polder::math
+ * @brief Mathematical facilities
+ *
+ * Under this namespace are grouped several mathematical
+ * constants and functions usable for different purpose.
+ * It is often used as a low-level library for other
+ * headers of POLDER library.
+ */
 namespace math
 {
 
@@ -134,47 +145,54 @@ constexpr double M_2PI      = 6.28318530717958647692;   // 2 * pi
 /**
  * @brief Tells whether the given number is even
  * @param n Integer value
- * @return Whether n is even or not
+ * @return Whether \a n is even or not
  */
-constexpr bool is_even(long long int n);
+POLDER_API constexpr bool is_even(long long int n);
 
 
 /**
  * @brief Tells whether the given number is odd
  * @param n Integer value
- * @return Whether n is odd or not
+ * @return Whether \a n is odd or not
  */
-constexpr bool is_odd(long long int n);
+POLDER_API constexpr bool is_odd(long long int n);
+
+/**
+ * @brief Tells whether the given number is a prime number
+ * @param n Integer value
+ * @return True if \a n is a prime number
+ */
+POLDER_API constexpr bool is_prime(unsigned long long int n);
 
 /**
  * @brief Converts an angle in radians into an angle in degrees.
  * @param radians Angle in radians
  * @return The degrees value
  */
-constexpr double degree(double radians);
+POLDER_API constexpr double degree(double radians);
 
 /**
  * @brief Converts an angle in degrees into an angle in radians.
  * @param degrees Angle in degrees
  * @return The radians value
  */
-constexpr double radian(double degrees);
+POLDER_API constexpr double radian(double degrees);
 
 /**
  * @brief Unnormalized sinc function
  * @param x Real value
  * @return Unnormalized cardinal sine of x
  */
-constexpr double sinc(double x);
-float sinc(float x);
-long double sinc(long double x);
+POLDER_API constexpr double sinc(double x);
+POLDER_API float sinc(float x);
+POLDER_API long double sinc(long double x);
 
 /**
  * @brief Normalized sinc function
  * @param x Real value
  * @return Normalized cardinal sine of x
  */
-constexpr double normalized_sinc(double x);
+POLDER_API constexpr double normalized_sinc(double x);
 
 
 ////////////////////////////////////////////////////////////
@@ -183,33 +201,34 @@ constexpr double normalized_sinc(double x);
 
 /**
  * @brief Resolves a quadratic equation
+ *
  * @param A First member of the quadratic equation
  * @param B Second member of the quadratic equation
  * @param C Third member of the quadratic equation
  * @return Roots of the quadratic equation
  */
-std::pair<std::complex<double>, std::complex<double>> quadratic(double A, double B, double C);
+POLDER_API std::pair<std::complex<double>, std::complex<double>> quadratic(double A, double B, double C);
 
 /**
  * @brief Factorial function
  * @param N Some integer
  * @return Factorial of N
  */
-unsigned int factorial(unsigned int N);
+POLDER_API unsigned int factorial(unsigned int N);
 
 /**
  * @brief Stirling formula
  * @param N Some integer
  * @return Approximation of the factorial of N
  */
-unsigned int stirling(unsigned int N);
+POLDER_API unsigned int stirling(unsigned int N);
 
 /**
  * @brief Fibonacci function
  * @param N Some integer
  * @return Nth Fibonacci number
  */
-unsigned int fibonacci(unsigned int N);
+POLDER_API unsigned int fibonacci(unsigned int N);
 
 /**
  * @brief Search a prime number
@@ -221,7 +240,7 @@ unsigned int fibonacci(unsigned int N);
  * @param N Some integer
  * @return Nth Prime number
  */
-unsigned int prime(unsigned int N);
+POLDER_API unsigned int prime(unsigned int N);
 
 /**
  * @brief Greatest common divisor
@@ -229,7 +248,7 @@ unsigned int prime(unsigned int N);
  * @param b Some integer
  * @return Greatest common divisor of a and b
  */
-unsigned int gcd(unsigned int a, unsigned int b);
+POLDER_API unsigned int gcd(unsigned int a, unsigned int b);
 
 /**
  * @brief Least common multiple
@@ -237,7 +256,7 @@ unsigned int gcd(unsigned int a, unsigned int b);
  * @param b Some integer
  * @return Least common multiple of a and b
  */
-unsigned int lcm(unsigned int a, unsigned int b);
+POLDER_API unsigned int lcm(unsigned int a, unsigned int b);
 
 
 } // namespace math

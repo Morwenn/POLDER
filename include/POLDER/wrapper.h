@@ -28,15 +28,16 @@ namespace polder
 
 
 /**
- * Generic wrapper for any object
- * Allows to avoid using void* in many objects
- * Moreover, the references to Wrapper may be counted
+ * @brief Generic wrapper for any object
+ *
+ * Allows to avoid using void* in many objects;
+ * Moreover, the references to Wrapper may be counted.
  */
 template<class T>
 class Wrapper:
     public ReferenceCounted
 {
-    /**
+    /*
      * A Wrapper can not be copied
      */
     Wrapper(const Wrapper&) = delete;
@@ -72,7 +73,7 @@ class Wrapper:
 
     private:
 
-        T _object;  /** Wrapped object */
+        T _object;  /**< Wrapped object */
 };
 
 

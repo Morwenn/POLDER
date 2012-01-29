@@ -21,6 +21,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <cstdlib>
+#include <POLDER/config.h>
 
 
 namespace polder
@@ -30,7 +31,7 @@ namespace polder
 /**
  * @brief Class whose references to can be counted
  */
-class ReferenceCounted
+class POLDER_API ReferenceCounted
 {
     public:
 

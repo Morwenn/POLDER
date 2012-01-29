@@ -17,9 +17,9 @@
 #ifndef _POLDER_RATIONAL_H
 #define _POLDER_RATIONAL_H
 
-/**
- * Headers
- */
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
 #include <cmath>
 #include <POLDER/exceptions.h>
 #include <POLDER/math.h>
@@ -32,154 +32,110 @@ namespace polder
 /**
  * @brief Rational numbers
  *
- * Only integral types should be used as a template parameter
+ * Ensembles: B < N < Z < Q < R < C.
+ *
+ * All of those ensembles already exist in the C++ standard
+ * library or in the language itself except the rational
+ * numbers (Q), represented by "fractions": an integer
+ * numerator and denominator.
+ *
+ * @warning Only integral types should be used as a template parameter
+ * @warning The denominator should not be 0
  */
 template<typename T>
 struct rational
 {
     public:
 
-        /**
-         * Constructors & destructor
-         */
+        ////////////////////////////////////////////////////////////
+        // Constructors
+        ////////////////////////////////////////////////////////////
 
-        // Default constructor
+        /**
+         * Default constructor
+         */
         rational() = default;
 
-        // Copy constructor
+        /**
+         * Copy constructor
+         */
         rational(const rational<T>&) = default;
 
-        // Initilization constructor
-        rational(T numerator, T denominator):
-            _numerator(numerator),
-            _denominator(denominator)
-        {
-            if (denominator == 0)
-            {
-                throw division_by_zero();
-            }
-        }
+        /**
+         * @brief Initilization constructor
+         *
+         * Constructs a new rational number with their numerator
+         * and denominator. Throws a division_by_zero exception if
+         * denominator == 0.
+         *
+         * @param numerator Numerator of the fraction
+         * @param denominator Denominator of the fraction
+         */
+        rational(const T& numerator, const T& denominator);
 
-        // Numerator-only constructor (optimization)
-        rational(T numerator):
-            _numerator(numerator),
-            _denominator(1)
-        {}
+        /**
+         * @brief Initilization constructor
+         *
+         * Same as the complete initialization constructor
+         * except that this one does not need to check the
+         * denominator since it is always 1.
+         *
+         * @param numerator Numerator of the fraction
+         * @see rational(const T& numerator, const T& denominator)
+         */
+        rational(const T& numerator);
 
-        // Destructor
+        /**
+         * Destructor
+         */
         ~rational() = default;
 
 
-        /**
-         * Getters
-         */
-
-        inline T numerator() const
-        {
-            return _numerator;
-        }
-
-        inline T denominator() const
-        {
-            return _denominator;
-        }
-
+        ////////////////////////////////////////////////////////////
+        // Getters
+        ////////////////////////////////////////////////////////////
 
         /**
-         * Operators
+         * @brief Returns the numerator of a rational number
+         * @return Numerator
          */
+        T numerator() const;
+
+        /**
+         * @brief Returns the denominator of a rational number
+         * @return Denominator
+         */
+        T denominator() const;
+
+
+        ////////////////////////////////////////////////////////////
+        // Operators
+        ////////////////////////////////////////////////////////////
 
         // Assignement
         rational<T>& operator=(const rational<T>&) = default;
-        rational<T>& operator=(const T& other)
-        {
-            _numerator = other;
-            _denominator = 1;
-            return *this;
-        }
+        rational<T>& operator=(const T& other);
 
-        rational<T>& operator+=(const rational<T>& other)
-        {
-            _numerator *= other._denominator;
-            _numerator += other._numerator * _denominator;
-            _denominator *= other._denominator;
-            return *this;
-        }
-        rational<T>& operator+=(const T& other)
-        {
-            _numerator += other * _denominator;
-            return *this;
-        }
+        rational<T>& operator+=(const rational<T>& other);
+        rational<T>& operator+=(const T& other);
 
-        rational<T>& operator-=(const rational<T>& other)
-        {
-            _numerator *= other._denominator;
-            _numerator -= other._numerator * _denominator;
-            _denominator *= other._denominator;
-            return *this;
-        }
-        rational<T>& operator-=(const T& other)
-        {
-            _numerator -= other * _denominator;
-            return *this;
-        }
+        rational<T>& operator-=(const rational<T>& other);
+        rational<T>& operator-=(const T& other);
 
-        rational<T>& operator*=(const rational<T>& other)
-        {
-            _numerator *= other._numerator;
-            _denominator *= other._denominator;
-            return *this;
-        }
-        rational<T>& operator*=(const T& other)
-        {
-            _numerator *= other;
-            return *this;
-        }
+        rational<T>& operator*=(const rational<T>& other);
+        rational<T>& operator*=(const T& other);
+        rational<T>& operator/=(const rational<T>& other);
+        rational<T>& operator/=(const T& val);
 
-        rational<T>& operator/=(const rational<T>& other)
-        {
-            if (other._numerator == 0)
-            {
-                throw division_by_zero();
-            }
-            _numerator *= other._denominator;
-            _denominator *= other._numerator;
-            return *this;
-        }
-        rational<T>& operator/=(const T& val)
-        {
-            if (val == 0)
-            {
-                throw division_by_zero();
-            }
-            _denominator *= val;
-            return *this;
-        }
+        rational<T> operator+();
 
-        rational<T> operator+()
-        {
-            return *this;
-        }
+        rational<T> operator-();
 
-        rational<T> operator-()
-        {
-            return rational<T>(*this) *= -1;
-        }
+        operator float() const;
 
-        operator float() const
-        {
-            return (float) _numerator / (float) _denominator;
-        }
+        operator double() const;
 
-        operator double() const
-        {
-            return (double) _numerator / (double) _denominator;
-        }
-
-        operator long double() const
-        {
-            return (long double) _numerator / (long double) _denominator;
-        }
+        operator long double() const;
 
 
         /**
@@ -189,231 +145,134 @@ struct rational
          * greatest common divisor if needed. Also does a
          * sign simplification if necessary.
          */
-        void simplify()
-        {
-            // Sign simplification
-            if (_denominator < 0)
-            {
-                _numerator = -_numerator;
-                _denominator = -_denominator;
-            }
-            // Value simplification
-            if (_numerator != 1 && _denominator != 1)
-            {
-                const T& _gcd = math::gcd(_numerator, _denominator);
-                if (_gcd != 1)
-                {
-                    _numerator /= _gcd;
-                    _denominator /= _gcd;
-                }
-            }
-        }
+        void simplify();
 
 
     private:
 
         // Member data
-        T _numerator;
-        T _denominator;
+        T _numerator;   /**< Numerator */
+        T _denominator; /**< Denominator */
 };
 
 
+////////////////////////////////////////////////////////////
+// Global operators
+////////////////////////////////////////////////////////////
+
+template<typename T>
+const rational<T> operator+(const rational<T>& r1, const rational<T>& r2);
+template<typename T>
+const rational<T> operator+(const rational<T>& r, const T& val);
+template<typename T>
+const rational<T> operator+(const T& val, const rational<T>& r);
+
+template<typename T>
+const rational<T> operator-(const rational<T>& r1, const rational<T>& r2);
+template<typename T>
+const rational<T> operator-(const rational<T>& r, const T& val);
+template<typename T>
+const rational<T> operator-(const T& val, const rational<T>& r);
+
+template<typename T>
+const rational<T> operator*(const rational<T>& r1, const rational<T>& r2);
+template<typename T>
+const rational<T> operator*(const rational<T>& r, const T& val);
+template<typename T>
+const rational<T> operator*(const T& val, const rational<T>& r);
+
+template<typename T>
+const rational<T> operator/(const rational<T>& r1, const rational<T>& r2);
+template<typename T>
+const rational<T> operator/(const rational<T>& r, const T& val);
+template<typename T>
+const rational<T> operator/(const T& val, const rational<T>& r);
+
+template<typename T>
+bool operator==(const rational<T>& r1, const rational<T>& r2);
+template<typename T>
+bool operator==(const rational<T>& r, const T& val);
+template<typename T>
+bool operator==(const T& val, const rational<T>& r);
+
+template<typename T>
+bool operator!=(const rational<T>& r1, const rational<T>& r2);
+template<typename T>
+bool operator!=(const rational<T>& r, const T& val);
+template<typename T>
+bool operator!=(const T& val, const rational<T>& r);
+
+template<typename T>
+bool operator<(const rational<T>& r1, const rational<T>& r2);
+template<typename T>
+bool operator<(const rational<T>& r, const T& val);
+template<typename T>
+bool operator<(const T& val, const rational<T>& r);
+
+template<typename T>
+bool operator>(const rational<T>& r1, const rational<T>& r2);
+template<typename T>
+bool operator>(const rational<T>& r, const T& val);
+template<typename T>
+bool operator>(const T& val, const rational<T>& r);
+
+template<typename T>
+bool operator<=(const rational<T>& r1, const rational<T>& r2);
+template<typename T>
+bool operator<=(const rational<T>& r, const T& val);
+template<typename T>
+bool operator<=(const T& val, const rational<T>& r);
+
+template<typename T>
+bool operator>=(const rational<T>& r1, const rational<T>& r2);
+template<typename T>
+bool operator>=(const rational<T>& r, const T& val);
+template<typename T>
+bool operator>=(const T& val, const rational<T>& r);
+
+
 /**
- * Global operators
+ * @brief Output stream operator overload
+ *
+ * @param stream Output stream
+ * @param r Rational number to display
+ * @return Modified \a stream
  */
-
 template<typename T>
-const rational<T> operator+(const rational<T>& r1, const rational<T>& r2)
-{
-    return rational<T>(r1) += r2;
-}
-template<typename T>
-const rational<T> operator+(const rational<T>& r, const T& val)
-{
-    return rational<T>(r) += val;
-}
-template<typename T>
-const rational<T> operator+(const T& val, const rational<T>& r)
-{
-    return rational<T>(r) += val;
-}
-
-template<typename T>
-const rational<T> operator-(const rational<T>& r1, const rational<T>& r2)
-{
-    return rational<T>(r1) -= r2;
-}
-template<typename T>
-const rational<T> operator-(const rational<T>& r, const T& val)
-{
-    return rational<T>(r) -= val;
-}
-template<typename T>
-const rational<T> operator-(const T& val, const rational<T>& r)
-{
-    return rational<T>(r) -= val;
-}
-
-template<typename T>
-const rational<T> operator*(const rational<T>& r1, const rational<T>& r2)
-{
-    return rational<T>(r1) *= r2;
-}
-template<typename T>
-const rational<T> operator*(const rational<T>& r, const T& val)
-{
-    return rational<T>(r) *= val;
-}
-template<typename T>
-const rational<T> operator*(const T& val, const rational<T>& r)
-{
-    return rational<T>(r) *= val;
-}
-
-template<typename T>
-const rational<T> operator/(const rational<T>& r1, const rational<T>& r2)
-{
-    return rational<T>(r1) /= r2;
-}
-template<typename T>
-const rational<T> operator/(const rational<T>& r, const T& val)
-{
-    return rational<T>(r) /= val;
-}
-template<typename T>
-const rational<T> operator/(const T& val, const rational<T>& r)
-{
-    return rational<T>(r) /= val;
-}
-
-template<typename T>
-bool operator==(const rational<T>& r1, const rational<T>& r2)
-{
-    return r1.numerator() * r2.denominator() == r1.denominator() * r2.numerator();
-}
-template<typename T>
-bool operator==(const rational<T>& r, const T& val)
-{
-    return r.numerator() == r.denominator() * val;
-}
-template<typename T>
-bool operator==(const T& val, const rational<T>& r)
-{
-    return r.numerator() == r.denominator() * val;
-}
-
-template<typename T>
-bool operator!=(const rational<T>& r1, const rational<T>& r2)
-{
-    return !(r1 == r2);
-}
-template<typename T>
-bool operator!=(const rational<T>& r, const T& val)
-{
-    return !(r == val);
-}
-template<typename T>
-bool operator!=(const T& val, const rational<T>& r)
-{
-    return !(r == val);
-}
-
-template<typename T>
-bool operator<(const rational<T>& r1, const rational<T>& r2)
-{
-    return r1.numerator() * r2.denominator() < r1.denominator() * r2.numerator();
-}
-template<typename T>
-bool operator<(const rational<T>& r, const T& val)
-{
-    return r.numerator() < r.denominator() * val;
-}
-template<typename T>
-bool operator<(const T& val, const rational<T>& r)
-{
-    return r.numerator() >= r.denominator() * val;
-}
-
-template<typename T>
-bool operator>(const rational<T>& r1, const rational<T>& r2)
-{
-    return r1.numerator() * r2.denominator() > r1.denominator() * r2.numerator();
-}
-template<typename T>
-bool operator>(const rational<T>& r, const T& val)
-{
-    return r.numerator() > r.denominator() * val;
-}
-template<typename T>
-bool operator>(const T& val, const rational<T>& r)
-{
-    return r.numerator() <= r.denominator() * val;
-}
-
-template<typename T>
-bool operator<=(const rational<T>& r1, const rational<T>& r2)
-{
-    return r1.numerator() * r2.denominator() <= r1.denominator() * r2.numerator();
-}
-template<typename T>
-bool operator<=(const rational<T>& r, const T& val)
-{
-    return r.numerator() <= r.denominator() * val;
-}
-template<typename T>
-bool operator<=(const T& val, const rational<T>& r)
-{
-    return r.numerator() > r.denominator() * val;
-}
-
-template<typename T>
-bool operator>=(const rational<T>& r1, const rational<T>& r2)
-{
-    return r1.numerator() * r2.denominator() >= r1.denominator() * r2.numerator();
-}
-template<typename T>
-bool operator>=(const rational<T>& r, const T& val)
-{
-    return r.numerator() >= r.denominator() * val;
-}
-template<typename T>
-bool operator>=(const T& val, const rational<T>& r)
-{
-    return r.numerator() < r.denominator() * val;
-}
+std::ostream& operator<<(std::ostream& stream, const rational<T>& r);
 
 
-// Output streams gestion
+/**
+ * @brief Rational numbers creation handler
+ *
+ * Function helping to construct rational numbers without
+ * having to fill the template parameters since they will
+ * be deduced from the parameters.
+ *
+ * @param numerator Numerator of a fraction
+ * @param denominator Denominator of the fraction
+ * @return New rational number
+ */
 template<typename T>
-std::ostream& operator<<(std::ostream& stream, const rational<T>& r)
-{
-    stream << r.numerator() << "/" << r.denominator();
-    return stream;
-}
+rational<T> make_rational(const T& numerator, const T& denominator);
 
-
-// Rational numbers creation handler
-template<typename T>
-rational<T> make_rational(T numerator, T denominator)
-{
-    return rational<T>(numerator, denominator);
-}
+#include <POLDER/rational.inl>
 
 
 } // namespace polder
 
 
 
-/**
- * cmath functions overload
- */
-
+////////////////////////////////////////////////////////////
+// Global operators
+////////////////////////////////////////////////////////////
+#if 0
 // So that the functions can be called with or without std::
 inline namespace std
 {
     /**
      * @brief Absolute value of a number
-     * @see std::abs(double);
+     * @see std::abs(double)
      */
     template<typename T>
     polder::rational<T> abs(const polder::rational<T>& r)
@@ -423,7 +282,7 @@ inline namespace std
 
     /**
      * @brief Power of a number
-     * @see std::pow(double, double);
+     * @see std::pow(double, double)
      */
     template<typename T>
     polder::rational<T> pow(const polder::rational<T>& r, int n)
@@ -439,6 +298,7 @@ inline namespace std
         }
     }
 }
+#endif
 
 
 #endif // _POLDER_RATIONAL_H

@@ -24,10 +24,20 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <POLDER/config.h>
 
 
 namespace polder
 {
+
+/**
+ * @namespace polder::string
+ * @brief C-strings manipulation
+ *
+ * A set of functions that allow to  easily manipulate
+ * C strings. Some of these functions look like the C++
+ * std::string ones though there are some differences.
+ */
 namespace string
 {
 
@@ -38,7 +48,7 @@ namespace string
  * @param f File where to read the line
  * @return true if it is not the end of file
  */
-bool fgetl(char** line, FILE* f);
+POLDER_API bool fgetl(char** line, FILE* f);
 
 /**
  * @brief Returns the nth word of the given string
@@ -47,7 +57,7 @@ bool fgetl(char** line, FILE* f);
  * @param searched_word_number Number of the word to search
  * @return nth word or an empty string if not found
  */
-char* read_word(const char* str, size_t searched_word_number);
+POLDER_API char* read_word(const char* str, size_t searched_word_number);
 
 /**
  * @brief Initializes the reading of a string
@@ -55,7 +65,7 @@ char* read_word(const char* str, size_t searched_word_number);
  * @param str String to read
  * @return First word of the string
  */
-char* read_word_first(const char* str);
+POLDER_API char* read_word_first(const char* str);
 
 /**
  * @brief Reads the "next" word in a string
@@ -65,10 +75,10 @@ char* read_word_first(const char* str);
  * each word in the string until there is not anything more
  * to read.
  *
- * @param str String to read
+ * @see char* read_word_first(const char* str)
  * @return "Next" word in the string
  */
-char* read_word_next();
+POLDER_API char* read_word_next();
 
 /**
  * @brief Returns a sub-string of the given string
@@ -78,7 +88,7 @@ char* read_word_next();
  * @param index_end Index of the last character of the sub-string in the string
  * @return Substring between the two given indexes
  */
-char* substr(const char* str, size_t index_begin, size_t index_end);
+POLDER_API char* substr(const char* str, size_t index_begin, size_t index_end);
 
 /**
  * @brief Delete all the occurences of the given character
@@ -86,19 +96,19 @@ char* substr(const char* str, size_t index_begin, size_t index_end);
  * @param str String to modify
  * @param c character to delete
  */
-void delchr(char* str, const char c);
+POLDER_API void delchr(char* str, const char c);
 
 /**
  * @brief Deletes the spaces at the beginning and the end of a string
  *
  * @param str String to modify
  */
-void strip(char* str);
-void lstrip(char* str);
-void rstrip(char* str);
-char* stripped(const char* str);
-char* lstripped(const char* str);
-char* rstripped(const char* str);
+POLDER_API void strip(char* str);
+POLDER_API void lstrip(char* str);
+POLDER_API void rstrip(char* str);
+POLDER_API char* stripped(const char* str);
+POLDER_API char* lstripped(const char* str);
+POLDER_API char* rstripped(const char* str);
 
 /**
  * @brief Reduce all the successive occurences of a character to one
@@ -106,14 +116,14 @@ char* rstripped(const char* str);
  * @param str String to modify
  * @param c Character to reduce
  */
-void reduce_char(char* str, char c);
+POLDER_API void reduce_char(char* str, char c);
 
 /**
  * @brief Reduce all the successive occurences of all characters to one
  *
  * @param str String to modify
  */
-void reduce_all(char* str);
+POLDER_API void reduce_all(char* str);
 
 /**
  * @brief Converts all the lower case letters of a string to upper case
@@ -121,8 +131,8 @@ void reduce_all(char* str);
  * @param str Tested string
  * @return Modified string
  */
-char* upper(const char* str);
-void to_upper(char* str);
+POLDER_API char* upper(const char* str);
+POLDER_API void to_upper(char* str);
 
 /**
  * @brief Converts all the upper case letters of a string to lower case
@@ -130,8 +140,8 @@ void to_upper(char* str);
  * @param str Tested string
  * @return Modified string
  */
-char* lower(const char* str);
-void to_lower(char* str);
+POLDER_API char* lower(const char* str);
+POLDER_API void to_lower(char* str);
 
 
 } // namespace string

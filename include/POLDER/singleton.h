@@ -56,7 +56,7 @@ class Singleton
 
     public:
 
-        /**
+        /*
          * Prevent the object from being copied
          */
         Singleton(const Singleton&) = delete;
@@ -72,7 +72,7 @@ class Singleton
 
     private:
 
-        static bool already_exists; /**< true if an instance of T already exists */
+        static bool already_exists; /**< True if an instance of T already exists */
 };
 template<class T> bool Singleton<T>::already_exists = false;
 

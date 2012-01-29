@@ -28,6 +28,7 @@
 #include <stack>
 #include <string>
 #include <vector>
+#include <POLDER/config.h>
 #include <POLDER/math.h>
 #include <POLDER/ptype.h>
 #include <POLDER/string.h>
@@ -57,7 +58,7 @@ enum class _eval_error
 /**
  * Exceptions raised when a syntax error is found in the expression to evaluate.
  */
-class evaluation_error:
+class POLDER_API evaluation_error:
     public std::exception
 {
     public:
@@ -86,7 +87,7 @@ class evaluation_error:
  * @param expr Expression to evaluate
  * @return Resultat of the expression
  */
-double evaluate(const char* expr);
+POLDER_API double evaluate(const char* expr);
 
 
 } // namespace polder

@@ -18,7 +18,7 @@
 #define _POLDER_RECURSION_ARRAY_H
 
 ////////////////////////////////////////////////////////////
-/// Headers
+// Headers
 ////////////////////////////////////////////////////////////
 #include <cassert>
 #include <initializer_list>
@@ -45,12 +45,12 @@ class RecursionArray
 
     public:
 
-        /**
+        /*
          * An empty RecursionArray can not be instantiated
          */
         RecursionArray() = delete;
 
-        /**
+        /*
          * A RecursionArray is not copiable
          */
         RecursionArray(const RecursionArray&) = delete;

@@ -22,21 +22,32 @@
 ////////////////////////////////////////////////////////////
 #include <cctype>
 #include <cstring>
+#include <POLDER/config.h>
 
 
 namespace polder
 {
+
+/**
+ * @namespace polder::ptype
+ * @brief String representations of numbers analysis
+ *
+ * All the functions in this namespace are used to analyse
+ * strings. They all return whether the given string
+ * represents a given kind of number such as an integer or
+ * a real number.
+ */
 namespace ptype
 {
 
 
-bool is_bool(const char* str);
-bool is_uint(const char* str);
-bool is_int(const char* str);
-bool is_ufloat(const char* str);
-bool is_float(const char* str);
-bool is_unumber(const char* str);
-bool is_number(const char* str);
+POLDER_API bool is_bool(const char* str);
+POLDER_API bool is_uint(const char* str);
+POLDER_API bool is_int(const char* str);
+POLDER_API bool is_ufloat(const char* str);
+POLDER_API bool is_float(const char* str);
+POLDER_API bool is_unumber(const char* str);
+POLDER_API bool is_number(const char* str);
 
 
 } // namespace ptype

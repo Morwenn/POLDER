@@ -22,11 +22,23 @@
 ////////////////////////////////////////////////////////////
 #include <cassert>
 #include <cstdarg>
+#include <POLDER/config.h>
 #include <POLDER/string.h>
 
 
 namespace polder
 {
+
+
+/**
+ * @namespace polder::path
+ * @brief Path manipulation functions
+ *
+ * The paths are strings whose syntax can change
+ * from an operating system to another. This namespace
+ * contains path-related functions that adapt themselves
+ * to the operating system.
+ */
 namespace path
 {
 
@@ -35,19 +47,7 @@ namespace path
 // Constants
 ////////////////////////////////////////////////////////////
 
-#ifdef __linux__
-
-    /**
-     * Standard separator character
-     */
-    constexpr char OS_SEP = '/';
-
-    /**
-     * Standard separator character as string
-     */
-    constexpr char OS_SEP_STR[2] = "/";
-
-#elif defined _WIN32 || defined _WIN64
+#ifdef POLDER_OS_WINDOWS
 
     /**
      * Standard separator character
@@ -58,6 +58,18 @@ namespace path
      * Standard separator character as string
      */
     constexpr char OS_SEP_STR[2] = "\\";
+
+#else
+
+    /**
+     * Standard separator character
+     */
+    constexpr char OS_SEP = '/';
+
+    /**
+     * Standard separator character as string
+     */
+    constexpr char OS_SEP_STR[2] = "/";
 
 #endif
 
@@ -71,12 +83,12 @@ namespace path
  *
  * This function creates a path by separating the different
  * given elements by a correct separator.
- * It stops when finding a nullptr or NULL argument.
+ * It stops when finding an empty string argument
  *
  * @param base First element of the path
  * @return Complete portable path
  */
-char* make_path(const char* base, ...);
+POLDER_API char* make_path(const char* base, ...);
 
 /**
  * @brief Get the extension of a path
@@ -87,7 +99,7 @@ char* make_path(const char* base, ...);
  * @param path Path to "split"
  * @return Extension of the path
  */
-char* get_ext(const char* path);
+POLDER_API char* get_ext(const char* path);
 
 /**
  * @brief Get the name of a path
@@ -98,7 +110,7 @@ char* get_ext(const char* path);
  * @param path Path to "split"
  * @return Name of the path
  */
-char* get_name(const char* path);
+POLDER_API char* get_name(const char* path);
 
 /**
  * @brief Get the directory of a path
@@ -106,9 +118,9 @@ char* get_name(const char* path);
  * @param path Path to "split"
  * @return Directory of the path
  */
-char* get_dir(const char* path);
+POLDER_API char* get_dir(const char* path);
 
-#if defined _WIN32 || defined _WIN64
+#ifdef POLDER_OS_WINDOWS
 
     /**
      * @brief Drive letter of a path
@@ -116,7 +128,7 @@ char* get_dir(const char* path);
      * @param path Path to "split"
      * @return Drive of the path
      */
-    char* get_drive(const char* path);
+    POLDER_API char* get_drive(const char* path);
 
 #endif
 
@@ -126,7 +138,7 @@ char* get_dir(const char* path);
  * @param path Path to analyze
  * @return True if the path is absolute
  */
-bool is_absolute(const char* path);
+POLDER_API bool is_absolute(const char* path);
 
 /**
  * @brief Normalize a path
@@ -137,7 +149,7 @@ bool is_absolute(const char* path);
  *
  * @param path Path to normalize
  */
-void normalize(char* path);
+POLDER_API void normalize(char* path);
 
 /**
  * @brief Normalize a path
@@ -146,7 +158,7 @@ void normalize(char* path);
  * @param path Path to normalize
  * @return Normalized path
  */
-char* normalized(const char* path);
+POLDER_API char* normalized(const char* path);
 
 
 } // namespace path

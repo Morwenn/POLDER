@@ -22,6 +22,7 @@
 ////////////////////////////////////////////////////////////
 #include <exception>
 #include <string>
+#include <POLDER/config.h>
 
 
 namespace polder
@@ -35,7 +36,7 @@ namespace polder
  * an operation is somehow asked to perform a
  * division by 0.
  */
-class division_by_zero:
+class POLDER_API division_by_zero:
     public std::exception
 {
     public:

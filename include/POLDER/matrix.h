@@ -29,23 +29,27 @@
 #include <initializer_list>
 #include <ostream>
 #include <stdexcept>
+#include <POLDER/config.h>
 #include <POLDER/exceptions.h>
 
 
 namespace polder
 {
 
-////////////////////////////////////////////////////////////
-// Matrix definition
-////////////////////////////////////////////////////////////
 
-class Matrix
+/**
+ * @brief Matrix implementation
+ *
+ * A Matrix is a two dimensions array of data.
+ * It can be accessed as an array of arrays but
+ * has some particulerities described below.
+ */
+class POLDER_API Matrix
 {
     public:
 
         ////////////////////////////////////////////////////////////
-        /// Constructors and destructors
-        ///
+        // Constructors and destructors
         ////////////////////////////////////////////////////////////
 
         // Default constructor
@@ -65,11 +69,15 @@ class Matrix
         ~Matrix();
 
 
-        ////////////////////////////////////////////////////////////
-        /// Matrix lines
-        ///
-        ////////////////////////////////////////////////////////////
-
+        /**
+         * @brief Matrix line
+         *
+         * To facilite some operations such as iterating
+         * through a Matrix or accessing the elements with
+         * an array-like syntax, we must create this class.
+         * The Matrix is an array of Matrix::line, which are
+         * themselves arrays of data.
+         */
         class line
         {
             public:
@@ -78,7 +86,7 @@ class Matrix
                 size_t size() const;
 
                 ////////////////////////////////////////////////////////////
-                /// Matrix::line operators
+                // Matrix::line operators
                 ////////////////////////////////////////////////////////////
 
                 // Accessors
@@ -86,7 +94,7 @@ class Matrix
                 const double& operator[](size_t index) const;
 
                 ////////////////////////////////////////////////////////////
-                /// Matrix::line iterators
+                // Matrix::line iterators
                 ////////////////////////////////////////////////////////////
 
                 typedef double* iterator;
@@ -152,7 +160,7 @@ class Matrix
             private:
 
                 ////////////////////////////////////////////////////////////
-                /// Constructors
+                // Constructors
                 ////////////////////////////////////////////////////////////
 
                 // The class can not copied
@@ -164,23 +172,22 @@ class Matrix
                 line(size_t width, double* data_addr);
 
                 ////////////////////////////////////////////////////////////
-                /// Operators
+                // Operators
                 ////////////////////////////////////////////////////////////
 
                 // Assignement
                 line& operator=(const line& other);
                 line& operator=(line&& other);
 
-                size_t _size;
-                double* _data;
+                size_t _size;   /**< Number of doubles */
+                double* _data;  /**< Beginning of the data */
 
             friend class Matrix;
         };
 
 
         ////////////////////////////////////////////////////////////
-        /// Matrix iterators
-        ///
+        // Matrix iterators
         ////////////////////////////////////////////////////////////
 
         typedef line* iterator;
@@ -232,12 +239,30 @@ class Matrix
 
 
         ////////////////////////////////////////////////////////////
-        /// Matrix flat iterators
+        // Matrix flat iterators
         ////////////////////////////////////////////////////////////
 
+        /**
+         * @brief Flat iterators
+         *
+         * A flat iterator is an iterator that allows to iterate
+         * through the Matrix not as an array of arrays but as
+         * a one-line only array of data. It can be useful in some
+         * cases such as when we want to check whether an element
+         * exists in the Matrix or not.
+         */
         typedef double* flat_iterator;
+
+        /**
+         * @brief Constant flat iterators
+         * @see flat_iterator
+         */
         typedef const double* const_flat_iterator;
 
+        /**
+         * @brief Reversed flat iterators
+         * @see flat_iterator
+         */
         class reverse_flat_iterator
         {
             public:
@@ -259,6 +284,10 @@ class Matrix
             friend class Matrix;
         };
 
+        /**
+         * @brief Constant reversed flat iterators
+         * @see flat_iterator
+         */
         class const_reverse_flat_iterator
         {
             public:
@@ -282,8 +311,7 @@ class Matrix
 
 
         ////////////////////////////////////////////////////////////
-        /// Operators
-        ///
+        // Operators
         ////////////////////////////////////////////////////////////
 
         // Accessor operators
@@ -335,8 +363,7 @@ class Matrix
 
 
         ////////////////////////////////////////////////////////////
-        /// STL-like functions
-        ///
+        // STL-like functions
         ////////////////////////////////////////////////////////////
 
         // Accessors
@@ -366,13 +393,22 @@ class Matrix
         size_t size() const;
 
         // Modifiers
+
+        /**
+         * @brief Fills the Matrix with the given value
+         * @param value Value to fill the Matrix with
+         */
         void fill(double value);
+
+        /**
+         * @brief Swap the Matrix contents with another Matrix's
+         * @param other Matrix to swap contents with
+         */
         void swap(Matrix&& other);
 
 
         ////////////////////////////////////////////////////////////
-        /// NumPy-like functions
-        ///
+        // NumPy-like functions
         ////////////////////////////////////////////////////////////
 
         // Functions
@@ -397,8 +433,7 @@ class Matrix
 
 
         ////////////////////////////////////////////////////////////
-        /// Miscellaneous functions
-        ///
+        // Miscellaneous functions
         ////////////////////////////////////////////////////////////
 
         size_t width() const;
@@ -434,12 +469,12 @@ class Matrix
     private:
 
         // Member data
-        size_t _height; // Number of rows
-        size_t _width;  // Number of columns
-        size_t _size;   // height * width
+        size_t _height; /**< Number of rows */
+        size_t _width;  /**< Number of columns */
+        size_t _size;   /**< height * width */
 
-        double* _data;  // Matrix data
-        line* _lines;   // Matrix lines
+        double* _data;  /**< Matrix data */
+        line* _lines;   /**< Matrix lines */
 };
 
 // Output streams gestion
@@ -468,45 +503,60 @@ const Matrix operator/(Matrix&& m, Matrix&& n);
 // Outside class functions
 ////////////////////////////////////////////////////////////
 
+/**
+ * @namespace polder::matrix
+ * @brief Matrix-related functions
+ *
+ * This namespace contains all the functions in
+ * POLDER library that are related to Matrix but
+ * which are not in the Matrix class themselves,
+ * such as special Matrix constructors.
+ */
 namespace matrix
 {
 
     ////////////////////////////////////////////////////////////
-    /// NumPy-like functions
-    ///
+    // NumPy-like functions
     ////////////////////////////////////////////////////////////
 
     // Matrix creation from nothing
-    Matrix zeros(size_t width);
-    Matrix zeros(size_t height, size_t width);
-    Matrix ones(size_t width);
-    Matrix ones(size_t height, size_t width);
-    Matrix identity(size_t n);
-    Matrix eye(size_t x, size_t y=0, int k=0);
-    Matrix range(int end);
-    Matrix range(int begin, int end, int step=0);
+
+    /**
+     * @brief Constructs a line Matrix filled with zeros
+     * @param width Number of cells in the line
+     * @return New zeros-filled line Matrix
+     */
+    POLDER_API Matrix zeros(size_t width);
+
+    POLDER_API Matrix zeros(size_t height, size_t width);
+    POLDER_API Matrix ones(size_t width);
+    POLDER_API Matrix ones(size_t height, size_t width);
+    POLDER_API Matrix identity(size_t n);
+    POLDER_API Matrix eye(size_t x, size_t y=0, int k=0);
+    POLDER_API Matrix range(int end);
+    POLDER_API Matrix range(int begin, int end, int step=0);
 
     // Matrix creation from other matrix
-    Matrix transpose(const Matrix& M);
-    Matrix zeros_like(const Matrix& M);
-    Matrix ones_like(const Matrix& M);
-    Matrix reshape(const Matrix& M, size_t x, size_t y);
-    Matrix diag(const Matrix& M);
-    Matrix upper_triangle(const Matrix& M);
-    Matrix lower_triangle(const Matrix& M);
-    Matrix adjugate(const Matrix& M);
-    Matrix inverse(const Matrix& M);
-    Matrix where(Matrix expr, double yes, double no);
+    POLDER_API Matrix transpose(const Matrix& M);
+    POLDER_API Matrix zeros_like(const Matrix& M);
+    POLDER_API Matrix ones_like(const Matrix& M);
+    POLDER_API Matrix reshape(const Matrix& M, size_t x, size_t y);
+    POLDER_API Matrix diag(const Matrix& M);
+    POLDER_API Matrix upper_triangle(const Matrix& M);
+    POLDER_API Matrix lower_triangle(const Matrix& M);
+    POLDER_API Matrix adjugate(const Matrix& M);
+    POLDER_API Matrix inverse(const Matrix& M);
+    POLDER_API Matrix where(Matrix expr, double yes, double no);
 
 
     ////////////////////////////////////////////////////////////
-    /// Miscellaneous functions
-    ///
+    // Miscellaneous functions
     ////////////////////////////////////////////////////////////
 
     // Output functions (deprecated)
-    void print_matrix(const Matrix& M);
-    void fprint_matrix(FILE* f, const Matrix& M);
+    POLDER_API void print_matrix(const Matrix& M);
+    POLDER_API void fprint_matrix(FILE* f, const Matrix& M);
+
 
 } // namespace matrix
 

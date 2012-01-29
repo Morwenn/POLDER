@@ -18,10 +18,11 @@
 #define _POLDER_OBJECT_H
 
 ////////////////////////////////////////////////////////////
-/// Headers
+// Headers
 ////////////////////////////////////////////////////////////
 #include <iostream>
 #include <typeinfo>
+#include <POLDER/config.h>
 #include <POLDER/reference_counted.h>
 #include <POLDER/wrapper.h>
 
@@ -30,59 +31,95 @@ namespace polder
 {
 
 
-/*
-    Object is a generic object that can represent any
-    object of the POLDER/geo module. It is useful when some
-    methods (intersections for example...) can return different objects.
-    Then the "assign" method can be used to check the returned object.
+/**
+ * @brief Generic object
+ *
+ * Object is a generic object that can represent any
+ * object of the POLDER/geo module. It is useful when some
+ * methods (intersections for example...) can return different objects.
+ * Then the "assign" method can be used to check the returned object.
 */
-class Object
+class POLDER_API Object
 {
     public:
 
         ////////////////////////////////////////////////////////////
-        /// Constructors
-        ///
+        // Constructors
         ////////////////////////////////////////////////////////////
 
-        // Default constructor
+        /**
+         * Default constructor
+         */
         Object();
 
-        // Copy constructor
+        /**
+         * Copy constructor
+         */
         Object(const Object& other);
 
-
-        // "Encapsulation" constructor
+        /**
+         * @brief "Encapsulation" constructor
+         *
+         * The object taken as parameter must be considered
+         * as encapsulated by the current Object. And then,
+         * this current Object can assign the encapsulated
+         * stuff to another variable.
+         *
+         * @param other Object to encapsulate
+         */
         template<class T>
         explicit Object(const T& other):
             ptr(new Wrapper<T>(other))
         {}
 
-        // Destructor
+        /**
+         * Destructor
+         */
         ~Object();
 
 
         ////////////////////////////////////////////////////////////
-        /// Operators
-        ///
+        // Operators
         ////////////////////////////////////////////////////////////
 
-        // Assignement
+        /**
+         * Assignment operator
+         */
         Object& operator=(const Object& other);
 
-        // Equality
+        /**
+         * @brief Check whether the encapsulated objects are the same
+         *
+         * @param other Another Object
+         * @return True if the encapsulated objects are the same
+         */
         bool operator==(const Object& other);
 
-        // Inequality
+        /**
+         * @brief Check whether the encapsulated objects are not the same
+         *
+         * @param other Another Object
+         * @return True if the encapsulated objects are not the same
+         */
         bool operator!=(const Object& other);
 
 
         ////////////////////////////////////////////////////////////
-        /// Miscellaneous functions
-        ///
+        // Miscellaneous functions
         ////////////////////////////////////////////////////////////
 
-        // Assign function
+        /**
+         * @brief Assign the encapsulated variable to another variable
+         *
+         * Main purpose of the Object class: we can perform some
+         * downcast to the encapsulated stuff. In POLDER library
+         * for example, it is useful for the intersection functions
+         * of the geometry module: we can return whatever in an
+         * Object and "chack" its type after.
+         *
+         * @param other Variable to which we want to assign the encapsulated stuff
+         * @return True if the encapsulated stuff has been assigned successfully
+         */
         template<class T>
         bool assign(T& other) const
         {
@@ -98,12 +135,15 @@ class Object
 
     private:
 
-        // Pointer to a wrapper
-        ReferenceCounted* ptr;
+        // Member data
+        ReferenceCounted* ptr;  /**< Pointer to a Wraper */
 };
 
 
-// Outside-class assign function
+/**
+ * @brief Assign an Object to a variable
+ * @see bool Object::assign(T& other) const
+ */
 template<class T>
 bool assign(T& sometype, const Object& object)
 {
