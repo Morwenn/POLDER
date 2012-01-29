@@ -35,7 +35,13 @@ namespace geometry
 // Forward declaration
 template<size_t N> class Vector;
 
-// Generic point definition
+
+/**
+ * @brief Geometric point
+ *
+ * A point is simply defined by N coordinates
+ * in a N-dimensional space.
+ */
 template<size_t N>
 class Point
 {
@@ -45,257 +51,130 @@ class Point
         // Constructors
         ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        /// Default constructor
-        ///
-        ////////////////////////////////////////////////////////////
-        Point():
-            coordinates(new double[N])
-        {}
+        /**
+         * Default constructor
+         */
+        Point();
 
-        ////////////////////////////////////////////////////////////
-        /// Copy constructor
-        ///
-        ////////////////////////////////////////////////////////////
-        Point(const Point<N>& other):
-            coordinates(new double[N])
-        {
-            std::copy(other.coordinates, other.coordinates+N, coordinates);
-        }
+        /**
+         * Copy constructor
+         */
+        Point(const Point<N>& other);
 
-        ////////////////////////////////////////////////////////////
-        /// Move constructor
-        ///
-        ////////////////////////////////////////////////////////////
-        Point(Point<N>&& other):
-            coordinates(other.coordinates)
-        {
-            other.coordinates = nullptr;
-        }
+        /**
+         * Move constructor
+         */
+        Point(Point<N>&& other);
 
-        ////////////////////////////////////////////////////////////
-        /// Initializer list constructor
-        ///
-        /// \param args: List of coordinates
-        ///
-        ////////////////////////////////////////////////////////////
-        Point(const std::initializer_list<double>& coords):
-            coordinates(new double[N])
-        {
-            assert(N > 1 && coords.size() == N);
-            std::copy(coords.begin(), coords.end(), coordinates);
-        }
+        /**
+         * @brief Initializer list constructor
+         *
+         * @param args List of coordinates
+         */
+        Point(const std::initializer_list<double>& coords);
 
-        ////////////////////////////////////////////////////////////
-        /// Variadic constructor
-        ///
-        /// \param first: First coordinate value
-        ///
-        ////////////////////////////////////////////////////////////
-        Point(double first, ...):
-            coordinates(new double[N])
-        {
-            assert(N > 1);
-            coordinates[0] = first;
-            va_list args;
-            va_start(args, first);
-            for (size_t i = 1 ; i < N ; ++i)
-            {
-                coordinates[i] = va_arg(args, double);
-            }
-            va_end(args);
-        }
+        /**
+         * Variadic constructor
+         *
+         * @param first First coordinate value
+         */
+        Point(double first, ...);
+
+
+        /**
+         * Destructor
+         */
+        ~Point();
 
 
         ////////////////////////////////////////////////////////////
-        /// Destructor
-        ///
-        ////////////////////////////////////////////////////////////
-        ~Point()
-        {
-            delete[] coordinates;
-        }
-
-
-        ////////////////////////////////////////////////////////////
-        /// Operators
-        ///
+        // Operators
         ////////////////////////////////////////////////////////////
 
-        // Element accessor
-        double& operator[](size_t index)
-        {
-            assert(index < N);
-            return coordinates[index];
-        }
-        double operator[](size_t index) const
-        {
-            assert(index < N);
-            return coordinates[index];
-        }
+        /**
+         * @brief Element accessor
+         *
+         * @param index Index of the ccordinate to access
+         * @return indexth coordinate
+         */
+        double& operator[](size_t index);
 
-        // Assignement
-        Point<N>& operator=(const Point<N>& other)
-        {
-            if (this != &other)
-            {
-                delete[] coordinates;
-                coordinates = new double[N];
-                std::copy(other.coordinates, other.coordinates+N, coordinates);
-            }
-            return *this;
-        }
+        /**
+         * @see double& operator[](size_t index)
+         */
+        double operator[](size_t index) const;
 
-        Point<N>& operator=(Point<N>&& other)
-        {
-            if (this != &other)
-            {
-                coordinates = other.coordinates;
-                other.coordinates = nullptr;
-            }
-            return *this;
-        }
+        /**
+         * Copy assignement operator
+         */
+        Point<N>& operator=(const Point<N>& other);
+
+        /**
+         * Move assignement operator
+         */
+        Point<N>& operator=(Point<N>&& other);
 
         // Comparison
-        bool operator==(const Point<N>& other) const
-        {
-            return round_equal(coordinates, coordinates+N, other.coordinates);
-        }
+        bool operator==(const Point<N>& other) const;
 
-        bool operator!=(const Point<N>& other) const
-        {
-            return !(*this == other);
-        }
+        bool operator!=(const Point<N>& other) const;
 
         // Point-Vector arithmetics
-        Point<N>& operator+=(const Vector<N>& V)
-        {
-            for (size_t i = 0 ; i < N ; ++i)
-            {
-                coordinates[i] += V[i];
-            }
-            return *this;
-        }
+        Point<N>& operator+=(const Vector<N>& V);
 
-        Point<N>& operator-=(const Vector<N>& V)
-        {
-            for (size_t i = 0 ; i < N ; ++i)
-            {
-                coordinates[i] -= V[i];
-            }
-            return *this;
-        }
+        Point<N>& operator-=(const Vector<N>& V);
 
-        const Point<N> operator+(const Vector<N>& V)
-        {
-            return Point<N>(*this) += V;
-        }
+        const Point<N> operator+(const Vector<N>& V);
 
-        const Point<N> operator-(const Vector<N>& V)
-        {
-            return Point<N>(*this) -= V;
-        }
+        const Point<N> operator-(const Vector<N>& V);
 
-        const Vector<N> operator-(const Point<N>& other)
-        {
-            Vector<N> res = *this;
-            for (size_t i = 0 ; i < N ; ++i)
-            {
-                res.coordinates[i] -= other[i];
-            }
-            return res;
-        }
+        const Vector<N> operator-(const Point<N>& other);
 
         ////////////////////////////////////////////////////////////
-        /// Coordinates aliases
-        ///
+        // Coordinates aliases
         ////////////////////////////////////////////////////////////
 
-        inline double& x()
-        {
-            return coordinates[0];
-        }
-        inline double& y()
-        {
-            assert(N > 1);
-            return coordinates[1];
-        }
-        inline double& z()
-        {
-            assert(N > 2);
-            return coordinates[2];
-        }
-        inline double& w()
-        {
-            assert(N > 3);
-            return coordinates[3];
-        }
+        double& x();
+        double& y();
+        double& z();
 
-        inline double x() const
-        {
-            return coordinates[0];
-        }
-        inline double y() const
-        {
-            assert(N > 1);
-            return coordinates[1];
-        }
-        inline double z() const
-        {
-            assert(N > 2);
-            return coordinates[2];
-        }
-        inline double w() const
-        {
-            assert(N > 3);
-            return coordinates[3];
-        }
+        double x() const;
+        double y() const;
+        double z() const;
 
 
         ////////////////////////////////////////////////////////////
-        /// Point iterators
-        ///
+        // Point iterators
         ////////////////////////////////////////////////////////////
 
         typedef double* iterator;
         typedef const double* const_iterator;
 
-        inline iterator begin()
-        {
-            return coordinates;
-        }
-        inline iterator end()
-        {
-            return coordinates + N;
-        }
+        iterator begin();
+        iterator end();
 
-        inline const_iterator begin() const
-        {
-            return coordinates;
-        }
-        inline const_iterator end() const
-        {
-            return coordinates + N;
-        }
+        const_iterator begin() const;
+        const_iterator end() const;
 
-        inline const_iterator cbegin() const
-        {
-            return coordinates;
-        }
-        inline const_iterator cend() const
-        {
-            return coordinates + N;
-        }
+        const_iterator cbegin() const;
+        const_iterator cend() const;
 
     private:
 
-        // Coordinates
-        double* coordinates;
-        friend class Vector<N>;
+        // Member data
+        double* coordinates;    /**< Coordinates */
+
+    friend class Vector<N>;
 };
 
+#include <POLDER/geometry/point.inl>
 
-} // namespace geo
+// Define commonly-used types
+typedef Point<2>    Point2d;
+typedef Point<3>    Point3d;
+
+
+} // namespace geometry
 } // namespace polder
 
 

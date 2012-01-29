@@ -35,7 +35,7 @@ namespace geometry
 ////////////////////////////////////////////////////////////
 
 /**
- * Margin error for comparison
+ * Margin error used for comparison
  */
 static double geo_margin_error = std::numeric_limits<double>::epsilon() * 10;
 

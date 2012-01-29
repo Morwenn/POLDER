@@ -48,7 +48,14 @@ enum class Norm
 // Forward declaration
 template<size_t N> class Line;
 
-// Vector definition
+
+/**
+ * @brief Geometric vector
+ *
+ * A Vector is a geometric object that has a length
+ * and a direction. As a Point, it can be defined
+ * by N coordinates in a N-dimensional space.
+ */
 template<size_t N>
 class Vector
 {
@@ -58,40 +65,36 @@ class Vector
         // Constructors
         ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        /// Default constructor
-        ///
-        ////////////////////////////////////////////////////////////
+        /**
+         * Default constructor
+         */
         Vector():
             coordinates(new double[N])
         {}
 
-        ////////////////////////////////////////////////////////////
-        /// Copy constructor
-        ///
-        ////////////////////////////////////////////////////////////
+        /**
+         * Copy constructor
+         */
         Vector(const Vector<N>& other):
             coordinates(new double[N])
         {
             std::copy(other.coordinates, other.coordinates+N, coordinates);
         }
 
-        ////////////////////////////////////////////////////////////
-        /// Move constructor
-        ///
-        ////////////////////////////////////////////////////////////
+        /**
+         * Move constructor
+         */
         Vector(Vector<N>&& other):
             coordinates(other.coordinates)
         {
             other.coordinates = nullptr;
         }
 
-        ////////////////////////////////////////////////////////////
-        /// Initializer list constructor
-        ///
-        /// \param args: List of coordinates
-        ///
-        ////////////////////////////////////////////////////////////
+        /**
+         * @brief Initializer list constructor
+         *
+         * @param coords List of N coordinates
+         */
         Vector(const std::initializer_list<double>& coords):
             coordinates(new double[N])
         {
@@ -99,12 +102,12 @@ class Vector
             std::copy(coords.begin(), coords.end(), coordinates);
         }
 
-        ////////////////////////////////////////////////////////////
-        /// Variadic constructor
-        ///
-        /// \param first: First coordinate value
-        ///
-        ////////////////////////////////////////////////////////////
+        /**
+         * @brief Variadic constructor
+         *
+         * @param first First coordinate value
+         * @warning Be sure to pass doubles and not floats or any other numeric numbers
+         */
         Vector(double first, ...):
             coordinates(new double[N])
         {
@@ -119,33 +122,40 @@ class Vector
             va_end(args);
         }
 
-        ////////////////////////////////////////////////////////////
-        /// Construct the vector from the origin to a point
-        ///
-        ////////////////////////////////////////////////////////////
+        /**
+         * @brief Constructs the Vector from the origin to a Point
+         *
+         * @param P Some Point...
+         */
         Vector(const Point<N>& P):
             coordinates(new double[N])
         {
             std::copy(P.coordinates, P.coordinates+N, coordinates);
         }
 
-        ////////////////////////////////////////////////////////////
-        /// Construct a vector from two points
-        ///
-        ////////////////////////////////////////////////////////////
-        Vector(const Point<N>& P1, const Point<N>& P2):
+        /**
+         * @brief Construct a vector from two Points
+         *
+         * @param origin Origin Point
+         * @param target Target Point
+         */
+        Vector(const Point<N>& origin, const Point<N>& target):
             coordinates(new double[N])
         {
             for (size_t i = 0 ; i < N ; ++i)
             {
-                coordinates[i] = P2[i] - P1[i];
+                coordinates[i] = target[i] - origin[i];
             }
         }
 
-        ////////////////////////////////////////////////////////////
-        /// Construct a vector from a line
-        ///
-        ////////////////////////////////////////////////////////////
+        /**
+         * @brief Construct a vector from a Line
+         *
+         * Since a Line has no length, the length of
+         * the resulting Vector is quite arbitrary.
+         *
+         * @param L Some Line...
+         */
         Vector(const Line<N>& L):
             coordinates(new double[N])
         {
@@ -157,31 +167,30 @@ class Vector
             }
         }
 
-        ////////////////////////////////////////////////////////////
-        /// Destructor
-        ///
-        ////////////////////////////////////////////////////////////
+        /**
+         * Destructor
+         */
         ~Vector()
         {
             delete[] coordinates;
         }
 
 
-        ////////////////////////////////////////////////////////////
-        /// Direction which passes through the vector
-        ///
-        ////////////////////////////////////////////////////////////
+        /**
+         * @brief Vector Direction
+         * @return Direction which passes through the Vector
+         */
         Direction<N> direction()
         {
             return Direction<N>(*this);
         }
 
-        ////////////////////////////////////////////////////////////
-        /// Vector norm
-        ///
-        /// \param n: Norm to use
-        ///
-        ////////////////////////////////////////////////////////////
+        /**
+         * @brief Vector norm
+         *
+         * @param n Norm to use
+         * @return Selected Norm
+         */
         double norm(Norm n=Norm::Euclidean) const
         {
             switch (n)
@@ -220,6 +229,11 @@ class Vector
             }
             return 1.0; // Should never be executed
         }
+
+        /**
+         * @brief Vector norm overload
+         * @overload double norm(Norm n=Norm::Euclidean) const
+         */
         double norm(Norm n, unsigned int p) const
         {
             switch (n)
@@ -239,8 +253,7 @@ class Vector
 
 
         ////////////////////////////////////////////////////////////
-        /// Operators
-        ///
+        // Operators
         ////////////////////////////////////////////////////////////
 
         // Accessor
@@ -371,8 +384,7 @@ class Vector
 
 
         ////////////////////////////////////////////////////////////
-        /// Coordinates aliases
-        ///
+        // Coordinates aliases
         ////////////////////////////////////////////////////////////
 
         inline double& x()
@@ -389,11 +401,6 @@ class Vector
             assert(N > 2);
             return coordinates[2];
         }
-        inline double& w()
-        {
-            assert(N > 3);
-            return coordinates[3];
-        }
 
         inline double x() const
         {
@@ -409,16 +416,10 @@ class Vector
             assert(N > 2);
             return coordinates[2];
         }
-        inline double w() const
-        {
-            assert(N > 3);
-            return coordinates[3];
-        }
 
 
         ////////////////////////////////////////////////////////////
-        /// Vector iterators
-        ///
+        // Vector iterators
         ////////////////////////////////////////////////////////////
 
         typedef double* iterator;
@@ -454,12 +455,13 @@ class Vector
     private:
 
         // Coordinates
-        double* coordinates;
-        friend class Point<N>;
+        double* coordinates;    /**< Coordinates */
+
+    friend class Point<N>;
 };
 
 
-} // namespace geo
+} // namespace geometry
 } // namespace polder
 
 

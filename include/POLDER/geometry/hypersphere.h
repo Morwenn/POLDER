@@ -32,7 +32,17 @@ namespace geometry
 {
 
 
-// Hypersphere definition
+/**
+ * @brief Hypersphere class
+ *
+ * A Hypersphere, also called n-sphere is a generalization
+ * of the surface of an ordinary sphere to arbitrary
+ * dimension.
+ *
+ * It is defined by a point for the center, and a number
+ * for the radius. The most well-known hypersphere are
+ * the circle and the ordinary sphere.
+ */
 template<size_t N>
 class Hypersphere
 {
@@ -42,122 +52,116 @@ class Hypersphere
         // Constructors
         ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        /// Default constructor
-        ///
-        ////////////////////////////////////////////////////////////
-        Hypersphere() {}
+        /**
+         * Default constructor
+         */
+        Hypersphere();
 
-        ////////////////////////////////////////////////////////////
-        /// Copy constructor
-        ///
-        ////////////////////////////////////////////////////////////
-        Hypersphere(const Hypersphere<N>& other):
-            _center(other._center),
-            _radius(other._radius)
-        {}
+        /**
+         * Copy constructor
+         */
+        Hypersphere(const Hypersphere<N>& other);
 
-        ////////////////////////////////////////////////////////////
-        /// Construct an hypersphere from other objects
-        ///
-        ////////////////////////////////////////////////////////////
-        Hypersphere(const Point<N>& center, double radius):
-            _center(center),
-            _radius(radius)
-        {}
+        /**
+         * @brief Construct an Hypersphere from a center and a radius
+         *
+         * @param center Center of the Hypersphere
+         * @param radius Radius of the Hypersphere
+         */
+        Hypersphere(const Point<N>& center, double radius);
 
-        Hypersphere(const Point<N>& center, const Vector<N>& V):
-            _center(center),
-            _radius(V.norm())
-        {}
+        /**
+         * @brief Construct an Hypersphere from a center and a radius
+         *
+         * @param center Center of the Hypersphere
+         * @param V Radius of the Hypersphere
+         */
+        Hypersphere(const Point<N>& center, const Vector<N>& V);
 
-        Hypersphere(const Point<N>& center, const Point<N>& P):
-            _center(center),
-            _radius(0.0)
-        {
-            for (size_t i = 0 ; i < N ; ++i)
-            {
-                const double tmp = P[i] - _center[i];
-                _radius += tmp * tmp;
-            }
-            _radius = sqrt(_radius);
-        }
+        /**
+         * @brief Construct an Hypersphere from a center and a radius
+         *
+         * @param center Center of the Hypersphere
+         * @param P Point at the surface of the Hypersphere
+         */
+        Hypersphere(const Point<N>& center, const Point<N>& P);
 
 
         ////////////////////////////////////////////////////////////
-        /// Elements accessors
-        ///
+        // Elements accessors
         ////////////////////////////////////////////////////////////
 
-        Point<N> center() const
-        {
-            return _center;
-        }
+        /**
+         * @brief Center of the Hypersphere
+         *
+         * @return Center of the Hypersphere
+         */
+        Point<N> center() const;
 
-        double radius() const
-        {
-            return _radius;
-        }
-
-
-        ////////////////////////////////////////////////////////////
-        /// Operators
-        ///
-        ////////////////////////////////////////////////////////////
-
-        // Assignement
-        Hypersphere& operator=(const Hypersphere<N>& other)
-        {
-            if (this != &other)
-            {
-                _center = other.Center;
-                _radius = other.Radius;
-            }
-            return *this;
-        }
-
-        // Comparison
-        bool operator==(const Hypersphere<N>& other) const
-        {
-            return _center == other._center && round_equal(_radius, other._radius);
-        }
-
-        bool operator!=(const Hypersphere<N>& other) const
-        {
-            return !(*this = other);
-        }
+        /**
+         * @brief Radius of the Hypersphere
+         *
+         * @return Radius of the Hypersphere
+         */
+        double radius() const;
 
 
         ////////////////////////////////////////////////////////////
-        /// Miscellaneous functions
-        ///
+        // Operators
         ////////////////////////////////////////////////////////////
 
-        bool includes(const Point<N>& P) const
-        {
-            // Hypersphere equation:
-                // Two dimensions:   (x - xc)² + (y - yc)² = R²
-                // Three dimensions: (x - xc)² + (y - yc)² + (z - zc)² = R²
-                // Four dimensions:  (x - xc)² + (y - yc)² + (z - zc)² + (w - wc)² = R²
-                // Etc...
-            // A point is included in the hypersphere if its distance to the center equals the radius
-            // Actually, the above equations are used to spare the square root computation
+        /**
+         * Copy assignement operator
+         */
+        Hypersphere<N>& operator=(const Hypersphere<N>& other);
 
-            double res = 0.0;
-            for (size_t i = 0 ; i < N ; ++i)
-            {
-                const double temp = P[i] - _center[i];
-                res += temp * temp;
-            }
-            return round_equal(res, _radius*_radius);
-        }
+        /**
+         * @brief Equality between two Hyperspheres
+         *
+         * Compares two hyperspheres taking the margin error in account
+         *
+         * @param other Right operand (Hypersphere)
+         * @return True if the Hyperspheres are equal
+         */
+        bool operator==(const Hypersphere<N>& other) const;
+
+        /**
+         * @brief Inequality between two Hyperspheres
+         *
+         * Compares two hyperspheres taking the margin error in account
+         *
+         * @param other Right operand (Hypersphere)
+         * @return True if the Hyperspheres are not equal
+         */
+        bool operator!=(const Hypersphere<N>& other) const;
+
+
+        ////////////////////////////////////////////////////////////
+        // Miscellaneous functions
+        ////////////////////////////////////////////////////////////
+
+        /**
+         * @brief Checks whether a point belongs to the hypersphere
+         *
+         * @param P Some point
+         * @return True if \a P belongs to the hypersphere
+         */
+        bool includes(const Point<N>& P) const;
 
     private:
 
         // Member data
-        Point<N> _center;
-        double _radius;
+        Point<N> _center;   /**< Center of the Hypersphere */
+        double _radius;     /**< Distance from the center to the surface */
 };
+
+#include <POLDER/geometry/hypersphere.inl>
+
+// Define commonly-used types
+typedef Hypersphere<2>  Hypersphere2d;
+typedef Hypersphere<3>  Hypersphere3d;
+typedef Hypersphere<2>  Circle2d;
+typedef Hypersphere<3>  Sphere3d;
 
 
 } // namespace geo
