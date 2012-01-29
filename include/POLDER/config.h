@@ -86,7 +86,7 @@
 #else
 
     // We do not care about the DLL stuff
-    #define POLDER_API __declspec(dllexport)
+    #define POLDER_API
 
 #endif
 
