@@ -19,13 +19,11 @@ file(
 	include/POLDER/geometry/*
 )
 
-# Compiler flags
-if(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS "-std=c++0x -pedantic")
-	set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+# Check the build type
+if (NOT DEFINED CMAKE_BUILD_TYPE)
+	set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-# Check the build type
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 	# Create the projects
@@ -68,4 +66,10 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 		${source_files}
 	)
 	
+endif()
+
+# Compiler flags
+if(CMAKE_COMPILER_IS_GNUCXX)
+	set(CMAKE_CXX_FLAGS "-std=c++0x -pedantic")
+	set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 endif()

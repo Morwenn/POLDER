@@ -24,9 +24,12 @@ namespace math
 
 using namespace std;
 
+
 ////////////////////////////////////////////////////////////
-// Static variables & Initialization
+// Static variables, Initialization & Helpers
 ////////////////////////////////////////////////////////////
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 namespace
 {
@@ -54,11 +57,21 @@ namespace
         return 0;
     }
     int __init_var___ = __init__(); // Initialization (quite ugly)
+
+    // Helper for the is_prime() function
+    constexpr bool _is_prime_helper(unsigned long long int n, unsigned long long int div)
+    {
+        return (div*div > n) ? true :
+                             (n % div == 0) ? false :
+                                            _is_prime_helper(n, div+2);
+    }
 }
+
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 
 ////////////////////////////////////////////////////////////
-/// Basic functions
+// Basic functions
 ////////////////////////////////////////////////////////////
 
 // Whether an integer is even
@@ -71,6 +84,14 @@ constexpr bool is_even(long long int n)
 constexpr bool is_odd(long long int n)
 {
     return n & 1;
+}
+
+// Whether an integer is a prime number
+constexpr bool is_prime(unsigned long long int n)
+{
+    return (n < 2) ? false :
+                     (n == 2) ? true :
+                              _is_prime_helper(n, 3);
 }
 
 // Radians to degrees conversion
@@ -107,7 +128,7 @@ constexpr double normalized_sinc(double x)
 
 
 ////////////////////////////////////////////////////////////
-/// Miscellaneous functions
+// Miscellaneous functions
 ////////////////////////////////////////////////////////////
 
 // Quadratic solver (if there are two solutions, returns twice the same)

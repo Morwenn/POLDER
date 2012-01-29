@@ -33,7 +33,7 @@ static char* read_word_str;
 
 
 ////////////////////////////////////////////////////////////
-/// Read a line from a text file
+// Read a line from a text file
 ////////////////////////////////////////////////////////////
 bool fgetl(char** line, FILE* f)
 {
@@ -52,7 +52,7 @@ bool fgetl(char** line, FILE* f)
 
 
 ////////////////////////////////////////////////////////////
-/// Deletes the spaces and tabulations at the beginning and the end of a string
+// Deletes the spaces and tabulations at the beginning and the end of a string
 ////////////////////////////////////////////////////////////
 void strip(char* str)
 {
@@ -82,7 +82,7 @@ void strip(char* str)
     memcpy(str, (char*) str + count_spaces, i - count_spaces + 1);
 }
 ////////////////////////////////////////////////////////////
-/// Deletes the spaces and tabulations at the beginning of a string
+// Deletes the spaces and tabulations at the beginning of a string
 ////////////////////////////////////////////////////////////
 void lstrip(char* str)
 {
@@ -94,7 +94,7 @@ void lstrip(char* str)
     memcpy(str, (char*) str + count_spaces, strlen(str) - count_spaces + 1);
 }
 ////////////////////////////////////////////////////////////
-/// Deletes the spaces and tabulations at the end of a string
+// Deletes the spaces and tabulations at the end of a string
 ////////////////////////////////////////////////////////////
 void rstrip(char* str)
 {
@@ -188,7 +188,7 @@ char* rstripped(const char* str)
 
 
 ////////////////////////////////////////////////////////////
-/// If the given character has more than one successive occurence, successive occurences are deleted until one remain
+// If the given character has more than one successive occurence, successive occurences are deleted until one remain
 ////////////////////////////////////////////////////////////
 void reduce_char(char* str, char c)
 {
@@ -205,7 +205,7 @@ void reduce_char(char* str, char c)
 
 
 ////////////////////////////////////////////////////////////
-/// If the given character has more than one successive occurence, successive occurences are deleted until one remain
+// If the given character has more than one successive occurence, successive occurences are deleted until one remain
 ////////////////////////////////////////////////////////////
 void reduce_all(char* str)
 {
@@ -222,7 +222,7 @@ void reduce_all(char* str)
 
 
 ////////////////////////////////////////////////////////////
-/// Returns a sub-string of the given string
+// Returns a sub-string of the given string
 ////////////////////////////////////////////////////////////
 char* read_word(const char* str, size_t searched_word_number)
 {
@@ -258,7 +258,7 @@ char* read_word(const char* str, size_t searched_word_number)
 }
 
 ////////////////////////////////////////////////////////////
-/// Initializes the reading of a string
+// Initializes the reading of a string
 ////////////////////////////////////////////////////////////
 char* read_word_first(const char* str)
 {
@@ -270,7 +270,7 @@ char* read_word_first(const char* str)
 }
 
 ////////////////////////////////////////////////////////////
-/// Returns the "next" word in a string
+// Returns the "next" word in a string
 ////////////////////////////////////////////////////////////
 char* read_word_next()
 {
@@ -304,7 +304,7 @@ char* read_word_next()
 }
 
 ////////////////////////////////////////////////////////////
-/// Returns a sub-string of the given string
+// Returns a sub-string of the given string
 ////////////////////////////////////////////////////////////
 char* substr(const char* str, size_t index_begin, size_t index_end)
 {
@@ -322,7 +322,7 @@ char* substr(const char* str, size_t index_begin, size_t index_end)
 
 
 ////////////////////////////////////////////////////////////
-/// Delete all the occurences of the given character in the given string
+// Delete all the occurences of the given character in the given string
 ////////////////////////////////////////////////////////////
 void delchr(char* str, const char c)
 {
@@ -339,7 +339,7 @@ void delchr(char* str, const char c)
 
 
 ////////////////////////////////////////////////////////////
-/// Return a given string with all the letters as minuscules
+// Return a given string with all the letters as minuscules
 ////////////////////////////////////////////////////////////
 char* lower(const char* str)
 {
@@ -362,7 +362,7 @@ void to_lower(char* str)
 
 
 ////////////////////////////////////////////////////////////
-/// Return a given string with all the letters as majuscules
+// Return a given string with all the letters as majuscules
 ////////////////////////////////////////////////////////////
 char* upper(const char* str)
 {

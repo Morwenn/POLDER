@@ -24,29 +24,134 @@ namespace ini
 
 using namespace string;
 
-////////////////////////////////////////////////////////////
-/// Return a string without comments
-////////////////////////////////////////////////////////////
-static char* strnorm(const char* str)
+
+// INI-specific elements
+namespace
 {
-    char* new_str = (char*) malloc(strlen(str));
-    int count = -1, i = -1;
-    while (str[++i])
+    // # and ;
+    constexpr bool _comment[256] = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    };
+
+    // : and =
+    constexpr bool _equal[256] = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    };
+
+    // :, =, \0 and \n
+    constexpr bool _not_break1[256] = {
+        0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+    };
+
+    // #, ;, \0 and \n
+    constexpr bool _not_break2[256] = {
+        0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+    };
+
+    constexpr bool is_comment_s(const char c)
     {
-        if (i == '\n' || i == ';' || i == '#')
-        {
-            count -= 2;
-            break;
-        }
-        new_str[++count] = str[i];
+        return _comment[(unsigned)c];
     }
-    new_str[count] = '\0';
-    return stripped(new_str);
+
+    constexpr bool is_equal_s(const char c)
+    {
+        return _equal[(unsigned)c];
+    }
+
+    constexpr bool is_not_break1(const char c)
+    {
+        return _not_break1[(unsigned)c];
+    }
+
+    constexpr bool is_not_break2(const char c)
+    {
+        return _not_break2[(unsigned)c];
+    }
+
+    /**
+     * Return a string without comments
+     */
+    char* strnorm(const char* str)
+    {
+        char* new_str = (char*) malloc(strlen(str));
+        int count = -1, i = -1;
+        while (str[++i])
+        {
+            if (str[i] == '\n' || is_comment_s(str[i]))
+            {
+                count -= 2;
+                break;
+            }
+            new_str[++count] = str[i];
+        }
+        new_str[count] = '\0';
+        return stripped(new_str);
+    }
 }
 
-////////////////////////////////////////////////////////////
-/// Return whether the given section exists or not
-////////////////////////////////////////////////////////////
+/**
+ * Return whether the given section exists or not
+ */
 size_t section_exists(const char* fname, const char* section)
 {
     // Open the file
@@ -83,9 +188,9 @@ size_t section_exists(const char* fname, const char* section)
 }
 
 
-////////////////////////////////////////////////////////////
-/// Return whether the given key exists or not
-////////////////////////////////////////////////////////////
+/**
+ * Return whether the given key exists or not
+ */
 size_t key_exists(const char* fname, const char* section, const char* key)
 {
     // Open the file
@@ -128,8 +233,8 @@ size_t key_exists(const char* fname, const char* section, const char* key)
             else if (line[0] != ';' && line[0] != '#' && line[0] != '\0') // We check whether the key is the good one
             {
                 int i = -1;
-                while (line[++i] != '=' && line[i] != ':' && line[i] != '\n' && line[i] != '\0');
-                if (line[i] == '=' || line[i] == ':')
+                while (is_not_break1(line[++i]));
+                if (is_equal_s(line[i]))
                 {
                     if (!strcmp(key, stripped(substr(line, 0, i-1))))
                     {
@@ -150,9 +255,9 @@ size_t key_exists(const char* fname, const char* section, const char* key)
 }
 
 
-////////////////////////////////////////////////////////////
-/// Read the string value corresponding to the given key
-////////////////////////////////////////////////////////////
+/**
+ * Read the string value corresponding to the given key
+ */
 char* read_string(const char* fname, const char* section, const char* key, char* default_value)
 {
     // Open the file
@@ -194,14 +299,14 @@ char* read_string(const char* fname, const char* section, const char* key, char*
             else if (line[0] != ';' && line[0] != '#' && line[0] != '\0') // We check whether the key is the good one
             {
                 int i = -1;
-                while (line[++i] != '=' && line[i] != ':' && line[i] != '\n' && line[i] != '\0');
-                if (line[i] == '=' || line[i] == ':')
+                while (is_not_break1(line[++i]));
+                if (is_equal_s(line[i]))
                 {
                     if (!strcmp(key, stripped(substr(line, 0, i-1))))
                     {
                         // The key has been found
                         int j = i;
-                        while (line[++j] != '\n' && line[j] != '\0' && line[j] != ';' && line[j] != '#');
+                        while (is_not_break2(line[++j]));
                         fclose(f);
                         return stripped(substr(line, i+1, j-1));
                     }
@@ -216,9 +321,9 @@ char* read_string(const char* fname, const char* section, const char* key, char*
 }
 
 
-////////////////////////////////////////////////////////////
-/// Read the real value corresponding to the given key
-////////////////////////////////////////////////////////////
+/**
+ * Read the real value corresponding to the given key
+ */
 double read_real(const char* fname, const char* section, const char* key, double default_value)
 {
     // Open the file
@@ -260,16 +365,23 @@ double read_real(const char* fname, const char* section, const char* key, double
             else if (line[0] != ';' && line[0] != '#' && line[0] != '\0') // We check whether the key is the good one
             {
                 int i = -1;
-                while (line[++i] != '=' && line[i] != ':' && line[i] != '\n' && line[i] != '\0');
-                if (line[i] == '=' || line[i] == ':')
+                while (is_not_break1(line[++i]));
+                if (is_equal_s(line[i]))
                 {
                     if (!strcmp(key, stripped(substr(line, 0, i-1))))
                     {
                         // The key has been found
                         int j = i;
-                        while (line[++j] != '\n' && line[j] != '\0' && line[j] != ';' && line[j] != '#');
+                        while (is_not_break2(line[++j]));
                         fclose(f);
-                        return atof(substr(line, i+1, j-1));
+                        if (ptype::is_number(substr(line, i+1, j-1)))
+                        {
+                            return atof(substr(line, i+1, j-1));
+                        }
+                        else
+                        {
+                            return default_value;
+                        }
                     }
                 }
                 // Else, there is no key, strange...
@@ -283,9 +395,9 @@ double read_real(const char* fname, const char* section, const char* key, double
 }
 
 
-////////////////////////////////////////////////////////////
-/// Deletes the given section of an INI file
-////////////////////////////////////////////////////////////
+/**
+ * Deletes the given section of an INI file
+ */
 void section_delete(const char* fname, const char* section)
 {
     // Open the file
@@ -351,9 +463,9 @@ void section_delete(const char* fname, const char* section)
 }
 
 
-////////////////////////////////////////////////////////////
-/// Deletes the given key of an INI file
-////////////////////////////////////////////////////////////
+/**
+ * Deletes the given key of an INI file
+ */
 void key_delete(const char* fname, const char* section, const char* key)
 {
     // Open the file
@@ -399,8 +511,8 @@ void key_delete(const char* fname, const char* section, const char* key)
                 else if (line[0] != ';' && line[0] != '#' && line[0] != '\0') // We check whether the key is the good one
                 {
                     register int i = -1;
-                    while (line[++i] != '=' && line[i] != ':' && line[i] != '\n' && line[i] != '\0');
-                    if (line[i] == '=' || line[i] == ':')
+                    while (is_not_break1(line[++i]));
+                    if (is_equal_s(line[i]))
                     {
                         if (!strcmp(key, stripped(substr(line, 0, i-1))))
                         {
@@ -446,9 +558,9 @@ void key_delete(const char* fname, const char* section, const char* key)
 }
 
 
-////////////////////////////////////////////////////////////
-/// Write a string in an INI file
-////////////////////////////////////////////////////////////
+/**
+ * Write a string in an INI file
+ */
 void write_string(const char* fname, const char* section, const char* key, const char* value)
 {
     // Open the file
@@ -532,8 +644,8 @@ void write_string(const char* fname, const char* section, const char* key, const
                     {
                         strnorm(line);
                         int i = -1;
-                        while (line[++i] != '=' && line[i] != ':' && line[i] != '\n' && line[i] != '\0');
-                        if (line[i] == '=' || line[i] == ':')
+                        while (is_not_break1(line[++i]));
+                        if (is_equal_s(line[i]))
                         {
                             if (!strcmp(key, stripped(substr(line, 0, i-1))))
                             {
@@ -578,9 +690,9 @@ void write_string(const char* fname, const char* section, const char* key, const
 }
 
 
-////////////////////////////////////////////////////////////
-/// Write a real in an INI file
-////////////////////////////////////////////////////////////
+/**
+ * Write a real in an INI file
+ */
 void write_real(const char* fname, const char* section, const char* key, double value)
 {
     // Open the file
@@ -665,7 +777,7 @@ void write_real(const char* fname, const char* section, const char* key, double 
                     {
                         strnorm(line);
                         int i = -1;
-                        while (line[++i] != '=' && line[i] != ':' && line[i] != '\n' && line[i] != '\0');
+                        while (is_not_break1(line[++i]));
                         if (line[i] == '=' || line[i] == ':')
                         {
                             if (!strcmp(key, stripped(substr(line, 0, i-1))))
@@ -710,9 +822,9 @@ void write_real(const char* fname, const char* section, const char* key, double 
     rename(temp_name, fname);
 }
 
-////////////////////////////////////////////////////////////
-/// Renames the given section of an INI file
-////////////////////////////////////////////////////////////
+/**
+ * Renames the given section of an INI file
+ */
 void section_rename(const char* fname, const char* section, const char* new_section)
 {
     // Open the file
@@ -783,9 +895,9 @@ void section_rename(const char* fname, const char* section, const char* new_sect
     }
 }
 
-////////////////////////////////////////////////////////////
-/// Renames the given key of an INI file
-////////////////////////////////////////////////////////////
+/**
+ * Renames the given key of an INI file
+ */
 void key_rename(const char* fname, const char* section, const char* key, const char* new_key)
 {
     // Open the file
@@ -836,8 +948,8 @@ void key_rename(const char* fname, const char* section, const char* key, const c
                 {
                     strnorm(line);
                     int i = -1;
-                    while (line[++i] != '=' && line[i] != ':' && line[i] != '\n' && line[i] != '\0');
-                    if (line[i] == '=' || line[i] == ':')
+                    while (is_not_break1(line[++i]));
+                    if (is_equal_s(line[i]))
                     {
                         if (!strcmp(key, stripped(substr(line, 0, i-1))))
                         {
@@ -845,7 +957,7 @@ void key_rename(const char* fname, const char* section, const char* key, const c
                             key_found = true;
                             write_line = false;
                             int j = i;
-                            while (line[++j] != '\n' && line[j] != '\0' && line[j] != ';' && line[j] != '#');
+                            while (is_not_break2(line[++j]));
                             fprintf(temp, "%s%c%s\n", new_key, '=', substr(line, i+1, j-1));
                         }
                         else if (!strcmp(new_key, stripped(substr(line, 0, i-1))))
@@ -882,10 +994,9 @@ void key_rename(const char* fname, const char* section, const char* key, const c
 }
 
 
-////////////////////////////////////////////////////////////
-/// Exceptions handling
-///
-////////////////////////////////////////////////////////////
+/**
+ * Exceptions handling
+ */
 
 // Create a new exception
 ini_error::ini_error()

@@ -21,8 +21,7 @@ namespace polder
 {
 
 ////////////////////////////////////////////////////////////
-/// Matrix constructors and destrutor
-///
+// Matrix constructors and destrutor
 ////////////////////////////////////////////////////////////
 
 // Default constructor
@@ -133,8 +132,7 @@ Matrix::~Matrix()
 
 
 ////////////////////////////////////////////////////////////
-/// Matrix creation from other matrix
-///
+// Matrix creation from other matrix
 ////////////////////////////////////////////////////////////
 
 // Assignement operator
@@ -542,8 +540,7 @@ const Matrix operator/(Matrix&& m, Matrix&& n)
 
 
 ////////////////////////////////////////////////////////////
-/// STL-like functions
-///
+// STL-like functions
 ////////////////////////////////////////////////////////////
 
 // Accessors
@@ -658,8 +655,7 @@ void Matrix::swap(Matrix&& other)
 
 
 ////////////////////////////////////////////////////////////
-/// Miscellaneous functions (in class)
-///
+// Miscellaneous functions (in class)
 ////////////////////////////////////////////////////////////
 
 // Matrix width
@@ -931,8 +927,7 @@ Matrix::const_reverse_flat_iterator Matrix::crfend() const
 
 
 ////////////////////////////////////////////////////////////
-/// Miscellaneous procedures (in class)
-///
+// Miscellaneous procedures (in class)
 ////////////////////////////////////////////////////////////
 
 // Reshape the matrix with the given height and width
@@ -960,8 +955,7 @@ void Matrix::flatten()
 
 
 ////////////////////////////////////////////////////////////
-/// Output streams gestion
-///
+// Output streams gestion
 ////////////////////////////////////////////////////////////
 
 std::ostream& operator<<(std::ostream& stream, const Matrix& M)
@@ -979,8 +973,7 @@ std::ostream& operator<<(std::ostream& stream, const Matrix& M)
 
 
 ////////////////////////////////////////////////////////////
-/// Matrix iterators
-///
+// Matrix iterators
 ////////////////////////////////////////////////////////////
 
 // Reversed iterators
@@ -1144,12 +1137,11 @@ bool Matrix::const_reverse_flat_iterator::operator!=(const const_reverse_flat_it
 
 
 ////////////////////////////////////////////////////////////
-/// Matrix::line class
-///
+// Matrix::line class
 ////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////
-/// Matrix::line constructors
+// Matrix::line constructors
 ////////////////////////////////////////////////////////////
 
 // Default constructor
@@ -1165,14 +1157,14 @@ Matrix::line::line(size_t width, double* data_addr):
 {}
 
 
-/// Matrix::line size() function
+// Matrix::line size() function
 size_t Matrix::line::size() const
 {
     return _size;
 }
 
 ////////////////////////////////////////////////////////////
-/// Matrix::line operators
+// Matrix::line operators
 ////////////////////////////////////////////////////////////
 
 // Accessors
@@ -1216,7 +1208,7 @@ Matrix::line& Matrix::line::operator=(line&& other)
 
 
 ////////////////////////////////////////////////////////////
-/// Matrix::line iterators
+// Matrix::line iterators
 ////////////////////////////////////////////////////////////
 
 // Reverse iterators
@@ -1295,7 +1287,7 @@ bool Matrix::line::const_reverse_iterator::operator!=(const const_reverse_iterat
 
 
 ////////////////////////////////////////////////////////////
-/// Matrix::line begin and end functions
+// Matrix::line begin and end functions
 ////////////////////////////////////////////////////////////
 
 Matrix::line::iterator Matrix::line::begin()
@@ -1352,16 +1344,14 @@ Matrix::line::const_reverse_iterator Matrix::line::crend() const
 
 
 ////////////////////////////////////////////////////////////
-/// Functions not in the Matrix class
-///
+// Functions not in the Matrix class
 ////////////////////////////////////////////////////////////
 
 namespace matrix
 {
 
 ////////////////////////////////////////////////////////////
-/// Matrix creation from scratch
-///
+// Matrix creation from scratch
 ////////////////////////////////////////////////////////////
 
 // Creation of a matrix of 0
@@ -1494,8 +1484,7 @@ Matrix range(int begin, int end, int step)
 }
 
 ////////////////////////////////////////////////////////////
-/// Matrix creation from other Matrix
-///
+// Matrix creation from other Matrix
 ////////////////////////////////////////////////////////////
 
 // Transpose of a Matrix
@@ -1651,17 +1640,16 @@ Matrix where(Matrix expr, double yes, double no)
 
 
 ////////////////////////////////////////////////////////////
-/// Display functions
-///
+// Display functions
 ////////////////////////////////////////////////////////////
 
 void print_matrix(const Matrix& M)
 {
-    for (size_t i = 0 ; i < M.height() ; ++i)
+    for (const Matrix::line& line: M)
     {
-        for (size_t j = 0 ; j < M.width() ; ++j)
+        for (const double& val: line)
         {
-            printf("%f ", M[i][j]);
+            printf("%f ", val);
         }
         printf("\n");
     }
@@ -1669,11 +1657,11 @@ void print_matrix(const Matrix& M)
 
 void fprint_matrix(FILE* f, const Matrix& M)
 {
-    for (size_t i = 0 ; i < M.height() ; ++i)
+    for (const Matrix::line& line: M)
     {
-        for (size_t j = 0 ; j < M.width() ; ++j)
+        for (const double& val: line)
         {
-            fprintf(f, "%f ", M[i][j]);
+            fprintf(f, "%f ", val);
         }
         fprintf(f, "\n");
     }
