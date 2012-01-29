@@ -16,26 +16,26 @@
  */
 
 template<size_t N>
-Point<N>::Point():
+inline Point<N>::Point():
     coordinates(new double[N])
 {}
 
 template<size_t N>
-Point<N>::Point(const Point<N>& other):
+inline Point<N>::Point(const Point<N>& other):
     coordinates(new double[N])
 {
     std::copy(other.coordinates, other.coordinates+N, coordinates);
 }
 
 template<size_t N>
-Point<N>::Point(Point<N>&& other):
+inline Point<N>::Point(Point<N>&& other):
     coordinates(other.coordinates)
 {
     other.coordinates = nullptr;
 }
 
 template<size_t N>
-Point<N>::Point(const std::initializer_list<double>& coords):
+inline Point<N>::Point(const std::initializer_list<double>& coords):
     coordinates(new double[N])
 {
     assert(N > 1 && coords.size() == N);
@@ -58,27 +58,27 @@ Point<N>::Point(double first, ...):
 }
 
 template<size_t N>
-Point<N>::~Point()
+inline Point<N>::~Point()
 {
     delete[] coordinates;
 }
 
 template<size_t N>
-double& Point<N>::operator[](size_t index)
+inline double& Point<N>::operator[](size_t index)
 {
     assert(index < N);
     return coordinates[index];
 }
 
 template<size_t N>
-double Point<N>::operator[](size_t index) const
+inline double Point<N>::operator[](size_t index) const
 {
     assert(index < N);
     return coordinates[index];
 }
 
 template<size_t N>
-Point<N>& Point<N>::operator=(const Point<N>& other)
+inline Point<N>& Point<N>::operator=(const Point<N>& other)
 {
     if (this != &other)
     {
@@ -90,7 +90,7 @@ Point<N>& Point<N>::operator=(const Point<N>& other)
 }
 
 template<size_t N>
-Point<N>& Point<N>::operator=(Point<N>&& other)
+inline Point<N>& Point<N>::operator=(Point<N>&& other)
 {
     if (this != &other)
     {
@@ -101,13 +101,13 @@ Point<N>& Point<N>::operator=(Point<N>&& other)
 }
 
 template<size_t N>
-bool Point<N>::operator==(const Point<N>& other) const
+inline bool Point<N>::operator==(const Point<N>& other) const
 {
     return round_equal(coordinates, coordinates+N, other.coordinates);
 }
 
 template<size_t N>
-bool Point<N>::operator!=(const Point<N>& other) const
+inline bool Point<N>::operator!=(const Point<N>& other) const
 {
     return !(*this == other);
 }
@@ -133,13 +133,13 @@ Point<N>& Point<N>::operator-=(const Vector<N>& V)
 }
 
 template<size_t N>
-const Point<N> Point<N>::operator+(const Vector<N>& V)
+inline const Point<N> Point<N>::operator+(const Vector<N>& V)
 {
     return Point<N>(*this) += V;
 }
 
 template<size_t N>
-const Point<N> Point<N>::operator-(const Vector<N>& V)
+inline const Point<N> Point<N>::operator-(const Vector<N>& V)
 {
     return Point<N>(*this) -= V;
 }
