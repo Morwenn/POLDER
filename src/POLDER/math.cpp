@@ -29,8 +29,6 @@ using namespace std;
 // Static variables, Initialization & Helpers
 ////////////////////////////////////////////////////////////
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-
 namespace
 {
     // Variable used by the fibonacci function
@@ -56,7 +54,7 @@ namespace
         // Just in case
         return 0;
     }
-    int __init_var___ = __init__(); // Initialization (quite ugly)
+    int __init_var__ = __init__(); // Initialization (quite ugly)
 
     // Helper for the is_prime() function
     constexpr bool _is_prime_helper(unsigned long long int n, unsigned long long int div)
@@ -67,8 +65,6 @@ namespace
     }
 }
 
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
 
 ////////////////////////////////////////////////////////////
 // Basic functions
@@ -77,13 +73,13 @@ namespace
 // Whether an integer is even
 constexpr bool is_even(long long int n)
 {
-    return !(n & 1);
+    return !((unsigned long long int) n & 1);
 }
 
 // Whether an integer is odd
 constexpr bool is_odd(long long int n)
 {
-    return n & 1;
+    return (unsigned long long int) n & 1;
 }
 
 // Whether an integer is a prime number
@@ -228,8 +224,7 @@ unsigned int prime(unsigned int N)
                 if (prime_numbers[i] > root) break;
 
                 // If the number has an integer divider
-                const double _div = (double) (tested_number) / (double) (prime_numbers[i]);
-                if (_div == (int) _div)
+                if (tested_number % prime_numbers[i] == 0)
                 {
                     // It's not a prime number
                     is_prime = false;
