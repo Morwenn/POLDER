@@ -29,9 +29,9 @@
 #include <string>
 #include <vector>
 #include <POLDER/config.h>
-#include <POLDER/math.h>
 #include <POLDER/ptype.h>
 #include <POLDER/string.h>
+#include <POLDER/math/factorial.h>
 
 
 namespace polder
