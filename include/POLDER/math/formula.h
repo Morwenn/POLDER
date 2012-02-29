@@ -102,7 +102,7 @@ inline namespace standard
      * @param n Some integer
      * @return Nth Fibonacci number
      */
-    POLDER_API unsigned int fibonacci(unsigned int n);
+    POLDER_API unsigned long long int fibonacci(unsigned long long int n);
 
     /**
      * @brief Search a prime number
@@ -114,7 +114,7 @@ inline namespace standard
      * @param n Some integer
      * @return Nth Prime number
      */
-    POLDER_API unsigned int prime(unsigned int n);
+    POLDER_API unsigned long long int prime(unsigned long long int n);
 
     /**
      * @brief Greatest common divisor
@@ -189,22 +189,36 @@ namespace meta
      * @param n Some integer
      * @return nth Fibonacci number
      */
-    POLDER_API constexpr unsigned int fibonacci(unsigned int n);
+    POLDER_API constexpr unsigned long long int fibonacci(unsigned long long int n);
 }
 
 namespace memoized
 {
     /**
+     * @brief Tells whether the given number is a prime number
+     * @param n Integer value
+     * @return True if \a n is a prime number
+     */
+    POLDER_API constexpr bool is_prime(unsigned long long int n);
+
+    /**
      * @brief Fibonacci function
      * @param n Some integer
      * @return nth Fibonacci number
      */
-    POLDER_API unsigned int fibonacci(unsigned int n);
+    POLDER_API unsigned long long int fibonacci(unsigned long long int n);
 
     /**
-     * @see unsigned int standard::prime(unsigned int n);
+     * @brief Search a prime number
+     *
+     * The first prime number returned by the function is 1,
+     * even if it not "really" a prime number. It can still
+     * be useful in some cases.
+     *
+     * @param n Some integer
+     * @return Nth Prime number
      */
-    POLDER_API unsigned int prime(unsigned int n);
+    POLDER_API unsigned long long int prime(unsigned long long int n);
 }
 
 

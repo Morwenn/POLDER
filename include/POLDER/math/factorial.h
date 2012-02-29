@@ -41,7 +41,9 @@ inline namespace standard
     POLDER_API unsigned int factorial(unsigned int N);
 
     /**
-     * @see constexpr unsigned int polder::math::meta::stirling(unsigned int N);
+     * @brief Stirling formula
+     * @param N Some integer
+     * @return Approximation of the factorial of N
      */
     POLDER_API constexpr unsigned int stirling(unsigned int N);
 }

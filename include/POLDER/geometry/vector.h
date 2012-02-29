@@ -24,6 +24,7 @@
 #include <cmath>
 #include <cstdarg>
 #include <initializer_list>
+#include <POLDER/math/norm.h>
 #include <POLDER/geometry/direction.h>
 #include <POLDER/geometry/point.h>
 
@@ -33,17 +34,6 @@ namespace polder
 namespace geometry
 {
 
-
-/**
- * Different mathematical vector norms
- */
-enum class Norm
-{
-    Euclidean,  /**< Euclidean norm (norm 2) */
-    Manhattan,  /**< Manhattan, Taxicab norm (norm 1) */
-    Maximum,    /**< Maximum norm (norm infinite) */
-    P           /**< P norm */
-};
 
 // Forward declaration
 template<size_t N> class Line;
@@ -138,13 +128,13 @@ class Vector
          * @param n Norm to use
          * @return Selected Norm
          */
-        double norm(Norm n=Norm::Euclidean) const;
+        double norm(math::Norm n=math::Norm::Euclidean) const;
 
         /**
          * @brief Vector norm overload
          * @overload double norm(Norm n=Norm::Euclidean) const
          */
-        double norm(Norm n, unsigned int p) const;
+        double norm(math::Norm n, unsigned int p) const;
 
 
         ////////////////////////////////////////////////////////////

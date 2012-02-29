@@ -31,6 +31,7 @@
 #include <stdexcept>
 #include <POLDER/config.h>
 #include <POLDER/exceptions.h>
+#include <POLDER/math/norm.h>
 
 
 namespace polder
@@ -53,7 +54,7 @@ class POLDER_API Matrix
         ////////////////////////////////////////////////////////////
 
         // Default constructor
-        constexpr Matrix();
+        Matrix();
         // Copy constructor
         Matrix(const Matrix& other);
         // Move constructor
@@ -419,6 +420,7 @@ class POLDER_API Matrix
         double sum() const;
         double mean() const;
         double trace() const;
+        double norm(math::Norm n=math::Norm::Manhattan) const;
         Matrix diagonal() const;
 
         // Procedures

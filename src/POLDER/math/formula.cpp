@@ -32,21 +32,21 @@ using namespace std;
 namespace
 {
     // Variable used by the fibonacci function
-    unsigned int* fibonacci_numbers;
+    unsigned long long int* fibonacci_numbers;
 
     // Variable used by the prime function
-    unsigned int* prime_numbers;
+    unsigned long long int* prime_numbers;
 
     // Init function
     int __init__()
     {
         // Initialisation of the variables used by the fibonacci function
-        fibonacci_numbers = (unsigned int*) malloc(2 * sizeof(unsigned int));
+        fibonacci_numbers = (unsigned long long int*) malloc(2 * sizeof(unsigned long long int));
         fibonacci_numbers[0] = 0;
         fibonacci_numbers[1] = 1;
 
         // Initialisation of the variables used by the prime function
-        prime_numbers = (unsigned int*) malloc(3 * sizeof(unsigned int));
+        prime_numbers = (unsigned long long int*) malloc(3 * sizeof(unsigned long long int));
         prime_numbers[0] = 1;
         prime_numbers[1] = 2;
         prime_numbers[2] = 3;
@@ -139,12 +139,19 @@ inline namespace standard
         }
     }
 
-    unsigned int fibonacci(unsigned int n)
+    unsigned long long int fibonacci(unsigned long long int n)
     {
-        return memoized::fibonacci(n);
+        unsigned long long int a = 0;
+        unsigned long long int b = 1;
+        for (unsigned long long int i = 0 ; i < n ; ++i)
+        {
+            b += a;
+            a = b - a;
+        }
+        return a;
     }
 
-    unsigned int prime(unsigned int n)
+    unsigned long long int prime(unsigned long long int n)
     {
         return memoized::prime(n);
     }
@@ -221,7 +228,7 @@ namespace meta
         return sin(x * M_PI) / (x * M_PI);
     }
 
-    constexpr unsigned int fibonacci(unsigned int n)
+    constexpr unsigned long long int fibonacci(unsigned long long int n)
     {
         return (n < 2) ? n : meta::fibonacci(n-2) + meta::fibonacci(n-1);
     }
@@ -229,7 +236,7 @@ namespace meta
 
 namespace memoized
 {
-    unsigned int fibonacci(unsigned int n)
+    unsigned long long int fibonacci(unsigned long long int n)
     {
         // Initialization
         static size_t size = 2;
@@ -241,7 +248,7 @@ namespace memoized
             if (resize)
             {
                 // We resize the table so that it is large enough
-                fibonacci_numbers = (unsigned int*) realloc(fibonacci_numbers, (n+1) * sizeof(unsigned int));
+                fibonacci_numbers = (unsigned long long int*) realloc(fibonacci_numbers, (n+1) * sizeof(unsigned long long int));
                 resize = false;
             }
             fibonacci_numbers[n] = fibonacci(n-1) + fibonacci(n-2); // Fibonacci formula
@@ -251,7 +258,7 @@ namespace memoized
         return fibonacci_numbers[n];
     }
 
-    unsigned int prime(unsigned int n)
+    unsigned long long int prime(unsigned long long int n)
     {
         // Initialization
         static size_t size = 2;
@@ -260,10 +267,10 @@ namespace memoized
         if (size < n)
         {
             // Reshape the table
-            prime_numbers = (unsigned int*) realloc(prime_numbers, (n+1) * sizeof(unsigned int));
+            prime_numbers = (unsigned long long int*) realloc(prime_numbers, (n+1) * sizeof(unsigned long long int));
 
             // We search numbers greater than the greatest known prime member
-            unsigned int tested_number = prime_numbers[size];
+            unsigned long long int tested_number = prime_numbers[size];
 
             // While we have less than n prime numbers
             while (size < n)

@@ -104,7 +104,7 @@ double Vector<N>::norm(Norm n) const
 {
     switch (n)
     {
-        case Norm::Manhattan:
+        case math::Norm::Manhattan:
         {
             double res = 0;
             for (size_t i = 0 ; i < N ; ++i)
@@ -113,7 +113,7 @@ double Vector<N>::norm(Norm n) const
             }
             return res;
         }
-        case Norm::Euclidean:
+        case math::Norm::Euclidean:
         {
             double res = 0;
             for (size_t i = 0 ; i < N ; ++i)
@@ -122,7 +122,7 @@ double Vector<N>::norm(Norm n) const
             }
             return sqrt(res);
         }
-        case Norm::Maximum:
+        case math::Norm::Maximum:
         {
             double res = fabs(coordinates[0]);
             for (size_t i = 1 ; i < N ; ++i)
@@ -144,7 +144,7 @@ double Vector<N>::norm(Norm n, unsigned int p) const
 {
     switch (n)
     {
-        case Norm::P:
+        case math::Norm::P:
         {
             double res = 0;
             for (size_t i = 0 ; i < N ; ++i)

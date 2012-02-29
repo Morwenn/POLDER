@@ -25,7 +25,7 @@ namespace polder
 ////////////////////////////////////////////////////////////
 
 // Default constructor
-constexpr Matrix::Matrix():
+Matrix::Matrix():
     _height(0),
     _width(0),
     _size(0),
@@ -797,6 +797,71 @@ double Matrix::trace() const
         res += _lines[i][i];
     }
     return res;
+}
+
+double Matrix::norm(math::Norm n) const
+{
+    using math::Norm;
+    switch (n)
+    {
+        case Norm::Manhattan:
+        {
+            double _max = 0;
+
+            // Compute the sum of the first Matrix column
+            for (size_t i = 0 ; i < _height ; ++i)
+            {
+                _max += _lines[i][0];
+            }
+
+            // Find the maximum sum between the columns
+            for (size_t i = 1 ; i < _height ; ++i)
+            {
+                double _temp = 0;
+                for (size_t j = 0 ; j < _width ; ++j)
+                {
+                    _temp += _lines[j][i];
+                }
+                if (_temp > _max)
+                {
+                    _max = _temp;
+                }
+            }
+            return _max;
+        }
+        case Norm::Maximum:
+        {
+            double _max = 0;
+
+            // Compute the sum of the first Matrix line
+            for (size_t i = 0 ; i < _width ; ++i)
+            {
+                _max += _data[i];
+            }
+
+            // Find the maximum sum between the lines
+            for (size_t i = 1 ; i < _height ; ++i)
+            {
+                double _temp = 0;
+                for (size_t j = 0 ; j < _width ; ++j)
+                {
+                    _temp += _lines[i][j];
+                }
+                if (_temp > _max)
+                {
+                    _max = _temp;
+                }
+            }
+            return _max;
+        }
+        default:
+        {
+            throw std::logic_error("Invalid matrix norm.");
+        }
+    }
+
+    // Should never be executed
+    return 1.0;
 }
 
 // Returns the number of occurences of the given number in the matrix
