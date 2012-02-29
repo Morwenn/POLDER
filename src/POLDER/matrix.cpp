@@ -864,6 +864,11 @@ double Matrix::norm(math::Norm n) const
     return 1.0;
 }
 
+double Matrix::cond(math::Norm n) const
+{
+    return (*this).norm(n) * matrix::inverse(*this).norm(n);
+}
+
 // Returns the number of occurences of the given number in the matrix
 size_t Matrix::count(double d) const
 {

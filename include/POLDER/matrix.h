@@ -421,6 +421,7 @@ class POLDER_API Matrix
         double mean() const;
         double trace() const;
         double norm(math::Norm n=math::Norm::Manhattan) const;
+        double cond(math::Norm n=math::Norm::Manhattan) const;
         Matrix diagonal() const;
 
         // Procedures
