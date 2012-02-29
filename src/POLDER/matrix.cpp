@@ -866,6 +866,7 @@ double Matrix::norm(math::Norm n) const
 
 double Matrix::cond(math::Norm n) const
 {
+    assert(is_square());
     return (*this).norm(n) * matrix::inverse(*this).norm(n);
 }
 

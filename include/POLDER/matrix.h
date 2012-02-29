@@ -409,26 +409,96 @@ class POLDER_API Matrix
 
 
         ////////////////////////////////////////////////////////////
-        // NumPy-like functions
+        // NumPy-like functions (or MatLab, Scilab, etc...)
         ////////////////////////////////////////////////////////////
 
         // Functions
+
+        /**
+         * @brief Checks whether there are non-zero elements
+         * @return true if there is at least one element evaluated to true
+         */
         bool any() const;
+
+        /**
+         * @brief Checks whether all the element are true
+         * @return true if all the elements are evaluated to true
+         */
         bool all() const;
+
+        /**
+         * @brief Least element of the Matrix
+         * @return Least element of the Matrix
+         */
         double min() const;
+
+        /**
+         * @brief Greatest element of the Matrix
+         * @return Greatest element of the Matrix
+         */
         double max() const;
+
+        /**
+         * @brief Sum of all the elements
+         * @return Sum of all the elements of the Matrix
+         */
         double sum() const;
+
+        /**
+         * @brief Mean of all the elements
+         * @return Mean of all the elements of the Matrix
+         */
         double mean() const;
+
+        /**
+         * @brief Matrix trace
+         * @return Trace of the Matrix
+         */
         double trace() const;
+
+        /**
+         * @brief Matrix norm
+         * @param n Mathematical norm to use
+         * @return Choosen norm
+         *
+         * @warning Only the norm 1 and norm infinite are currently handled.
+         */
         double norm(math::Norm n=math::Norm::Manhattan) const;
+
+        /**
+         * @brief Matrix condition number
+         * @param n Mathematical norm to use
+         * @return Condition number for the given norm
+         *
+         * @warning Only the norm 1 and norm infinite are currently handled.
+         */
         double cond(math::Norm n=math::Norm::Manhattan) const;
+
         Matrix diagonal() const;
 
+
         // Procedures
+
+        /**
+         * @brief Reshapes the Matrix
+         *
+         * The number of elements in the Matrix must be the same
+         * before and after the call of this function. Otherwise,
+         * the program shall crash.
+         *
+         * @param h New height
+         * @param w New width
+         */
         void reshape(size_t h, size_t w);
+
+        /**
+         * @brief Collapses the Matrix in one dimension
+         */
         void flatten();
 
+
         // To be consistant towards NumPy
+
         inline double det() const
         {
             return determinant();
