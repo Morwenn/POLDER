@@ -22,7 +22,6 @@
 ////////////////////////////////////////////////////////////
 #include <cassert>
 #include <initializer_list>
-#include <stdexcept>
 #include <vector>
 
 
@@ -91,10 +90,6 @@ class RecursionArray
          */
         T self(size_t n)
         {
-            if (n < 0)
-            {
-                throw std::out_of_range("RecursionArray can only store results for positive integers.");
-            }
             while (values.size() <= n)
             {
                 // Compute and add the values to the vector
