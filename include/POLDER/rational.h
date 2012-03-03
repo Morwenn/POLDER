@@ -22,7 +22,7 @@
 ////////////////////////////////////////////////////////////
 #include <cmath>
 #include <POLDER/exceptions.h>
-#include <POLDER/math.h>
+#include <POLDER/math/formula.h>
 
 
 namespace polder
