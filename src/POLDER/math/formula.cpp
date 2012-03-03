@@ -236,6 +236,21 @@ namespace meta
 
 namespace memoized
 {
+    bool is_prime(unsigned long long int n)
+    {
+        const unsigned long long int root = (unsigned long long int) sqrt(n);
+        unsigned long long int _prime = 2;
+        for (unsigned long long int i = 1 ; _prime <= root ; ++i)
+        {
+            _prime = prime(i);
+            if (n % _prime == 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     unsigned long long int fibonacci(unsigned long long int n)
     {
         // Initialization

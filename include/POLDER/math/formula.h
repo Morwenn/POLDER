@@ -199,7 +199,7 @@ namespace memoized
      * @param n Integer value
      * @return True if \a n is a prime number
      */
-    POLDER_API constexpr bool is_prime(unsigned long long int n);
+    POLDER_API bool is_prime(unsigned long long int n);
 
     /**
      * @brief Fibonacci function
