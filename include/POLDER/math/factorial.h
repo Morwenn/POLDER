@@ -20,9 +20,11 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <cassert>
 #include <cmath>
 #include <POLDER/config.h>
 #include <POLDER/math/constants.h>
+#include <POLDER/math/formula.h>
 
 
 namespace polder
@@ -35,17 +37,24 @@ inline namespace standard
 {
     /**
      * @brief Iterative factorial function
-     * @param N Some integer
-     * @return Factorial of N
+     * @param n Some integer
+     * @return Factorial of n
      */
-    POLDER_API unsigned int factorial(unsigned int N);
+    POLDER_API unsigned long long int factorial(unsigned long long int n);
+
+    /**
+     * @brief Double factorial function
+     * @param n Some integer
+     * @return Double factorial of n
+     */
+    POLDER_API unsigned long long int double_factorial(unsigned long long int n);
 
     /**
      * @brief Stirling formula
-     * @param N Some integer
-     * @return Approximation of the factorial of N
+     * @param n Some integer
+     * @return Approximation of the factorial of n
      */
-    POLDER_API constexpr unsigned int stirling(unsigned int N);
+    POLDER_API unsigned long long int stirling(unsigned long long int n);
 }
 
 
@@ -53,27 +62,29 @@ namespace meta
 {
     /**
      * @brief Compile time factorial function
-     * @param N Some integer
-     * @return Factorial of N
+     * @param n Some integer
+     * @return Factorial of n
      */
-    POLDER_API constexpr unsigned int factorial(unsigned int N);
+    constexpr unsigned long long int factorial(unsigned long long int n) noexcept;
 
     /**
      * @brief Stirling formula
-     * @param N Some integer
-     * @return Approximation of the factorial of N
+     * @param n Some integer
+     * @return Approximation of the factorial of n
      */
-    POLDER_API constexpr unsigned int stirling(unsigned int N);
+    constexpr unsigned long long int stirling(unsigned long long int n);
+
+    #include <POLDER/math/factorial.inl>
 }
 
 namespace memoized
 {
     /**
      * @brief Memoized factorial function
-     * @param N Some integer
-     * @return Factorial of N
+     * @param n Some integer
+     * @return Factorial of n
      */
-    POLDER_API unsigned int factorial(unsigned int N);
+    POLDER_API unsigned long long int factorial(unsigned long long int n);
 }
 
 

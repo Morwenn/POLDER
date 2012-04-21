@@ -55,14 +55,6 @@ namespace
         return 0;
     }
     int __init_var__ = __init__(); // Initialization (quite ugly)
-
-    // Helper for the is_prime() function
-    constexpr bool _is_prime_helper(unsigned long long int n, unsigned long long int div)
-    {
-        return (div*div > n) ? true :
-                             (n % div == 0) ? false :
-                                            _is_prime_helper(n, div+2);
-    }
 }
 
 
@@ -72,32 +64,32 @@ namespace
 
 inline namespace standard
 {
-    constexpr bool is_even(long long int n)
+    bool is_even(long long int n)
     {
         return meta::is_even(n);
     }
 
-    constexpr bool is_odd(long long int n)
+    bool is_odd(long long int n)
     {
         return meta::is_odd(n);
     }
 
-    constexpr bool is_prime(unsigned long long int n)
+    bool is_prime(unsigned long long int n)
     {
         return meta::is_prime(n);
     }
 
-    constexpr double degree(double rad)
+    double degree(double rad)
     {
         return meta::degree(rad);
     }
 
-    constexpr double radian(double deg)
+    double radian(double deg)
     {
         return meta::radian(deg);
     }
 
-    constexpr double sinc(double x)
+    double sinc(double x)
     {
         return meta::sinc(x);
     }
@@ -110,7 +102,7 @@ inline namespace standard
         return sin(x) / x;
     }
 
-    constexpr double normalized_sinc(double x)
+    double normalized_sinc(double x)
     {
         return meta::normalized_sinc(x);
     }
@@ -188,51 +180,6 @@ inline namespace standard
     }
 }
 
-
-namespace meta
-{
-    constexpr bool is_even(long long int n)
-    {
-        return !((unsigned long long int) n & 1);
-    }
-
-    constexpr bool is_odd(long long int n)
-    {
-        return (unsigned long long int) n & 1;
-    }
-
-    constexpr bool is_prime(unsigned long long int n)
-    {
-        return (n < 2) ? false :
-                         (n == 2) ? true :
-                                  _is_prime_helper(n, 3);
-    }
-
-    constexpr double degree(double rad)
-    {
-        return rad * M_180_PI;
-    }
-
-    constexpr double radian(double deg)
-    {
-        return deg * M_PI_180;
-    }
-
-    constexpr double sinc(double x)
-    {
-        return sin(x) / x;
-    }
-
-    constexpr double normalized_sinc(double x)
-    {
-        return sin(x * M_PI) / (x * M_PI);
-    }
-
-    constexpr unsigned long long int fibonacci(unsigned long long int n)
-    {
-        return (n < 2) ? n : meta::fibonacci(n-2) + meta::fibonacci(n-1);
-    }
-}
 
 namespace memoized
 {

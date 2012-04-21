@@ -41,42 +41,42 @@ inline namespace standard
      * @param n Integer value
      * @return Whether \a n is even or not
      */
-    POLDER_API constexpr bool is_even(long long int n);
+    POLDER_API bool is_even(long long int n);
 
     /**
      * @brief Tells whether the given number is odd
      * @param n Integer value
      * @return Whether \a n is odd or not
      */
-    POLDER_API constexpr bool is_odd(long long int n);
+    POLDER_API bool is_odd(long long int n);
 
     /**
      * @brief Tells whether the given number is a prime number
      * @param n Integer value
      * @return True if \a n is a prime number
      */
-    POLDER_API constexpr bool is_prime(unsigned long long int n);
+    POLDER_API bool is_prime(unsigned long long int n);
 
     /**
      * @brief Converts an angle in radians into an angle in degrees.
      * @param radians Angle in radians
      * @return The degrees value
      */
-    POLDER_API constexpr double degree(double radians);
+    POLDER_API double degree(double radians);
 
     /**
      * @brief Converts an angle in degrees into an angle in radians.
      * @param degrees Angle in degrees
      * @return The radians value
      */
-    POLDER_API constexpr double radian(double degrees);
+    POLDER_API double radian(double degrees);
 
     /**
      * @brief Unnormalized sinc function
      * @param x Real value
      * @return Unnormalized cardinal sine of x
      */
-    POLDER_API constexpr double sinc(double x);
+    POLDER_API double sinc(double x);
     POLDER_API float sinc(float x);
     POLDER_API long double sinc(long double x);
 
@@ -85,7 +85,7 @@ inline namespace standard
      * @param x Real value
      * @return Normalized cardinal sine of x
      */
-    POLDER_API constexpr double normalized_sinc(double x);
+    POLDER_API double normalized_sinc(double x);
 
     /**
      * @brief Resolves a quadratic equation
@@ -140,56 +140,58 @@ namespace meta
      * @param n Integer value
      * @return Whether \a n is even or not
      */
-    POLDER_API constexpr bool is_even(long long int n);
+    constexpr bool is_even(long long int n);
 
     /**
      * @brief Tells whether the given number is odd
      * @param n Integer value
      * @return Whether \a n is odd or not
      */
-    POLDER_API constexpr bool is_odd(long long int n);
+    constexpr bool is_odd(long long int n);
 
     /**
      * @brief Tells whether the given number is a prime number
      * @param n Integer value
      * @return True if \a n is a prime number
      */
-    POLDER_API constexpr bool is_prime(unsigned long long int n);
+    constexpr bool is_prime(unsigned long long int n);
 
     /**
      * @brief Converts an angle in radians into an angle in degrees.
      * @param radians Angle in radians
      * @return The degrees value
      */
-    POLDER_API constexpr double degree(double radians);
+    constexpr double degree(double radians);
 
     /**
      * @brief Converts an angle in degrees into an angle in radians.
      * @param degrees Angle in degrees
      * @return The radians value
      */
-    POLDER_API constexpr double radian(double degrees);
+    constexpr double radian(double degrees);
 
     /**
      * @brief Unnormalized sinc function
      * @param x Real value
      * @return Unnormalized cardinal sine of x
      */
-    POLDER_API constexpr double sinc(double x);
+    constexpr double sinc(double x);
 
     /**
      * @brief Normalized sinc function
      * @param x Real value
      * @return Normalized cardinal sine of x
      */
-    POLDER_API constexpr double normalized_sinc(double x);
+    constexpr double normalized_sinc(double x);
 
     /**
      * @brief Fibonacci function
      * @param n Some integer
      * @return nth Fibonacci number
      */
-    POLDER_API constexpr unsigned long long int fibonacci(unsigned long long int n);
+    constexpr unsigned long long int fibonacci(unsigned long long int n);
+
+    #include <POLDER/math/formula.inl>
 }
 
 namespace memoized

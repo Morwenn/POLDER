@@ -25,9 +25,9 @@ namespace math
 
 inline namespace standard
 {
-    unsigned int factorial(unsigned int N)
+    unsigned long long int factorial(unsigned long long int N)
     {
-        unsigned int result = 1;
+        unsigned long long int result = 1;
         for (unsigned int i = 2 ; i <= N ; ++i)
         {
             result *= i;
@@ -35,28 +35,27 @@ inline namespace standard
         return result;
     }
 
-    constexpr unsigned int stirling(unsigned int N)
+    unsigned long long int double_factorial(unsigned long long int n)
     {
-        return (unsigned int) (sqrt(M_2PI*N) * pow((N/M_E), N));
+        assert(is_odd(n));
+        unsigned long long int k = (n + 1) / 2;
+        unsigned long long int res = 1;
+        for (unsigned int i = 1 ; i <= k ; ++i)
+        {
+            res *= 2 * i - 1;
+        }
+        return res;
     }
-}
 
-namespace meta
-{
-    constexpr unsigned int factorial(unsigned int N)
+    unsigned long long int stirling(unsigned long long int N)
     {
-        return (N > 1) ? N * meta::factorial(N - 1) : 1;
-    }
-
-    constexpr unsigned int stirling(unsigned int N)
-    {
-        return (unsigned int) (sqrt(M_2PI*N) * pow((N/M_E), N));
+        return (unsigned long long int) (sqrt(M_2PI*N) * pow((N/M_E), N));
     }
 }
 
 namespace memoized
 {
-    unsigned int factorial(unsigned int N)
+    unsigned long long int factorial(unsigned long long int N)
     {
         /// TODO
         return 0;
