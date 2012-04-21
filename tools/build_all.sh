@@ -4,6 +4,7 @@
 # Under Linux
 
 cd ..
+rm -f CMakeCache.txt
 cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -DCOMPILE_MODE="Dynamic"
 make
 cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -DCOMPILE_MODE="Static"
