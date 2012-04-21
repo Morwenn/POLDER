@@ -44,6 +44,46 @@ namespace math
 // Non-standard constants of math.h
 ////////////////////////////////////////////////////////////
 
+#ifdef M_E
+    #undef M_E
+#endif
+#ifdef M_LOG2E
+    #undef M_LOG2E
+#endif
+#ifdef M_LOG10E
+    #undef M_LOG10E
+#endif
+#ifdef M_LN2
+    #undef M_LN2
+#endif
+#ifdef M_LN10
+    #undef M_LN10
+#endif
+#ifdef M_PI
+    #undef M_PI
+#endif
+#ifdef M_PI_2
+    #undef M_PI_2
+#endif
+#ifdef M_PI_4
+    #undef M_PI_4
+#endif
+#ifdef M_1_PI
+    #undef M_1_PI
+#endif
+#ifdef M_2_PI
+    #undef M_2_PI
+#endif
+#ifdef M_2_SQRTPI
+    #undef M_2_SQRTPI
+#endif
+#ifdef M_SQRT2
+    #undef M_SQRT2
+#endif
+#ifdef M_SQRT1_2
+    #undef M_SQRT1_2
+#endif
+
 /**
  * e
  */
