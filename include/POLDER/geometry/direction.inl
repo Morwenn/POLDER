@@ -80,7 +80,10 @@ inline Direction<N>::~Direction()
 template<size_t N>
 inline double Direction<N>::operator[](size_t index) const
 {
-    assert(index < N-1);
+    if (index < N-1)
+    {
+        throw std::out_of_range("Index out of range.");
+    }
     return coordinates[index];
 }
 

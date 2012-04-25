@@ -100,7 +100,7 @@ inline Direction<N> Vector<N>::direction()
 }
 
 template<size_t N>
-double Vector<N>::norm(Norm n) const
+double Vector<N>::norm(math::Norm n) const
 {
     switch (n)
     {
@@ -140,7 +140,7 @@ double Vector<N>::norm(Norm n) const
 }
 
 template<size_t N>
-double Vector<N>::norm(Norm n, unsigned int p) const
+double Vector<N>::norm(math::Norm n, unsigned int p) const
 {
     switch (n)
     {
