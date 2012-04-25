@@ -61,8 +61,8 @@ class POLDER_API ini_error:
     public:
         explicit ini_error();
         explicit ini_error(const std::string& arg);
-        virtual ~ini_error() throw();
-        virtual const char* what() const throw();
+        virtual ~ini_error() noexcept;
+        virtual const char* what() const noexcept;
 
     private:
         std::string msg; /**< Error message */

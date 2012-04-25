@@ -1015,10 +1015,10 @@ ini_error::ini_error(const std::string& arg)
 }
 
 // Destructor, does nothing
-ini_error::~ini_error() throw() {}
+ini_error::~ini_error() noexcept {}
 
 // Returns what the error is
-const char* ini_error::what() const throw()
+const char* ini_error::what() const noexcept
 {
     return msg.c_str();
 }
