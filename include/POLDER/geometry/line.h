@@ -24,13 +24,16 @@
 #include <POLDER/geometry/direction.h>
 #include <POLDER/geometry/limits.h>
 #include <POLDER/geometry/point.h>
-#include <POLDER/geometry/vector.h>
 
 
 namespace polder
 {
 namespace geometry
 {
+
+
+// Forward declaration
+template<size_t N> class Vector;
 
 
 /**

@@ -22,7 +22,6 @@
 ////////////////////////////////////////////////////////////
 #include <algorithm>
 #include <POLDER/geometry/limits.h>
-#include <POLDER/geometry/point.h>
 
 
 namespace polder
@@ -31,6 +30,7 @@ namespace geometry
 {
 
 // Forward declarations
+template<size_t N> class Point;
 template<size_t N> class Vector;
 template<size_t N> class Line;
 

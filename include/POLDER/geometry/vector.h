@@ -25,8 +25,6 @@
 #include <cstdarg>
 #include <initializer_list>
 #include <POLDER/math/norm.h>
-#include <POLDER/geometry/direction.h>
-#include <POLDER/geometry/point.h>
 
 
 namespace polder
@@ -35,7 +33,9 @@ namespace geometry
 {
 
 
-// Forward declaration
+// Forward declarations
+template<size_t N> class Direction;
+template<size_t N> class Point;
 template<size_t N> class Line;
 
 
