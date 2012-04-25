@@ -33,14 +33,14 @@ division_by_zero::division_by_zero(const std::string& msg):
 /**
  * @brief Destructor
  */
-division_by_zero::~division_by_zero() throw() {}
+division_by_zero::~division_by_zero() noexcept {}
 
 
 /**
  * @brief Returns the error message
  * @return Error message
  */
-const char* division_by_zero::what() const throw()
+const char* division_by_zero::what() const noexcept
 {
     return _msg.c_str();
 }

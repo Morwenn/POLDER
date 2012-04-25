@@ -50,12 +50,12 @@ class POLDER_API Object
         /**
          * Default constructor
          */
-        Object();
+        Object() noexcept;
 
         /**
          * Copy constructor
          */
-        Object(const Object& other);
+        Object(const Object& other) noexcept;
 
         /**
          * @brief "Encapsulation" constructor
@@ -68,7 +68,7 @@ class POLDER_API Object
          * @param other Object to encapsulate
          */
         template<class T>
-        explicit Object(const T& other):
+        explicit Object(const T& other) noexcept:
             ptr(new Wrapper<T>(other))
         {}
 
@@ -85,7 +85,7 @@ class POLDER_API Object
         /**
          * Assignment operator
          */
-        Object& operator=(const Object& other);
+        Object& operator=(const Object& other) noexcept;
 
         /**
          * @brief Check whether the encapsulated objects are the same
@@ -93,7 +93,7 @@ class POLDER_API Object
          * @param other Another Object
          * @return True if the encapsulated objects are the same
          */
-        bool operator==(const Object& other);
+        bool operator==(const Object& other) noexcept;
 
         /**
          * @brief Check whether the encapsulated objects are not the same
@@ -101,7 +101,7 @@ class POLDER_API Object
          * @param other Another Object
          * @return True if the encapsulated objects are not the same
          */
-        bool operator!=(const Object& other);
+        bool operator!=(const Object& other) noexcept;
 
 
         ////////////////////////////////////////////////////////////
@@ -121,7 +121,7 @@ class POLDER_API Object
          * @return True if the encapsulated stuff has been assigned successfully
          */
         template<class T>
-        bool assign(T& other) const
+        bool assign(T& other) const noexcept
         {
             const Wrapper<T>* tmp = dynamic_cast<Wrapper<T>*>(ptr);
             if (tmp == nullptr)
@@ -145,7 +145,7 @@ class POLDER_API Object
  * @see bool Object::assign(T& other) const
  */
 template<class T>
-bool assign(T& sometype, const Object& object)
+bool assign(T& sometype, const Object& object) noexcept
 {
     return object.assign(sometype);
 }

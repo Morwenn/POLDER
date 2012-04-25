@@ -42,12 +42,12 @@ class POLDER_API ReferenceCounted
         /**
          * Default constructor
          */
-        ReferenceCounted();
+        ReferenceCounted() noexcept;
 
         /**
          * Copy constructor
          */
-        ReferenceCounted(const ReferenceCounted&);
+        ReferenceCounted(const ReferenceCounted&) noexcept;
 
         /**
          * Destructor
@@ -62,12 +62,12 @@ class POLDER_API ReferenceCounted
         /**
          * @brief Adds a reference to the object
          */
-        void add_reference();
+        void add_reference() noexcept;
 
         /**
          * @brief Removes a reference to the object
          */
-        void remove_reference();
+        void remove_reference() noexcept;
 
 
         ////////////////////////////////////////////////////////////
@@ -78,13 +78,13 @@ class POLDER_API ReferenceCounted
          * @brief Returns whether the object is pointed
          * @return true if there is at least one reference to the object
          */
-        bool is_referenced() const;
+        bool is_referenced() const noexcept;
 
         /**
          * @brief Returns whether the object is pointed more than once
          * @return true if there are a least two references to the object
          */
-        bool is_shared() const;
+        bool is_shared() const noexcept;
 
         /**
          * @brief Provides a pointer to the object

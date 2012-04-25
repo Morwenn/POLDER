@@ -22,33 +22,33 @@ namespace polder
 
 
 // Default constructor
-ReferenceCounted::ReferenceCounted():
+ReferenceCounted::ReferenceCounted() noexcept:
     count(1)
 {}
 
 // Copy constructor
-ReferenceCounted::ReferenceCounted(const ReferenceCounted&):
+ReferenceCounted::ReferenceCounted(const ReferenceCounted&) noexcept:
     count(1)
 {}
 
 // Add a reference to the object
-void ReferenceCounted::add_reference()
+void ReferenceCounted::add_reference() noexcept
 {
     ++count;
 }
 
 // Remove a reference to the object
-void ReferenceCounted::remove_reference()
+void ReferenceCounted::remove_reference() noexcept
 {
     --count;
 }
 
-bool ReferenceCounted::is_referenced() const
+bool ReferenceCounted::is_referenced() const noexcept
 {
     return count != 0;
 }
 
-bool ReferenceCounted::is_shared() const
+bool ReferenceCounted::is_shared() const noexcept
 {
     return count > 1;
 }

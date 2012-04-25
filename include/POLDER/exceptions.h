@@ -42,8 +42,8 @@ class POLDER_API division_by_zero:
     public:
 
         explicit division_by_zero(const std::string& msg="Division by zero.");
-        virtual ~division_by_zero() throw();
-        virtual const char* what() const throw();
+        virtual ~division_by_zero() noexcept;
+        virtual const char* what() const noexcept;
 
     protected:
 
