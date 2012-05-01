@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Morwenn
+ * Copyright (C) 2011-2012 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,17 +54,12 @@ class Point
         /**
          * Default constructor
          */
-        Point();
+        Point() = default;
 
         /**
          * Copy constructor
          */
         Point(const Point<N>& other);
-
-        /**
-         * Move constructor
-         */
-        Point(Point<N>&& other);
 
         /**
          * @brief Initializer list constructor
@@ -79,12 +74,6 @@ class Point
          * @param first First coordinate value
          */
         Point(double first, ...);
-
-
-        /**
-         * Destructor
-         */
-        ~Point();
 
 
         ////////////////////////////////////////////////////////////
@@ -108,11 +97,6 @@ class Point
          * Copy assignement operator
          */
         Point<N>& operator=(const Point<N>& other);
-
-        /**
-         * Move assignement operator
-         */
-        Point<N>& operator=(Point<N>&& other);
 
         // Comparison
         bool operator==(const Point<N>& other) const;
@@ -162,7 +146,7 @@ class Point
     private:
 
         // Member data
-        double* coordinates;    /**< Coordinates */
+        double coordinates[N];    /**< Coordinates */
 
     friend class Vector<N>;
 };

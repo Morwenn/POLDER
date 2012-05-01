@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Morwenn
+ * Copyright (C) 2011-2012 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,35 +16,20 @@
  */
 
 template<size_t N>
-inline Point<N>::Point():
-    coordinates(new double[N])
-{}
-
-template<size_t N>
-inline Point<N>::Point(const Point<N>& other):
-    coordinates(new double[N])
+inline Point<N>::Point(const Point<N>& other)
 {
     std::copy(other.coordinates, other.coordinates+N, coordinates);
 }
 
 template<size_t N>
-inline Point<N>::Point(Point<N>&& other):
-    coordinates(other.coordinates)
-{
-    other.coordinates = nullptr;
-}
-
-template<size_t N>
-inline Point<N>::Point(const std::initializer_list<double>& coords):
-    coordinates(new double[N])
+inline Point<N>::Point(const std::initializer_list<double>& coords)
 {
     assert(N > 1 && coords.size() == N);
     std::copy(coords.begin(), coords.end(), coordinates);
 }
 
 template<size_t N>
-Point<N>::Point(double first, ...):
-    coordinates(new double[N])
+Point<N>::Point(double first, ...)
 {
     assert(N > 1);
     coordinates[0] = first;
@@ -55,12 +40,6 @@ Point<N>::Point(double first, ...):
         coordinates[i] = va_arg(args, double);
     }
     va_end(args);
-}
-
-template<size_t N>
-inline Point<N>::~Point()
-{
-    delete[] coordinates;
 }
 
 template<size_t N>
@@ -85,17 +64,6 @@ inline Point<N>& Point<N>::operator=(const Point<N>& other)
         delete[] coordinates;
         coordinates = new double[N];
         std::copy(other.coordinates, other.coordinates+N, coordinates);
-    }
-    return *this;
-}
-
-template<size_t N>
-inline Point<N>& Point<N>::operator=(Point<N>&& other)
-{
-    if (this != &other)
-    {
-        coordinates = other.coordinates;
-        other.coordinates = nullptr;
     }
     return *this;
 }

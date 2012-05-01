@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Morwenn
+ * Copyright (C) 2011-2012 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,35 +16,20 @@
  */
 
 template<size_t N>
-inline Vector<N>::Vector():
-    coordinates(new double[N])
-{}
-
-template<size_t N>
-inline Vector<N>::Vector(const Vector<N>& other):
-    coordinates(new double[N])
+inline Vector<N>::Vector(const Vector<N>& other)
 {
     std::copy(other.coordinates, other.coordinates+N, coordinates);
 }
 
 template<size_t N>
-inline Vector<N>::Vector(Vector<N>&& other):
-    coordinates(other.coordinates)
+inline Vector<N>::Vector(const std::initializer_list<double>& coords)
 {
-    other.coordinates = nullptr;
-}
-
-template<size_t N>
-inline Vector<N>::Vector(const std::initializer_list<double>& coords):
-    coordinates(new double[N])
-{
-    assert(N > 1 && coords.size() == N);
+    assert(coords.size() == N);
     std::copy(coords.begin(), coords.end(), coordinates);
 }
 
 template<size_t N>
-Vector<N>::Vector(double first, ...):
-    coordinates(new double[N])
+Vector<N>::Vector(double first, ...)
 {
     coordinates[0] = first;
 
@@ -58,15 +43,13 @@ Vector<N>::Vector(double first, ...):
 }
 
 template<size_t N>
-inline Vector<N>::Vector(const Point<N>& P):
-    coordinates(new double[N])
+inline Vector<N>::Vector(const Point<N>& P)
 {
     std::copy(P.coordinates, P.coordinates+N, coordinates);
 }
 
 template<size_t N>
-Vector<N>::Vector(const Point<N>& origin, const Point<N>& target):
-    coordinates(new double[N])
+Vector<N>::Vector(const Point<N>& origin, const Point<N>& target)
 {
     for (size_t i = 0 ; i < N ; ++i)
     {
@@ -75,8 +58,7 @@ Vector<N>::Vector(const Point<N>& origin, const Point<N>& target):
 }
 
 template<size_t N>
-Vector<N>::Vector(const Line<N>& L):
-    coordinates(new double[N])
+Vector<N>::Vector(const Line<N>& L)
 {
     coordinates[0] = 1.0;
     const Direction<N>& dir = L.direction();
@@ -85,13 +67,6 @@ Vector<N>::Vector(const Line<N>& L):
         coordinates[i] = dir[i-1];
     }
 }
-
-template<size_t N>
-inline Vector<N>::~Vector()
-{
-    delete[] coordinates;
-}
-
 
 template<size_t N>
 inline Direction<N> Vector<N>::direction()
@@ -179,17 +154,6 @@ inline Vector<N>& Vector<N>::operator=(const Vector<N>& other)
         delete[] coordinates;
         coordinates = new double[N];
         std::copy(other.coordinates, other.coordinates+N, coordinates);
-    }
-    return *this;
-}
-
-template<size_t N>
-inline Vector<N>& Vector<N>::operator=(Vector<N>&& other)
-{
-    if (this != &other)
-    {
-        coordinates = other.coordinates;
-        other.coordinates = nullptr;
     }
     return *this;
 }
@@ -302,14 +266,12 @@ inline double& Vector<N>::x()
 template<size_t N>
 inline double& Vector<N>::y()
 {
-    assert(N > 1);
     return coordinates[1];
 }
 
 template<size_t N>
 inline double& Vector<N>::z()
 {
-    assert(N > 2);
     return coordinates[2];
 }
 
@@ -322,14 +284,12 @@ inline double Vector<N>::x() const
 template<size_t N>
 inline double Vector<N>::y() const
 {
-    assert(N > 1);
     return coordinates[1];
 }
 
 template<size_t N>
 inline double Vector<N>::z() const
 {
-    assert(N > 2);
     return coordinates[2];
 }
 

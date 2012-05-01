@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Morwenn
+ * Copyright (C) 2011-2012 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,27 +16,13 @@
  */
 
 template<size_t N>
-inline Direction<N>::Direction():
-    coordinates(new double[N-1])
-{}
-
-template<size_t N>
-inline Direction<N>::Direction(const Direction<N>& other):
-    coordinates(new double[N-1])
+inline Direction<N>::Direction(const Direction<N>& other)
 {
     std::copy(other.coordinates, other.coordinates+N-1, coordinates);
 }
 
 template<size_t N>
-inline Direction<N>::Direction(Direction<N>&& other):
-    coordinates(other.coordinates)
-{
-    other.coordinates = nullptr;
-}
-
-template<size_t N>
-Direction<N>::Direction(const Point<N>& P):
-    coordinates(new double[N-1])
+Direction<N>::Direction(const Point<N>& P)
 {
     for (size_t i = 1 ; i < N ; ++i)
     {
@@ -45,8 +31,7 @@ Direction<N>::Direction(const Point<N>& P):
 }
 
 template<size_t N>
-Direction<N>::Direction(const Point<N>& P1, const Point<N>& P2):
-    coordinates(new double[N-1])
+Direction<N>::Direction(const Point<N>& P1, const Point<N>& P2)
 {
     const double first = P2[0] - P1[0];
     for (size_t i = 1 ; i < N ; ++i)
@@ -56,8 +41,7 @@ Direction<N>::Direction(const Point<N>& P1, const Point<N>& P2):
 }
 
 template<size_t N>
-Direction<N>::Direction(const Vector<N>& V):
-    coordinates(new double[N-1])
+Direction<N>::Direction(const Vector<N>& V)
 {
     for (size_t i = 1 ; i < N ; ++i)
     {
@@ -69,12 +53,6 @@ template<size_t N>
 inline Direction<N>::Direction(const Line<N>& L)
 {
     *this = L.direction();
-}
-
-template<size_t N>
-inline Direction<N>::~Direction()
-{
-    delete[] coordinates;
 }
 
 template<size_t N>
@@ -95,17 +73,6 @@ Direction<N>& Direction<N>::operator=(const Direction<N>& other)
         delete[] coordinates;
         coordinates = new double[N-1];
         std::copy(other.coordinates, other.coordinates+N-1, coordinates);
-    }
-    return *this;
-}
-
-template<size_t N>
-Direction<N>& Direction<N>::operator=(Direction<N>&& other)
-{
-    if (this != &other)
-    {
-        coordinates = other.coordinates;
-        other.coordinates = nullptr;
     }
     return *this;
 }

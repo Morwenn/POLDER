@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Morwenn
+ * Copyright (C) 2011-2012 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,19 +56,14 @@ class Vector
         ////////////////////////////////////////////////////////////
 
         /**
-         * Default constructor
+         * @brief Default constructor
          */
-        Vector();
+        Vector() = default;
 
         /**
-         * Copy constructor
+         * @brief Copy constructor
          */
         Vector(const Vector<N>& other);
-
-        /**
-         * Move constructor
-         */
-        Vector(Vector<N>&& other);
 
         /**
          * @brief Initializer list constructor
@@ -111,12 +106,6 @@ class Vector
         Vector(const Line<N>& L);
 
         /**
-         * Destructor
-         */
-        ~Vector();
-
-
-        /**
          * @brief Vector Direction
          * @return Direction which passes through the Vector
          */
@@ -147,8 +136,6 @@ class Vector
 
         // Assignement
         Vector<N>& operator=(const Vector<N>& other);
-
-        Vector<N>& operator=(Vector<N>&& other);
 
         // Comparison
         bool operator==(const Vector<N>& other) const;
@@ -212,7 +199,7 @@ class Vector
     private:
 
         // Coordinates
-        double* coordinates;    /**< Coordinates */
+        double coordinates[N];    /**< Coordinates */
 
     friend class Point<N>;
 };

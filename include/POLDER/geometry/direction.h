@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Morwenn
+ * Copyright (C) 2011-2012 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,19 +57,14 @@ class Direction
         ////////////////////////////////////////////////////////////
 
         /**
-         * Default constructor
+         * @brief Default constructor
          */
-        Direction();
+        Direction() = default;
 
         /**
-         * Copy constructor
+         * @brief Copy constructor
          */
         Direction(const Direction<N>& other);
-
-        /**
-         * Move constructor
-         */
-        Direction(Direction<N>&& other);
 
         /**
          * @brief Direction of a Line passing by the origin and a given point
@@ -100,11 +95,6 @@ class Direction
          */
         Direction(const Line<N>& L);
 
-        /**
-         * Destructor
-         */
-        ~Direction();
-
 
         ////////////////////////////////////////////////////////////
         // Operators
@@ -122,11 +112,6 @@ class Direction
          * Copy assignement operator
          */
         Direction<N>& operator=(const Direction<N>& other);
-
-        /**
-         * Move assignement operator
-         */
-        Direction<N>& operator=(Direction<N>&& other);
 
         /**
          * @brief Equality between two Directions
@@ -209,7 +194,7 @@ class Direction
     private:
 
         // Member data
-        double* coordinates; /**< Coordinates of the Direction */
+        double coordinates[N]; /**< Coordinates of the Direction */
 };
 
 #include <POLDER/geometry/direction.inl>
