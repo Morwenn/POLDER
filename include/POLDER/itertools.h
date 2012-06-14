@@ -165,9 +165,65 @@ class POLDER_API __creversed
 };
 
 template<typename ReverseIterable>
-POLDER_API inline const __reversed<ReverseIterable> reversed(const ReverseIterable& iter)
+POLDER_API inline const __creversed<ReverseIterable> reversed(const ReverseIterable& iter)
 {
-    return __reversed<ReverseIterable>(iter);
+    return __creversed<ReverseIterable>(iter);
+}
+
+/**
+ * @brief Function mapping to iterable
+ */
+template<typename T, typename Iterable>
+class POLDER_API __map
+{
+    // FUTURE: Could be improved with concepts
+
+    private:
+
+        const Iterable& _iter;
+        T (*_func)(T);
+        decltype(_iter.begin()) _begin;
+        const decltype(_iter.end()) _end;
+
+    public:
+
+        __map(T (*function)(T), const Iterable& iter):
+            _iter(iter),
+            _func(function),
+            _begin(_iter.begin()),
+            _end(_iter.end())
+        {}
+
+        const __map& begin() const
+        {
+            return *this;
+        }
+
+        const __map& end() const
+        {
+            return *this;
+        }
+
+        bool operator!=(const __map&)
+        {
+            return _begin != _end;
+        }
+
+        void operator++()
+        {
+            ++_begin;
+        }
+
+        T operator*()
+        {
+            return _func(*_begin);
+        }
+};
+
+template<typename T, typename Iterable>
+POLDER_API inline __map<T, Iterable> map(T (*function)(T) , const Iterable& iter)
+{
+    return __map<T, Iterable>(function, iter);
 }
 
 
