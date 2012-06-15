@@ -21,7 +21,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <POLDER/config.h>
-
+#include <iostream>
 
 namespace polder
 {
@@ -226,10 +226,113 @@ POLDER_API inline __map<T, Iterable> map(T (*function)(T) , const Iterable& iter
     return __map<T, Iterable>(function, iter);
 }
 
+/**
+ * @brief Iter through many containers as if they were just one
+ */
+template<typename First, typename... Iterables>
+class __chain:
+    private __chain<Iterables...>
+{
+    private:
+
+        const First& _first;
+        decltype(_first.begin()) _iter;
+
+    public:
+
+        __chain(const First& first, const Iterables&... iters):
+            __chain<Iterables...>(iters...),
+            _first(first),
+            _iter(first.begin())
+        {}
+
+        const __chain<First, Iterables...>& begin() const
+        {
+            return *this;
+        }
+
+        const __chain<First, Iterables...>& end() const
+        {
+            return *this;
+        }
+
+        bool operator!=(const __chain&) const
+        {
+            return __chain<Iterables...>::operator!=(*this);
+        }
+
+        void operator++()
+        {
+            if (_iter != _first.end())
+            {
+                ++_iter;
+            }
+            else
+            {
+                __chain<Iterables...>::operator++();
+            }
+        }
+
+        auto operator*() -> decltype(*_iter)
+        {
+            if (_iter != _first.end())
+            {
+                return *_iter;
+            }
+            return __chain<Iterables...>::operator*();
+        }
+};
+
+template<typename First>
+class __chain<First>
+{
+    private:
+
+        const First& _first;
+        decltype(_first.begin()) _iter;
+
+    public:
+
+        __chain(const First& first):
+            _first(first),
+            _iter(first.begin())
+        {}
+
+        const __chain<First>& begin() const
+        {
+            return *this;
+        }
+
+        const __chain<First>& end() const
+        {
+            return *this;
+        }
+
+        bool operator!=(const __chain&) const
+        {
+            return _iter != _first.end();
+        }
+
+        void operator++()
+        {
+            ++_iter;
+        }
+
+        auto operator*() -> decltype(*_iter)
+        {
+            return *_iter;
+        }
+};
+
+template<typename... Iterables>
+__chain<Iterables...> chain(const Iterables&... iters)
+{
+    return __chain<Iterables...>(iters...);
+}
+
 
 } // namespace itertools
 } // namespace polder
 
 
 #endif // _POLDER_ITERTOOLS_H
-
