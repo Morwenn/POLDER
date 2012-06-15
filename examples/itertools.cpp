@@ -77,8 +77,12 @@ int main()
 
     vector<int> v   = { 1, 2, 3, 4, 5  };
     vector<int> l   = { 6, 7, 8, 9, 10 };
-    for (int i in chain(v, l))
+    for (int& i in chain(v, l))
     {
+        // You can edit a range of iterables
+        // as if there was only one of them.
+        i *= 5;
+
         cout << i << endl;
     }
 

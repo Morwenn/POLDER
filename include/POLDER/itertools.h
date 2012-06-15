@@ -41,7 +41,7 @@ namespace itertools
 /**
  * @brief Range of integers
  */
-class POLDER_API range
+class range
 {
     public:
 
@@ -104,7 +104,7 @@ class POLDER_API range
  * @brief Reversed iterable
  */
 template<typename ReverseIterable>
-class POLDER_API __reversed
+class __reversed
 {
     // FUTURE: Could be improved with concepts
 
@@ -118,19 +118,19 @@ class POLDER_API __reversed
             _iter(iter)
         {}
 
-        auto begin() -> decltype(_iter.rbegin())
+        auto begin() -> decltype(_iter.rbegin()) const
         {
             return _iter.rbegin();
         }
 
-        auto end() -> decltype(_iter.rend())
+        auto end() -> decltype(_iter.rend()) const
         {
             return _iter.rend();
         }
 };
 
 template<typename ReverseIterable>
-POLDER_API inline __reversed<ReverseIterable> reversed(ReverseIterable& iter)
+inline __reversed<ReverseIterable> reversed(ReverseIterable& iter)
 {
     return __reversed<ReverseIterable>(iter);
 }
@@ -139,7 +139,7 @@ POLDER_API inline __reversed<ReverseIterable> reversed(ReverseIterable& iter)
  * @brief Constant reversed iterable
  */
 template<typename ReverseIterable>
-class POLDER_API __creversed
+class __creversed
 {
     // FUTURE: Could be improved with concepts
 
@@ -153,19 +153,19 @@ class POLDER_API __creversed
             _iter(iter)
         {}
 
-        auto begin() -> decltype(_iter.crbegin())
+        auto begin() -> decltype(_iter.crbegin()) const
         {
             return _iter.crbegin();
         }
 
-        auto end() -> decltype(_iter.crend())
+        auto end() -> decltype(_iter.crend()) const
         {
             return _iter.crend();
         }
 };
 
 template<typename ReverseIterable>
-POLDER_API inline const __creversed<ReverseIterable> reversed(const ReverseIterable& iter)
+inline const __creversed<ReverseIterable> reversed(const ReverseIterable& iter)
 {
     return __creversed<ReverseIterable>(iter);
 }
@@ -174,7 +174,7 @@ POLDER_API inline const __creversed<ReverseIterable> reversed(const ReverseItera
  * @brief Function mapping to iterable
  */
 template<typename T, typename Iterable>
-class POLDER_API __map
+class __map
 {
     // FUTURE: Could be improved with concepts
 
@@ -204,7 +204,7 @@ class POLDER_API __map
             return *this;
         }
 
-        bool operator!=(const __map&)
+        bool operator!=(const __map&) const
         {
             return _begin != _end;
         }
@@ -221,9 +221,62 @@ class POLDER_API __map
 };
 
 template<typename T, typename Iterable>
-POLDER_API inline __map<T, Iterable> map(T (*function)(T) , const Iterable& iter)
+inline __map<T, Iterable> map(T (*function)(T) , const Iterable& iter)
 {
     return __map<T, Iterable>(function, iter);
+}
+
+template<typename T, typename Iterable>
+class __crmap
+{
+    // FUTURE: Could be improved with concepts
+
+    private:
+
+        const Iterable& _iter;
+        T (*_func)(const T&);
+        decltype(_iter.begin()) _begin;
+        const decltype(_iter.end()) _end;
+
+    public:
+
+        __crmap(T (*function)(const T&), const Iterable& iter):
+            _iter(iter),
+            _func(function),
+            _begin(_iter.begin()),
+            _end(_iter.end())
+        {}
+
+        const __crmap& begin() const
+        {
+            return *this;
+        }
+
+        const __crmap& end() const
+        {
+            return *this;
+        }
+
+        bool operator!=(const __crmap&) const
+        {
+            return _begin != _end;
+        }
+
+        void operator++()
+        {
+            ++_begin;
+        }
+
+        T operator*()
+        {
+            return _func(*_begin);
+        }
+};
+
+template<typename T, typename Iterable>
+inline __map<T, Iterable> map(T (*function)(const T&) , const Iterable& iter)
+{
+    return __crmap<T, Iterable>(function, iter);
 }
 
 /**
@@ -235,12 +288,12 @@ class __chain:
 {
     private:
 
-        const First& _first;
+        First& _first;
         decltype(_first.begin()) _iter;
 
     public:
 
-        __chain(const First& first, const Iterables&... iters):
+        __chain(First& first, Iterables&... iters):
             __chain<Iterables...>(iters...),
             _first(first),
             _iter(first.begin())
@@ -288,12 +341,12 @@ class __chain<First>
 {
     private:
 
-        const First& _first;
+        First& _first;
         decltype(_first.begin()) _iter;
 
     public:
 
-        __chain(const First& first):
+        __chain(First& first):
             _first(first),
             _iter(first.begin())
         {}
@@ -325,7 +378,7 @@ class __chain<First>
 };
 
 template<typename... Iterables>
-__chain<Iterables...> chain(const Iterables&... iters)
+inline __chain<Iterables...> chain(Iterables&... iters)
 {
     return __chain<Iterables...>(iters...);
 }
