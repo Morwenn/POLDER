@@ -44,7 +44,7 @@ void reset_margin_error()
 // Compare two doubles taking in account the marging error
 bool round_equal(double a, double b)
 {
-    return fabs(a-b) < geo_margin_error * a;
+    return std::fabs(a-b) < geo_margin_error * a;
 }
 
 
