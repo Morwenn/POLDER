@@ -1,18 +1,21 @@
 /*
  * Headers
  */
-#include <cmap>
+#include <cmath>
 #include <cstdlib>
 #include <iostream>
+#include <list>
 #include <vector>
 #include <POLDER/itertools.h>
 
+using std::list;
 using std::vector;
 using std::cout;
 using std::endl;
 using polder::itertools::range;
 using polder::itertools::reversed;
 using polder::itertools::map;
+using polder::itertools::chain;
 
 
 /**
@@ -62,8 +65,19 @@ int main()
     ////////////////////////////////////////////////////////////
     cout << endl << "Map Example" << endl;
 
-    vector<int> vec_1 = { 1, 2, 3, 4, 5, 6, 7 };
-    for (int i in map(vec_1))
+    list<int> li = { 1, -2, 3, 4, -5, -6, 7 };
+    for (int i in map(&abs, li))
+    {
+        cout << i << endl;
+    }
+
+
+    ////////////////////////////////////////////////////////////
+    cout << endl << "Chain Example" << endl;
+
+    vector<int> v   = { 1, 2, 3, 4, 5  };
+    vector<int> l   = { 6, 7, 8, 9, 10 };
+    for (int i in chain(v, l))
     {
         cout << i << endl;
     }
