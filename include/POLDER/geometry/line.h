@@ -139,7 +139,7 @@ class Line
         /**
          * @brief Returns an arbitrary point belonging to the line
          *
-         * For now, this function always returns the same point.
+         * @warning For now, this function always returns the same point.
          * However, it could be improved so that it returns different
          * point given a parameter.
          *

@@ -58,12 +58,12 @@ class Hypersphere
         /**
          * Default constructor
          */
-        Hypersphere();
+        Hypersphere() = default;
 
         /**
          * Copy constructor
          */
-        Hypersphere(const Hypersphere<N>& other);
+        Hypersphere(const Hypersphere<N>& other) = default;
 
         /**
          * @brief Construct an Hypersphere from a center and a radius

@@ -16,15 +16,6 @@
  */
 
 template<size_t N>
-inline Hypersphere<N>::Hypersphere() {}
-
-template<size_t N>
-inline Hypersphere<N>::Hypersphere(const Hypersphere<N>& other):
-    _center(other._center),
-    _radius(other._radius)
-{}
-
-template<size_t N>
 inline Hypersphere<N>::Hypersphere(const Point<N>& center, double radius):
     _center(center),
     _radius(radius)

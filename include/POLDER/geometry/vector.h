@@ -109,7 +109,7 @@ class Vector
          * @brief Vector Direction
          * @return Direction which passes through the Vector
          */
-        Direction<N> direction();
+        Direction<N> direction() const;
 
         /**
          * @brief Vector norm

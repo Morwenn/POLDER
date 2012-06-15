@@ -69,7 +69,7 @@ Vector<N>::Vector(const Line<N>& L)
 }
 
 template<size_t N>
-inline Direction<N> Vector<N>::direction()
+inline Direction<N> Vector<N>::direction() const
 {
     return Direction<N>(*this);
 }
