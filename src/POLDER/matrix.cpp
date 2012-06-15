@@ -1677,7 +1677,8 @@ Matrix inverse(const Matrix& M)
     // Light version of the script for the 2x2 Matrix
     if (M.height() == 2)
     {
-        const double det = M[0][0]*M[1][1] - M[0][1]*M[1][0];
+        //const double det = M[0][0]*M[1][1] - M[0][1]*M[1][0];
+        const double det = std::fma(M[0][0], M[1][1], -M[0][1]*M[1][0]);
         if (det == 0)
         {
             throw division_by_zero("Division by zero: Matrix determinant is 0.");

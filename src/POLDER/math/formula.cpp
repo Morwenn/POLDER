@@ -110,7 +110,7 @@ inline namespace standard
     pair<complex<double>, complex<double>> quadratic(double A, double B, double C)
     {
         A *= 2; // A is not used alone
-        const double delta = B*B - 2*A*C;
+        const double delta = std::fma(B, B, -2*A*C);
         B = -B; // Only the opposite of B is used after this
         if (delta < 0)
         {

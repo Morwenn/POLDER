@@ -44,14 +44,14 @@ Object intersection(const Line<N>& L, const Hypersphere<N>& HS)
     // Use the first coordinates (considering that dx = 1.0)
     double a = 1.0;
     double b = P[0] - C[0];
-    double c = P[0] * (P[0] - 2*C[0]) + C[0]*C[0];
+    double c = std::fma(P[0], P[0] - 2*C[0], C[0]*C[0]);
 
     // Use the other coordinates
     for (size_t i = 1 ; i < N ; ++i)
     {
         a += D[i-1] * D[i-1];
         b += D[i-1] * (P[i] - C[i]);
-        c += P[i] * (P[i] - 2*C[i]) + C[i]*C[i];
+        c += std::fma(P[i], P[i] - 2*C[i], C[i]*C[i]);
     }
     b *= 2;
     c -= HS.radius() * HS.radius();
@@ -77,7 +77,8 @@ Object intersection(const Line<N>& L, const Hypersphere<N>& HS)
         res.x() = P.x() + t1;
         for (size_t i = 1 ; i < N ; ++i)
         {
-            res[i] = P[i] + t1 * C[i-1];
+            // res[i] = P[i] + t1 * C[i-1]
+            res[i] = std::fma(t1, C[i-1], P[i]);
         }
 
         return Object(res);
@@ -90,8 +91,8 @@ Object intersection(const Line<N>& L, const Hypersphere<N>& HS)
     res2.x() = P.x() + t2;
     for (size_t i = 1 ; i < N ; ++i)
     {
-        res1[i] = P[i] + t1 * C[i-1];
-        res2[i] = P[i] + t2 * C[i-1];
+        res1[i] = std::fma(t1, C[i-1], P[i]);
+        res2[i] = std::fma(t2, C[i-1], P[i]);
     }
 
     return Object(make_pair(res1, res2));
