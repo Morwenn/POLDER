@@ -1,6 +1,4 @@
-/*
- * Headers
- */
+// Headers
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
@@ -34,58 +32,65 @@ using polder::itertools::chain;
 int main()
 {
     ////////////////////////////////////////////////////////////
-    cout << "Range Example" << endl;
-
-    // Range of integers
-    for (int i in range(20, -35, 5))
     {
-        cout << i << endl;
-        if (i < -10)
+        cout << "Range Example" << endl;
+
+        // Range of integers
+        for (int i in range(20, -35, 5))
         {
-            // Range is a generator.
-            // The remaining numbers won't even be computed.
-            break;
+            cout << i << endl;
+            if (i < -10)
+            {
+                // Range is a generator.
+                // The remaining numbers won't even be computed.
+                break;
+            }
         }
     }
 
 
     ////////////////////////////////////////////////////////////
-    cout << endl << "Reversed Example" << endl;
-
-    vector<int> vec = { 1, 2, 3, 4, 5, 6, 7 };
-    for (int& i in reversed(vec))
     {
-        i *= 2;
-        // Will print all the elements of vec
-        // in the reversed order.
-        cout << i << endl;
+        cout << endl << "Reversed Example" << endl;
+
+        vector<int> vec = { 1, 2, 3, 4, 5, 6, 7 };
+        for (int& i in reversed(vec))
+        {
+            i *= 2;
+            // Will print all the elements of vec
+            // in the reversed order.
+            cout << i << endl;
+        }
     }
 
 
     ////////////////////////////////////////////////////////////
-    cout << endl << "Map Example" << endl;
-
-    list<int> li = { 1, -2, 3, 4, -5, -6, 7 };
-    for (int i in map(&abs, li))
     {
-        cout << i << endl;
+        cout << endl << "Map Example" << endl;
+
+        list<int> li = { 1, -2, 3, 4, -5, -6, 7 };
+        for (int i in map(&abs, li))
+        {
+            cout << i << endl;
+        }
     }
 
 
     ////////////////////////////////////////////////////////////
-    cout << endl << "Chain Example" << endl;
-
-    vector<int> v   = { 1, 2, 3, 4, 5  };
-    vector<int> l   = { 6, 7, 8, 9, 10 };
-    for (int& i in chain(v, l))
     {
-        // You can edit a range of iterables
-        // as if there was only one of them.
-        i *= 5;
+        cout << endl << "Chain Example" << endl;
 
-        cout << i << endl;
+        vector<float> vec = { 1., 2., 3., 4., 5. };
+        list<int>   li  = { 6, 7, 8, 9, 10, 11, 12, 13 };
+        for (auto& i in chain(vec, li))
+        {
+            // You can edit a range of iterables
+            // as if there was only one of them.
+            i *= 5;
+
+            cout << i << endl;
+        }
     }
-
 
     return EXIT_SUCCESS;
 }
