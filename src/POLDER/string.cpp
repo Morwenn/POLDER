@@ -33,25 +33,6 @@ static char* read_word_str;
 
 
 ////////////////////////////////////////////////////////////
-// Read a line from a text file
-////////////////////////////////////////////////////////////
-bool fgetl(char** line, FILE* f)
-{
-    register int c;
-    register int size = 1;
-
-    while ((c = fgetc(f)) != EOF) if (++size && c == '\n') break; // Count the number of characters in the string
-    if (size == 1) return false; // If the only character is EOF, return nullptr
-    *line = (char*) realloc(*line, size * sizeof(*line) + 1);
-    register char* cs = *line;
-    fseek(f, -size, SEEK_CUR); // Replace the file iterator a the beginning of the line
-    while ((*cs++ = fgetc(f)) != '\n'); // Copy the line in the output string
-    *cs = '\0';
-    return true;
-}
-
-
-////////////////////////////////////////////////////////////
 // Deletes the spaces and tabulations at the beginning and the end of a string
 ////////////////////////////////////////////////////////////
 void strip(char* str)

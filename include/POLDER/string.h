@@ -41,14 +41,6 @@ namespace polder
 namespace string
 {
 
-/**
- * @brief Reads a line from a text file
- *
- * @param line Variable where to put the line
- * @param f File where to read the line
- * @return true if it is not the end of file
- */
-POLDER_API bool fgetl(char** line, FILE* f);
 
 /**
  * @brief Returns the nth word of the given string
