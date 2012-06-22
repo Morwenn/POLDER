@@ -41,8 +41,52 @@ class POLDER_API division_by_zero:
 {
     public:
 
+        /**
+         * @brief Creates a new exception
+         * @param msg Error message to be displayed
+         */
         explicit division_by_zero(const std::string& msg="Division by zero.");
+
+        /**
+         * @brief Destructor
+         */
         virtual ~division_by_zero() noexcept;
+
+        /**
+         * @brief Returns the error message
+         * @return Error message
+         */
+        virtual const char* what() const noexcept;
+
+    protected:
+
+        std::string _msg;   /**< Error message */
+};
+
+
+/**
+ * @brief
+ */
+class POLDER_API not_implemented:
+    public std::exception
+{
+    public:
+
+        /**
+         * @brief Creates a new exception
+         * @param msg Error message to be displayed
+         */
+        explicit not_implemented(const std::string& msg="Division by zero.");
+
+        /**
+         * @brief Destructor
+         */
+        virtual ~not_implemented() noexcept;
+
+        /**
+         * @brief Returns the error message
+         * @return Error message
+         */
         virtual const char* what() const noexcept;
 
     protected:

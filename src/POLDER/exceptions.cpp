@@ -21,26 +21,25 @@ namespace polder
 {
 
 
-/**
- * @brief Creates a new exception
- * @param msg Error message to be displayed
- */
 division_by_zero::division_by_zero(const std::string& msg):
     _msg(msg)
 {}
 
-
-/**
- * @brief Destructor
- */
 division_by_zero::~division_by_zero() noexcept {}
 
-
-/**
- * @brief Returns the error message
- * @return Error message
- */
 const char* division_by_zero::what() const noexcept
+{
+    return _msg.c_str();
+}
+
+
+not_implemented::not_implemented(const std::string& msg):
+    _msg(msg)
+{}
+
+not_implemented::~not_implemented() noexcept {}
+
+const char* not_implemented::what() const noexcept
 {
     return _msg.c_str();
 }
