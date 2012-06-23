@@ -26,6 +26,7 @@
 #include <sstream>
 #include <string>
 #include <POLDER/config.h>
+#include <POLDER/io.h>
 #include <POLDER/string.h>
 #include <POLDER/ptype.h>
 

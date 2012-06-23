@@ -171,7 +171,7 @@ size_t section_exists(const char* fname, const char* section)
     // Read the lines and search the section number
     size_t n_line = 1;
     char* line = nullptr;
-    while (fgetl(&line, f))
+    while (io::fgetl(line, f))
     {
         lstrip(line);
         if (!strncmp(line, searched_word, length))
@@ -211,7 +211,7 @@ size_t key_exists(const char* fname, const char* section, const char* key)
     bool section_found = false;
     size_t n_line = 1;
     char* line = nullptr;
-    while (fgetl(&line, f))
+    while (io::fgetl(line, f))
     {
         strip(line);
         if (section_found == false)
@@ -277,7 +277,7 @@ char* read_string(const char* fname, const char* section, const char* key, char*
     // Read the lines
     bool section_found = false;
     char* line = nullptr;
-    while (fgetl(&line, f))
+    while (io::fgetl(line, f))
     {
         strip(line);
         if (section_found == false)
@@ -343,7 +343,7 @@ double read_real(const char* fname, const char* section, const char* key, double
     // Read the lines
     bool section_found = false;
     char* line = nullptr;
-    while (fgetl(&line, f))
+    while (io::fgetl(line, f))
     {
         strip(line);
         if (section_found == false)
@@ -423,7 +423,7 @@ void section_delete(const char* fname, const char* section)
     bool in_section = false;
     bool section_found = false;
     char* line = nullptr;
-    while (fgetl(&line, f))
+    while (io::fgetl(line, f))
     {
         strip(line);
         if (in_section)
@@ -493,7 +493,7 @@ void key_delete(const char* fname, const char* section, const char* key)
     bool section_found = false;
     bool key_found = false;
     char* line = nullptr;
-    while (fgetl(&line, f))
+    while (io::fgetl(line, f))
     {
         strip(line);
         if (!key_found)
@@ -592,7 +592,7 @@ void write_string(const char* fname, const char* section, const char* key, const
     size_t empty_lines = 0;
 
     char* line = nullptr;
-    while (fgetl(&line, f))
+    while (io::fgetl(line, f))
     {
         strip(line);
         if (!key_found)
@@ -724,7 +724,7 @@ void write_real(const char* fname, const char* section, const char* key, double 
     size_t empty_lines = 0;
 
     char* line = nullptr;
-    while (fgetl(&line, f))
+    while (io::fgetl(line, f))
     {
         strip(line);
         if (!key_found)
@@ -856,7 +856,7 @@ void section_rename(const char* fname, const char* section, const char* new_sect
     bool section_found = false;
     bool write_line = true;
     char* line = nullptr;
-    while (fgetl(&line, f))
+    while (io::fgetl(line, f))
     {
         lstrip(line);
         if (!strncmp(line, searched_word, length))
@@ -924,7 +924,7 @@ void key_rename(const char* fname, const char* section, const char* key, const c
     bool in_section = false;
     bool write_line = true;
     char* line = nullptr;
-    while (fgetl(&line, f))
+    while (io::fgetl(line, f))
     {
         if (!key_found)
         {
