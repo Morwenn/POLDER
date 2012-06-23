@@ -17,6 +17,12 @@
 #include <POLDER/io.h>
 
 
+namespace polder
+{
+namespace io
+{
+
+
 bool fgetl(char*& line, FILE* f)
 {
     int c;
@@ -35,3 +41,7 @@ bool fgetl(char*& line, FILE* f)
     *cs = '\0';
     return true;
 }
+
+
+} // namespace io
+} // namespace polder
