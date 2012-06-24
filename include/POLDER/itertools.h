@@ -21,7 +21,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <POLDER/config.h>
-#include <iostream>
+
 
 namespace polder
 {
@@ -31,358 +31,97 @@ namespace polder
  * @brief Iterator tools
  *
  * Collection of functions an functor inspired
- * from Python programming. Many of them are meant
+ * from Python programming. Most of them are meant
  * be used with the C++11 for loop.
  */
 namespace itertools
 {
 
 
+// Forward declarations
+class RangeObject;
+template<typename BidirectionalIterable>
+class ReversedObject;
+template<typename T, typename Iterable>
+class MapObject;
+template<typename First, typename... Iterables>
+class ChainObject;
+
+
 /**
  * @brief Range of integers
+ *
+ * Generates a RangeObject, which is a generator
+ * which will yield values from 0 to \a end with a
+ * step of 1 or -1 depending on the value of
+ * \a end.
+ *
+ * @param end Last value
+ * @return Generator
  */
-class range
-{
-    public:
+constexpr RangeObject range(int end);
 
-        constexpr range(int end):
-            _i(0),
-            _end(end),
-            _step(1),
-            _sup(end >= 0)
-        {}
-
-        constexpr range(int begin, int end, unsigned int step=1):
-            _i(begin),
-            _end(end),
-            _step(step),
-            _sup(end >= begin)
-        {}
-
-        constexpr const range& begin()
-        {
-            return *this;
-        }
-
-        constexpr const range& end() const
-        {
-            return *this;
-        }
-
-        constexpr bool operator!=(const range&) const
-        {
-            return _sup ? (_i < _end) : (_i > _end);
-        }
-
-        inline void operator++()
-        {
-            if (_sup)
-            {
-                _i += _step;
-            }
-            else
-            {
-                _i -= _step;
-            }
-        }
-
-        constexpr const int& operator*() const
-        {
-            return _i;
-        }
-
-    private:
-
-        int _i;
-        const int _end;
-        const unsigned int _step;
-        const bool _sup;
-};
-
+/**
+ * @brief Versatile range of integers
+ *
+ * Generates a RangeObject, which is a generator
+ * which will yield values from \a begin to \a end
+ * with agiven \a step. The direction of the
+ * iteration depends on \a begin and \a end.
+ *
+ * @param begin First value
+ * @param end Last value
+ * @param step Step between two values
+ * @return Generator
+ */
+constexpr RangeObject range(int begin, int end, unsigned int step=1);
 
 /**
  * @brief Reversed iterable
+ *
+ * This function acts like a wrapper that allows to
+ * use the rebing and rend functions to operate
+ * reverse iteration in a foreach loop.
+ *
+ * @param iter Iterable
+ * @return Generator
  */
-template<typename ReverseIterable>
-class __reversed
-{
-    // FUTURE: Could be improved with concepts
-
-    private:
-
-        ReverseIterable& _iter;
-
-    public:
-
-        __reversed(ReverseIterable& iter):
-            _iter(iter)
-        {}
-
-        auto begin() -> decltype(_iter.rbegin()) const
-        {
-            return _iter.rbegin();
-        }
-
-        auto end() -> decltype(_iter.rend()) const
-        {
-            return _iter.rend();
-        }
-};
-
-template<typename ReverseIterable>
-inline __reversed<ReverseIterable> reversed(ReverseIterable& iter)
-{
-    return __reversed<ReverseIterable>(iter);
-}
+template<typename BidirectionalIterable>
+ReversedObject<BidirectionalIterable> reversed(BidirectionalIterable&& iter);
 
 /**
- * @brief Constant reversed iterable
+ * @brief Apply function to iterable
+ *
+ * Generates a MapObject. It's a generator that
+ * yields the values of \a iter one by one after
+ * \a function has been applied to them.
+ *
+ * @param function Function to apply
+ * @param iter Iterable
+ * @return Generator
  */
-template<typename ReverseIterable>
-class __creversed
-{
-    // FUTURE: Could be improved with concepts
+template<typename T, typename Iterable>
+MapObject<T, Iterable> map(T (*function)(T) , const Iterable& iter);
 
-    private:
-
-        const ReverseIterable& _iter;
-
-    public:
-
-        __creversed(const ReverseIterable& iter):
-            _iter(iter)
-        {}
-
-        auto begin() -> decltype(_iter.crbegin()) const
-        {
-            return _iter.crbegin();
-        }
-
-        auto end() -> decltype(_iter.crend()) const
-        {
-            return _iter.crend();
-        }
-};
-
-template<typename ReverseIterable>
-inline const __creversed<ReverseIterable> reversed(const ReverseIterable& iter)
-{
-    return __creversed<ReverseIterable>(iter);
-}
+template<typename T, typename Iterable>
+MapObject<T, Iterable> map(T (*function)(const T&) , const Iterable& iter);
 
 /**
- * @brief Function mapping to iterable
+ * @brief Iter through many containers
+ *
+ * Acts like a wrapper that would allow to iter through
+ * many containers as if there was just one of them
+ * containings all of their values.
+ *
+ * It is possible to chain different containers (list, vector
+ * array, etc...) but the contained values must be of the same
+ * type. Otherwise, it will crash at compilation.
  */
-template<typename T, typename Iterable>
-class __map
-{
-    // FUTURE: Could be improved with concepts
-
-    private:
-
-        const Iterable& _iter;
-        T (*_func)(T);
-        decltype(_iter.begin()) _begin;
-        const decltype(_iter.end()) _end;
-
-    public:
-
-        __map(T (*function)(T), const Iterable& iter):
-            _iter(iter),
-            _func(function),
-            _begin(_iter.begin()),
-            _end(_iter.end())
-        {}
-
-        const __map& begin() const
-        {
-            return *this;
-        }
-
-        const __map& end() const
-        {
-            return *this;
-        }
-
-        bool operator!=(const __map&) const
-        {
-            return _begin != _end;
-        }
-
-        void operator++()
-        {
-            ++_begin;
-        }
-
-        T operator*()
-        {
-            return _func(*_begin);
-        }
-};
-
-template<typename T, typename Iterable>
-inline __map<T, Iterable> map(T (*function)(T) , const Iterable& iter)
-{
-    return __map<T, Iterable>(function, iter);
-}
-
-template<typename T, typename Iterable>
-class __crmap
-{
-    // FUTURE: Could be improved with concepts
-
-    private:
-
-        const Iterable& _iter;
-        T (*_func)(const T&);
-        decltype(_iter.begin()) _begin;
-        const decltype(_iter.end()) _end;
-
-    public:
-
-        __crmap(T (*function)(const T&), const Iterable& iter):
-            _iter(iter),
-            _func(function),
-            _begin(_iter.begin()),
-            _end(_iter.end())
-        {}
-
-        const __crmap& begin() const
-        {
-            return *this;
-        }
-
-        const __crmap& end() const
-        {
-            return *this;
-        }
-
-        bool operator!=(const __crmap&) const
-        {
-            return _begin != _end;
-        }
-
-        void operator++()
-        {
-            ++_begin;
-        }
-
-        T operator*()
-        {
-            return _func(*_begin);
-        }
-};
-
-template<typename T, typename Iterable>
-inline __map<T, Iterable> map(T (*function)(const T&) , const Iterable& iter)
-{
-    return __crmap<T, Iterable>(function, iter);
-}
-
-/**
- * @brief Iter through many containers as if they were just one
- */
-template<typename First, typename... Iterables>
-class __chain:
-    private __chain<Iterables...>
-{
-    private:
-
-        First& _first;
-        decltype(_first.begin()) _iter;
-
-    public:
-
-        __chain(First& first, Iterables&... iters):
-            __chain<Iterables...>(iters...),
-            _first(first),
-            _iter(first.begin())
-        {}
-
-        const __chain<First, Iterables...>& begin() const
-        {
-            return *this;
-        }
-
-        const __chain<First, Iterables...>& end() const
-        {
-            return *this;
-        }
-
-        bool operator!=(const __chain&) const
-        {
-            return __chain<Iterables...>::operator!=(*this);
-        }
-
-        void operator++()
-        {
-            if (_iter != _first.end())
-            {
-                ++_iter;
-            }
-            else
-            {
-                __chain<Iterables...>::operator++();
-            }
-        }
-
-        auto operator*() -> decltype(*_iter)
-        {
-            if (_iter != _first.end())
-            {
-                return *_iter;
-            }
-            return __chain<Iterables...>::operator*();
-        }
-};
-
-template<typename First>
-class __chain<First>
-{
-    private:
-
-        First& _first;
-        decltype(_first.begin()) _iter;
-
-    public:
-
-        __chain(First& first):
-            _first(first),
-            _iter(first.begin())
-        {}
-
-        const __chain<First>& begin() const
-        {
-            return *this;
-        }
-
-        const __chain<First>& end() const
-        {
-            return *this;
-        }
-
-        bool operator!=(const __chain&) const
-        {
-            return _iter != _first.end();
-        }
-
-        void operator++()
-        {
-            ++_iter;
-        }
-
-        auto operator*() -> decltype(*_iter)
-        {
-            return *_iter;
-        }
-};
-
 template<typename... Iterables>
-inline __chain<Iterables...> chain(Iterables&... iters)
-{
-    return __chain<Iterables...>(iters...);
-}
+ChainObject<Iterables...> chain(Iterables&... iters);
 
+
+#include <POLDER/itertools.inl>
 
 } // namespace itertools
 } // namespace polder
