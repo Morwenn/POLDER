@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_EVALUATION_H
-#define _POLDER_EVALUATION_H
+#ifndef _POLDER_EVALUATE_H
+#define _POLDER_EVALUATE_H
 
 ////////////////////////////////////////////////////////////
 // Headers

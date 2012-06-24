@@ -28,7 +28,7 @@ using polder::itertools::chain;
  * @brief Entry point of application
  *
  * @return Application exit code
-*/
+ */
 int main()
 {
     ////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ int main()
     {
         cout << endl << "Chain Example" << endl;
 
-        vector<float> vec = { 1., 2., 3., 4., 5. };
+        vector<int> vec = { 1, 2, 3, 4, 5 };
         list<int>   li  = { 6, 7, 8, 9, 10, 11, 12, 13 };
         for (auto& i in chain(vec, li))
         {
