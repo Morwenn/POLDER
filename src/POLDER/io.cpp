@@ -27,15 +27,16 @@ bool fgetl(char*& line, FILE* f)
 {
     int c;
     int size = 1;
+    delete[] line; // Ensure that line has been set to nullptr
 
     // Count the number of characters in the string
     while ((c = fgetc(f)) != EOF) if (++size && c == '\n') break;
     // If the only character is EOF, finish
     if (size == 1) return false;
-    line = (char*) realloc(line, size * sizeof(line) + 1);
-    char* cs = line; // Iterator
+    line = new char[size+1];
     // Replace the file iterator a the beginning of the line
     fseek(f, -size, SEEK_CUR);
+    char* cs = line; // Iterator
     // Copy the line in the output string
     while ((*cs++ = fgetc(f)) != '\n');
     *cs = '\0';

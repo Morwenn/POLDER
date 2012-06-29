@@ -21,7 +21,6 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <POLDER/config.h>
-#include <cstdlib>
 #include <iostream>
 
 
