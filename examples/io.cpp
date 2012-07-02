@@ -1,4 +1,6 @@
-// Headers
+/*
+ * Headers
+ */
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
@@ -33,7 +35,9 @@ int main()
             exit(1);
         }
 
-        // line is the file reader
+        // line is the file reader.
+        // Be sure to set it to nullptr before calling the function;
+        // otherwise it "may" work but won't be safe.
         char* line = nullptr;
         // This function reads the file the same way fgets does
         // However, it can read a line, no matter its size.
