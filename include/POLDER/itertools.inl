@@ -297,7 +297,7 @@ class ChainObject<First>
 
     public:
 
-        ChainObject(First& first):
+        ChainObject(First&& first):
             _first(first),
             _iter(first.begin())
         {}
@@ -329,7 +329,7 @@ class ChainObject<First>
 };
 
 template<typename... Iterables>
-inline ChainObject<Iterables...> chain(Iterables&... iters)
+inline ChainObject<Iterables...> chain(Iterables&&... iters)
 {
-    return ChainObject<Iterables...>(iters...);
+    return ChainObject<Iterables...>(std::forward<Iterables>(iters)...);
 }

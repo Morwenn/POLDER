@@ -119,7 +119,7 @@ MapObject<T, Iterable> map(T (*function)(const T&) , const Iterable& iter);
  * type. Otherwise, it will crash at compilation.
  */
 template<typename... Iterables>
-ChainObject<Iterables...> chain(Iterables&... iters);
+ChainObject<Iterables...> chain(Iterables&&... iters);
 
 
 #include <POLDER/itertools.inl>
