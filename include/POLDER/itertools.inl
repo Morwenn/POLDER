@@ -123,7 +123,7 @@ class ReversedObject
 template<typename BidirectionalIterable>
 inline ReversedObject<BidirectionalIterable> reversed(BidirectionalIterable&& iter)
 {
-    return ReversedObject<BidirectionalIterable>(iter);
+    return ReversedObject<BidirectionalIterable>(std::forward<BidirectionalIterable>(iter));
 }
 
 
