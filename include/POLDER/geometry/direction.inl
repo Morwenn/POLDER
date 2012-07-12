@@ -58,7 +58,7 @@ inline Direction<N>::Direction(const Line<N>& L)
 template<size_t N>
 inline double Direction<N>::operator[](size_t index) const
 {
-    if (index < N-1)
+    if (index > N-1)
     {
         throw std::out_of_range("Index out of range.");
     }
@@ -70,8 +70,6 @@ Direction<N>& Direction<N>::operator=(const Direction<N>& other)
 {
     if (this != &other)
     {
-        delete[] coordinates;
-        coordinates = new double[N-1];
         std::copy(other.coordinates, other.coordinates+N-1, coordinates);
     }
     return *this;

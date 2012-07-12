@@ -21,6 +21,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <algorithm>
+#include <stdexcept>
 #include <POLDER/geometry/limits.h>
 
 
@@ -194,7 +195,7 @@ class Direction
     private:
 
         // Member data
-        double coordinates[N]; /**< Coordinates of the Direction */
+        double coordinates[N-1]; /**< Coordinates of the Direction */
 };
 
 #include <POLDER/geometry/direction.inl>
