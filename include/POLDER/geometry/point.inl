@@ -61,8 +61,6 @@ inline Point<N>& Point<N>::operator=(const Point<N>& other)
 {
     if (this != &other)
     {
-        delete[] coordinates;
-        coordinates = new double[N];
         std::copy(other.coordinates, other.coordinates+N, coordinates);
     }
     return *this;
