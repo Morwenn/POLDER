@@ -95,7 +95,7 @@ Object intersection(const Line<N>& L, const Hypersphere<N>& HS)
         res2[i] = std::fma(t2, C[i-1], P[i]);
     }
 
-    return Object(make_pair(res1, res2));
+    return Object(std::make_pair(res1, res2));
 }
 
 template<size_t N>
