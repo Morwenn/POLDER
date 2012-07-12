@@ -108,7 +108,7 @@ namespace
     };
 
     // Element structure
-    struct Elem
+    struct Token
     {
         // The element can be
         union
@@ -124,21 +124,21 @@ namespace
 
 // Expression handling
 static void expr_norm(char* str);
-static std::vector<Elem> tokenize(const char* expr);
-static std::stack<Elem> postfix(const std::vector<Elem>& vec);
-static double eval_postfix(std::stack<Elem>&& S);
+static std::vector<Token> tokenize(const char* expr);
+static std::stack<Token> postfix(const std::vector<Token>& vec);
+static double eval_postfix(std::stack<Token>&& S);
 
 // Miscellaneous
-static Elem op_value(const char* op);
-static Elem operation(double a, op_t op);
-static Elem operation(double a, double b, op_t op);
-static int priority(const Elem& E);
+static Token op_value(const char* op);
+static Token operation(double a, op_t op);
+static Token operation(double a, double b, op_t op);
+static int priority(const Token& E);
 
 // Type checking
-static bool is_operand(const Elem& E);
-static bool is_operator(const Elem& E);
-static bool is_prefix(const Elem& E);
-static bool is_postfix(const Elem& E);
+static bool is_operand(const Token& E);
+static bool is_operator(const Token& E);
+static bool is_prefix(const Token& E);
+static bool is_postfix(const Token& E);
 
 
 using namespace std;
@@ -152,7 +152,7 @@ double evaluate(const char* expr)
     char* expr_copy = new char[2*strlen(expr)+1];
     strcpy(expr_copy, expr);
     expr_norm(expr_copy);
-    const vector<Elem> vec = tokenize(expr_copy); // Split the string into elements
+    const vector<Token> vec = tokenize(expr_copy); // Split the string into elements
     delete[] expr_copy;
     return eval_postfix(postfix(vec));            // Order the elements and evaluate the expression
 }
@@ -394,11 +394,11 @@ void expr_norm(char* str)
 }
 
 // Create a vector of elements with the expression
-vector<Elem> tokenize(const char* expr)
+vector<Token> tokenize(const char* expr)
 {
-    vector<Elem> vec;
+    vector<Token> vec;
     char* word = new char[128];
-    Elem e;
+    Token e;
 
     strcpy(word, string::read_word_first(expr));
     while (word[0])
@@ -433,11 +433,11 @@ vector<Elem> tokenize(const char* expr)
 }
 
 // Create the postfix expression from a vector of elements
-stack<Elem> postfix(const vector<Elem>& vec)
+stack<Token> postfix(const vector<Token>& vec)
 {
-    stack<Elem> R, P;
+    stack<Token> R, P;
 
-    for (const Elem& e: vec)
+    for (const Token& e: vec)
     {
         if (is_operand(e))
         {
@@ -490,10 +490,10 @@ stack<Elem> postfix(const vector<Elem>& vec)
 }
 
 // Evaluate the result with the postfix expression
-double eval_postfix(stack<Elem>&& S)
+double eval_postfix(stack<Token>&& S)
 {
-    Elem x, y, e;
-    stack<Elem> R;
+    Token x, y, e;
+    stack<Token> R;
 
     while (!S.empty())
     {
@@ -527,9 +527,9 @@ double eval_postfix(stack<Elem>&& S)
 ////////////////////////////////////////////////////////////
 
 // Returns the value corresponding to an operator
-Elem op_value(const char* op)
+Token op_value(const char* op)
 {
-    Elem res;
+    Token res;
 
     if (op[1] == '\0')
     {
@@ -604,7 +604,7 @@ Elem op_value(const char* op)
 }
 
 // Returns the priority of an operator
-int priority(const Elem& E)
+int priority(const Token& E)
 {
     if (E.op >= 0 && E.op < op_t::NB_BINARY_OPERATORS)
     {
@@ -616,9 +616,9 @@ int priority(const Elem& E)
 }
 
 // Does the operation between two operands
-Elem operation(double a, double b, op_t op)
+Token operation(double a, double b, op_t op)
 {
-    Elem res;
+    Token res;
     res.type = elem_t::OPERAND;
 
     switch (op)
@@ -655,9 +655,9 @@ Elem operation(double a, double b, op_t op)
 }
 
 // Does an unary operation
-Elem operation(double a, op_t op)
+Token operation(double a, op_t op)
 {
-    Elem res;
+    Token res;
     res.type = elem_t::OPERAND;
 
     switch (op)
@@ -680,22 +680,22 @@ Elem operation(double a, op_t op)
 // Type checking functions
 ////////////////////////////////////////////////////////////
 
-bool is_operand(const Elem& E)
+bool is_operand(const Token& E)
 {
     return E.type == elem_t::OPERAND;
 }
 
-bool is_operator(const Elem& E)
+bool is_operator(const Token& E)
 {
     return E.type == elem_t::OPERATOR;
 }
 
-bool is_prefix(const Elem& E)
+bool is_prefix(const Token& E)
 {
     return E.type == elem_t::PREFIX;
 }
 
-bool is_postfix(const Elem& E)
+bool is_postfix(const Token& E)
 {
     return E.type == elem_t::POSTFIX;
 }
