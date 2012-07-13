@@ -21,9 +21,9 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <iostream>
+#include <memory>
 #include <typeinfo>
 #include <POLDER/config.h>
-#include <POLDER/reference_counted.h>
 #include <POLDER/wrapper.h>
 
 
@@ -67,15 +67,10 @@ class POLDER_API Object
          *
          * @param other Object to encapsulate
          */
-        template<class T>
+        template<typename T>
         explicit Object(const T& other) noexcept:
             ptr(new Wrapper<T>(other))
         {}
-
-        /**
-         * Destructor
-         */
-        ~Object();
 
 
         ////////////////////////////////////////////////////////////
@@ -120,10 +115,10 @@ class POLDER_API Object
          * @param other Variable to which we want to assign the encapsulated stuff
          * @return True if the encapsulated stuff has been assigned successfully
          */
-        template<class T>
+        template<typename T>
         bool assign(T& other) const noexcept
         {
-            const Wrapper<T>* tmp = dynamic_cast<Wrapper<T>*>(ptr);
+            const Wrapper<T>* tmp = dynamic_cast<Wrapper<T>*>(ptr.get());
             if (tmp == nullptr)
             {
                 return false;
@@ -136,7 +131,7 @@ class POLDER_API Object
     private:
 
         // Member data
-        ReferenceCounted* ptr;  /**< Pointer to a Wraper */
+        std::shared_ptr<WrapperBase> ptr;
 };
 
 

@@ -21,62 +21,19 @@ namespace polder
 {
 
 
-/*
- * Default constructor
- */
 Object::Object() noexcept:
     ptr(nullptr)
 {}
 
-
-/*
- * "Copy" constructor
- */
 Object::Object(const Object& other) noexcept:
     ptr(other.ptr)
-{
-    if (ptr != nullptr)
-    {
-        ptr->add_reference();
-    }
-}
+{}
 
-
-/*
- * Destructor
- */
-Object::~Object()
-{
-    if (ptr != nullptr && ptr->is_referenced())
-    {
-        ptr->remove_reference();
-        if (!ptr->is_referenced())
-        {
-            delete ptr;
-        }
-    }
-}
-
-
-/*
- * Operators
- */
-
-// Assignement
 Object& Object::operator=(const Object& other) noexcept
 {
-    if (ptr != nullptr && ptr->is_referenced())
+    if (&other != this)
     {
-        ptr->remove_reference();
-        if (!ptr->is_referenced())
-        {
-            delete ptr;
-        }
-    }
-    ptr = other.ptr;
-    if (other.ptr != nullptr)
-    {
-        ptr->add_reference();
+        ptr = other.ptr;
     }
     return *this;
 }

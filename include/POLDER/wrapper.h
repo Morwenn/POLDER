@@ -17,14 +17,28 @@
 #ifndef _POLDER_WRAPPER_H
 #define _POLDER_WRAPPER_H
 
-////////////////////////////////////////////////////////////
-// Headers
-////////////////////////////////////////////////////////////
-#include <POLDER/reference_counted.h>
-
 
 namespace polder
 {
+
+
+/**
+ * @brief Wrapper base class
+ *
+ * Dummy class, just so that Wrapper has a base
+ * class accessible without the template arguments.
+ * This class also has to enable polymorphism.
+ */
+struct WrapperBase
+{
+    /**
+     * @brief Destructor
+     *
+     * The only purpose of this destructor is to make
+     * the class polymorphic.
+     */
+    virtual ~WrapperBase() {}
+};
 
 
 /**
@@ -33,9 +47,9 @@ namespace polder
  * Allows to avoid using void* in many objects;
  * Moreover, the references to Wrapper may be counted.
  */
-template<class T>
+template<typename T>
 class Wrapper:
-    public ReferenceCounted
+    public WrapperBase
 {
     /*
      * A Wrapper can not be copied
@@ -66,10 +80,15 @@ class Wrapper:
          * @brief Object accessor
          * @return Pointer to the enclosed object
          */
-        virtual const void* get_pointer() const
+        const T* get_pointer() const
         {
             return &_object;
         }
+
+        /**
+         * @brief Destructor
+         */
+        ~Wrapper() {}
 
     private:
 
