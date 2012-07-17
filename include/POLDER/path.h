@@ -22,6 +22,7 @@
 ////////////////////////////////////////////////////////////
 #include <cassert>
 #include <cstdarg>
+#include <string>
 #include <POLDER/config.h>
 #include <POLDER/string.h>
 
@@ -88,7 +89,9 @@ namespace path
  * @param base First element of the path
  * @return Complete portable path
  */
-POLDER_API char* make_path(const char* base, ...);
+template<typename... Strings>
+std::string make_path(const std::string& base, const Strings&... others);
+std::string make_path(const std::string& base);
 
 /**
  * @brief Get the extension of a path
@@ -160,6 +163,7 @@ POLDER_API void normalize(char* path);
  */
 POLDER_API char* normalized(const char* path);
 
+#include <POLDER/path.inl>
 
 } // namespace path
 } // namespace polder

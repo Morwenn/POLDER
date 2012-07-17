@@ -27,26 +27,9 @@ namespace path
 ////////////////////////////////////////////////////////////
 
 // Create a path
-char* make_path(const char* base, ...)
+std::string make_path(const std::string& base)
 {
-    va_list args;
-    va_start(args, base);
-
-    char* path = new char[FILENAME_MAX];
-    strcpy(path, base);
-    strcat(path, OS_SEP_STR);
-
-    char* word = new char[256];
-    strcpy(word, va_arg(args, char*));
-    while (word[0])
-    {
-        strcat(path, word);
-        strcat(path, OS_SEP_STR);
-        strcpy(word, va_arg(args, char*));
-    }
-    delete[] word;
-    va_end(args);
-    return path;
+    return base + OS_SEP_STR;
 }
 
 
