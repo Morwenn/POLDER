@@ -16,6 +16,9 @@
  */
 #include <POLDER/io.h>
 
+using std::forward;
+using std::string;
+
 
 namespace polder
 {
@@ -38,9 +41,62 @@ bool fgetl(char*& line, FILE* f)
     fseek(f, -size, SEEK_CUR);
     char* cs = line; // Iterator
     // Copy the line in the output string
-    while ((*cs++ = fgetc(f)) != '\n');
+    while ((*cs = fgetc(f)) != '\n' && ++cs);
     *cs = '\0';
     return true;
+}
+
+File::File(std::string&& fname, std::string&& mode):
+    _file(fopen(fname.c_str(), mode.c_str())),
+    _closed(false)
+{}
+
+File::~File()
+{
+    if (_closed == false)
+    {
+        fclose(_file);
+    }
+}
+
+void File::close()
+{
+    fclose(_file);
+    _closed = true;
+}
+
+const File& File::begin() const
+{
+    return *this;
+}
+
+const File& File::end() const
+{
+    return *this;
+}
+
+bool File::operator!=(const File&) const
+{
+    char c = fgetc(_file);
+    fseek(_file, -1, SEEK_CUR);
+    return (c != EOF);
+}
+
+void File::operator++() {}
+
+string File::operator*() const
+{
+    char* line = nullptr;
+    if (fgetl(line, _file))
+    {
+        return string(line);
+    }
+    return string("");
+}
+
+File open(string&& fname, string&& mode)
+{
+    return File(forward<string>(fname), forward<string>(mode));
 }
 
 

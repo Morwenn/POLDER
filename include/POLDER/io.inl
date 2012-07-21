@@ -20,11 +20,10 @@ void print(const First& first, const Printables&... others)
 {
     std::cout << first << " ";
     print(others...);
-    std::cout << std::endl;
 }
 
-template<typename First>
-void print(const First& arg)
+template<typename T>
+void print(const T& arg)
 {
     std::cout << arg << std::endl;
 }

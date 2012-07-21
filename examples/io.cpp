@@ -6,13 +6,16 @@
 #include <iostream>
 #include <string>
 #include <POLDER/io.h>
+//#include "io.h"
 
 using std::cerr;
 using std::cout;
 using std::endl;
 using std::string;
 using polder::io::fgetl;
+using polder::io::open;
 using polder::io::print;
+using polder::io::File;
 
 
 /**
@@ -24,7 +27,6 @@ int main()
 {
     ////////////////////////////////////////////////////////////
     {
-        // For people who like C
         cout << "fgetl example" << endl;
 
         // Open a file
@@ -43,13 +45,12 @@ int main()
         // However, it can read a line, no matter its size.
         while (fgetl(line, f))
         {
-            cout << line;
+            cout << line << endl;
         }
     }
 
     ////////////////////////////////////////////////////////////
     {
-        // For people who like Python
         cout << endl << "print example" << endl;
 
         int a = 5;
@@ -60,6 +61,22 @@ int main()
         // You can pass any type that can be added to an ostream by
         // the << operator.
         print(a, b, c, "World!");
+    }
+
+    ////////////////////////////////////////////////////////////
+    {
+        cout << endl << "File/open example" << endl;
+
+        // Open a file
+        File f = open("io_example.txt", "r");
+
+        // Read and display all the lines
+        for (string line: f)
+        {
+            cout << line << endl;
+        }
+        // Close the file
+        f.close();
     }
 
     return EXIT_SUCCESS;

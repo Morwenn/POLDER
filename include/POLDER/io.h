@@ -20,8 +20,11 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <POLDER/config.h>
+#include <cstdio>
 #include <iostream>
+#include <string>
+#include <utility>
+#include <POLDER/config.h>
 
 
 namespace polder
@@ -59,8 +62,40 @@ void print(const First& first, const Printables&... others);
  * @brief Print a single argument to the standard output
  * @param arg Argument to be printed
  */
-template<typename First>
-void print(const First& arg);
+template<typename T>
+void print(const T& arg);
+
+/**
+ * @brief File class
+ */
+class POLDER_API File
+{
+    public:
+
+        ~File();
+
+        void close();
+
+        const File& begin() const;
+        const File& end() const;
+        bool operator!=(const File&) const;
+        void operator++();
+        std::string operator*() const;
+
+    private:
+
+        File(std::string&& fname, std::string&& mode);
+
+        FILE* _file;    /**< Enclosed file */
+        bool _closed;   /**< true if the file is closed */
+
+    friend File open(std::string&&, std::string&&);
+};
+
+/**
+ * @brief Wrapper for the File constructor
+ */
+POLDER_API File open(std::string&& fname, std::string&& mode="r");
 
 
 #include <POLDER/io.inl>
