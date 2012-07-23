@@ -65,6 +65,36 @@ void File::close()
     _closed = true;
 }
 
+int File::flush()
+{
+    return fflush(_file);
+}
+
+char File::getc()
+{
+    return fgetc(_file);
+}
+
+void File::putc(char c)
+{
+    fputc(int(c), _file);
+}
+
+void File::puts(const std::string& str)
+{
+    fputs(str.c_str(), _file);
+}
+
+void File::seek(long offset, seek_t origin)
+{
+    fseek(_file, offset, int(origin));
+}
+
+long File::tell()
+{
+    return ftell(_file);
+}
+
 const File& File::begin() const
 {
     return *this;

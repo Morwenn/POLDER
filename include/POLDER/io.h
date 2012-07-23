@@ -41,14 +41,8 @@ namespace io
 {
 
 
-/**
- * @brief Read a line from a text file
- *
- * @param line Variable where to put the line
- * @param f File where to read the line
- * @return true if it is not the end of file
- */
-POLDER_API bool fgetl(char*& line, FILE* f);
+////////////////////////////////////////////////////////////
+// Print function
 
 /**
  * @brief Print an arbitrary number of arguments to the standard output
@@ -65,6 +59,37 @@ void print(const First& first, const Printables&... others);
 template<typename T>
 void print(const T& arg);
 
+
+////////////////////////////////////////////////////////////
+// File reader
+
+/**
+ * @brief Read a line from a text file
+ *
+ * @param line Variable where to put the line
+ * @param f File where to read the line
+ * @return true if it is not the end of file
+ */
+POLDER_API bool fgetl(char*& line, FILE* f);
+
+
+////////////////////////////////////////////////////////////
+// File class and related functions
+
+/**
+ * @brief Seek positions
+ *
+ * Proxys for SEEK_CUR, SEEK_SET and SEEK_END.
+ * Using an enum struct ensures a compile-time
+ * check on the used constants.
+ */
+enum struct seek_t: int
+{
+    CUR = SEEK_CUR, /**< Current position */
+    SET = SEEK_SET, /**< Beginning of the file */
+    END = SEEK_END  /**< End of the file */
+};
+
 /**
  * @brief File class
  */
@@ -72,10 +97,22 @@ class POLDER_API File
 {
     public:
 
+        /**
+         * @brief Destructor
+         * Close the file if the file has not been closed yet.
+         */
         ~File();
 
+        // C functions proxy
         void close();
+        int flush();
+        char getc();
+        void putc(char c);
+        void puts(const std::string& str);
+        void seek(long offset, seek_t origin);
+        long tell();
 
+        // Read file line by line in a for loop
         const File& begin() const;
         const File& end() const;
         bool operator!=(const File&) const;
