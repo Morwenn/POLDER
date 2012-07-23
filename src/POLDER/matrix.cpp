@@ -1711,33 +1711,5 @@ Matrix where(Matrix expr, double yes, double no)
 }
 
 
-////////////////////////////////////////////////////////////
-// Display functions
-////////////////////////////////////////////////////////////
-
-void print_matrix(const Matrix& M)
-{
-    for (const Matrix::line& line: M)
-    {
-        for (const double& val: line)
-        {
-            printf("%f ", val);
-        }
-        printf("\n");
-    }
-}
-
-void fprint_matrix(FILE* f, const Matrix& M)
-{
-    for (const Matrix::line& line: M)
-    {
-        for (const double& val: line)
-        {
-            fprintf(f, "%f ", val);
-        }
-        fprintf(f, "\n");
-    }
-}
-
 } // namespace matrix
 } // namespace polder

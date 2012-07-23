@@ -621,16 +621,6 @@ namespace matrix
     POLDER_API Matrix inverse(const Matrix& M);
     POLDER_API Matrix where(Matrix expr, double yes, double no);
 
-
-    ////////////////////////////////////////////////////////////
-    // Miscellaneous functions
-    ////////////////////////////////////////////////////////////
-
-    // Output functions (deprecated)
-    POLDER_API void print_matrix(const Matrix& M);
-    POLDER_API void fprint_matrix(FILE* f, const Matrix& M);
-
-
 } // namespace matrix
 
 } // namespace polder
