@@ -6,7 +6,6 @@
 #include <iostream>
 #include <string>
 #include <POLDER/io.h>
-//#include "io.h"
 
 using std::cerr;
 using std::cout;
@@ -71,7 +70,7 @@ int main()
         File f = open("io_example.txt", "r");
 
         // Read and display all the lines
-        for (string line: f)
+        for (const string& line: f)
         {
             cout << line << endl;
         }
