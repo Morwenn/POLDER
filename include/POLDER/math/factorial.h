@@ -20,11 +20,9 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <cassert>
 #include <cmath>
 #include <POLDER/config.h>
 #include <POLDER/math/constants.h>
-#include <POLDER/math/formula.h>
 
 
 namespace polder

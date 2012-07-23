@@ -14,14 +14,12 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_PTYPE_H
-#define _POLDER_PTYPE_H
+#ifndef _POLDER_STYPE_H
+#define _POLDER_STYPE_H
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <cctype>
-#include <cstring>
 #include <POLDER/config.h>
 
 
@@ -29,7 +27,7 @@ namespace polder
 {
 
 /**
- * @namespace polder::ptype
+ * @namespace polder::stype
  * @brief String representations of numbers analysis
  *
  * All the functions in this namespace are used to analyse
@@ -37,7 +35,7 @@ namespace polder
  * represents a given kind of number such as an integer or
  * a real number.
  */
-namespace ptype
+namespace stype
 {
 
 
@@ -50,8 +48,8 @@ POLDER_API bool is_unumber(const char* str);
 POLDER_API bool is_number(const char* str);
 
 
-} // namespace ptype
+} // namespace stype
 } // namespace polder
 
 
-#endif // _POLDER_PTYPE_H
+#endif // _POLDER_STYPE_H

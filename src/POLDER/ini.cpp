@@ -14,7 +14,14 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <sstream>
 #include <POLDER/ini.h>
+#include <POLDER/io.h>
+#include <POLDER/string.h>
+#include <POLDER/stype.h>
 
 
 namespace polder
@@ -374,7 +381,7 @@ double read_real(const char* fname, const char* section, const char* key, double
                         int j = i;
                         while (is_not_break2(line[++j]));
                         fclose(f);
-                        if (ptype::is_number(substr(line, i+1, j-1)))
+                        if (stype::is_number(substr(line, i+1, j-1)))
                         {
                             return atof(substr(line, i+1, j-1));
                         }

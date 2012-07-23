@@ -14,7 +14,17 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include <cctype>
+#include <cmath>
+#include <cstring>
+#include <sstream>
+#include <stack>
+#include <vector>
 #include <POLDER/evaluate.h>
+#include <POLDER/string.h>
+#include <POLDER/stype.h>
+#include <POLDER/math/factorial.h>
+
 
 namespace polder
 {
@@ -412,7 +422,7 @@ vector<Token> tokenize(const char* expr)
             || (word[0] == '-' && (isdigit(word[1]) || word[1] == '.')))
         {
             e.type = elem_t::OPERAND;
-            if (ptype::is_unumber(word))
+            if (stype::is_unumber(word))
             {
                 e.data = atof(word);
             }

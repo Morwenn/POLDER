@@ -20,18 +20,9 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <cctype>
-#include <cmath>
-#include <cstring>
 #include <exception>
-#include <sstream>
-#include <stack>
 #include <string>
-#include <vector>
 #include <POLDER/config.h>
-#include <POLDER/string.h>
-#include <POLDER/stype.h>
-#include <POLDER/math/factorial.h>
 
 
 namespace polder

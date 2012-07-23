@@ -22,7 +22,6 @@
 ////////////////////////////////////////////////////////////
 #include <cmath>
 #include <complex>
-#include <cstdlib>
 #include <utility>
 #include <POLDER/config.h>
 #include <POLDER/math/constants.h>

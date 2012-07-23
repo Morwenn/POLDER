@@ -20,17 +20,9 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
 #include <initializer_list>
-#include <ostream>
-#include <stdexcept>
+#include <iosfwd>
 #include <POLDER/config.h>
-#include <POLDER/exceptions.h>
 #include <POLDER/math/norm.h>
 
 

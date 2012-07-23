@@ -20,15 +20,9 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <sstream>
+#include <exception>
 #include <string>
 #include <POLDER/config.h>
-#include <POLDER/io.h>
-#include <POLDER/string.h>
-#include <POLDER/stype.h>
 
 
 namespace polder

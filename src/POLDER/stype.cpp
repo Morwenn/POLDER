@@ -14,12 +14,14 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include <cctype>
+#include <cstring>
 #include <POLDER/stype.h>
 
 
 namespace polder
 {
-namespace ptype
+namespace stype
 {
 
 // Return true is str is a boolean
@@ -181,5 +183,5 @@ bool is_number(const char* str)
 }
 
 
-} // namespace ptype
+} // namespace stype
 } // namespace polder

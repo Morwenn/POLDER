@@ -14,6 +14,14 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <ostream>
+#include <stdexcept>
+#include <POLDER/exceptions.h>
 #include <POLDER/matrix.h>
 
 
