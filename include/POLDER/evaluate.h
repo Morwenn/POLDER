@@ -29,8 +29,8 @@
 #include <string>
 #include <vector>
 #include <POLDER/config.h>
-#include <POLDER/ptype.h>
 #include <POLDER/string.h>
+#include <POLDER/stype.h>
 #include <POLDER/math/factorial.h>
 
 
@@ -45,7 +45,7 @@ namespace polder
 /**
  * Error types (internal, not to be used)
  */
-enum class _eval_error
+enum struct _eval_error
 {
     UNKNOWN_OPERATOR,       /**< An unknown string has been considered as an operator. */
     UNEXPECTED_CHARACTER,   /**< Character not to be used in a mathematical/logical expression. */

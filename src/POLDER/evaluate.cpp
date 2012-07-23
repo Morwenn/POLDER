@@ -97,7 +97,7 @@ namespace
 
 
     // Element types
-    enum class elem_t
+    enum struct elem_t
     {
         NONE,
         OPERAND,
