@@ -51,19 +51,13 @@ template<typename T>
 class Wrapper:
     public WrapperBase
 {
-    /*
-     * A Wrapper can not be copied
-     */
-    Wrapper(const Wrapper&) = delete;
-    Wrapper& operator=(const Wrapper&) = delete;
-
     public:
 
         /**
          * @brief Initilization constructor
          * @param other Object to wrap
          */
-        Wrapper(const T& other):
+        Wrapper(const T& other) noexcept:
             _object(other)
         {}
 
