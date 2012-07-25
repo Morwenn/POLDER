@@ -44,7 +44,7 @@ int main()
         // However, it can read a line, no matter its size.
         while (fgetl(line, f))
         {
-            cout << line << endl;
+            cout << line;
         }
     }
 
@@ -72,7 +72,7 @@ int main()
         // Read and display all the lines
         for (const string& line: f)
         {
-            cout << line << endl;
+            cout << line;
         }
         // Close the file
         f.close();

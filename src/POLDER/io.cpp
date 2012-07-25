@@ -42,7 +42,7 @@ bool fgetl(char*& line, FILE* f)
     fseek(f, -size, SEEK_CUR);
     char* cs = line; // Iterator
     // Copy the line in the output string
-    while ((*cs = fgetc(f)) != '\n' && ++cs);
+    while ((*cs++ = fgetc(f)) != '\n' &&);
     *cs = '\0';
     return true;
 }
