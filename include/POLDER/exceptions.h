@@ -76,7 +76,7 @@ class POLDER_API not_implemented:
          * @brief Creates a new exception
          * @param msg Error message to be displayed
          */
-        explicit not_implemented(const std::string& msg="Division by zero.");
+        explicit not_implemented(const std::string& msg="Not implemented.");
 
         /**
          * @brief Destructor
