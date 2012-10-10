@@ -21,6 +21,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <cmath>
+#include <type_traits>
 #include <POLDER/exceptions.h>
 #include <POLDER/math/formula.h>
 
@@ -45,6 +46,8 @@ namespace polder
 template<typename T>
 struct rational
 {
+    static_assert(std::is_integral<T>::value, "A rational can only be made of integral values.");
+
     public:
 
         ////////////////////////////////////////////////////////////
@@ -83,7 +86,7 @@ struct rational
          * @param numerator Numerator of the fraction
          * @see rational(const T& numerator, const T& denominator)
          */
-        rational(const T& numerator);
+        constexpr rational(const T& numerator);
 
         /**
          * Destructor
@@ -160,75 +163,87 @@ struct rational
 // Global operators
 ////////////////////////////////////////////////////////////
 
-template<typename T>
-const rational<T> operator+(const rational<T>& r1, const rational<T>& r2);
-template<typename T>
-const rational<T> operator+(const rational<T>& r, const T& val);
-template<typename T>
-const rational<T> operator+(const T& val, const rational<T>& r);
+template<typename T, typename U>
+const rational<typename std::common_type<T, U>::type>
+operator+(const rational<T>& r1, const rational<U>& r2);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+const rational<typename std::common_type<T, U>::type>
+operator+(const rational<T>& r, const U& val);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+const rational<typename std::common_type<T, U>::type>
+operator+(const U& val, const rational<T>& r);
 
-template<typename T>
-const rational<T> operator-(const rational<T>& r1, const rational<T>& r2);
-template<typename T>
-const rational<T> operator-(const rational<T>& r, const T& val);
-template<typename T>
-const rational<T> operator-(const T& val, const rational<T>& r);
+template<typename T, typename U>
+const rational<typename std::common_type<T, U>::type>
+operator-(const rational<T>& r1, const rational<U>& r2);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+const rational<typename std::common_type<T, U>::type>
+operator-(const rational<T>& r, const U& val);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+const rational<typename std::common_type<T, U>::type>
+operator-(const U& val, const rational<T>& r);
 
-template<typename T>
-const rational<T> operator*(const rational<T>& r1, const rational<T>& r2);
-template<typename T>
-const rational<T> operator*(const rational<T>& r, const T& val);
-template<typename T>
-const rational<T> operator*(const T& val, const rational<T>& r);
+template<typename T, typename U>
+const rational<typename std::common_type<T, U>::type>
+operator*(const rational<T>& r1, const rational<U>& r2);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+const rational<typename std::common_type<T, U>::type>
+operator*(const rational<T>& r, const U& val);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+const rational<typename std::common_type<T, U>::type>
+operator*(const U& val, const rational<T>& r);
 
-template<typename T>
-const rational<T> operator/(const rational<T>& r1, const rational<T>& r2);
-template<typename T>
-const rational<T> operator/(const rational<T>& r, const T& val);
-template<typename T>
-const rational<T> operator/(const T& val, const rational<T>& r);
+template<typename T, typename U>
+const rational<typename std::common_type<T, U>::type>
+operator/(const rational<T>& r1, const rational<U>& r2);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+const rational<typename std::common_type<T, U>::type>
+operator/(const rational<T>& r, const U& val);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+const rational<typename std::common_type<T, U>::type>
+operator/(const U& val, const rational<T>& r);
 
-template<typename T>
-bool operator==(const rational<T>& r1, const rational<T>& r2);
-template<typename T>
-bool operator==(const rational<T>& r, const T& val);
-template<typename T>
-bool operator==(const T& val, const rational<T>& r);
+template<typename T, typename U>
+bool operator==(const rational<T>& r1, const rational<U>& r2);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+bool operator==(const rational<T>& r, const U& val);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+bool operator==(const U& val, const rational<T>& r);
 
-template<typename T>
-bool operator!=(const rational<T>& r1, const rational<T>& r2);
-template<typename T>
-bool operator!=(const rational<T>& r, const T& val);
-template<typename T>
-bool operator!=(const T& val, const rational<T>& r);
+template<typename T, typename U>
+bool operator!=(const rational<T>& r1, const rational<U>& r2);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+bool operator!=(const rational<T>& r, const U& val);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+bool operator!=(const U& val, const rational<T>& r);
 
-template<typename T>
-bool operator<(const rational<T>& r1, const rational<T>& r2);
-template<typename T>
-bool operator<(const rational<T>& r, const T& val);
-template<typename T>
-bool operator<(const T& val, const rational<T>& r);
+template<typename T, typename U>
+bool operator<(const rational<T>& r1, const rational<U>& r2);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+bool operator<(const rational<T>& r, const U& val);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+bool operator<(const U& val, const rational<T>& r);
 
-template<typename T>
-bool operator>(const rational<T>& r1, const rational<T>& r2);
-template<typename T>
-bool operator>(const rational<T>& r, const T& val);
-template<typename T>
-bool operator>(const T& val, const rational<T>& r);
+template<typename T, typename U>
+bool operator>(const rational<T>& r1, const rational<U>& r2);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+bool operator>(const rational<T>& r, const U& val);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+bool operator>(const U& val, const rational<T>& r);
 
-template<typename T>
-bool operator<=(const rational<T>& r1, const rational<T>& r2);
-template<typename T>
-bool operator<=(const rational<T>& r, const T& val);
-template<typename T>
-bool operator<=(const T& val, const rational<T>& r);
+template<typename T, typename U>
+bool operator<=(const rational<T>& r1, const rational<U>& r2);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+bool operator<=(const rational<T>& r, const U& val);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+bool operator<=(const U& val, const rational<T>& r);
 
-template<typename T>
-bool operator>=(const rational<T>& r1, const rational<T>& r2);
-template<typename T>
-bool operator>=(const rational<T>& r, const T& val);
-template<typename T>
-bool operator>=(const T& val, const rational<T>& r);
+template<typename T, typename U>
+bool operator>=(const rational<T>& r1, const rational<U>& r2);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+bool operator>=(const rational<T>& r, const U& val);
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+bool operator>=(const U& val, const rational<T>& r);
 
 
 /**
@@ -254,7 +269,7 @@ std::ostream& operator<<(std::ostream& stream, const rational<T>& r);
  * @return New rational number
  */
 template<typename T>
-rational<T> make_rational(const T& numerator, const T& denominator);
+rational<T> make_rational(const T& numerator, const T& denominator=1);
 
 #include <POLDER/rational.inl>
 
