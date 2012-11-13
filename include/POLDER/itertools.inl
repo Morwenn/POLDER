@@ -95,26 +95,29 @@ class ReversedObject
 
     public:
 
+        using iterator = decltype(_iter.rbegin());
+        using reverse_iterator = decltype(_iter.begin());
+
         ReversedObject(BidirectionalIterable&& iter):
             _iter(iter)
         {}
 
-        auto begin() -> decltype(_iter.rbegin()) const
+        iterator begin() const
         {
             return _iter.rbegin();
         }
 
-        auto end() -> decltype(_iter.rend()) const
+        iterator end() const
         {
             return _iter.rend();
         }
 
-        auto rbegin() -> decltype(_iter.begin()) const
+        reverse_iterator rbegin() const
         {
             return _iter.begin();
         }
 
-        auto rend() -> decltype(_iter.end()) const
+        reverse_iterator rend() const
         {
             return _iter.end();
         }
@@ -124,6 +127,51 @@ template<typename BidirectionalIterable>
 inline ReversedObject<BidirectionalIterable> reversed(BidirectionalIterable&& iter)
 {
     return ReversedObject<BidirectionalIterable>(std::forward<BidirectionalIterable>(iter));
+}
+
+
+////////////////////////////////////////////////////////////
+template<typename FlatIterable>
+class FlatObject
+{
+    private:
+
+        FlatIterable& _iter;
+
+    public:
+
+        using iterator = decltype(_iter.fbegin());
+        using reverse_iterator = decltype(_iter.rfbegin());
+
+        FlatObject(FlatIterable&& iter):
+            _iter(iter)
+        {}
+
+        iterator begin() const
+        {
+            return _iter.fbegin();
+        }
+
+        iterator end() const
+        {
+            return _iter.fend();
+        }
+
+        reverse_iterator rbegin() const
+        {
+            return _iter.rfbegin();
+        }
+
+        reverse_iterator rend() const
+        {
+            return _iter.rfend();
+        }
+};
+
+template<typename FlatIterable>
+inline FlatObject<FlatIterable> flat(FlatIterable&& iter)
+{
+    return FlatObject<FlatIterable>(std::forward<FlatIterable>(iter));
 }
 
 
@@ -244,8 +292,8 @@ class ChainObject:
 
     public:
 
-        ChainObject(First& first, Iterables&... iters):
-            ChainObject<Iterables...>(iters...),
+        ChainObject(First&& first, Iterables&&... iters):
+            ChainObject<Iterables...>(std::forward<Iterables>(iters)...),
             _first(first),
             _iter(first.begin())
         {}
