@@ -43,6 +43,8 @@ namespace itertools
 class RangeObject;
 template<typename BidirectionalIterable>
 class ReversedObject;
+template<typename FlatIterable>
+class FlatObject;
 template<typename T, typename Iterable>
 class MapObject;
 template<typename First, typename... Iterables>
@@ -81,7 +83,7 @@ constexpr RangeObject range(int begin, int end, unsigned int step=1);
  * @brief Reversed iterable
  *
  * This function acts like a wrapper that allows to
- * use the rebing and rend functions to operate
+ * use the rbegin and rend functions to operate
  * reverse iteration in a foreach loop.
  *
  * @param iter Iterable
@@ -89,6 +91,19 @@ constexpr RangeObject range(int begin, int end, unsigned int step=1);
  */
 template<typename BidirectionalIterable>
 ReversedObject<BidirectionalIterable> reversed(BidirectionalIterable&& iter);
+
+/**
+ * @brief Flat iterable
+ *
+ * This function acts like a wrapper that allows to
+ * use the fbegin and fend functions to operate
+ * flat iteration in a foreach loop.
+ *
+ * @param iter Iterable
+ * @return Generator
+ */
+template<typename FlatIterable>
+FlatObject<FlatIterable> flat(FlatIterable&& iter);
 
 /**
  * @brief Apply function to iterable
