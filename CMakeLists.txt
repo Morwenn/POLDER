@@ -13,12 +13,8 @@ include_directories(
 file(
 	GLOB_RECURSE
 	source_files
-	src/POLDER/*
-	src/POLDER/geometry/*
-	src/POLDER/math/*
-	include/POLDER/*
-	include/POLDER/geometry/*
-	include/POLDER/math/*
+	src/*
+	include/*
 )
 
 # Check the build type
@@ -88,6 +84,6 @@ endif()
 
 # Compiler flags
 if(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS "-std=c++11 -pedantic")
+	set(CMAKE_CXX_FLAGS "-std=c++11 -pedantic -Wall")
 	set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 endif()
