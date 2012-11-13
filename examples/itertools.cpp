@@ -92,6 +92,23 @@ int main()
         }
     }
 
+    ////////////////////////////////////////////////////////////
+    {
+        cout << endl << "Mixed Tools Example" << endl;
+
+        vector<int> vec = { 1, 2, 3, 4, 5 };
+        list<int>   li  = { 6, 7, 8, 9, 10 };
+        for (auto& i in chain(vec, reversed(li)))
+        {
+            // Some of the tools can be used
+            // altogether in order to make the
+            // manipulation of them easier.
+            i -= 2;
+
+            cout << i << endl;
+        }
+    }
+
     return EXIT_SUCCESS;
 }
 
