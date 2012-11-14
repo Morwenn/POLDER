@@ -25,18 +25,13 @@
 #include <cstdarg>
 #include <initializer_list>
 #include <POLDER/math/norm.h>
+#include <POLDER/geometry/types.h>
 
 
 namespace polder
 {
 namespace geometry
 {
-
-
-// Forward declarations
-template<size_t N> class Direction;
-template<size_t N> class Point;
-template<size_t N> class Line;
 
 
 /**
@@ -46,10 +41,19 @@ template<size_t N> class Line;
  * and a direction. As a Point, it can be defined
  * by N coordinates in a N-dimensional space.
  */
-template<size_t N>
+template<size_t N, typename T>
 class Vector
 {
     public:
+
+        ////////////////////////////////////////////////////////////
+        // Common types
+        ////////////////////////////////////////////////////////////
+
+        using value_type = T;
+        using size_type = size_t;
+        using reference = value_type&;
+        using const_reference = const value_type&;
 
         ////////////////////////////////////////////////////////////
         // Constructors
@@ -63,14 +67,14 @@ class Vector
         /**
          * @brief Copy constructor
          */
-        Vector(const Vector<N>& other);
+        Vector(const Vector<N, T>& other);
 
         /**
          * @brief Initializer list constructor
          *
          * @param coords List of N coordinates
          */
-        Vector(const std::initializer_list<double>& coords);
+        Vector(const std::initializer_list<value_type>& coords);
 
         /**
          * @brief Variadic constructor
@@ -78,14 +82,14 @@ class Vector
          * @param first First coordinate value
          * @warning Be sure to pass doubles and not floats or any other numeric numbers
          */
-        Vector(double first, ...);
+        Vector(value_type first, ...);
 
         /**
          * @brief Constructs the Vector from the origin to a Point
          *
          * @param P Some Point...
          */
-        Vector(const Point<N>& P);
+        Vector(const Point<N, T>& P);
 
         /**
          * @brief Construct a vector from two Points
@@ -93,7 +97,7 @@ class Vector
          * @param origin Origin Point
          * @param target Target Point
          */
-        Vector(const Point<N>& origin, const Point<N>& target);
+        Vector(const Point<N, T>& origin, const Point<N, T>& target);
 
         /**
          * @brief Construct a vector from a Line
@@ -103,13 +107,13 @@ class Vector
          *
          * @param L Some Line...
          */
-        Vector(const Line<N>& L);
+        Vector(const Line<N, T>& L);
 
         /**
          * @brief Vector Direction
          * @return Direction which passes through the Vector
          */
-        Direction<N> direction() const;
+        Direction<N, T> direction() const;
 
         /**
          * @brief Vector norm
@@ -117,13 +121,13 @@ class Vector
          * @param n Norm to use
          * @return Selected Norm
          */
-        double norm(math::Norm n=math::Norm::Euclidean) const;
+        value_type norm(math::Norm n=math::Norm::Euclidean) const;
 
         /**
          * @brief Vector norm overload
-         * @overload double norm(Norm n=Norm::Euclidean) const
+         * @overload value_type norm(Norm n=Norm::Euclidean) const
          */
-        double norm(math::Norm n, unsigned int p) const;
+        value_type norm(math::Norm n, unsigned int p) const;
 
 
         ////////////////////////////////////////////////////////////
@@ -131,61 +135,61 @@ class Vector
         ////////////////////////////////////////////////////////////
 
         // Accessor
-        double operator[](size_t index) const;
-        double& operator[](size_t index);
+        value_type operator[](size_t index) const;
+        value_type& operator[](size_t index);
 
         // Assignement
-        Vector<N>& operator=(const Vector<N>& other);
+        Vector<N, T>& operator=(const Vector<N, T>& other);
 
         // Comparison
-        bool operator==(const Vector<N>& other) const;
+        bool operator==(const Vector<N, T>& other) const;
 
-        bool operator!=(const Vector<N>& other) const;
+        bool operator!=(const Vector<N, T>& other) const;
 
         // Vector arithmetics
-        Vector<N>& operator+=(const Vector<N>& other);
+        Vector<N, T>& operator+=(const Vector<N, T>& other);
 
-        Vector<N>& operator-=(const Vector<N>& other);
+        Vector<N, T>& operator-=(const Vector<N, T>& other);
 
-        Vector<N> operator+(const Vector<N>& other) const;
+        Vector<N, T> operator+(const Vector<N, T>& other) const;
 
-        Vector<N> operator-(const Vector<N>& other) const;
+        Vector<N, T> operator-(const Vector<N, T>& other) const;
 
         // Scalar product
-        double operator*(const Vector<N>& other) const;
+        value_type operator*(const Vector<N, T>& other) const;
 
         // Opposite of the vector
-        Vector<N> operator-() const;
+        Vector<N, T> operator-() const;
 
-        // Vector-double arithmetics
-        Vector<N>& operator*=(double other);
+        // Vector-float arithmetics
+        Vector<N, T>& operator*=(value_type other);
 
-        Vector<N>& operator/=(double other);
+        Vector<N, T>& operator/=(value_type other);
 
-        Vector<N> operator*(double other) const;
+        Vector<N, T> operator*(value_type other) const;
 
-        Vector<N> operator/(double other) const;
+        Vector<N, T> operator/(value_type other) const;
 
 
         ////////////////////////////////////////////////////////////
         // Coordinates aliases
         ////////////////////////////////////////////////////////////
 
-        double& x();
-        double& y();
-        double& z();
+        reference& x();
+        reference& y();
+        reference& z();
 
-        double x() const;
-        double y() const;
-        double z() const;
+        value_type x() const;
+        value_type y() const;
+        value_type z() const;
 
 
         ////////////////////////////////////////////////////////////
         // Vector iterators
         ////////////////////////////////////////////////////////////
 
-        typedef double* iterator;
-        typedef const double* const_iterator;
+        typedef value_type* iterator;
+        typedef const value_type* const_iterator;
 
         iterator begin();
         iterator end();
@@ -199,9 +203,9 @@ class Vector
     private:
 
         // Coordinates
-        double coordinates[N];    /**< Coordinates */
+        value_type coordinates[N];    /**< Coordinates */
 
-    friend class Point<N>;
+    friend class Point<N, T>;
 };
 
 #include <POLDER/geometry/vector.inl>

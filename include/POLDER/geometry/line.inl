@@ -15,34 +15,34 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-template<size_t N>
-inline Line<N>::Line(const Point<N>& P1, const Point<N>& P2):
+template<size_t N, typename T>
+Line<N, T>::Line(const Point<N, T>& P1, const Point<N, T>& P2):
     P(P1),
-    D(Direction<N>(P1, P2))
+    D(Direction<N, T>(P1, P2))
 {
     assert(P1 != P2);
 }
 
-template<size_t N>
-inline Line<N>::Line(const Point<N>& P, const Vector<N>& V):
+template<size_t N, typename T>
+Line<N, T>::Line(const Point<N, T>& P, const Vector<N, T>& V):
     P(P),
-    D(Direction<N>(V))
+    D(Direction<N, T>(V))
 {}
 
-template<size_t N>
-inline Line<N>::Line(const Point<N>& P, const Direction<N>& D):
+template<size_t N, typename T>
+Line<N, T>::Line(const Point<N, T>& P, const Direction<N, T>& D):
     P(P),
     D(D)
 {}
 
-template<size_t N>
-inline Direction<N> Line<N>::direction() const
+template<size_t N, typename T>
+Direction<N, T> Line<N, T>::direction() const
 {
     return D;
 }
 
-template<size_t N>
-inline Line<N>& Line<N>::operator=(const Line<N>& other)
+template<size_t N, typename T>
+Line<N, T>& Line<N, T>::operator=(const Line<N, T>& other)
 {
     if (this != &other)
     {
@@ -52,20 +52,20 @@ inline Line<N>& Line<N>::operator=(const Line<N>& other)
     return *this;
 }
 
-template<size_t N>
-inline bool Line<N>::operator==(const Line<N>& other) const
+template<size_t N, typename T>
+bool Line<N, T>::operator==(const Line<N, T>& other) const
 {
     return D == other.D && other.includes(P);
 }
 
-template<size_t N>
-inline bool Line<N>::operator!=(const Line<N>& other) const
+template<size_t N, typename T>
+bool Line<N, T>::operator!=(const Line<N, T>& other) const
 {
     return !(*this == other);
 }
 
-template<size_t N>
-bool Line<N>::includes(const Point<N>& P) const
+template<size_t N, typename T>
+bool Line<N, T>::includes(const Point<N, T>& P) const
 {
     // Line equation:
         // X = px + t * dx
@@ -80,10 +80,10 @@ bool Line<N>::includes(const Point<N>& P) const
     // A point is included in the line if it satisfies the parametric
     // equation for all the coordinates
 
-    const double t1 = P.x() - this->P.x();
+    const value_type t1 = P.x() - this->P.x();
     for (size_t i = 1 ; i < N ; ++i)
     {
-        const double t = (P[i] - this->P[i]) / D[i-1];
+        const value_type t = (P[i] - this->P[i]) / D[i-1];
         if (!round_equal(t, t1))
         {
             return false;
@@ -92,8 +92,8 @@ bool Line<N>::includes(const Point<N>& P) const
     return true;
 }
 
-template<size_t N>
-inline Point<N> Line<N>::point() const
+template<size_t N, typename T>
+Point<N, T> Line<N, T>::point() const
 {
     return P;
 }

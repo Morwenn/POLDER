@@ -24,16 +24,13 @@
 #include <POLDER/geometry/direction.h>
 #include <POLDER/geometry/limits.h>
 #include <POLDER/geometry/point.h>
+#include <POLDER/geometry/types.h>
 
 
 namespace polder
 {
 namespace geometry
 {
-
-
-// Forward declaration
-template<size_t N> class Vector;
 
 
 /**
@@ -44,10 +41,19 @@ template<size_t N> class Vector;
  * ways to define a Line. In POLDER, the Lines are
  * defined by a Point and a Direction.
  */
-template<size_t N>
+template<size_t N, typename T>
 class Line
 {
     public:
+
+        ////////////////////////////////////////////////////////////
+        // Common types
+        ////////////////////////////////////////////////////////////
+
+        using value_type = T;
+        using size_type = size_t;
+        using reference = value_type&;
+        using const_reference = const value_type&;
 
         ////////////////////////////////////////////////////////////
         // Constructors
@@ -61,7 +67,7 @@ class Line
         /**
          * Copy constructor
          */
-        Line(const Line<N>& other) = default;
+        Line(const Line<N, T>& other) = default;
 
         /**
          * @brief Construct a Line passing by two points
@@ -69,7 +75,7 @@ class Line
          * @param P1 First point
          * @param P2 Second point
          */
-        Line(const Point<N>& P1, const Point<N>& P2);
+        Line(const Point<N, T>& P1, const Point<N, T>& P2);
 
         /**
          * @brief Constructs a line with a point and a vector
@@ -77,7 +83,7 @@ class Line
          * @param P Point the line passes through
          * @param V Vector giving the direction of the line
          */
-        Line(const Point<N>& P, const Vector<N>& V);
+        Line(const Point<N, T>& P, const Vector<N, T>& V);
 
         /**
          * @brief Constructs a line with a point and a direction
@@ -85,7 +91,7 @@ class Line
          * @param P Point the line passes through
          * @param D Direction of the line
          */
-        Line(const Point<N>& P, const Direction<N>& D);
+        Line(const Point<N, T>& P, const Direction<N, T>& D);
 
 
         ////////////////////////////////////////////////////////////
@@ -96,7 +102,7 @@ class Line
          * @brief Returns the direction of the line
          * @return Direction of the line
          */
-        Direction<N> direction() const;
+        Direction<N, T> direction() const;
 
         ////////////////////////////////////////////////////////////
         // Operators
@@ -105,7 +111,7 @@ class Line
         /**
          * Copy assignement operator
          */
-        Line<N>& operator=(const Line<N>& other);
+        Line<N, T>& operator=(const Line<N, T>& other);
 
         /**
          * @brief Compares strict equality between two lines
@@ -113,7 +119,7 @@ class Line
          * @param other Right operand (Line)
          * @return True if the lines are equal
          */
-        bool operator==(const Line<N>& other) const;
+        bool operator==(const Line<N, T>& other) const;
 
         /**
          * @brief Compares strict inequality between two lines
@@ -121,7 +127,7 @@ class Line
          * @param other Right operand (Line)
          * @return True if the lines are not equal
          */
-        bool operator!=(const Line<N>& other) const;
+        bool operator!=(const Line<N, T>& other) const;
 
 
         ////////////////////////////////////////////////////////////
@@ -134,7 +140,7 @@ class Line
          * @param P Some point
          * @return True if \a P belongs to the line
          */
-        bool includes(const Point<N>& P) const;
+        bool includes(const Point<N, T>& P) const;
 
         /**
          * @brief Returns an arbitrary point belonging to the line
@@ -145,13 +151,13 @@ class Line
          *
          * @return Some point belonging to the line
          */
-        Point<N> point() const;
+        Point<N, T> point() const;
 
     private:
 
         // Member data
-        Point<N> P;     /**< Some point contained in the line */
-        Direction<N> D; /**< Direction of the line */
+        Point<N, T> P;     /**< Some point contained in the line */
+        Direction<N, T> D; /**< Direction of the line */
 
 };
 

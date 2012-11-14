@@ -15,14 +15,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-template<size_t N>
-Object intersection(const Line<N>& L, const Hypersphere<N>& HS)
+template<size_t N, typename T>
+Object intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS)
 {
     // Take an arbitrary point from the Line and its direction
-    const Point<N>& P = L.point();
-    const Direction<N>& D = L.direction();
+    const Point<N, T>& P = L.point();
+    const Direction<N, T>& D = L.direction();
     // Take the center of the Hypersphere
-    const Point<N>& C = HS.center();
+    const Point<N, T>& C = HS.center();
 
     // Line equation:
         // X = px + t * dx
@@ -42,9 +42,9 @@ Object intersection(const Line<N>& L, const Hypersphere<N>& HS)
         // c = (px² - 2xc*px + xc²) + (py² - 2yc*py + yc²) + ... - R²
 
     // Use the first coordinates (considering that dx = 1.0)
-    double a = 1.0;
-    double b = P[0] - C[0];
-    double c = std::fma(P[0], P[0] - 2*C[0], C[0]*C[0]);
+    T a = 1.0;
+    T b = P[0] - C[0];
+    T c = std::fma(P[0], P[0] - 2*C[0], C[0]*C[0]);
 
     // Use the other coordinates
     for (size_t i = 1 ; i < N ; ++i)
@@ -66,13 +66,13 @@ Object intersection(const Line<N>& L, const Hypersphere<N>& HS)
         return Object();
     }
 
-    double t1 = t.first.real();
-    double t2 = t.second.real();
+    T t1 = t.first.real();
+    T t2 = t.second.real();
 
     if (round_equal(t1, t2))
     {
         // The solution is a unique point
-        Point<N> res;
+        Point<N, T> res;
 
         res.x() = P.x() + t1;
         for (size_t i = 1 ; i < N ; ++i)
@@ -85,7 +85,7 @@ Object intersection(const Line<N>& L, const Hypersphere<N>& HS)
     }
 
     // In the other cases, the result is two points
-    Point<N> res1, res2;
+    Point<N, T> res1, res2;
 
     res1.x() = P.x() + t1;
     res2.x() = P.x() + t2;
@@ -98,21 +98,21 @@ Object intersection(const Line<N>& L, const Hypersphere<N>& HS)
     return Object(std::make_pair(res1, res2));
 }
 
-template<size_t N>
-inline Object intersection(const Hypersphere<N>& HS, const Line<N>& L)
+template<size_t N, typename T>
+inline Object intersection(const Hypersphere<N, T>& HS, const Line<N, T>& L)
 {
     return intersection(L, HS);
 }
 
-template<size_t N>
-Object intersection(const Line<N>& L1, const Line<N>& L2)
+template<size_t N, typename T>
+Object intersection(const Line<N, T>& L1, const Line<N, T>& L2)
 {
     // Take the directions of the lines
-    const Direction<N>& D1 = L1.direction();
-    const Direction<N>& D2 = L2.direction();
+    const Direction<N, T>& D1 = L1.direction();
+    const Direction<N, T>& D2 = L2.direction();
     // Take arbitrary points in the lines
-    const Point<N>& P1 = L1.point();
-    const Point<N>& P2 = L2.point();
+    const Point<N, T>& P1 = L1.point();
+    const Point<N, T>& P2 = L2.point();
 
     // Line equation:
         // X = px + t * dx

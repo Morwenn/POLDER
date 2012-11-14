@@ -15,45 +15,45 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-template<size_t N>
-inline Hypersphere<N>::Hypersphere(const Point<N>& center, double radius):
+template<size_t N, typename T>
+Hypersphere<N, T>::Hypersphere(const Point<N, T>& center, value_type radius):
     _center(center),
     _radius(radius)
 {}
 
-template<size_t N>
-inline Hypersphere<N>::Hypersphere(const Point<N>& center, const Vector<N>& V):
+template<size_t N, typename T>
+Hypersphere<N, T>::Hypersphere(const Point<N, T>& center, const Vector<N, T>& V):
     _center(center),
     _radius(V.norm())
 {}
 
-template<size_t N>
-Hypersphere<N>::Hypersphere(const Point<N>& center, const Point<N>& P):
+template<size_t N, typename T>
+Hypersphere<N, T>::Hypersphere(const Point<N, T>& center, const Point<N, T>& P):
     _center(center),
     _radius(0.0)
 {
     for (size_t i = 0 ; i < N ; ++i)
     {
-        const double tmp = P[i] - _center[i];
+        const value_type tmp = P[i] - _center[i];
         _radius += tmp * tmp;
     }
     _radius = sqrt(_radius);
 }
 
-template<size_t N>
-inline Point<N> Hypersphere<N>::center() const
+template<size_t N, typename T>
+Point<N, T> Hypersphere<N, T>::center() const
 {
     return _center;
 }
 
-template<size_t N>
-inline double Hypersphere<N>::radius() const
+template<size_t N, typename T>
+auto Hypersphere<N, T>::radius() const -> value_type
 {
     return _radius;
 }
 
-template<size_t N>
-Hypersphere<N>& Hypersphere<N>::operator=(const Hypersphere<N>& other)
+template<size_t N, typename T>
+Hypersphere<N, T>& Hypersphere<N, T>::operator=(const Hypersphere<N, T>& other)
 {
     if (this != &other)
     {
@@ -63,20 +63,20 @@ Hypersphere<N>& Hypersphere<N>::operator=(const Hypersphere<N>& other)
     return *this;
 }
 
-template<size_t N>
-inline bool Hypersphere<N>::operator==(const Hypersphere<N>& other) const
+template<size_t N, typename T>
+bool Hypersphere<N, T>::operator==(const Hypersphere<N, T>& other) const
 {
     return _center == other._center && round_equal(_radius, other._radius);
 }
 
-template<size_t N>
-inline bool Hypersphere<N>::operator!=(const Hypersphere<N>& other) const
+template<size_t N, typename T>
+bool Hypersphere<N, T>::operator!=(const Hypersphere<N, T>& other) const
 {
     return !(*this = other);
 }
 
-template<size_t N>
-bool Hypersphere<N>::includes(const Point<N>& P) const
+template<size_t N, typename T>
+bool Hypersphere<N, T>::includes(const Point<N, T>& P) const
 {
     // Hypersphere equation:
         // Two dimensions:   (x - xc)² + (y - yc)² = R²
@@ -86,10 +86,10 @@ bool Hypersphere<N>::includes(const Point<N>& P) const
     // A point is included in the hypersphere if its distance to the center equals the radius
     // Actually, the above equations are used to spare the square root computation
 
-    double res = 0.0;
+    value_type res = 0.0;
     for (size_t i = 0 ; i < N ; ++i)
     {
-        const double temp = P[i] - _center[i];
+        const value_type temp = P[i] - _center[i];
         res += temp * temp;
     }
     return round_equal(res, _radius*_radius);

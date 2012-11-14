@@ -23,16 +23,13 @@
 #include <cmath>
 #include <cstdlib>
 #include <POLDER/geometry/point.h>
+#include <POLDER/geometry/types.h>
 
 
 namespace polder
 {
 namespace geometry
 {
-
-
-// Forward declaration
-template<size_t N> class Vector;
 
 
 /**
@@ -46,10 +43,19 @@ template<size_t N> class Vector;
  * for the radius. The most well-known hypersphere are
  * the circle and the ordinary sphere.
  */
-template<size_t N>
+template<size_t N, typename T>
 class Hypersphere
 {
     public:
+
+        ////////////////////////////////////////////////////////////
+        // Common types
+        ////////////////////////////////////////////////////////////
+
+        using value_type = T;
+        using size_type = size_t;
+        using reference = value_type&;
+        using const_reference = const value_type&;
 
         ////////////////////////////////////////////////////////////
         // Constructors
@@ -63,7 +69,7 @@ class Hypersphere
         /**
          * Copy constructor
          */
-        Hypersphere(const Hypersphere<N>& other) = default;
+        Hypersphere(const Hypersphere<N, T>& other) = default;
 
         /**
          * @brief Construct an Hypersphere from a center and a radius
@@ -71,7 +77,7 @@ class Hypersphere
          * @param center Center of the Hypersphere
          * @param radius Radius of the Hypersphere
          */
-        Hypersphere(const Point<N>& center, double radius);
+        Hypersphere(const Point<N, T>& center, value_type radius);
 
         /**
          * @brief Construct an Hypersphere from a center and a radius
@@ -79,7 +85,7 @@ class Hypersphere
          * @param center Center of the Hypersphere
          * @param V Radius of the Hypersphere
          */
-        Hypersphere(const Point<N>& center, const Vector<N>& V);
+        Hypersphere(const Point<N, T>& center, const Vector<N, T>& V);
 
         /**
          * @brief Construct an Hypersphere from a center and a radius
@@ -87,7 +93,7 @@ class Hypersphere
          * @param center Center of the Hypersphere
          * @param P Point at the surface of the Hypersphere
          */
-        Hypersphere(const Point<N>& center, const Point<N>& P);
+        Hypersphere(const Point<N, T>& center, const Point<N, T>& P);
 
 
         ////////////////////////////////////////////////////////////
@@ -99,14 +105,14 @@ class Hypersphere
          *
          * @return Center of the Hypersphere
          */
-        Point<N> center() const;
+        Point<N, T> center() const;
 
         /**
          * @brief Radius of the Hypersphere
          *
          * @return Radius of the Hypersphere
          */
-        double radius() const;
+        value_type radius() const;
 
 
         ////////////////////////////////////////////////////////////
@@ -116,7 +122,7 @@ class Hypersphere
         /**
          * Copy assignement operator
          */
-        Hypersphere<N>& operator=(const Hypersphere<N>& other);
+        Hypersphere<N, T>& operator=(const Hypersphere<N, T>& other);
 
         /**
          * @brief Equality between two Hyperspheres
@@ -126,7 +132,7 @@ class Hypersphere
          * @param other Right operand (Hypersphere)
          * @return True if the Hyperspheres are equal
          */
-        bool operator==(const Hypersphere<N>& other) const;
+        bool operator==(const Hypersphere<N, T>& other) const;
 
         /**
          * @brief Inequality between two Hyperspheres
@@ -136,7 +142,7 @@ class Hypersphere
          * @param other Right operand (Hypersphere)
          * @return True if the Hyperspheres are not equal
          */
-        bool operator!=(const Hypersphere<N>& other) const;
+        bool operator!=(const Hypersphere<N, T>& other) const;
 
 
         ////////////////////////////////////////////////////////////
@@ -149,13 +155,13 @@ class Hypersphere
          * @param P Some point
          * @return True if \a P belongs to the hypersphere
          */
-        bool includes(const Point<N>& P) const;
+        bool includes(const Point<N, T>& P) const;
 
     private:
 
         // Member data
-        Point<N> _center;   /**< Center of the Hypersphere */
-        double _radius;     /**< Distance from the center to the surface */
+        Point<N, T> _center;   /**< Center of the Hypersphere */
+        value_type _radius;     /**< Distance from the center to the surface */
 };
 
 #include <POLDER/geometry/hypersphere.inl>
@@ -167,7 +173,7 @@ typedef Hypersphere<2>  Circle2d;
 typedef Hypersphere<3>  Sphere3d;
 
 
-} // namespace geo
+} // namespace geometry
 } // namespace polder
 
 
