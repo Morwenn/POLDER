@@ -22,7 +22,6 @@
 ////////////////////////////////////////////////////////////
 #include <algorithm>
 #include <cmath>
-#include <cstdarg>
 #include <initializer_list>
 #include <POLDER/math/norm.h>
 #include <POLDER/geometry/types.h>
@@ -79,10 +78,10 @@ class Vector
         /**
          * @brief Variadic constructor
          *
-         * @param first First coordinate value
-         * @warning Be sure to pass doubles and not floats or any other numeric numbers
+         * @param coords Coordinates
          */
-        Vector(value_type first, ...);
+        template<typename... Args>
+        Vector(Args... coords);
 
         /**
          * @brief Constructs the Vector from the origin to a Point
@@ -201,6 +200,11 @@ class Vector
         const_iterator cend() const;
 
     private:
+
+        // Construct the vector from the arguments
+        template<typename... Args>
+        void create(size_t pos, T first, Args... coords);
+        void create(size_t pos, T first);
 
         // Coordinates
         value_type coordinates[N];    /**< Coordinates */

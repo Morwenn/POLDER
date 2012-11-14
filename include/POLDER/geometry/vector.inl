@@ -29,17 +29,11 @@ Vector<N, T>::Vector(const std::initializer_list<value_type>& coords)
 }
 
 template<size_t N, typename T>
-Vector<N, T>::Vector(value_type first, ...)
+template<typename... Args>
+Vector<N, T>::Vector(Args... coords)
 {
-    coordinates[0] = first;
-
-    va_list args;
-    va_start(args, first);
-    for (size_t i = 1 ; i < N ; ++i)
-    {
-        coordinates[i] = va_arg(args, value_type);
-    }
-    va_end(args);
+    static_assert(sizeof... coords == N, "Wrong number of arguments.");
+    create(0, coords...);
 }
 
 template<size_t N, typename T>
@@ -325,4 +319,21 @@ template<size_t N, typename T>
 typename Vector<N, T>::const_iterator Vector<N, T>::cend() const
 {
     return coordinates + N;
+}
+
+template<size_t N, typename T>
+template<typename... Args>
+void Vector<N, T>::create(size_t pos, T first, Args... coords)
+{
+    coordinates[pos] = first;
+    if (pos < N)
+    {
+        create(pos+1, coords...);
+    }
+}
+
+template<size_t N, typename T>
+void Vector<N, T>::create(size_t pos, T first)
+{
+    coordinates[pos] = first;
 }

@@ -29,17 +29,11 @@ Point<N, T>::Point(const std::initializer_list<value_type>& coords)
 }
 
 template<size_t N, typename T>
-Point<N, T>::Point(value_type first, ...)
+template<typename... Args>
+Point<N, T>::Point(Args... coords)
 {
-    assert(N > 1);
-    coordinates[0] = first;
-    va_list args;
-    va_start(args, first);
-    for (size_t i = 1 ; i < N ; ++i)
-    {
-        coordinates[i] = va_arg(args, value_type);
-    }
-    va_end(args);
+    static_assert(sizeof... coords == N, "Wrong number of arguments.");
+    create(0, coords...);
 }
 
 template<size_t N, typename T>
@@ -195,4 +189,21 @@ template<size_t N, typename T>
 typename Point<N, T>::const_iterator Point<N, T>::cend() const
 {
     return coordinates + N;
+}
+
+template<size_t N, typename T>
+template<typename... Args>
+void Point<N, T>::create(size_t pos, T first, Args... coords)
+{
+    coordinates[pos] = first;
+    if (pos < N)
+    {
+        create(pos+1, coords...);
+    }
+}
+
+template<size_t N, typename T>
+void Point<N, T>::create(size_t pos, T first)
+{
+    coordinates[pos] = first;
 }
