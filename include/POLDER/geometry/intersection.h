@@ -23,7 +23,6 @@
 #include <utility>
 #include <POLDER/math.h>
 #include <POLDER/object.h>
-#include <POLDER/type_traits.h>
 #include <POLDER/geometry/hypersphere.h>
 #include <POLDER/geometry/limits.h>
 #include <POLDER/geometry/line.h>
