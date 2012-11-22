@@ -75,6 +75,61 @@ namespace polder
         >::type
     {};
 
+    template<typename...>
+    struct is_iterable;
+
+    template<typename T>
+    struct is_iterable<T>
+    {
+        using yes   = uint8_t;
+        using no    = uint16_t;
+
+        template<typename U>
+        static yes& test(typename U::iterator*);
+
+        template<typename>
+        static no& test(...);
+
+        static constexpr bool value = sizeof(test<typename std::decay<T>::type>(0)) == sizeof(yes);
+    };
+
+    template<typename T, typename U, typename... Args>
+    struct is_iterable<T, U, Args...>:
+        public std::conditional<
+            is_iterable<T>::value,
+            is_iterable<U, Args...>,
+            std::false_type
+        >::type
+    {};
+
+    template<typename...>
+    struct is_reverse_iterable;
+
+    template<typename T>
+    struct is_reverse_iterable<T>
+    {
+        using yes   = uint8_t;
+        using no    = uint16_t;
+
+        template<typename U>
+        static yes& test(typename U::reverse_iterator*);
+
+        template<typename>
+        static no& test(...);
+
+        static constexpr bool value = sizeof(test<typename std::decay<T>::type>(0)) == sizeof(yes);
+    };
+
+    template<typename T, typename U, typename... Args>
+    struct is_reverse_iterable<T, U, Args...>:
+        public std::conditional<
+            is_reverse_iterable<T>::value,
+            is_reverse_iterable<U, Args...>,
+            std::false_type
+        >::type
+    {};
+
+
     template<typename T, typename U, typename... Args>
     struct is_floating_point<T, U, Args...>:
         public std::conditional<
