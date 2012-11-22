@@ -61,6 +61,14 @@ int main()
             // in the reversed order.
             cout << i << endl;
         }
+
+        int tab[] = { 8, 9, 10, 11, 12 };
+        for (int& i in reversed(tab))
+        {
+            // Will print all the elements of vec
+            // in the reversed order.
+            cout << i << endl;
+        }
     }
 
 
