@@ -20,36 +20,36 @@ class RangeObject
 {
     public:
 
-        constexpr RangeObject(int end):
+        constexpr RangeObject(int end) noexcept:
             _i(0),
             _end(end),
             _step(1),
             _sup(end >= 0)
         {}
 
-        constexpr RangeObject(int begin, int end, unsigned int step):
+        constexpr RangeObject(int begin, int end, unsigned int step) noexcept:
             _i(begin),
             _end(end),
             _step(step),
             _sup(end >= begin)
         {}
 
-        constexpr const RangeObject& begin()
+        constexpr const RangeObject& begin() noexcept
         {
             return *this;
         }
 
-        constexpr const RangeObject& end() const
+        constexpr const RangeObject& end() const noexcept
         {
             return *this;
         }
 
-        constexpr bool operator!=(const RangeObject&) const
+        constexpr bool operator!=(const RangeObject&) const noexcept
         {
             return _sup ? (_i < _end) : (_i > _end);
         }
 
-        inline void operator++()
+        inline void operator++() noexcept
         {
             if (_sup)
             {
@@ -61,7 +61,7 @@ class RangeObject
             }
         }
 
-        constexpr const int& operator*() const
+        constexpr const int& operator*() const noexcept
         {
             return _i;
         }
@@ -74,12 +74,12 @@ class RangeObject
         const bool _sup;
 };
 
-constexpr RangeObject range(int end)
+constexpr RangeObject range(int end) noexcept
 {
     return RangeObject(end);
 }
 
-constexpr RangeObject range(int begin, int end, unsigned int step)
+constexpr RangeObject range(int begin, int end, unsigned int step) noexcept
 {
     return RangeObject(begin, end, step);
 }
@@ -192,7 +192,6 @@ class FlatObject<FlatIterable, true>:
         // Reverse iterator functions
         auto rbegin() -> reverse_iterator
             { return _iter.rfbegin(); }
-
         auto rbegin() const -> const_reverse_iterator
             { return _iter.crfbegin(); }
         auto crbegin() const -> const_reverse_iterator

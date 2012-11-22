@@ -63,7 +63,7 @@ class ChainObject;
  * @param end Last value
  * @return Generator
  */
-constexpr RangeObject range(int end);
+constexpr RangeObject range(int end) noexcept;
 
 /**
  * @brief Versatile range of integers
@@ -78,7 +78,7 @@ constexpr RangeObject range(int end);
  * @param step Step between two values
  * @return Generator
  */
-constexpr RangeObject range(int begin, int end, unsigned int step=1);
+constexpr RangeObject range(int begin, int end, unsigned int step=1) noexcept;
 
 /**
  * @brief Reversed iterable
