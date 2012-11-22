@@ -91,6 +91,50 @@ constexpr RangeObject range(int begin, int end, unsigned int step) noexcept
 
 
 ////////////////////////////////////////////////////////////
+template<typename T>
+auto rbegin(T& iter)
+    -> decltype(iter.rbegin())
+{
+    return iter.rbegin();
+}
+
+template<typename T>
+auto rbegin(const T& iter)
+    -> decltype(iter.crbegin())
+{
+    return iter.crbegin();
+}
+
+template<typename T, std::size_t N>
+auto rbegin(T (&array)[N])
+    -> std::reverse_iterator<T*>
+{
+    return std::reverse_iterator<T*>(std::end(array));
+}
+
+template<typename T>
+auto rend(T& iter)
+    -> decltype(iter.rend())
+{
+    return iter.rend();
+}
+
+template<typename T>
+auto rend(const T& iter)
+    -> decltype(iter.crend())
+{
+    return iter.crend();
+}
+
+template<typename T, std::size_t N>
+auto rend(T (&array)[N])
+    -> std::reverse_iterator<T*>
+{
+    return std::reverse_iterator<T*>(std::begin(array));
+}
+
+
+////////////////////////////////////////////////////////////
 template<typename BidirectionalIterable>
 class ReversedObject
 {
@@ -104,38 +148,38 @@ class ReversedObject
 
     public:
 
-        using iterator                  = decltype(_iter.rbegin());
-        using const_iterator            = decltype(_iter.crbegin());
-        using reverse_iterator          = decltype(_iter.begin());
-        using const_reverse_iterator    = decltype(_iter.cbegin());
+        using iterator                  = decltype(itertools::rbegin(_iter));
+        using const_iterator            = decltype(itertools::rbegin(_iter));
+        using reverse_iterator          = decltype(std::begin(_iter));
+        using const_reverse_iterator    = decltype(std::begin(_iter));
 
         // Iterator functions
         auto begin() -> iterator
-            { return _iter.rbegin(); }
+            { return itertools::rbegin(_iter); }
         auto begin() const -> const_iterator
-            { return _iter.crbegin(); }
+            { return itertools::rbegin(_iter); }
         auto cbegin() const -> const_iterator
-            { return _iter.crbegin(); }
+            { return itertools::rbegin(_iter); }
         auto end() -> iterator
-            { return _iter.rend(); }
+            { return itertools::rend(_iter); }
         auto end() const -> const_iterator
-            { return _iter.crend(); }
+            { return itertools::rend(_iter); }
         auto cend() const -> const_iterator
-            { return _iter.crend(); }
+            { return itertools::rend(_iter); }
 
         // Reverse iterator functions
         auto rbegin() -> reverse_iterator
-            { return _iter.begin(); }
+            { return std::begin(_iter); }
         auto rbegin() const -> const_reverse_iterator
-            { return _iter.cbegin(); }
+            { return std::begin(_iter); }
         auto crbegin() const -> const_reverse_iterator
-            { return _iter.cbegin(); }
+            { return std::begin(_iter); }
         auto rend() -> reverse_iterator
-            { return _iter.end(); }
+            { return std::end(_iter); }
         auto rend() const -> const_reverse_iterator
-            { return _iter.cend(); }
+            { return std::end(_iter); }
         auto crend() const -> const_reverse_iterator
-            { return _iter.cend(); }
+            { return std::end(_iter); }
 
     friend auto reversed<>(BidirectionalIterable&& iter)
         -> ReversedObject<BidirectionalIterable>;

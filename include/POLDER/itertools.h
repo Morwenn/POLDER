@@ -20,6 +20,8 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <cstddef>
+#include <iterator>
 #include <utility>
 #include <POLDER/config.h>
 #include <POLDER/type_traits.h>
@@ -79,6 +81,33 @@ constexpr RangeObject range(int end) noexcept;
  * @return Generator
  */
 constexpr RangeObject range(int begin, int end, unsigned int step=1) noexcept;
+
+/**
+ * @brief Global rbegin function
+ *
+ * The equilavent of std::begin for reversed
+ * iteration.
+ */
+template<typename T>
+auto rbegin(T& iter)        -> decltype(iter.rbegin());
+template<typename T>
+auto rbegin(const T& iter)  -> decltype(iter.crbegin());
+template<typename T, std::size_t N>
+auto rbegin(T (&array)[N])  -> std::reverse_iterator<T*>;
+
+
+/**
+ * @brief Global rend function
+ *
+ * The equilavent of std::end for reversed
+ * iteration.
+ */
+template<typename T>
+auto rend(T& iter)          -> decltype(iter.rend());
+template<typename T>
+auto rend(const T& iter)    -> decltype(iter.crend());
+template<typename T, std::size_t N>
+auto rend(T (&array)[N])    -> std::reverse_iterator<T*>;
 
 /**
  * @brief Reversed iterable
