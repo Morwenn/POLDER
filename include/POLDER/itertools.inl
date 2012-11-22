@@ -95,32 +95,42 @@ class ReversedObject
 
     public:
 
-        using iterator = decltype(_iter.rbegin());
-        using reverse_iterator = decltype(_iter.begin());
+        using iterator                  = decltype(_iter.rbegin());
+        using const_iterator            = decltype(_iter.crbegin());
+        using reverse_iterator          = decltype(_iter.begin());
+        using const_reverse_iterator    = decltype(_iter.cbegin());
 
         ReversedObject(BidirectionalIterable&& iter):
             _iter(iter)
         {}
 
-        iterator begin() const
-        {
-            return _iter.rbegin();
-        }
+        // Iterator functions
+        auto begin() -> iterator
+            { return _iter.rbegin(); }
+        auto begin() const -> const_iterator
+            { return _iter.crbegin(); }
+        auto cbegin() const -> const_iterator
+            { return _iter.crbegin(); }
+        auto end() -> iterator
+            { return _iter.rend(); }
+        auto end() const -> const_iterator
+            { return _iter.crend(); }
+        auto cend() const -> const_iterator
+            { return _iter.crend(); }
 
-        iterator end() const
-        {
-            return _iter.rend();
-        }
-
-        reverse_iterator rbegin() const
-        {
-            return _iter.begin();
-        }
-
-        reverse_iterator rend() const
-        {
-            return _iter.end();
-        }
+        // Reverse iterator functions
+        auto rbegin() -> reverse_iterator
+            { return _iter.begin(); }
+        auto rbegin() const -> const_reverse_iterator
+            { return _iter.cbegin(); }
+        auto crbegin() const -> const_reverse_iterator
+            { return _iter.cbegin(); }
+        auto rend() -> reverse_iterator
+            { return _iter.end(); }
+        auto rend() const -> const_reverse_iterator
+            { return _iter.cend(); }
+        auto crend() const -> const_reverse_iterator
+            { return _iter.cend(); }
 };
 
 template<typename BidirectionalIterable>
@@ -132,46 +142,74 @@ inline ReversedObject<BidirectionalIterable> reversed(BidirectionalIterable&& it
 
 ////////////////////////////////////////////////////////////
 template<typename FlatIterable>
-class FlatObject
+class FlatObject<FlatIterable, false>
 {
-    private:
+    protected:
 
         FlatIterable& _iter;
 
     public:
 
-        using iterator = decltype(_iter.fbegin());
-        using reverse_iterator = decltype(_iter.rfbegin());
+        using iterator                  = decltype(_iter.fbegin());
+        using const_iterator            = decltype(_iter.cfbegin());
 
         FlatObject(FlatIterable&& iter):
             _iter(iter)
         {}
 
-        iterator begin() const
-        {
-            return _iter.fbegin();
-        }
-
-        iterator end() const
-        {
-            return _iter.fend();
-        }
-
-        reverse_iterator rbegin() const
-        {
-            return _iter.rfbegin();
-        }
-
-        reverse_iterator rend() const
-        {
-            return _iter.rfend();
-        }
+        // Iterator functions
+        auto begin() -> iterator
+            { return _iter.fbegin(); }
+        auto begin() const -> const_iterator
+            { return _iter.cfbegin(); }
+        auto cbegin() const -> const_iterator
+            { return _iter.cfbegin(); }
+        auto end() -> iterator
+            { return _iter.fend(); }
+        auto end() const -> const_iterator
+            { return _iter.cfend(); }
+        auto cend() const -> const_iterator
+            { return _iter.cfend(); }
 };
 
 template<typename FlatIterable>
-inline FlatObject<FlatIterable> flat(FlatIterable&& iter)
+class FlatObject<FlatIterable, true>:
+    public FlatObject<FlatIterable, false>
 {
-    return FlatObject<FlatIterable>(std::forward<FlatIterable>(iter));
+    using FlatObject<FlatIterable, false>::_iter;
+
+    public:
+
+        using iterator                  = decltype(_iter.fbegin());
+        using const_iterator            = decltype(_iter.cfbegin());
+        using reverse_iterator          = decltype(_iter.rfbegin());
+        using const_reverse_iterator    = decltype(_iter.crfbegin());
+
+        FlatObject(FlatIterable&& iter):
+            FlatObject<FlatIterable, false>(iter)
+        {}
+
+        // Reverse iterator functions
+        auto rbegin() -> reverse_iterator
+            { return _iter.rfbegin(); }
+
+        auto rbegin() const -> const_reverse_iterator
+            { return _iter.crfbegin(); }
+        auto crbegin() const -> const_reverse_iterator
+            { return _iter.crfbegin(); }
+        auto rend() -> reverse_iterator
+            { return _iter.rfend(); }
+        auto rend() const -> const_reverse_iterator
+            { return _iter.crfend(); }
+        auto crend() const -> const_reverse_iterator
+            { return _iter.crfend(); }
+};
+
+template<typename FlatIterable>
+inline auto flat(FlatIterable&& iter)
+    -> FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>
+{
+    return FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>(std::forward<FlatIterable>(iter));
 }
 
 

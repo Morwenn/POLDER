@@ -22,6 +22,7 @@
 ////////////////////////////////////////////////////////////
 #include <utility>
 #include <POLDER/config.h>
+#include <POLDER/type_traits.h>
 
 
 namespace polder
@@ -43,7 +44,7 @@ namespace itertools
 class RangeObject;
 template<typename BidirectionalIterable>
 class ReversedObject;
-template<typename FlatIterable>
+template<typename FlatIterable, bool IsReverseIterable>
 class FlatObject;
 template<typename T, typename Iterable>
 class MapObject;
@@ -103,7 +104,7 @@ ReversedObject<BidirectionalIterable> reversed(BidirectionalIterable&& iter);
  * @return Generator
  */
 template<typename FlatIterable>
-FlatObject<FlatIterable> flat(FlatIterable&& iter);
+FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value> flat(FlatIterable&& iter);
 
 /**
  * @brief Apply function to iterable
