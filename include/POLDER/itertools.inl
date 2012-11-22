@@ -18,7 +18,7 @@
 ////////////////////////////////////////////////////////////
 class RangeObject
 {
-    public:
+    private:
 
         constexpr RangeObject(int end) noexcept:
             _i(0),
@@ -33,6 +33,8 @@ class RangeObject
             _step(step),
             _sup(end >= begin)
         {}
+
+    public:
 
         constexpr const RangeObject& begin() noexcept
         {
@@ -72,6 +74,9 @@ class RangeObject
         const int _end;
         const unsigned int _step;
         const bool _sup;
+
+    friend constexpr RangeObject range(int end) noexcept;
+    friend constexpr RangeObject range(int begin, int end, unsigned int step) noexcept;
 };
 
 constexpr RangeObject range(int end) noexcept
@@ -93,16 +98,16 @@ class ReversedObject
 
         BidirectionalIterable& _iter;
 
+        ReversedObject(BidirectionalIterable&& iter):
+            _iter(iter)
+        {}
+
     public:
 
         using iterator                  = decltype(_iter.rbegin());
         using const_iterator            = decltype(_iter.crbegin());
         using reverse_iterator          = decltype(_iter.begin());
         using const_reverse_iterator    = decltype(_iter.cbegin());
-
-        ReversedObject(BidirectionalIterable&& iter):
-            _iter(iter)
-        {}
 
         // Iterator functions
         auto begin() -> iterator
@@ -131,6 +136,9 @@ class ReversedObject
             { return _iter.cend(); }
         auto crend() const -> const_reverse_iterator
             { return _iter.cend(); }
+
+    friend auto reversed<>(BidirectionalIterable&& iter)
+        -> ReversedObject<BidirectionalIterable>;
 };
 
 template<typename BidirectionalIterable>
@@ -148,14 +156,14 @@ class FlatObject<FlatIterable, false>
 
         FlatIterable& _iter;
 
-    public:
-
-        using iterator                  = decltype(_iter.fbegin());
-        using const_iterator            = decltype(_iter.cfbegin());
-
         FlatObject(FlatIterable&& iter):
             _iter(iter)
         {}
+
+    public:
+
+        using iterator          = decltype(_iter.fbegin());
+        using const_iterator    = decltype(_iter.cfbegin());
 
         // Iterator functions
         auto begin() -> iterator
@@ -170,13 +178,22 @@ class FlatObject<FlatIterable, false>
             { return _iter.cfend(); }
         auto cend() const -> const_iterator
             { return _iter.cfend(); }
+
+    friend auto flat<>(FlatIterable&& iter)
+        -> FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>;
 };
 
 template<typename FlatIterable>
 class FlatObject<FlatIterable, true>:
     public FlatObject<FlatIterable, false>
 {
-    using FlatObject<FlatIterable, false>::_iter;
+    private:
+
+        using FlatObject<FlatIterable, false>::_iter;
+
+        FlatObject(FlatIterable&& iter):
+            FlatObject<FlatIterable, false>(iter)
+        {}
 
     public:
 
@@ -184,10 +201,6 @@ class FlatObject<FlatIterable, true>:
         using const_iterator            = decltype(_iter.cfbegin());
         using reverse_iterator          = decltype(_iter.rfbegin());
         using const_reverse_iterator    = decltype(_iter.crfbegin());
-
-        FlatObject(FlatIterable&& iter):
-            FlatObject<FlatIterable, false>(iter)
-        {}
 
         // Reverse iterator functions
         auto rbegin() -> reverse_iterator
@@ -202,6 +215,9 @@ class FlatObject<FlatIterable, true>:
             { return _iter.crfend(); }
         auto crend() const -> const_reverse_iterator
             { return _iter.crfend(); }
+
+    friend auto flat<>(FlatIterable&& iter)
+        -> FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>;
 };
 
 template<typename FlatIterable>
@@ -223,14 +239,14 @@ class MapObject
         decltype(_iter.begin()) _begin;
         const decltype(_iter.end()) _end;
 
-    public:
-
         MapObject(T (*function)(T), const Iterable& iter):
             _iter(iter),
             _func(function),
             _begin(_iter.begin()),
             _end(_iter.end())
         {}
+
+    public:
 
         const MapObject& begin() const
         {
@@ -256,6 +272,9 @@ class MapObject
         {
             return _func(*_begin);
         }
+
+    friend auto map<>(T (*function)(T) , const Iterable& iter)
+        -> MapObject<T, Iterable>;
 };
 
 template<typename T, typename Iterable>
@@ -275,14 +294,14 @@ class __crmap
         decltype(_iter.begin()) _begin;
         const decltype(_iter.end()) _end;
 
-    public:
-
         __crmap(T (*function)(const T&), const Iterable& iter):
             _iter(iter),
             _func(function),
             _begin(_iter.begin()),
             _end(_iter.end())
         {}
+
+    public:
 
         const __crmap& begin() const
         {
@@ -308,6 +327,9 @@ class __crmap
         {
             return _func(*_begin);
         }
+
+    friend auto map<>(T (*function)(const T&) , const Iterable& iter)
+        -> __crmap<T, Iterable>;
 };
 
 template<typename T, typename Iterable>
