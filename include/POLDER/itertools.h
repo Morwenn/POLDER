@@ -147,10 +147,8 @@ FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value> flat(FlatIter
  * @return Generator
  */
 template<typename T, typename Iterable>
-MapObject<T, Iterable> map(T (*function)(T) , const Iterable& iter);
-
-template<typename T, typename Iterable>
-MapObject<T, Iterable> map(T (*function)(const T&) , const Iterable& iter);
+auto map(T (*function)(const T&) , const Iterable& iter)
+    -> MapObject<T, Iterable>;
 
 /**
  * @brief Iter through many containers
@@ -161,7 +159,7 @@ MapObject<T, Iterable> map(T (*function)(const T&) , const Iterable& iter);
  *
  * It is possible to chain different containers (list, vector
  * array, etc...) but the contained values must be of the same
- * type. Otherwise, it will crash at compilation.
+ * type. Otherwise, it will crash at compile time.
  */
 template<typename... Iterables>
 ChainObject<Iterables...> chain(Iterables&&... iters);

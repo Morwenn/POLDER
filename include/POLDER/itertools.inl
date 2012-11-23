@@ -279,11 +279,11 @@ class MapObject
     private:
 
         const Iterable& _iter;
-        T (*_func)(T);
+        T (*_func)(const T&);
         decltype(_iter.begin()) _begin;
         const decltype(_iter.end()) _end;
 
-        MapObject(T (*function)(T), const Iterable& iter):
+        MapObject(T (*function)(const T&), const Iterable& iter):
             _iter(iter),
             _func(function),
             _begin(_iter.begin()),
@@ -317,69 +317,14 @@ class MapObject
             return _func(*_begin);
         }
 
-    friend auto map<>(T (*function)(T) , const Iterable& iter)
+    friend auto map<>(T (*function)(const T&) , const Iterable& iter)
         -> MapObject<T, Iterable>;
 };
 
 template<typename T, typename Iterable>
-inline MapObject<T, Iterable> map(T (*function)(T) , const Iterable& iter)
+inline MapObject<T, Iterable> map(T (*function)(const T&) , const Iterable& iter)
 {
     return MapObject<T, Iterable>(function, iter);
-}
-
-template<typename T, typename Iterable>
-class __crmap
-{
-
-    private:
-
-        const Iterable& _iter;
-        T (*_func)(const T&);
-        decltype(_iter.begin()) _begin;
-        const decltype(_iter.end()) _end;
-
-        __crmap(T (*function)(const T&), const Iterable& iter):
-            _iter(iter),
-            _func(function),
-            _begin(_iter.begin()),
-            _end(_iter.end())
-        {}
-
-    public:
-
-        const __crmap& begin() const
-        {
-            return *this;
-        }
-
-        const __crmap& end() const
-        {
-            return *this;
-        }
-
-        bool operator!=(const __crmap&) const
-        {
-            return _begin != _end;
-        }
-
-        void operator++()
-        {
-            ++_begin;
-        }
-
-        T operator*()
-        {
-            return _func(*_begin);
-        }
-
-    friend auto map<>(T (*function)(const T&) , const Iterable& iter)
-        -> __crmap<T, Iterable>;
-};
-
-template<typename T, typename Iterable>
-inline __crmap<T, Iterable> map(T (*function)(const T&) , const Iterable& iter)
-{
-    return __crmap<T, Iterable>(function, iter);
 }
 
 

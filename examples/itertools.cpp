@@ -1,5 +1,4 @@
 // Headers
-#include <cmath>
 #include <cstdlib>
 #include <iostream>
 #include <list>
@@ -10,6 +9,7 @@ using std::list;
 using std::vector;
 using std::cout;
 using std::endl;
+using std::abs;
 using polder::itertools::range;
 using polder::itertools::reversed;
 using polder::itertools::map;
@@ -22,6 +22,16 @@ using polder::itertools::chain;
  * Anyway, that one is fun/ugly.
  */
 #define in :
+
+
+/**
+ * @brief Simple wrapper around std::abs
+ *
+ * Used here to prevent a GCC bug that makes it
+ * impossible to deduce a function parameter type
+ * if not passed by const reference.
+ */
+int safe_abs(const int& x);
 
 
 /**
@@ -77,7 +87,7 @@ int main()
         cout << endl << "Map Example" << endl;
 
         list<int> li = { 1, -2, 3, 4, -5, -6, 7 };
-        for (int i in map(&abs, li))
+        for (int i in map(&safe_abs, li))
         {
             cout << i << endl;
         }
@@ -117,6 +127,11 @@ int main()
         }
     }
 
-    return EXIT_SUCCESS;
+    return 0;
 }
 
+
+int safe_abs(const int& x)
+{
+    return std::abs(x);
+}
