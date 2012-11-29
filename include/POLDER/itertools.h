@@ -152,7 +152,7 @@ auto flat(FlatIterable&& iter)
  * @return Generator
  */
 template<typename T, typename Iterable>
-auto map(T (*function)(const T&) , const Iterable& iter)
+auto map(T (*function)(const T&) , Iterable&& iter)
     -> MapObject<T, Iterable>;
 
 /**
@@ -176,7 +176,7 @@ auto chain(Iterables&&... iters)
  * Make groups of elements from different iterables.
  * For exemple, a list of int zipped with a list
  * of float would generate elements of type
- * std::pair<int, float>.
+ * std::tuple<int, float>.
  */
 template<typename... Iterables>
 auto zip(Iterables&&... iters)

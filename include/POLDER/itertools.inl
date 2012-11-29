@@ -296,7 +296,7 @@ class MapObject
         decltype(_iter.begin()) _begin;
         const decltype(_iter.end()) _end;
 
-        MapObject(T (*function)(const T&), const Iterable& iter):
+        MapObject(T (*function)(const T&), Iterable&& iter):
             _iter(iter),
             _func(function),
             _begin(_iter.begin()),
@@ -337,14 +337,15 @@ class MapObject
             return _func(*_begin);
         }
 
-    friend auto map<>(T (*function)(const T&) , const Iterable& iter)
+    friend auto map<>(T (*function)(const T&) , Iterable&& iter)
         -> MapObject<T, Iterable>;
 };
 
 template<typename T, typename Iterable>
-inline MapObject<T, Iterable> map(T (*function)(const T&) , const Iterable& iter)
+inline auto map(T (*function)(const T&) , Iterable&& iter)
+    -> MapObject<T, Iterable>
 {
-    return MapObject<T, Iterable>(function, iter);
+    return MapObject<T, Iterable>(function, std::forward<Iterable>(iter));
 }
 
 

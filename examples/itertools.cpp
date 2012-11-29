@@ -105,7 +105,7 @@ int main()
 
         vector<int> vec = { 1, 2, 3, 4, 5 };
         list<int>   li  = { 6, 7, 8, 9, 10, 11, 12, 13 };
-        for (auto& i in chain(vec, li))
+        for (int& i in chain(vec, li))
         {
             // You can edit a range of iterables
             // as if there was only one of them.
@@ -135,7 +135,7 @@ int main()
 
         vector<int> vec = { 1, 2, 3, 4, 5 };
         list<int>   li  = { 6, 7, 8, 9, 10 };
-        for (auto& i in chain(vec, reversed(li)))
+        for (int& i in chain(vec, reversed(li)))
         {
             // Some of the tools can be used
             // altogether in order to make the
