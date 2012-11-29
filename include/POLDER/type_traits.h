@@ -57,7 +57,7 @@ namespace polder
     template<typename T, typename U, typename... Args>
     struct is_integral<T, U, Args...>:
         public std::conditional<
-            std::is_integral<T>::value,
+            is_integral<T>::value,
             is_integral<U, Args...>,
             std::false_type
         >::type
@@ -71,6 +71,36 @@ namespace polder
         public std::conditional<
             std::is_floating_point<T>::value,
             std::true_type,
+            std::false_type
+        >::type
+    {};
+
+    template<typename T, typename U, typename... Args>
+    struct is_floating_point<T, U, Args...>:
+        public std::conditional<
+            is_floating_point<T>::value,
+            is_floating_point<U, Args...>,
+            std::false_type
+        >::type
+    {};
+
+    template<typename T, typename...>
+    struct is_same;
+
+    template<typename T, typename U>
+    struct is_same<T, U>:
+        public std::conditional<
+            std::is_same<T, U>::value,
+            std::true_type,
+            std::false_type
+        >::type
+    {};
+
+    template<typename T, typename U, typename... Args>
+    struct is_same<T, U, Args...>:
+        public std::conditional<
+            is_same<T, U>::value,
+            is_same<U, Args...>,
             std::false_type
         >::type
     {};
@@ -125,16 +155,6 @@ namespace polder
         public std::conditional<
             is_reverse_iterable<T>::value,
             is_reverse_iterable<U, Args...>,
-            std::false_type
-        >::type
-    {};
-
-
-    template<typename T, typename U, typename... Args>
-    struct is_floating_point<T, U, Args...>:
-        public std::conditional<
-            std::is_floating_point<T>::value,
-            is_floating_point<U, Args...>,
             std::false_type
         >::type
     {};
