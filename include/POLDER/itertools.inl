@@ -293,14 +293,14 @@ class MapObject
 
         const Iterable& _iter;
         T (*_func)(const T&);
-        decltype(_iter.begin()) _begin;
-        const decltype(_iter.end()) _end;
+        decltype(std::begin(_iter)) _begin;
+        const decltype(std::end(_iter)) _end;
 
         MapObject(T (*function)(const T&), Iterable&& iter):
             _iter(iter),
             _func(function),
-            _begin(_iter.begin()),
-            _end(_iter.end())
+            _begin(std::begin(_iter)),
+            _end(std::end(_iter))
         {}
 
     public:

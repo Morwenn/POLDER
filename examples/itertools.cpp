@@ -1,4 +1,5 @@
 // Headers
+#include <cmath>
 #include <cstdlib>
 #include <iostream>
 #include <list>
@@ -12,7 +13,6 @@ using std::string;
 using std::cout;
 using std::endl;
 using std::get;
-using std::abs;
 using polder::itertools::range;
 using polder::itertools::reversed;
 using polder::itertools::map;
@@ -35,7 +35,8 @@ using polder::itertools::zip;
  * impossible to deduce a function parameter type
  * if not passed by const reference.
  */
-int safe_abs(const int& x);
+int abs(const int& x);
+double sin(const double& x);
 
 
 /**
@@ -92,7 +93,14 @@ int main()
         cout << endl << endl << "Map Example" << endl;
 
         list<int> li = { 1, -2, 3, 4, -5, -6, 7 };
-        for (int i in map(&safe_abs, li))
+        for (int i in map(&abs, li))
+        {
+            cout << i << " ";
+        }
+
+        cout << endl;
+        double tab[] = { 0.0, -0.5, 3.14, -1.1 };
+        for (double i in map(&sin, tab))
         {
             cout << i << " ";
         }
@@ -150,7 +158,12 @@ int main()
 }
 
 
-int safe_abs(const int& x)
+int abs(const int& x)
 {
-    return abs(x);
+    return std::abs(x);
+}
+
+double sin(const double& x)
+{
+    return std::sin(x);
 }
