@@ -123,7 +123,8 @@ auto rend(T (&array)[N])    -> std::reverse_iterator<T*>;
  * @return Generator
  */
 template<typename BidirectionalIterable>
-ReversedObject<BidirectionalIterable> reversed(BidirectionalIterable&& iter);
+auto reversed(BidirectionalIterable&& iter)
+    -> ReversedObject<BidirectionalIterable>;
 
 /**
  * @brief Flat iterable
@@ -136,7 +137,8 @@ ReversedObject<BidirectionalIterable> reversed(BidirectionalIterable&& iter);
  * @return Generator
  */
 template<typename FlatIterable>
-FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value> flat(FlatIterable&& iter);
+auto flat(FlatIterable&& iter)
+    -> FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>;
 
 /**
  * @brief Apply function to iterable

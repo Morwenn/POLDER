@@ -190,7 +190,8 @@ class ReversedObject
 };
 
 template<typename BidirectionalIterable>
-inline ReversedObject<BidirectionalIterable> reversed(BidirectionalIterable&& iter)
+inline auto reversed(BidirectionalIterable&& iter)
+    -> ReversedObject<BidirectionalIterable>
 {
     return ReversedObject<BidirectionalIterable>(std::forward<BidirectionalIterable>(iter));
 }
@@ -566,7 +567,7 @@ class ZipObject<First>
         }
 
         auto operator*()
-            -> decltype(std::make_tuple(*_iter))
+            -> value_type
         {
             return std::make_tuple(*_iter);
         }
