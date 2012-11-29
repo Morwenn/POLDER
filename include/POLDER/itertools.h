@@ -23,6 +23,7 @@
 #include <cstddef>
 #include <iterator>
 #include <utility>
+#include <tuple>
 #include <POLDER/config.h>
 #include <POLDER/type_traits.h>
 
@@ -52,6 +53,8 @@ template<typename T, typename Iterable>
 class MapObject;
 template<typename First, typename... Iterables>
 class ChainObject;
+template<typename First, typename... Iterables>
+class ZipObject;
 
 
 /**
@@ -162,7 +165,20 @@ auto map(T (*function)(const T&) , const Iterable& iter)
  * type. Otherwise, it will crash at compile time.
  */
 template<typename... Iterables>
-ChainObject<Iterables...> chain(Iterables&&... iters);
+auto chain(Iterables&&... iters)
+    -> ChainObject<Iterables...>;
+
+/**
+ * @brief Aggregates elements from iterables
+ *
+ * Make groups of elements from different iterables.
+ * For exemple, a list of int zipped with a list
+ * of float would generate elements of type
+ * std::pair<int, float>.
+ */
+template<typename... Iterables>
+auto zip(Iterables&&... iters)
+    -> ZipObject<Iterables...>;
 
 
 #include <POLDER/itertools.inl>

@@ -148,10 +148,12 @@ class ReversedObject
 
     public:
 
+        using value_type                = typename std::decay<decltype(*std::begin(_iter))>::type;
         using iterator                  = decltype(itertools::rbegin(_iter));
         using const_iterator            = decltype(itertools::rbegin(_iter));
         using reverse_iterator          = decltype(std::begin(_iter));
         using const_reverse_iterator    = decltype(std::begin(_iter));
+        using iterator_category         = typename std::iterator_traits<iterator>::iterator_category;
 
         // Iterator functions
         auto begin() -> iterator
@@ -206,8 +208,10 @@ class FlatObject<FlatIterable, false>
 
     public:
 
+        using value_type        = typename std::decay<decltype(*_iter.fbegin())>::type;
         using iterator          = decltype(_iter.fbegin());
         using const_iterator    = decltype(_iter.cfbegin());
+        using iterator_category = typename std::iterator_traits<iterator>::iterator_category;
 
         // Iterator functions
         auto begin() -> iterator
@@ -241,10 +245,12 @@ class FlatObject<FlatIterable, true>:
 
     public:
 
+        using value_type                = typename std::decay<decltype(*_iter.fbegin())>::type;
         using iterator                  = decltype(_iter.fbegin());
         using const_iterator            = decltype(_iter.cfbegin());
         using reverse_iterator          = decltype(_iter.rfbegin());
         using const_reverse_iterator    = decltype(_iter.crfbegin());
+        using iterator_category         = typename std::iterator_traits<iterator>::iterator_category;
 
         // Reverse iterator functions
         auto rbegin() -> reverse_iterator
@@ -292,6 +298,11 @@ class MapObject
 
     public:
 
+        using value_type        = typename std::decay<decltype(*std::begin(_iter))>::type;
+        using iterator          = decltype(std::begin(_iter));
+        using const_iterator    = decltype(std::begin(_iter));
+        using iterator_category = typename std::iterator_traits<iterator>::iterator_category;
+
         const MapObject& begin() const
         {
             return *this;
@@ -338,27 +349,31 @@ class ChainObject:
         First& _first;
         decltype(_first.begin()) _iter;
 
+        using parent_type = ChainObject<Iterables...>;
+
     public:
 
+        using value_type = decltype(*_iter);
+
         ChainObject(First&& first, Iterables&&... iters):
-            ChainObject<Iterables...>(std::forward<Iterables>(iters)...),
+            parent_type(std::forward<Iterables>(iters)...),
             _first(first),
             _iter(first.begin())
         {}
 
-        const ChainObject<First, Iterables...>& begin() const
+        const ChainObject& begin() const
         {
             return *this;
         }
 
-        const ChainObject<First, Iterables...>& end() const
+        const ChainObject& end() const
         {
             return *this;
         }
 
         bool operator!=(const ChainObject&) const
         {
-            return ChainObject<Iterables...>::operator!=(*this);
+            return parent_type::operator!=(*this);
         }
 
         void operator++()
@@ -369,17 +384,18 @@ class ChainObject:
             }
             else
             {
-                ChainObject<Iterables...>::operator++();
+                parent_type::operator++();
             }
         }
 
-        auto operator*() -> decltype(*_iter)
+        auto operator*()
+            -> value_type
         {
             if (_iter != _first.end())
             {
                 return *_iter;
             }
-            return ChainObject<Iterables...>::operator*();
+            return parent_type::operator*();
         }
 };
 
@@ -393,17 +409,19 @@ class ChainObject<First>
 
     public:
 
+        using value_type = decltype(*_iter);
+
         ChainObject(First&& first):
             _first(first),
             _iter(first.begin())
         {}
 
-        const ChainObject<First>& begin() const
+        const ChainObject& begin() const
         {
             return *this;
         }
 
-        const ChainObject<First>& end() const
+        const ChainObject& end() const
         {
             return *this;
         }
@@ -418,14 +436,137 @@ class ChainObject<First>
             ++_iter;
         }
 
-        auto operator*() -> decltype(*_iter)
+        auto operator*()
+            -> value_type
         {
             return *_iter;
         }
 };
 
 template<typename... Iterables>
-inline ChainObject<Iterables...> chain(Iterables&&... iters)
+inline auto chain(Iterables&&... iters)
+    -> ChainObject<Iterables...>
 {
+    static_assert(is_same<typename std::decay<Iterables>::type::value_type...>::value,
+                  "different value_type for arguments passed to chain");
     return ChainObject<Iterables...>(std::forward<Iterables>(iters)...);
+}
+
+
+////////////////////////////////////////////////////////////
+template<typename First, typename... Iterables>
+class ZipObject:
+    public ZipObject<typename std::decay<Iterables>::type...>
+{
+    private:
+
+        First& _first;
+        decltype(_first.begin()) _iter;
+
+        using parent_type = ZipObject<typename std::decay<Iterables>::type...>;
+
+    public:
+
+        using value_type = decltype(
+            std::tuple_cat(
+                std::make_tuple(*_iter),
+                parent_type().operator*()
+            )
+        );
+
+        ZipObject():
+            parent_type(std::forward<typename std::decay<Iterables>::type>(Iterables())...),
+            _first(First())
+        {}
+
+        ZipObject(First&& first, Iterables&&... iters):
+            parent_type(std::forward<typename std::decay<Iterables>::type>(iters)...),
+            _first(first),
+            _iter(first.begin())
+        {}
+
+        const ZipObject& begin() const
+        {
+            return *this;
+        }
+
+        const ZipObject& end() const
+        {
+            return *this;
+        }
+
+        bool operator!=(const ZipObject&) const
+        {
+            return _iter != _first.end();
+        }
+
+        void operator++()
+        {
+            ++_iter;
+            parent_type::operator++();
+        }
+
+        auto operator*()
+            -> value_type
+        {
+            return std::tuple_cat(
+                    std::make_tuple(*_iter),
+                    parent_type::operator*()
+                );
+        }
+};
+
+template<typename First>
+class ZipObject<First>
+{
+    private:
+
+        First& _first;
+        decltype(_first.begin()) _iter;
+
+    public:
+
+        using value_type = decltype(std::make_tuple(*_iter));
+
+        ZipObject():
+            _first(First())
+        {}
+
+        ZipObject(First&& first):
+            _first(first),
+            _iter(first.begin())
+        {}
+
+        const ZipObject& begin() const
+        {
+            return *this;
+        }
+
+        const ZipObject& end() const
+        {
+            return *this;
+        }
+
+        bool operator!=(const ZipObject&) const
+        {
+            return _iter != _first.end();
+        }
+
+        void operator++()
+        {
+            ++_iter;
+        }
+
+        auto operator*()
+            -> decltype(std::make_tuple(*_iter))
+        {
+            return std::make_tuple(*_iter);
+        }
+};
+
+template<typename... Iterables>
+inline auto zip(Iterables&&... iters)
+    -> ZipObject<Iterables...>
+{
+    return ZipObject<Iterables...>(std::forward<Iterables>(iters)...);
 }
