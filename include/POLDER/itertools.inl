@@ -149,6 +149,8 @@ class ReversedObject
     public:
 
         using value_type                = typename std::decay<decltype(*std::begin(_iter))>::type;
+        using reference                 = value_type&;
+        using pointer                   = value_type*;
         using iterator                  = decltype(itertools::rbegin(_iter));
         using const_iterator            = decltype(itertools::rbegin(_iter));
         using reverse_iterator          = decltype(std::begin(_iter));
@@ -209,6 +211,8 @@ class FlatObject<FlatIterable, false>
     public:
 
         using value_type        = typename std::decay<decltype(*_iter.fbegin())>::type;
+        using reference         = value_type&;
+        using pointer           = value_type*;
         using iterator          = decltype(_iter.fbegin());
         using const_iterator    = decltype(_iter.cfbegin());
         using iterator_category = typename std::iterator_traits<iterator>::iterator_category;
@@ -246,6 +250,8 @@ class FlatObject<FlatIterable, true>:
     public:
 
         using value_type                = typename std::decay<decltype(*_iter.fbegin())>::type;
+        using reference                 = value_type&;
+        using pointer                   = value_type*;
         using iterator                  = decltype(_iter.fbegin());
         using const_iterator            = decltype(_iter.cfbegin());
         using reverse_iterator          = decltype(_iter.rfbegin());
@@ -299,6 +305,8 @@ class MapObject
     public:
 
         using value_type        = typename std::decay<decltype(*std::begin(_iter))>::type;
+        using reference         = value_type&;
+        using pointer           = value_type*;
         using iterator          = decltype(std::begin(_iter));
         using const_iterator    = decltype(std::begin(_iter));
         using iterator_category = typename std::iterator_traits<iterator>::iterator_category;
