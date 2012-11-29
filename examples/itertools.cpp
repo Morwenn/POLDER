@@ -2,24 +2,28 @@
 #include <cstdlib>
 #include <iostream>
 #include <list>
+#include <string>
 #include <vector>
 #include <POLDER/itertools.h>
 
 using std::list;
 using std::vector;
+using std::string;
 using std::cout;
 using std::endl;
+using std::get;
 using std::abs;
 using polder::itertools::range;
 using polder::itertools::reversed;
 using polder::itertools::map;
 using polder::itertools::chain;
+using polder::itertools::zip;
 
 
 /**
  * @def in
  * Python's "in" keyword. Macros are evil.
- * Anyway, that one is fun/ugly.
+ * Anyway, that one is funny/ugly.
  */
 #define in :
 
@@ -48,7 +52,7 @@ int main()
         // Range of integers
         for (int i in range(20, -35, 5))
         {
-            cout << i << endl;
+            cout << i << " ";
             if (i < -10)
             {
                 // Range is a generator.
@@ -61,7 +65,7 @@ int main()
 
     ////////////////////////////////////////////////////////////
     {
-        cout << endl << "Reversed Example" << endl;
+        cout << endl << endl << "Reversed Example" << endl;
 
         vector<int> vec = { 1, 2, 3, 4, 5, 6, 7 };
         for (int& i in reversed(vec))
@@ -69,34 +73,35 @@ int main()
             i *= 2;
             // Will print all the elements of vec
             // in the reversed order.
-            cout << i << endl;
+            cout << i << " ";
         }
 
+        cout << endl;
         int tab[] = { 8, 9, 10, 11, 12 };
         for (int& i in reversed(tab))
         {
             // Will print all the elements of vec
             // in the reversed order.
-            cout << i << endl;
+            cout << i << " ";
         }
     }
 
 
     ////////////////////////////////////////////////////////////
     {
-        cout << endl << "Map Example" << endl;
+        cout << endl << endl << "Map Example" << endl;
 
         list<int> li = { 1, -2, 3, 4, -5, -6, 7 };
         for (int i in map(&safe_abs, li))
         {
-            cout << i << endl;
+            cout << i << " ";
         }
     }
 
 
     ////////////////////////////////////////////////////////////
     {
-        cout << endl << "Chain Example" << endl;
+        cout << endl << endl << "Chain Example" << endl;
 
         vector<int> vec = { 1, 2, 3, 4, 5 };
         list<int>   li  = { 6, 7, 8, 9, 10, 11, 12, 13 };
@@ -106,9 +111,23 @@ int main()
             // as if there was only one of them.
             i *= 5;
 
-            cout << i << endl;
+            cout << i << " ";
         }
     }
+
+
+    ////////////////////////////////////////////////////////////
+    {
+        cout << endl << endl << "Zip Example" << endl;
+
+        list<int> integers          = { 0, 1, 2 };
+        list<const char*> strings   = { "one", "two", "three" };
+        for (const auto& i in zip(integers, strings))
+        {
+            cout << get<0>(i) << " " << get<1>(i) << endl;
+        }
+    }
+
 
     ////////////////////////////////////////////////////////////
     {
@@ -123,7 +142,7 @@ int main()
             // manipulation of them easier.
             i -= 2;
 
-            cout << i << endl;
+            cout << i << " ";
         }
     }
 
@@ -133,5 +152,5 @@ int main()
 
 int safe_abs(const int& x)
 {
-    return std::abs(x);
+    return abs(x);
 }
