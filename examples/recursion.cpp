@@ -46,7 +46,7 @@ class _fibo:
          * @return nth Fibonacci number
          *
          */
-        unsigned int function(size_t n)
+        unsigned int function(size_t n) final
         {
             return self(n-1) + self(n-2);
         }
