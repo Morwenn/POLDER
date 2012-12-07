@@ -15,43 +15,49 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-template<size_t N, typename T>
-Point<N, T>::Point(const Point<N, T>& other)
+template<size_t N>
+inline Point<N>::Point(const Point<N>& other)
 {
     std::copy(other.coordinates, other.coordinates+N, coordinates);
 }
 
-template<size_t N, typename T>
-Point<N, T>::Point(const std::initializer_list<value_type>& coords)
+template<size_t N>
+inline Point<N>::Point(const std::initializer_list<double>& coords)
 {
     assert(N > 1 && coords.size() == N);
     std::copy(coords.begin(), coords.end(), coordinates);
 }
 
-template<size_t N, typename T>
-template<typename... Args>
-Point<N, T>::Point(Args... coords)
+template<size_t N>
+Point<N>::Point(double first, ...)
 {
-    static_assert(sizeof... coords == N, "Wrong number of arguments.");
-    create(0, coords...);
+    assert(N > 1);
+    coordinates[0] = first;
+    va_list args;
+    va_start(args, first);
+    for (size_t i = 1 ; i < N ; ++i)
+    {
+        coordinates[i] = va_arg(args, double);
+    }
+    va_end(args);
 }
 
-template<size_t N, typename T>
-auto Point<N, T>::operator[](size_t index) -> reference
+template<size_t N>
+inline double& Point<N>::operator[](size_t index)
 {
     assert(index < N);
     return coordinates[index];
 }
 
-template<size_t N, typename T>
-auto Point<N, T>::operator[](size_t index) const -> value_type
+template<size_t N>
+inline double Point<N>::operator[](size_t index) const
 {
     assert(index < N);
     return coordinates[index];
 }
 
-template<size_t N, typename T>
-Point<N, T>& Point<N, T>::operator=(const Point<N, T>& other)
+template<size_t N>
+inline Point<N>& Point<N>::operator=(const Point<N>& other)
 {
     if (this != &other)
     {
@@ -60,20 +66,20 @@ Point<N, T>& Point<N, T>::operator=(const Point<N, T>& other)
     return *this;
 }
 
-template<size_t N, typename T>
-bool Point<N, T>::operator==(const Point<N, T>& other) const
+template<size_t N>
+inline bool Point<N>::operator==(const Point<N>& other) const
 {
     return round_equal(coordinates, coordinates+N, other.coordinates);
 }
 
-template<size_t N, typename T>
-bool Point<N, T>::operator!=(const Point<N, T>& other) const
+template<size_t N>
+inline bool Point<N>::operator!=(const Point<N>& other) const
 {
     return !(*this == other);
 }
 
-template<size_t N, typename T>
-Point<N, T>& Point<N, T>::operator+=(const Vector<N, T>& V)
+template<size_t N>
+Point<N>& Point<N>::operator+=(const Vector<N>& V)
 {
     for (size_t i = 0 ; i < N ; ++i)
     {
@@ -82,8 +88,8 @@ Point<N, T>& Point<N, T>::operator+=(const Vector<N, T>& V)
     return *this;
 }
 
-template<size_t N, typename T>
-Point<N, T>& Point<N, T>::operator-=(const Vector<N, T>& V)
+template<size_t N>
+Point<N>& Point<N>::operator-=(const Vector<N>& V)
 {
     for (size_t i = 0 ; i < N ; ++i)
     {
@@ -92,22 +98,22 @@ Point<N, T>& Point<N, T>::operator-=(const Vector<N, T>& V)
     return *this;
 }
 
-template<size_t N, typename T>
-const Point<N, T> Point<N, T>::operator+(const Vector<N, T>& V)
+template<size_t N>
+inline const Point<N> Point<N>::operator+(const Vector<N>& V)
 {
-    return Point<N, T>(*this) += V;
+    return Point<N>(*this) += V;
 }
 
-template<size_t N, typename T>
-const Point<N, T> Point<N, T>::operator-(const Vector<N, T>& V)
+template<size_t N>
+inline const Point<N> Point<N>::operator-(const Vector<N>& V)
 {
-    return Point<N, T>(*this) -= V;
+    return Point<N>(*this) -= V;
 }
 
-template<size_t N, typename T>
-const Vector<N, T> Point<N, T>::operator-(const Point<N, T>& other)
+template<size_t N>
+const Vector<N> Point<N>::operator-(const Point<N>& other)
 {
-    Vector<N, T> res = *this;
+    Vector<N> res = *this;
     for (size_t i = 0 ; i < N ; ++i)
     {
         res.coordinates[i] -= other[i];
@@ -115,95 +121,78 @@ const Vector<N, T> Point<N, T>::operator-(const Point<N, T>& other)
     return res;
 }
 
-template<size_t N, typename T>
-auto Point<N, T>::x() -> reference
+template<size_t N>
+inline double& Point<N>::x()
 {
     return coordinates[0];
 }
 
-template<size_t N, typename T>
-auto Point<N, T>::y() -> reference
+template<size_t N>
+inline double& Point<N>::y()
 {
     assert(N > 1);
     return coordinates[1];
 }
 
-template<size_t N, typename T>
-auto Point<N, T>::z() -> reference
+template<size_t N>
+inline double& Point<N>::z()
 {
     assert(N > 2);
     return coordinates[2];
 }
 
-template<size_t N, typename T>
-auto Point<N, T>::x() const -> value_type
+template<size_t N>
+inline double Point<N>::x() const
 {
     return coordinates[0];
 }
 
-template<size_t N, typename T>
-auto Point<N, T>::y() const -> value_type
+template<size_t N>
+inline double Point<N>::y() const
 {
     assert(N > 1);
     return coordinates[1];
 }
 
-template<size_t N, typename T>
-auto Point<N, T>::z() const -> value_type
+template<size_t N>
+inline double Point<N>::z() const
 {
     assert(N > 2);
     return coordinates[2];
 }
 
-template<size_t N, typename T>
-typename Point<N, T>::iterator Point<N, T>::begin()
+template<size_t N>
+inline typename Point<N>::iterator Point<N>::begin()
 {
     return coordinates;
 }
 
-template<size_t N, typename T>
-typename Point<N, T>::iterator Point<N, T>::end()
+template<size_t N>
+inline typename Point<N>::iterator Point<N>::end()
 {
     return coordinates + N;
 }
 
-template<size_t N, typename T>
-typename Point<N, T>::const_iterator Point<N, T>::begin() const
+template<size_t N>
+inline typename Point<N>::const_iterator Point<N>::begin() const
 {
     return coordinates;
 }
 
-template<size_t N, typename T>
-typename Point<N, T>::const_iterator Point<N, T>::end() const
+template<size_t N>
+inline typename Point<N>::const_iterator Point<N>::end() const
 {
     return coordinates + N;
 }
 
-template<size_t N, typename T>
-typename Point<N, T>::const_iterator Point<N, T>::cbegin() const
+template<size_t N>
+inline typename Point<N>::const_iterator Point<N>::cbegin() const
 {
     return coordinates;
 }
 
-template<size_t N, typename T>
-typename Point<N, T>::const_iterator Point<N, T>::cend() const
+template<size_t N>
+inline typename Point<N>::const_iterator Point<N>::cend() const
 {
     return coordinates + N;
-}
-
-template<size_t N, typename T>
-template<typename... Args>
-void Point<N, T>::create(size_t pos, T first, Args... coords)
-{
-    coordinates[pos] = first;
-    if (pos < N)
-    {
-        create(pos+1, coords...);
-    }
-}
-
-template<size_t N, typename T>
-void Point<N, T>::create(size_t pos, T first)
-{
-    coordinates[pos] = first;
 }

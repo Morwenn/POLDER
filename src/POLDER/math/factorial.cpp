@@ -55,15 +55,6 @@ inline namespace standard
     }
 }
 
-namespace memoized
-{
-    unsigned long long int factorial(unsigned long long int N)
-    {
-        /// TODO
-        return 0;
-    }
-}
-
 
 } // namespace math
 } // namespace polder

@@ -27,7 +27,6 @@
 #include <POLDER/geometry/limits.h>
 #include <POLDER/geometry/line.h>
 #include <POLDER/geometry/point.h>
-#include <POLDER/geometry/types.h>
 
 
 namespace polder
@@ -47,16 +46,16 @@ namespace geometry
      * @param HS Hypersphere
      * @return Some object
      */
-    template<size_t N, typename T=double>
-    Object intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS);
+    template<size_t N>
+    Object intersection(const Line<N>& L, const Hypersphere<N>& HS);
 
     /**
      * @brief Intersection between a Line and an Hypersphere
      *
      * @see intersection(const Line<N>&, const Hypersphere<N>&)
      */
-    template<size_t N, typename T=double>
-    Object intersection(const Hypersphere<N, T>& HS, const Line<N, T>& L);
+    template<size_t N>
+    Object intersection(const Hypersphere<N>& HS, const Line<N>& L);
 
 
     /**
@@ -70,8 +69,8 @@ namespace geometry
      * @param L2 Second Line
      * @return Some object
      */
-    template<size_t N, typename T=double>
-    Object intersection(const Line<N, T>& L1, const Line<N, T>& L2);
+    template<size_t N>
+    Object intersection(const Line<N>& L1, const Line<N>& L2);
 
     #include <POLDER/geometry/intersection.inl>
 

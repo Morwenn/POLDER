@@ -15,14 +15,14 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-template<size_t N, typename T>
-Direction<N, T>::Direction(const Direction<N, T>& other)
+template<size_t N>
+inline Direction<N>::Direction(const Direction<N>& other)
 {
     std::copy(other.coordinates, other.coordinates+N-1, coordinates);
 }
 
-template<size_t N, typename T>
-Direction<N, T>::Direction(const Point<N, T>& P)
+template<size_t N>
+Direction<N>::Direction(const Point<N>& P)
 {
     for (size_t i = 1 ; i < N ; ++i)
     {
@@ -30,18 +30,18 @@ Direction<N, T>::Direction(const Point<N, T>& P)
     }
 }
 
-template<size_t N, typename T>
-Direction<N, T>::Direction(const Point<N, T>& P1, const Point<N, T>& P2)
+template<size_t N>
+Direction<N>::Direction(const Point<N>& P1, const Point<N>& P2)
 {
-    const value_type first = P2[0] - P1[0];
+    const double first = P2[0] - P1[0];
     for (size_t i = 1 ; i < N ; ++i)
     {
         coordinates[i-1] = (P2[i] - P1[i]) / first;
     }
 }
 
-template<size_t N, typename T>
-Direction<N, T>::Direction(const Vector<N, T>& V)
+template<size_t N>
+Direction<N>::Direction(const Vector<N>& V)
 {
     for (size_t i = 1 ; i < N ; ++i)
     {
@@ -49,14 +49,14 @@ Direction<N, T>::Direction(const Vector<N, T>& V)
     }
 }
 
-template<size_t N, typename T>
-Direction<N, T>::Direction(const Line<N, T>& L)
+template<size_t N>
+inline Direction<N>::Direction(const Line<N>& L)
 {
     *this = L.direction();
 }
 
-template<size_t N, typename T>
-T Direction<N, T>::operator[](size_t index) const
+template<size_t N>
+inline double Direction<N>::operator[](size_t index) const
 {
     if (index > N-1)
     {
@@ -65,8 +65,8 @@ T Direction<N, T>::operator[](size_t index) const
     return coordinates[index];
 }
 
-template<size_t N, typename T>
-Direction<N, T>& Direction<N, T>::operator=(const Direction<N, T>& other)
+template<size_t N>
+Direction<N>& Direction<N>::operator=(const Direction<N>& other)
 {
     if (this != &other)
     {
@@ -75,22 +75,22 @@ Direction<N, T>& Direction<N, T>::operator=(const Direction<N, T>& other)
     return *this;
 }
 
-template<size_t N, typename T>
-bool Direction<N, T>::operator==(const Direction<N, T>& other) const
+template<size_t N>
+inline bool Direction<N>::operator==(const Direction<N>& other) const
 {
     return round_equal(coordinates, coordinates+N-1, other.coordinates);
 }
 
-template<size_t N, typename T>
-bool Direction<N, T>::operator!=(const Direction<N, T>& other) const
+template<size_t N>
+inline bool Direction<N>::operator!=(const Direction<N>& other) const
 {
     return !(*this == other);
 }
 
-template<size_t N, typename T>
-Direction<N, T> Direction<N, T>::operator-() const
+template<size_t N>
+Direction<N> Direction<N>::operator-() const
 {
-    Direction<N, T> D(*this);
+    Direction<N> D(*this);
     for (size_t i = 0 ; i < N-1 ; ++i)
     {
         D.coordinates[i] = -D.coordinates[i];
@@ -98,38 +98,38 @@ Direction<N, T> Direction<N, T>::operator-() const
     return D;
 }
 
-template<size_t N, typename T>
-typename Direction<N, T>::iterator Direction<N, T>::begin()
+template<size_t N>
+inline typename Direction<N>::iterator Direction<N>::begin()
 {
     return coordinates;
 }
 
-template<size_t N, typename T>
-typename Direction<N, T>::iterator Direction<N, T>::end()
+template<size_t N>
+inline typename Direction<N>::iterator Direction<N>::end()
 {
     return coordinates + N - 1;
 }
 
-template<size_t N, typename T>
-typename Direction<N, T>::const_iterator Direction<N, T>::begin() const
+template<size_t N>
+inline typename Direction<N>::const_iterator Direction<N>::begin() const
 {
     return coordinates;
 }
 
-template<size_t N, typename T>
-typename Direction<N, T>::const_iterator Direction<N, T>::end() const
+template<size_t N>
+inline typename Direction<N>::const_iterator Direction<N>::end() const
 {
     return coordinates + N - 1;
 }
 
-template<size_t N, typename T>
-typename Direction<N, T>::const_iterator Direction<N, T>::cbegin() const
+template<size_t N>
+inline typename Direction<N>::const_iterator Direction<N>::cbegin() const
 {
     return coordinates;
 }
 
-template<size_t N, typename T>
-typename Direction<N, T>::const_iterator Direction<N, T>::cend() const
+template<size_t N>
+inline typename Direction<N>::const_iterator Direction<N>::cend() const
 {
     return coordinates + N - 1;
 }

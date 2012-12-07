@@ -26,14 +26,22 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <POLDER/geometry/limits.h>
+
+// Basic headers
 #include <POLDER/geometry/direction.h>
-#include <POLDER/geometry/point.h>
-#include <POLDER/geometry/vector.h>
-#include <POLDER/geometry/line.h>
 #include <POLDER/geometry/hypersphere.h>
 #include <POLDER/geometry/intersection.h>
+#include <POLDER/geometry/limits.h>
+#include <POLDER/geometry/line.h>
+#include <POLDER/geometry/point.h>
+#include <POLDER/geometry/vector.h>
 
+// Specializations
+#include <POLDER/geometry/direction2.h>
+#include <POLDER/geometry/hypersphere2.h>
+#include <POLDER/geometry/line2.h>
+#include <POLDER/geometry/point2.h>
+#include <POLDER/geometry/vector2.h>
 
 ////////////////////////////////////////////////////////////
 // Documentation

@@ -22,15 +22,18 @@
 ////////////////////////////////////////////////////////////
 #include <algorithm>
 #include <cassert>
+#include <cstdarg>
 #include <initializer_list>
 #include <POLDER/geometry/limits.h>
-#include <POLDER/geometry/types.h>
 
 
 namespace polder
 {
 namespace geometry
 {
+
+// Forward declaration
+template<size_t N> class Vector;
 
 
 /**
@@ -39,19 +42,10 @@ namespace geometry
  * A point is simply defined by N coordinates
  * in a N-dimensional space.
  */
-template<size_t N, typename T>
+template<size_t N>
 class Point
 {
     public:
-
-        ////////////////////////////////////////////////////////////
-        // Common types
-        ////////////////////////////////////////////////////////////
-
-        using value_type = T;
-        using size_type = size_t;
-        using reference = value_type&;
-        using const_reference = const value_type&;
 
         ////////////////////////////////////////////////////////////
         // Constructors
@@ -65,22 +59,22 @@ class Point
         /**
          * Copy constructor
          */
-        Point(const Point<N, T>& other);
+        Point(const Point<N>& other);
 
         /**
          * @brief Initializer list constructor
          *
          * @param args List of coordinates
          */
-        Point(const std::initializer_list<value_type>& coords);
+        Point(const std::initializer_list<double>& coords);
 
         /**
          * Variadic constructor
          *
-         * @param coords Coordinates
+         * @param first First coordinate value
          */
-        template<typename... Args>
-        Point(Args... coords);
+        Point(double first, ...);
+
 
         ////////////////////////////////////////////////////////////
         // Operators
@@ -92,53 +86,53 @@ class Point
          * @param index Index of the ccordinate to access
          * @return indexth coordinate
          */
-        value_type& operator[](size_t index);
+        double& operator[](size_t index);
 
         /**
-         * @overload value_type& operator[](size_t index)
+         * @see double& operator[](size_t index)
          */
-        value_type operator[](size_t index) const;
+        double operator[](size_t index) const;
 
         /**
          * Copy assignement operator
          */
-        Point<N, T>& operator=(const Point<N, T>& other);
+        Point<N>& operator=(const Point<N>& other);
 
         // Comparison
-        bool operator==(const Point<N, T>& other) const;
+        bool operator==(const Point<N>& other) const;
 
-        bool operator!=(const Point<N, T>& other) const;
+        bool operator!=(const Point<N>& other) const;
 
         // Point-Vector arithmetics
-        Point<N, T>& operator+=(const Vector<N, T>& V);
+        Point<N>& operator+=(const Vector<N>& V);
 
-        Point<N, T>& operator-=(const Vector<N, T>& V);
+        Point<N>& operator-=(const Vector<N>& V);
 
-        const Point<N, T> operator+(const Vector<N, T>& V);
+        const Point<N> operator+(const Vector<N>& V);
 
-        const Point<N, T> operator-(const Vector<N, T>& V);
+        const Point<N> operator-(const Vector<N>& V);
 
-        const Vector<N, T> operator-(const Point<N, T>& other);
+        const Vector<N> operator-(const Point<N>& other);
 
         ////////////////////////////////////////////////////////////
         // Coordinates aliases
         ////////////////////////////////////////////////////////////
 
-        reference& x();
-        reference& y();
-        reference& z();
+        double& x();
+        double& y();
+        double& z();
 
-        value_type x() const;
-        value_type y() const;
-        value_type z() const;
+        double x() const;
+        double y() const;
+        double z() const;
 
 
         ////////////////////////////////////////////////////////////
         // Point iterators
         ////////////////////////////////////////////////////////////
 
-        typedef value_type* iterator;
-        typedef const value_type* const_iterator;
+        typedef double* iterator;
+        typedef const double* const_iterator;
 
         iterator begin();
         iterator end();
@@ -151,15 +145,10 @@ class Point
 
     private:
 
-        // Construct the vector from the arguments
-        template<typename... Args>
-        void create(size_t pos, T first, Args... coords);
-        void create(size_t pos, T first);
-
         // Member data
-        value_type coordinates[N];    /**< Coordinates */
+        double coordinates[N];    /**< Coordinates */
 
-    friend class Vector<N, T>;
+    friend class Vector<N>;
 };
 
 #include <POLDER/geometry/point.inl>

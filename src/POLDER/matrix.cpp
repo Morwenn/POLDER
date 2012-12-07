@@ -1483,7 +1483,7 @@ Matrix identity(size_t n)
 // Creation of a Matrix with ones on a diagonal and zeros elsewhere
 Matrix eye(size_t x, size_t y, int k)
 {
-    assert(x > 0 && y >= 0);
+    assert(x > 0);
     Matrix res = (y == 0) ? Matrix(x, x) : Matrix(x, y);
     for (size_t i = 0 ; i < res.height() ; ++i)
     {
