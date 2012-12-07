@@ -26,13 +26,49 @@
 
 namespace polder
 {
+    struct empty_list;
+    template<typename...>
+    struct type_list;
+    template<typename...>
+    struct type_list_cat {};
+
+    /**
+     * @brief Empty type list
+     *
+     * Acts like a type_list that does not contain anything.
+     * When one of its elements is required, void is returned.
+     */
+    struct empty_list
+    {
+        using size_type = std::size_t;
+        static constexpr size_type size = 0;
+        static constexpr bool is_empty = true;
+
+        template<size_type N>
+        using at    = void;
+
+        using front = void;
+        using back  = void;
+
+        template<typename... Types>
+        using push_front = type_list<Types...>;
+        template<typename... Types>
+        using push_back = type_list<Types...>;
+
+        using pop_front = empty_list;
+        using pop_back = empty_list;
+
+        template<typename List>
+        using cat = List;
+    };
 
     template<typename Head, typename... Tail>
-    struct type_list:
+    struct type_list<Head, Tail...>:
         type_list<Tail...>
     {
         using size_type = std::size_t;
         static constexpr size_type size = sizeof...(Tail) + 1;
+        static constexpr bool is_empty = false;
 
         template<size_type N>
         using at = typename std::conditional<
@@ -43,6 +79,16 @@ namespace polder
 
         using front = Head;
         using back  = at<size-1>;
+
+        template<typename... Types>
+        using push_front = type_list<Types..., Head, Tail...>;
+        template<typename... Types>
+        using push_back = type_list<Head, Tail..., Types...>;
+
+        using pop_front = type_list<Tail...>;
+
+        template<typename List>
+        using cat = typename type_list_cat<type_list<Head, Tail...>, List>::type;
     };
 
     template<typename Head>
@@ -50,6 +96,7 @@ namespace polder
     {
         using size_type = std::size_t;
         static constexpr size_type size = 1;
+        static constexpr bool is_empty = false;
 
         template<size_type N>
         using at = typename std::conditional<
@@ -60,6 +107,23 @@ namespace polder
 
         using front = Head;
         using back  = Head;
+
+        template<typename... Types>
+        using push_front = type_list<Types..., Head>;
+        template<typename... Types>
+        using push_back = type_list<Head, Types...>;
+
+        using pop_front = empty_list;
+        using pop_back = empty_list;
+
+        template<typename List>
+        using cat = typename type_list_cat<type_list<Head>, List>::type;
+    };
+
+    template<typename... A, typename... B>
+    struct type_list_cat<type_list<A...>, type_list<B...>>
+    {
+        using type = type_list<A..., B...>;
     };
 
 } // namespace polder
