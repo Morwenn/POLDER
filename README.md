@@ -1,9 +1,14 @@
 POLDER - Open Source C++ Library
 ================================
 
+POLDER is some personal library where I just throw whatever reusable
+bit of code I write. POLDER has no specific purpose nor has it any
+proper cohesion between its modules.
+
 This folder contains the last version of the POLDER library.
-You can find some documentation at http://morwenn.wikia.com/wiki/POLDER
-However, note that this documentation is written in french.
+There is no official documentation. However, you can generate
+a bit of documentation for some of the modules using Doxygen.
 
 If you want to compile the code properly, you will need some C++11
-support. I currently use the GCC 4.7.0 release.
+support. Tested with the following compilers:
+* GCC 4.7.2
