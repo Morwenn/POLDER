@@ -20,8 +20,12 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <cstddef>
+#include <iterator>
 #include <utility>
+#include <tuple>
 #include <POLDER/config.h>
+#include <POLDER/type_traits.h>
 
 
 namespace polder
@@ -43,10 +47,14 @@ namespace itertools
 class RangeObject;
 template<typename BidirectionalIterable>
 class ReversedObject;
+template<typename FlatIterable, bool IsReverseIterable>
+class FlatObject;
 template<typename T, typename Iterable>
 class MapObject;
 template<typename First, typename... Iterables>
 class ChainObject;
+template<typename First, typename... Iterables>
+class ZipObject;
 
 
 /**
@@ -60,7 +68,7 @@ class ChainObject;
  * @param end Last value
  * @return Generator
  */
-constexpr RangeObject range(int end);
+constexpr RangeObject range(int end) noexcept;
 
 /**
  * @brief Versatile range of integers
@@ -75,20 +83,62 @@ constexpr RangeObject range(int end);
  * @param step Step between two values
  * @return Generator
  */
-constexpr RangeObject range(int begin, int end, unsigned int step=1);
+constexpr RangeObject range(int begin, int end, unsigned int step=1) noexcept;
+
+/**
+ * @brief Global rbegin function
+ *
+ * The equilavent of std::begin for reversed
+ * iteration.
+ */
+template<typename T>
+auto rbegin(T& iter)        -> decltype(iter.rbegin());
+template<typename T>
+auto rbegin(const T& iter)  -> decltype(iter.crbegin());
+template<typename T, std::size_t N>
+auto rbegin(T (&array)[N])  -> std::reverse_iterator<T*>;
+
+
+/**
+ * @brief Global rend function
+ *
+ * The equilavent of std::end for reversed
+ * iteration.
+ */
+template<typename T>
+auto rend(T& iter)          -> decltype(iter.rend());
+template<typename T>
+auto rend(const T& iter)    -> decltype(iter.crend());
+template<typename T, std::size_t N>
+auto rend(T (&array)[N])    -> std::reverse_iterator<T*>;
 
 /**
  * @brief Reversed iterable
  *
  * This function acts like a wrapper that allows to
- * use the rebing and rend functions to operate
+ * use the rbegin and rend functions to operate
  * reverse iteration in a foreach loop.
  *
  * @param iter Iterable
  * @return Generator
  */
 template<typename BidirectionalIterable>
-ReversedObject<BidirectionalIterable> reversed(BidirectionalIterable&& iter);
+auto reversed(BidirectionalIterable&& iter)
+    -> ReversedObject<BidirectionalIterable>;
+
+/**
+ * @brief Flat iterable
+ *
+ * This function acts like a wrapper that allows to
+ * use the fbegin and fend functions to operate
+ * flat iteration in a foreach loop.
+ *
+ * @param iter Iterable
+ * @return Generator
+ */
+template<typename FlatIterable>
+auto flat(FlatIterable&& iter)
+    -> FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>;
 
 /**
  * @brief Apply function to iterable
@@ -102,10 +152,8 @@ ReversedObject<BidirectionalIterable> reversed(BidirectionalIterable&& iter);
  * @return Generator
  */
 template<typename T, typename Iterable>
-MapObject<T, Iterable> map(T (*function)(T) , const Iterable& iter);
-
-template<typename T, typename Iterable>
-MapObject<T, Iterable> map(T (*function)(const T&) , const Iterable& iter);
+auto map(T (*function)(const T&) , Iterable&& iter)
+    -> MapObject<T, Iterable>;
 
 /**
  * @brief Iter through many containers
@@ -116,10 +164,23 @@ MapObject<T, Iterable> map(T (*function)(const T&) , const Iterable& iter);
  *
  * It is possible to chain different containers (list, vector
  * array, etc...) but the contained values must be of the same
- * type. Otherwise, it will crash at compilation.
+ * type. Otherwise, it will crash at compile time.
  */
 template<typename... Iterables>
-ChainObject<Iterables...> chain(Iterables&&... iters);
+auto chain(Iterables&&... iters)
+    -> ChainObject<Iterables...>;
+
+/**
+ * @brief Aggregates elements from iterables
+ *
+ * Make groups of elements from different iterables.
+ * For exemple, a list of int zipped with a list
+ * of float would generate elements of type
+ * std::tuple<int, float>.
+ */
+template<typename... Iterables>
+auto zip(Iterables&&... iters)
+    -> ZipObject<Iterables...>;
 
 
 #include <POLDER/itertools.inl>
