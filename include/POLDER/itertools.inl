@@ -363,7 +363,12 @@ class ChainObject:
 
     public:
 
-        using value_type = decltype(*_iter);
+        using value_type        = typename std::decay<decltype(*_iter)>::type;
+        using reference         = value_type&;
+        using pointer           = value_type*;
+        using iterator          = ChainObject&;
+        using const_iterator    = const ChainObject&;
+        using iterator_category = std::forward_iterator_tag;
 
         ChainObject(First&& first, Iterables&&... iters):
             parent_type(std::forward<Iterables>(iters)...),
@@ -371,15 +376,18 @@ class ChainObject:
             _iter(first.begin())
         {}
 
-        const ChainObject& begin() const
-        {
-            return *this;
-        }
-
-        const ChainObject& end() const
-        {
-            return *this;
-        }
+        auto begin() -> iterator
+            { return *this; }
+        auto begin() const -> const ChainObject&
+            { return *this; }
+        auto cbegin() const -> const ChainObject&
+            { return *this; }
+        auto end() -> iterator
+            { return *this; }
+        auto end() const -> const ChainObject&
+            { return *this; }
+        auto cend() const -> const ChainObject&
+            { return *this; }
 
         bool operator!=(const ChainObject&) const
         {
@@ -399,7 +407,7 @@ class ChainObject:
         }
 
         auto operator*()
-            -> value_type
+            -> decltype(*_iter)
         {
             if (_iter != _first.end())
             {
@@ -419,22 +427,30 @@ class ChainObject<First>
 
     public:
 
-        using value_type = decltype(*_iter);
+        using value_type        = typename std::decay<decltype(*_iter)>::type;
+        using reference         = value_type&;
+        using pointer           = value_type*;
+        using iterator          = ChainObject&;
+        using const_iterator    = const ChainObject&;
+        using iterator_category = std::forward_iterator_tag;
 
         ChainObject(First&& first):
             _first(first),
             _iter(first.begin())
         {}
 
-        const ChainObject& begin() const
-        {
-            return *this;
-        }
-
-        const ChainObject& end() const
-        {
-            return *this;
-        }
+        auto begin() -> iterator
+            { return *this; }
+        auto begin() const -> const ChainObject&
+            { return *this; }
+        auto cbegin() const -> const ChainObject&
+            { return *this; }
+        auto end() -> iterator
+            { return *this; }
+        auto end() const -> const ChainObject&
+            { return *this; }
+        auto cend() const -> const ChainObject&
+            { return *this; }
 
         bool operator!=(const ChainObject&) const
         {
@@ -447,7 +463,7 @@ class ChainObject<First>
         }
 
         auto operator*()
-            -> value_type
+            -> decltype(*_iter)
         {
             return *_iter;
         }
@@ -483,6 +499,8 @@ class ZipObject:
                 parent_type().operator*()
             )
         );
+        using reference = value_type&;
+        using pointer   = value_type*;
 
         ZipObject():
             parent_type(std::forward<typename std::decay<Iterables>::type>(Iterables())...),
@@ -536,7 +554,9 @@ class ZipObject<First>
 
     public:
 
-        using value_type = decltype(std::make_tuple(*_iter));
+        using value_type    = decltype(std::make_tuple(*_iter));
+        using reference     = value_type&;
+        using pointer       = value_type*;
 
         ZipObject():
             _first(First())
