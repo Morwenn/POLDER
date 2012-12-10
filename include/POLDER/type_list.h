@@ -120,6 +120,24 @@ namespace polder
         using cat = typename type_list_cat<type_list<Head>, List>::type;
     };
 
+    template<>
+    struct type_list_cat<empty_list, empty_list>
+    {
+        using type = empty_list;
+    };
+
+    template<typename... Types>
+    struct type_list_cat<empty_list, type_list<Types...>>
+    {
+        using type = type_list<Types...>;
+    };
+
+    template<typename... Types>
+    struct type_list_cat<type_list<Types...>, empty_list>
+    {
+        using type = type_list<Types...>;
+    };
+
     template<typename... A, typename... B>
     struct type_list_cat<type_list<A...>, type_list<B...>>
     {
