@@ -1,12 +1,14 @@
 // Headers
 #include <cmath>
 #include <cstdlib>
+#include <deque>
 #include <iostream>
 #include <list>
 #include <string>
 #include <vector>
 #include <POLDER/itertools.h>
 
+using std::deque;
 using std::list;
 using std::vector;
 using std::string;
@@ -112,13 +114,32 @@ int main()
         cout << endl << endl << "Chain Example" << endl;
 
         vector<int> vec = { 1, 2, 3, 4, 5 };
-        list<int>   li  = { 6, 7, 8, 9, 10, 11, 12, 13 };
-        for (int& i in chain(vec, li))
+        list<int>    li = { 6, 7, 8, 9, 10 };
+        deque<int>  deq = { 11, 12, 13, 14, 15 };
+        for (int& i in chain(vec, li, deq))
         {
             // You can edit a range of iterables
             // as if there was only one of them.
             i *= 5;
 
+            cout << i << " ";
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    {
+        cout << endl << endl << "Nested Chain Example" << endl;
+
+        vector<int> vec = { 1, 2, 3, 4, 5 };
+        list<int>    li = { 6, 7, 8, 9, 10 };
+        deque<int>  deq = { 11, 12, 13, 14, 15 };
+        for (int& i in chain(vec, chain(li, deq)))
+        {
+            cout << i << " ";
+        }
+        cout << endl;
+        for (int& i in chain(chain(vec, li), deq))
+        {
             cout << i << " ";
         }
     }
