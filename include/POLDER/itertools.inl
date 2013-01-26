@@ -357,7 +357,7 @@ class ChainObject:
     private:
 
         First& _first;
-        decltype(_first.begin()) _iter;
+        decltype(std::begin(_first)) _iter;
 
         using parent_type = ChainObject<Iterables...>;
 
@@ -367,26 +367,26 @@ class ChainObject:
         using reference         = value_type&;
         using pointer           = value_type*;
         using iterator          = ChainObject&;
-        using const_iterator    = const ChainObject&;
+        using const_iterator    = const iterator;
         using iterator_category = std::forward_iterator_tag;
 
         ChainObject(First&& first, Iterables&&... iters):
             parent_type(std::forward<Iterables>(iters)...),
             _first(first),
-            _iter(first.begin())
+            _iter(std::begin(first))
         {}
 
         auto begin() -> iterator
             { return *this; }
-        auto begin() const -> const ChainObject&
+        auto begin() const -> const_iterator
             { return *this; }
-        auto cbegin() const -> const ChainObject&
+        auto cbegin() const -> const_iterator
             { return *this; }
         auto end() -> iterator
             { return *this; }
-        auto end() const -> const ChainObject&
+        auto end() const -> const_iterator
             { return *this; }
-        auto cend() const -> const ChainObject&
+        auto cend() const -> const_iterator
             { return *this; }
 
         bool operator!=(const ChainObject&) const
@@ -396,7 +396,7 @@ class ChainObject:
 
         void operator++()
         {
-            if (_iter != _first.end())
+            if (_iter != std::end(_first))
             {
                 ++_iter;
             }
@@ -409,7 +409,7 @@ class ChainObject:
         auto operator*()
             -> decltype(*_iter)
         {
-            if (_iter != _first.end())
+            if (_iter != std::end(_first))
             {
                 return *_iter;
             }
@@ -423,7 +423,7 @@ class ChainObject<First>
     private:
 
         First& _first;
-        decltype(_first.begin()) _iter;
+        decltype(std::begin(_first)) _iter;
 
     public:
 
@@ -431,30 +431,30 @@ class ChainObject<First>
         using reference         = value_type&;
         using pointer           = value_type*;
         using iterator          = ChainObject&;
-        using const_iterator    = const ChainObject&;
+        using const_iterator    = const iterator;
         using iterator_category = std::forward_iterator_tag;
 
         ChainObject(First&& first):
             _first(first),
-            _iter(first.begin())
+            _iter(std::begin(first))
         {}
 
         auto begin() -> iterator
             { return *this; }
-        auto begin() const -> const ChainObject&
+        auto begin() const -> const_iterator
             { return *this; }
-        auto cbegin() const -> const ChainObject&
+        auto cbegin() const -> const_iterator
             { return *this; }
         auto end() -> iterator
             { return *this; }
-        auto end() const -> const ChainObject&
+        auto end() const -> const_iterator
             { return *this; }
-        auto cend() const -> const ChainObject&
+        auto cend() const -> const_iterator
             { return *this; }
 
         bool operator!=(const ChainObject&) const
         {
-            return _iter != _first.end();
+            return _iter != std::end(_first);
         }
 
         void operator++()
@@ -487,7 +487,7 @@ class ZipObject:
     private:
 
         First& _first;
-        decltype(_first.begin()) _iter;
+        decltype(std::begin(_first)) _iter;
 
         using parent_type = ZipObject<typename std::decay<Iterables>::type...>;
 
@@ -510,7 +510,7 @@ class ZipObject:
         ZipObject(First&& first, Iterables&&... iters):
             parent_type(std::forward<typename std::decay<Iterables>::type>(iters)...),
             _first(first),
-            _iter(first.begin())
+            _iter(std::begin(first))
         {}
 
         const ZipObject& begin() const
@@ -525,7 +525,7 @@ class ZipObject:
 
         bool operator!=(const ZipObject&) const
         {
-            return _iter != _first.end();
+            return _iter != std::end(_first);
         }
 
         void operator++()
@@ -550,7 +550,7 @@ class ZipObject<First>
     private:
 
         First& _first;
-        decltype(_first.begin()) _iter;
+        decltype(std::begin(_first)) _iter;
 
     public:
 
@@ -564,7 +564,7 @@ class ZipObject<First>
 
         ZipObject(First&& first):
             _first(first),
-            _iter(first.begin())
+            _iter(std::begin(_first))
         {}
 
         const ZipObject& begin() const
@@ -579,7 +579,7 @@ class ZipObject<First>
 
         bool operator!=(const ZipObject&) const
         {
-            return _iter != _first.end();
+            return _iter != std::end(_first);
         }
 
         void operator++()
