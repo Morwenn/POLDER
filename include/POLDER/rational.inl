@@ -27,19 +27,19 @@ rational<T>::rational(const T& numerator, const T& denominator):
 }
 
 template<typename T>
-constexpr rational<T>::rational(const T& numerator):
+constexpr rational<T>::rational(const T& numerator) noexcept:
     _numerator(numerator),
     _denominator(1)
 {}
 
 template<typename T>
-T rational<T>::numerator() const
+T rational<T>::numerator() const noexcept
 {
     return _numerator;
 }
 
 template<typename T>
-T rational<T>::denominator() const
+T rational<T>::denominator() const noexcept
 {
     return _denominator;
 }

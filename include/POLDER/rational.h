@@ -86,7 +86,7 @@ struct rational
          * @param numerator Numerator of the fraction
          * @see rational(const T& numerator, const T& denominator)
          */
-        constexpr rational(const T& numerator);
+        constexpr rational(const T& numerator) noexcept;
 
         /**
          * Destructor
@@ -102,13 +102,13 @@ struct rational
          * @brief Returns the numerator of a rational number
          * @return Numerator
          */
-        T numerator() const;
+        T numerator() const noexcept;
 
         /**
          * @brief Returns the denominator of a rational number
          * @return Denominator
          */
-        T denominator() const;
+        T denominator() const noexcept;
 
 
         ////////////////////////////////////////////////////////////
