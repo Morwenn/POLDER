@@ -18,6 +18,7 @@ using std::get;
 using polder::itertools::range;
 using polder::itertools::reversed;
 using polder::itertools::map;
+using polder::itertools::filter;
 using polder::itertools::chain;
 using polder::itertools::zip;
 
@@ -39,6 +40,13 @@ using polder::itertools::zip;
  */
 int abs(const int& x);
 double sin(const double& x);
+
+/**
+ * @brief Filter for even number
+ *
+ * Returns true if \a i is odd.
+ */
+bool even_filter(const int& i);
 
 
 /**
@@ -108,6 +116,23 @@ int main()
         }
     }
 
+    ////////////////////////////////////////////////////////////
+    {
+        cout << endl << endl << "Filter Example" << endl;
+
+        list<int> li = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        for (int i in filter(&even_filter, li))
+        {
+            cout << i << " ";
+        }
+
+        cout << endl;
+        double tab[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+        for (int i in filter(&even_filter, tab))
+        {
+            cout << i << " ";
+        }
+    }
 
     ////////////////////////////////////////////////////////////
     {
@@ -187,4 +212,9 @@ int abs(const int& x)
 double sin(const double& x)
 {
     return std::sin(x);
+}
+
+bool even_filter(const int& i)
+{
+    return i % 2;
 }

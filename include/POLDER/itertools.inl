@@ -350,6 +350,74 @@ inline auto map(T (*function)(const T&) , Iterable&& iter)
 
 
 ////////////////////////////////////////////////////////////
+template<typename T, typename Iterable>
+class FilterObject
+{
+    private:
+
+        const Iterable& _iter;
+        bool (*_func)(const T&);
+        decltype(std::begin(_iter)) _begin;
+        const decltype(std::end(_iter)) _end;
+
+        FilterObject(bool (*function)(const T&), Iterable&& iter):
+            _iter(iter),
+            _func(function),
+            _begin(std::begin(_iter)),
+            _end(std::end(_iter))
+        {}
+
+    public:
+
+        using value_type        = typename std::decay<decltype(*std::begin(_iter))>::type;
+        using reference         = value_type&;
+        using pointer           = value_type*;
+        using iterator          = decltype(std::begin(_iter));
+        using const_iterator    = decltype(std::begin(_iter));
+        using iterator_category = std::forward_iterator_tag;
+
+        const FilterObject& begin() const
+        {
+            return *this;
+        }
+
+        const FilterObject& end() const
+        {
+            return *this;
+        }
+
+        bool operator!=(const FilterObject&) const
+        {
+            return _begin != _end;
+        }
+
+        void operator++()
+        {
+            do
+            {
+                ++_begin;
+            }
+            while (_func(*_begin) == false && _begin != _end);
+        }
+
+        T operator*()
+        {
+            return *_begin;
+        }
+
+    friend auto filter<>(bool (*function)(const T&) , Iterable&& iter)
+        -> FilterObject<T, Iterable>;
+};
+
+template<typename T, typename Iterable>
+inline auto filter(bool (*function)(const T&) , Iterable&& iter)
+    -> FilterObject<T, Iterable>
+{
+    return FilterObject<T, Iterable>(function, std::forward<Iterable>(iter));
+}
+
+
+////////////////////////////////////////////////////////////
 template<typename First, typename... Iterables>
 class ChainObject:
     private ChainObject<Iterables...>

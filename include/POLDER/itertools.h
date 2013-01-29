@@ -35,9 +35,9 @@ namespace polder
  * @namespace polder::itertools
  * @brief Iterator tools
  *
- * Collection of functions an functor inspired
- * from Python programming. Most of them are meant
- * be used with the C++11 for loop.
+ * Collection of functions and functors inspired
+ * by Python programming. Most of them are meant to
+ * be used with the C++11 for[each] loop.
  */
 namespace itertools
 {
@@ -51,6 +51,8 @@ template<typename FlatIterable, bool IsReverseIterable>
 class FlatObject;
 template<typename T, typename Iterable>
 class MapObject;
+template<typename T, typename Iterable>
+class FilterObject;
 template<typename First, typename... Iterables>
 class ChainObject;
 template<typename First, typename... Iterables>
@@ -154,6 +156,21 @@ auto flat(FlatIterable&& iter)
 template<typename T, typename Iterable>
 auto map(T (*function)(const T&) , Iterable&& iter)
     -> MapObject<T, Iterable>;
+
+/**
+ * @brief Filter elements from an iterable
+ *
+ * Generates a FilterObject. It's a generator that
+ * yields the values of \a iter one by one if
+ * \a function returns true.
+ *
+ * @param function Filter function to apply
+ * @param iter Iterable
+ * @return Generator
+ */
+template<typename T, typename Iterable>
+auto filter(bool (*function)(const T&) , Iterable&& iter)
+    -> FilterObject<T, Iterable>;
 
 /**
  * @brief Iter through many containers
