@@ -162,6 +162,7 @@ int main()
         {
             cout << i << " ";
         }
+
         cout << endl;
         for (int& i in chain(chain(vec, li), deq))
         {
@@ -196,6 +197,13 @@ int main()
             // manipulation of them easier.
             i -= 2;
 
+            cout << i << " ";
+        }
+
+        cout << endl;
+        deque<int>  deq = { -11, 12, -13, -14, 15 };
+        for (int i in reversed(map(&abs, deq)))
+        {
             cout << i << " ";
         }
     }

@@ -49,7 +49,7 @@ template<typename BidirectionalIterable>
 class ReversedObject;
 template<typename FlatIterable, bool IsReverseIterable>
 class FlatObject;
-template<typename T, typename Iterable>
+template<typename T, typename Iterable, bool IsReverseIterable>
 class MapObject;
 template<typename T, typename Iterable>
 class FilterObject;
@@ -155,7 +155,7 @@ auto flat(FlatIterable&& iter)
  */
 template<typename T, typename Iterable>
 auto map(T (*function)(const T&) , Iterable&& iter)
-    -> MapObject<T, Iterable>;
+    -> MapObject<T, Iterable, is_reverse_iterable<Iterable>::value>;
 
 /**
  * @brief Filter elements from an iterable

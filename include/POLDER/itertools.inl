@@ -149,10 +149,11 @@ class ReversedObject
     public:
 
         using value_type                = typename std::decay<decltype(*std::begin(_iter))>::type;
+        using difference_type           = std::ptrdiff_t;
         using reference                 = value_type&;
         using pointer                   = value_type*;
-        using iterator                  = decltype(itertools::rbegin(_iter));
-        using const_iterator            = decltype(itertools::rbegin(_iter));
+        using iterator                  = typename std::remove_reference<decltype(itertools::rbegin(_iter))>::type;
+        using const_iterator            = typename std::remove_reference<decltype(itertools::rbegin(_iter))>::type;
         using reverse_iterator          = decltype(std::begin(_iter));
         using const_reverse_iterator    = decltype(std::begin(_iter));
         using iterator_category         = typename std::iterator_traits<iterator>::iterator_category;
@@ -212,6 +213,7 @@ class FlatObject<FlatIterable, false>
     public:
 
         using value_type        = typename std::decay<decltype(*_iter.fbegin())>::type;
+        using difference_type   = std::ptrdiff_t;
         using reference         = value_type&;
         using pointer           = value_type*;
         using iterator          = decltype(_iter.fbegin());
@@ -251,6 +253,7 @@ class FlatObject<FlatIterable, true>:
     public:
 
         using value_type                = typename std::decay<decltype(*_iter.fbegin())>::type;
+        using difference_type           = std::ptrdiff_t;
         using reference                 = value_type&;
         using pointer                   = value_type*;
         using iterator                  = decltype(_iter.fbegin());
@@ -287,9 +290,9 @@ inline auto flat(FlatIterable&& iter)
 
 ////////////////////////////////////////////////////////////
 template<typename T, typename Iterable>
-class MapObject
+class MapObject<T, Iterable, false>
 {
-    private:
+    protected:
 
         const Iterable& _iter;
         T (*_func)(const T&);
@@ -306,11 +309,12 @@ class MapObject
     public:
 
         using value_type        = typename std::decay<decltype(*std::begin(_iter))>::type;
+        using difference_type   = std::ptrdiff_t;
         using reference         = value_type&;
         using pointer           = value_type*;
         using iterator          = decltype(std::begin(_iter));
         using const_iterator    = decltype(std::begin(_iter));
-        using iterator_category = typename std::iterator_traits<iterator>::iterator_category;
+        using iterator_category = std::forward_iterator_tag;
 
         const MapObject& begin() const
         {
@@ -332,20 +336,91 @@ class MapObject
             ++_begin;
         }
 
-        T operator*()
+        value_type operator*() const
         {
             return _func(*_begin);
         }
 
     friend auto map<>(T (*function)(const T&) , Iterable&& iter)
-        -> MapObject<T, Iterable>;
+        -> MapObject<T, Iterable, is_reverse_iterable<Iterable>::value>;
+};
+
+template<typename T, typename Iterable>
+class MapObject<T, Iterable, true>:
+    public MapObject<T, Iterable, false>
+{
+    private:
+
+        using super = MapObject<T, Iterable, false>;
+        using super::_iter;
+        using super::_func;
+        using super::_begin;
+        using super::_end;
+
+        mutable bool _forward = true;
+        decltype(itertools::rbegin(_iter)) _rbegin;
+        const decltype(itertools::rend(_iter)) _rend;
+
+        MapObject(T (*function)(const T&), Iterable&& iter):
+            super(function, iter),
+            _rbegin(itertools::rbegin(_iter)),
+            _rend(itertools::rend(_iter))
+        {}
+
+    public:
+
+        using value_type                = typename super::value_type;
+        using difference_type           = std::ptrdiff_t;
+        using reference                 = value_type&;
+        using pointer                   = value_type*;
+        using iterator                  = typename super::iterator;
+        using const_iterator            = typename super::const_iterator;
+        using reverse_iterator          = decltype(itertools::rbegin(_iter));
+        using const_reverse_iterator    = decltype(itertools::rbegin(_iter));
+        using iterator_category         = std::bidirectional_iterator_tag;
+
+        const MapObject& rbegin() const
+        {
+            _forward = false;
+            return *this;
+        }
+
+        const MapObject& rend() const
+        {
+            return *this;
+        }
+
+        bool operator!=(const MapObject&) const
+        {
+            return _forward ? (_begin != _end) : (_rbegin != _rend);
+        }
+
+        void operator++()
+        {
+            if (_forward)
+            {
+                ++_begin;
+            }
+            else
+            {
+                ++_rbegin;
+            }
+        }
+
+        value_type operator*() const
+        {
+            return _forward ? _func(*_begin) : _func(*_rbegin);
+        }
+
+    friend auto map<>(T (*function)(const T&) , Iterable&& iter)
+        -> MapObject<T, Iterable, is_reverse_iterable<Iterable>::value>;
 };
 
 template<typename T, typename Iterable>
 inline auto map(T (*function)(const T&) , Iterable&& iter)
-    -> MapObject<T, Iterable>
+    -> MapObject<T, Iterable, is_reverse_iterable<Iterable>::value>
 {
-    return MapObject<T, Iterable>(function, std::forward<Iterable>(iter));
+    return MapObject<T, Iterable, is_reverse_iterable<Iterable>::value>(function, std::forward<Iterable>(iter));
 }
 
 
