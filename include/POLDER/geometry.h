@@ -36,12 +36,6 @@
 #include <POLDER/geometry/point.h>
 #include <POLDER/geometry/vector.h>
 
-// Specializations
-#include <POLDER/geometry/direction2.h>
-#include <POLDER/geometry/hypersphere2.h>
-#include <POLDER/geometry/line2.h>
-#include <POLDER/geometry/point2.h>
-#include <POLDER/geometry/vector2.h>
 
 ////////////////////////////////////////////////////////////
 // Documentation
