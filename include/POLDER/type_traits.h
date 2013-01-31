@@ -123,6 +123,12 @@ namespace polder
         static constexpr bool value = sizeof(test<typename std::decay<T>::type>(0)) == sizeof(yes);
     };
 
+    template<typename T, std::size_t N>
+    struct is_iterable<T (&)[N]>
+    {
+        static constexpr bool value = true;
+    };
+
     template<typename T, typename U, typename... Args>
     struct is_iterable<T, U, Args...>:
         public std::conditional<
@@ -148,6 +154,12 @@ namespace polder
         static no& test(...);
 
         static constexpr bool value = sizeof(test<typename std::decay<T>::type>(0)) == sizeof(yes);
+    };
+
+    template<typename T, std::size_t N>
+    struct is_reverse_iterable<T (&)[N]>
+    {
+        static constexpr bool value = true;
     };
 
     template<typename T, typename U, typename... Args>
