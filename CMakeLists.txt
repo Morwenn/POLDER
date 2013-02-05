@@ -1,5 +1,8 @@
 # Version
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.6.3)
+
+# C++ version check
+include("cmake/set_cxx_norm.cmake")
 
 # .a output directory
 set(LIBRARY_OUTPUT_PATH lib/)
@@ -25,12 +28,12 @@ endif()
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 	if(COMPILE_MODE STREQUAL "Dynamic") # Build a dll
-		
+
 		project(polder-d)
-		
+
 		# Define POLDER_DYNAMIC and POLDER_EXPORTS
 		add_definitions(-DPOLDER_DYNAMIC -DPOLDER_EXPORTS)
-		
+
 		# polder-d.dll and libpolder-d.a
 		add_library(
 			polder-d SHARED
@@ -38,28 +41,28 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 		)
 		set_target_properties(polder-d PROPERTIES PREFIX "")
 		set_target_properties(polder-d PROPERTIES IMPORT_SUFFIX ".a")
-		
+
 	elseif(COMPILE_MODE STREQUAL "Static") # Build a static library
-	
+
 		project(polder-d-s)
-		
+
 		# libpolder-d-s.a
 		add_library(
 			polder-d-s STATIC
 			${source_files}
 		)
-	
+
 	endif()
-	
+
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 
 	if(COMPILE_MODE STREQUAL "Dynamic") # Build a dll
-		
+
 		project(polder)
-		
+
 		# Define POLDER_DYNAMIC and POLDER_EXPORTS
 		add_definitions(-DPOLDER_DYNAMIC -DPOLDER_EXPORTS)
-		
+
 		# polder.dll and libpolder.a
 		add_library(
 			polder SHARED
@@ -67,23 +70,24 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 		)
 		set_target_properties(polder PROPERTIES PREFIX "")
 		set_target_properties(polder PROPERTIES IMPORT_SUFFIX ".a")
-		
+
 	elseif(COMPILE_MODE STREQUAL "Static") # Build a static library
-	
+
 		project(polder-s)
-		
+
 		# libpolder-s.a
 		add_library(
 			polder-s STATIC
 			${source_files}
 		)
-	
+
 	endif()
-	
+
 endif()
 
 # Compiler flags
-if(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS "-std=c++11 -pedantic -Wall")
+set_cxx_norm(CXX_NORM_CXX11)
+if(CMAKE_COMPILER_IS_GNUCXX OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+	add_definitions("-pedantic -Wall")
 	set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 endif()
