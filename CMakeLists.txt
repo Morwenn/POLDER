@@ -91,3 +91,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
 	add_definitions("-pedantic -Wall")
 	set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 endif()
+
+# Do not compile deprecated C++03 features
+# POLDER does not use them
+# NOTE: Commented for now, should work with SVN libstc++ or coming GCC 4.8
+# add_definitions("-D_GLIBCXX_USE_DEPRECATED=0")
+
