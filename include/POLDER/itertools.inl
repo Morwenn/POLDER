@@ -79,14 +79,16 @@ class RangeObject
     friend constexpr RangeObject range(int begin, int end, unsigned int step) noexcept;
 };
 
-constexpr RangeObject range(int end) noexcept
+constexpr auto range(int end) noexcept
+    -> RangeObject
 {
-    return RangeObject(end);
+    return { end };
 }
 
-constexpr RangeObject range(int begin, int end, unsigned int step) noexcept
+constexpr auto range(int begin, int end, unsigned int step) noexcept
+    -> RangeObject
 {
-    return RangeObject(begin, end, step);
+    return { begin, end, step };
 }
 
 
@@ -109,7 +111,7 @@ template<typename T, std::size_t N>
 auto rbegin(T (&array)[N])
     -> std::reverse_iterator<T*>
 {
-    return std::reverse_iterator<T*>(std::end(array));
+    return { std::end(array) };
 }
 
 template<typename T>
@@ -130,7 +132,7 @@ template<typename T, std::size_t N>
 auto rend(T (&array)[N])
     -> std::reverse_iterator<T*>
 {
-    return std::reverse_iterator<T*>(std::begin(array));
+    return { std::begin(array) };
 }
 
 
@@ -194,7 +196,7 @@ template<typename BidirectionalIterable>
 inline auto reversed(BidirectionalIterable&& iter)
     -> ReversedObject<BidirectionalIterable>
 {
-    return ReversedObject<BidirectionalIterable>(std::forward<BidirectionalIterable>(iter));
+    return { std::forward<BidirectionalIterable>(iter) };
 }
 
 
@@ -284,7 +286,7 @@ template<typename FlatIterable>
 inline auto flat(FlatIterable&& iter)
     -> FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>
 {
-    return FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>(std::forward<FlatIterable>(iter));
+    return { std::forward<FlatIterable>(iter) };
 }
 
 
@@ -420,7 +422,7 @@ template<typename T, typename Iterable>
 inline auto map(T (*function)(const T&) , Iterable&& iter)
     -> MapObject<T, Iterable, is_reverse_iterable<Iterable>::value>
 {
-    return MapObject<T, Iterable, is_reverse_iterable<Iterable>::value>(function, std::forward<Iterable>(iter));
+    return { function, std::forward<Iterable>(iter) };
 }
 
 
@@ -488,7 +490,7 @@ template<typename T, typename Iterable>
 inline auto filter(bool (*function)(const T&) , Iterable&& iter)
     -> FilterObject<T, Iterable>
 {
-    return FilterObject<T, Iterable>(function, std::forward<Iterable>(iter));
+    return { function, std::forward<Iterable>(iter) };
 }
 
 
@@ -618,7 +620,8 @@ inline auto chain(Iterables&&... iters)
 {
     static_assert(is_same<typename std::decay<Iterables>::type::value_type...>::value,
                   "different value_type for arguments passed to chain");
-    return ChainObject<Iterables...>(std::forward<Iterables>(iters)...);
+
+    return { std::forward<Iterables>(iters)... };
 }
 
 
@@ -741,5 +744,5 @@ template<typename... Iterables>
 inline auto zip(Iterables&&... iters)
     -> ZipObject<Iterables...>
 {
-    return ZipObject<Iterables...>(std::forward<Iterables>(iters)...);
+    return { std::forward<Iterables>(iters)... };
 }
