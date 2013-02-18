@@ -111,14 +111,17 @@
 // Debug tools
 ////////////////////////////////////////////////////////////
 
+// Define a portable debug macro
+// Having a number instead of a simple
+// definition also allows to use it as
+// a template parameter
 #ifndef NDEBUG
-
-    // Define a portable debug macro
-    #define POLDER_DEBUG
-
+    #define POLDER_DEBUG 1
+#else
+    #define POLDER_DEBUG 0
 #endif
 
-#ifdef POLDER_DEBUG
+#if POLDER_DEBUG == 1
 
     /**
      * @brief Improved assert function
