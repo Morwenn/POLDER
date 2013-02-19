@@ -64,12 +64,12 @@ namespace polder
     };
 
     /**
-     * @def POLDER_MAKE_CONTRACT(type)
+     * @def POLDER_CONTRACT(type)
      *
      * Macro to avoid boilerplate while writing
      * the preconditions and postconditions.
      */
-    #define POLDER_MAKE_CONTRACT(type) \
+    #define POLDER_CONTRACT(type) \
         template<> \
         struct make_contract<type>: \
             public type

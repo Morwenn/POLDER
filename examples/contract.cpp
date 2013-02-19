@@ -37,7 +37,7 @@ namespace polder
     //
     // It is also possible to add preprocessor directives not
     // to compile this if NDEBUG is on
-    POLDER_MAKE_CONTRACT(Foo)
+    POLDER_CONTRACT(Foo)
     {
         POLDER_INVARIANTS(
             assert(0 < 1);
