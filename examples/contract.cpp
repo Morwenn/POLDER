@@ -39,26 +39,36 @@ namespace polder
     // to compile this if NDEBUG is on
     POLDER_MAKE_CONTRACT(Foo)
     {
-        inline static unsigned int sum(unsigned int a, unsigned int b)
+        POLDER_INVARIANTS(
+            assert(0 < 1);
+            assert(3 >= 2);
+        );
+
+        static unsigned int sum(unsigned int a, unsigned int b)
         {
+            check invariants;
+
             // precondition: none
-            unsigned int res = Foo::sum(a, b);
+            auto res = Foo::sum(a, b);
             // postcondition:
             assert(res >= a+b);
             return res;
         }
 
-        inline static double sqrt(double a)
+        static double sqrt(double a)
         {
+            check invariants;
+
             // precondition:
             assert(a >= 0.0);
-            double res = Foo::sqrt(a);
+            auto res = Foo::sqrt(a);
             // postcondition: none
             return res;
         }
 
         // If a function from Foo is not checked here, the
         // unchecked function will be used instead
+        // It is the case of bar in this example
     };
 }
 
