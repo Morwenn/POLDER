@@ -65,7 +65,10 @@ class POLDER_API division_by_zero:
 
 
 /**
- * @brief
+ * @brief Function not implemented
+ *
+ * Could be seen as an explicit TODO in the code.
+ * Essentially for development purposes.
  */
 class POLDER_API not_implemented:
     public std::exception
