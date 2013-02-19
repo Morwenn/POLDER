@@ -46,23 +46,53 @@ namespace polder
     struct make_contract;
 
     template<typename T>
-    using contract =
-        typename std::conditional<
+    struct contract:
+        public std::conditional<
             POLDER_DEBUG,
             make_contract<T>,
             T
-        >::type;
+        >::type
+    {
+        template<typename... Args>
+        contract(Args&&... args):
+            std::conditional<
+                POLDER_DEBUG,
+                make_contract<T>,
+                T
+            >::type(std::forward<Args>(args)...)
+        {}
+    };
 
     /**
      * @def POLDER_MAKE_CONTRACT(type)
      *
-     * Little macro to avoid boilerpate while writing
+     * Macro to avoid boilerplate while writing
      * the preconditions and postconditions.
      */
     #define POLDER_MAKE_CONTRACT(type) \
         template<> \
         struct make_contract<type>: \
             public type
+
+    /**
+     * @def POLDER_INVARIANTS(invariants)
+     *
+     * Macro encapsulating all the boilerplate used
+     * to check invariants thanks to RAII with a
+     * check structure.
+     *
+     * @warning Crash if a parent class hass a member called check
+     */
+    #define POLDER_INVARIANTS(invariants) \
+        struct check \
+        { \
+            check() { _check(); } \
+            ~check() { _check(); } \
+            void _check() \
+            { \
+                invariants \
+            } \
+        }
 
     /**
      * @brief Contract failure exception
