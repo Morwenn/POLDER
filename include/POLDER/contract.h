@@ -74,25 +74,37 @@ namespace polder
         struct make_contract<type>: \
             public type
 
-    /**
-     * @def POLDER_INVARIANTS(invariants)
-     *
-     * Macro encapsulating all the boilerplate used
-     * to check invariants thanks to RAII with a
-     * check structure.
-     *
-     * @warning Crash if a parent class hass a member called check
-     */
-    #define POLDER_INVARIANTS(invariants) \
-        struct check \
-        { \
-            check() { _check(); } \
-            ~check() { _check(); } \
-            void _check() \
+    #if POLDER_DEBUG == 1
+
+        /**
+         * @def POLDER_INVARIANTS(invariants)
+         *
+         * Macro encapsulating all the boilerplate used
+         * to check invariants thanks to RAII with a
+         * check structure.
+         *
+         * @warning Crash if a parent class hass a member called check
+         */
+        #define POLDER_INVARIANTS(invariants) \
+            struct check \
             { \
-                invariants \
-            } \
-        }
+                check() { _check(); } \
+                ~check() { _check(); } \
+                void _check() \
+                { \
+                    invariants \
+                } \
+            }
+
+    #else
+
+        #define POLDER_INVARIANTS(...) \
+            struct check \
+            { \
+                check() { void(); } \
+            }
+
+    #endif
 
     /**
      * @brief Contract failure exception
