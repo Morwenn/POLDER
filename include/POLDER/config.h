@@ -31,7 +31,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <stdexcept>
+#include <string>
 
 
 ////////////////////////////////////////////////////////////
@@ -124,6 +124,44 @@
 #if POLDER_DEBUG == 1
 
     /**
+     * @brief Assertion as exception
+     *
+     * Allows to throw an exception instead of
+     * simply aborting the program.
+     */
+    class assertion_error:
+        public std::exception
+    {
+        public:
+
+            /**
+             * @brief Creates a new exception
+             * @param msg Error message to be displayed
+             */
+            explicit assertion_error(const std::string& msg=""):
+                _msg(msg)
+            {}
+
+            /**
+             * @brief Destructor
+             */
+            virtual ~assertion_error() noexcept {}
+
+            /**
+             * @brief Returns the error message
+             * @return Error message
+             */
+            virtual const char* what() const noexcept
+            {
+                return _msg.c_str();
+            }
+
+        protected:
+
+            std::string _msg;   /**< Error message */
+    };
+
+    /**
      * @brief Improved assert function
      *
      * This function is meant to replace the old assert function.
@@ -141,15 +179,15 @@
     {
         if (!assertion)
         {
-            throw std::logic_error(error_message);
+            throw assertion_error(error_message);
         }
     }
 
-    #define POLDER_ASSERT(assertion, error_message) polder_assert(assertion, error_message)
+    #define POLDER_ASSERT(assertion) polder_assert(assertion, #assertion)
 
 #else
 
-    #define POLDER_ASSERT(assertion, error_message)
+    #define POLDER_ASSERT(assertion)
 
 #endif
 
