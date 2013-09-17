@@ -28,12 +28,13 @@ namespace polder
 
 /**
  * @namespace polder::stype
- * @brief String representations of numbers analysis
+ * @brief Parsing strings as numbers
  *
  * All the functions in this namespace are used to analyse
  * strings. They all return whether the given string
  * represents a given kind of number such as an integer or
- * a real number.
+ * a real number. The representations of those number are
+ * those defined by the C++ standard.
  */
 namespace stype
 {
