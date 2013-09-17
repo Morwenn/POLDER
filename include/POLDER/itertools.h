@@ -77,7 +77,7 @@ constexpr RangeObject range(int end) noexcept;
  *
  * Generates a RangeObject, which is a generator
  * which will yield values from \a begin to \a end
- * with agiven \a step. The direction of the
+ * with a given \a step. The direction of the
  * iteration depends on \a begin and \a end.
  *
  * @param begin First value
@@ -90,7 +90,7 @@ constexpr RangeObject range(int begin, int end, unsigned int step=1) noexcept;
 /**
  * @brief Global rbegin function
  *
- * The equilavent of std::begin for reversed
+ * The equivalent of std::begin for reversed
  * iteration.
  */
 template<typename T>
@@ -104,7 +104,7 @@ auto rbegin(T (&array)[N])  -> std::reverse_iterator<T*>;
 /**
  * @brief Global rend function
  *
- * The equilavent of std::end for reversed
+ * The equivalent of std::end for reversed
  * iteration.
  */
 template<typename T>
@@ -177,7 +177,7 @@ auto filter(bool (*function)(const T&) , Iterable&& iter)
  *
  * Acts like a wrapper that would allow to iter through
  * many containers as if there was just one of them
- * containings all of their values.
+ * containing all of their values.
  *
  * It is possible to chain different containers (list, vector
  * array, etc...) but the contained values must be of the same
@@ -191,7 +191,7 @@ auto chain(Iterables&&... iters)
  * @brief Aggregates elements from iterables
  *
  * Make groups of elements from different iterables.
- * For exemple, a list of int zipped with a list
+ * For example, a list of int zipped with a list
  * of float would generate elements of type
  * std::tuple<int, float>.
  */

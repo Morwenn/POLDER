@@ -132,7 +132,7 @@ template<typename T, std::size_t N>
 auto rend(T (&array)[N])
     -> std::reverse_iterator<T*>
 {
-    return std::reverse_iterator<T*>(std::begin(array));;
+    return std::reverse_iterator<T*>(std::begin(array));
 }
 
 
