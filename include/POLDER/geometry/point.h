@@ -94,7 +94,7 @@ class Point
         double operator[](size_t index) const;
 
         /**
-         * Copy assignement operator
+         * Copy assignment operator
          */
         Point<N>& operator=(const Point<N>& other);
 
