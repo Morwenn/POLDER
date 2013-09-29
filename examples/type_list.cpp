@@ -39,5 +39,12 @@ int main()
     // by the user, the returned type will be
     // void
 
+    using empty = empty_list;
+    using temp = types::cat<empty>;
+    using cat = temp::cat<type_list<int>>;
+
+    cat::at<2> d = 1l;
+    (void) d;
+
     return 0;
 }
