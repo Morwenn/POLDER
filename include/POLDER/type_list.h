@@ -57,6 +57,9 @@ namespace polder
         using push_back = type_list<Head, Tail..., Types...>;
 
         using pop_front = type_list<Tail...>;
+        using pop_back = typename type_list_cat<type_list<Head>,
+                                                typename type_list<Tail...>::pop_back
+                                            >::type;
 
         template<typename List>
         using cat = typename type_list_cat<type_list<Head, Tail...>, List>::type;
