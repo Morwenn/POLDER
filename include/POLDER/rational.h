@@ -1,18 +1,19 @@
 /*
- * Copyright (C) 2011-2012 Morwenn
+ * Copyright (C) 2011-2013 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
  *
  * POLDER is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License along
- * with this program. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program. If not,
+ * see <http://www.gnu.org/licenses/>.
  */
 #ifndef _POLDER_RATIONAL_H
 #define _POLDER_RATIONAL_H
@@ -46,9 +47,12 @@ namespace polder
 template<typename T>
 struct rational
 {
-    static_assert(std::is_integral<T>::value, "A rational can only be made of integral values.");
+    static_assert(std::is_integral<T>::value,
+                  "A rational can only be made of integral values.");
 
     public:
+
+        using value_type = T;
 
         ////////////////////////////////////////////////////////////
         // Constructors
@@ -57,15 +61,15 @@ struct rational
         /**
          * Default constructor
          */
-        rational() = default;
+        rational();
 
         /**
          * Copy constructor
          */
-        rational(const rational<T>&) = default;
+        rational(const rational<T>& other);
 
         /**
-         * @brief Initilization constructor
+         * @brief Initialization constructor
          *
          * Constructs a new rational number with their numerator
          * and denominator. Throws a division_by_zero exception if
@@ -74,24 +78,24 @@ struct rational
          * @param numerator Numerator of the fraction
          * @param denominator Denominator of the fraction
          */
-        rational(const T& numerator, const T& denominator);
+        rational(const value_type& numerator, const value_type& denominator);
 
         /**
-         * @brief Initilization constructor
+         * @brief Initialization constructor
          *
          * Same as the complete initialization constructor
          * except that this one does not need to check the
          * denominator since it is always 1.
          *
          * @param numerator Numerator of the fraction
-         * @see rational(const T& numerator, const T& denominator)
+         * @see rational(const value_type& numerator, const value_type& denominator)
          */
-        constexpr rational(const T& numerator) noexcept;
+        constexpr rational(const value_type& numerator) noexcept;
 
         /**
          * Destructor
          */
-        ~rational() = default;
+        ~rational();
 
 
         ////////////////////////////////////////////////////////////
@@ -102,43 +106,50 @@ struct rational
          * @brief Returns the numerator of a rational number
          * @return Numerator
          */
-        T numerator() const noexcept;
+        auto numerator() const noexcept
+            -> value_type;
 
         /**
          * @brief Returns the denominator of a rational number
          * @return Denominator
          */
-        T denominator() const noexcept;
+        auto denominator() const noexcept
+            -> value_type;
 
 
         ////////////////////////////////////////////////////////////
         // Operators
         ////////////////////////////////////////////////////////////
 
-        // Assignement
-        rational<T>& operator=(const rational<T>&) = default;
-        rational<T>& operator=(const T& other);
+        // Assignment
+        auto operator=(const rational<T>& other)
+            -> rational<T>&;
+        auto operator=(const value_type& other)
+            -> rational<T>&;
 
-        rational<T>& operator+=(const rational<T>& other);
-        rational<T>& operator+=(const T& other);
+        auto operator+=(const rational<T>& other)
+            -> rational<T>&;
+        auto operator+=(const value_type& other)
+            -> rational<T>&;
 
-        rational<T>& operator-=(const rational<T>& other);
-        rational<T>& operator-=(const T& other);
+        auto operator-=(const rational<T>& other)
+            -> rational<T>&;
+        auto operator-=(const value_type& other)
+            -> rational<T>&;
 
-        rational<T>& operator*=(const rational<T>& other);
-        rational<T>& operator*=(const T& other);
-        rational<T>& operator/=(const rational<T>& other);
-        rational<T>& operator/=(const T& val);
+        auto operator*=(const rational<T>& other)
+            -> rational<T>&;
+        auto operator*=(const value_type& other)
+            -> rational<T>&;
 
-        rational<T> operator+();
+        auto operator/=(const rational<T>& other)
+            -> rational<T>&;
+        auto operator/=(const value_type& val)
+            -> rational<T>&;
 
-        rational<T> operator-();
-
-        operator float() const;
-
-        operator double() const;
-
-        operator long double() const;
+        explicit operator float() const;
+        explicit operator double() const;
+        explicit operator long double() const;
 
 
         /**
@@ -148,14 +159,15 @@ struct rational
          * greatest common divisor if needed. Also does a
          * sign simplification if necessary.
          */
-        void simplify();
+        auto simplify()
+            -> void;
 
 
     private:
 
         // Member data
-        T _numerator;   /**< Numerator */
-        T _denominator; /**< Denominator */
+        value_type _numerator;      /**< Numerator */
+        value_type _denominator;    /**< Denominator */
 };
 
 
@@ -163,87 +175,112 @@ struct rational
 // Global operators
 ////////////////////////////////////////////////////////////
 
-template<typename T, typename U>
-const rational<typename std::common_type<T, U>::type>
-operator+(const rational<T>& r1, const rational<U>& r2);
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-const rational<typename std::common_type<T, U>::type>
-operator+(const rational<T>& r, const U& val);
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-const rational<typename std::common_type<T, U>::type>
-operator+(const U& val, const rational<T>& r);
+template<typename T>
+auto operator+(rational<T> rat)
+    -> rational<T>;
+template<typename T>
+auto operator-(rational<T> rat)
+    -> rational<T>;
 
 template<typename T, typename U>
-const rational<typename std::common_type<T, U>::type>
-operator-(const rational<T>& r1, const rational<U>& r2);
+auto operator+(const rational<T>& lhs, const rational<U>& rhs)
+    -> rational<typename std::common_type<T, U>::type>;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-const rational<typename std::common_type<T, U>::type>
-operator-(const rational<T>& r, const U& val);
+auto operator+(const rational<T>& lhs, const U& rhs)
+    -> rational<typename std::common_type<T, U>::type>;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-const rational<typename std::common_type<T, U>::type>
-operator-(const U& val, const rational<T>& r);
+auto operator+(const U& lhs, const rational<T>& rhs)
+    -> rational<typename std::common_type<T, U>::type>;
 
 template<typename T, typename U>
-const rational<typename std::common_type<T, U>::type>
-operator*(const rational<T>& r1, const rational<U>& r2);
+auto operator-(const rational<T>& lhs, const rational<U>& rhs)
+    -> rational<typename std::common_type<T, U>::type>;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-const rational<typename std::common_type<T, U>::type>
-operator*(const rational<T>& r, const U& val);
+auto operator-(const rational<T>& lhs, const U& rhs)
+    -> rational<typename std::common_type<T, U>::type>;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-const rational<typename std::common_type<T, U>::type>
-operator*(const U& val, const rational<T>& r);
+auto operator-(const U& lhs, const rational<T>& rhs)
+    -> rational<typename std::common_type<T, U>::type>;
 
 template<typename T, typename U>
-const rational<typename std::common_type<T, U>::type>
-operator/(const rational<T>& r1, const rational<U>& r2);
+auto operator*(const rational<T>& lhs, const rational<U>& rhs)
+    -> rational<typename std::common_type<T, U>::type>;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-const rational<typename std::common_type<T, U>::type>
-operator/(const rational<T>& r, const U& val);
+auto operator*(const rational<T>& lhs, const U& rhs)
+    -> rational<typename std::common_type<T, U>::type>;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-const rational<typename std::common_type<T, U>::type>
-operator/(const U& val, const rational<T>& r);
+auto operator*(const U& lhs, const rational<T>& rhs)
+    -> rational<typename std::common_type<T, U>::type>;
 
 template<typename T, typename U>
-bool operator==(const rational<T>& r1, const rational<U>& r2);
+auto operator/(const rational<T>& lhs, const rational<U>& rhs)
+    -> rational<typename std::common_type<T, U>::type>;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-bool operator==(const rational<T>& r, const U& val);
+auto operator/(const rational<T>& lhs, const U& rhs)
+    -> rational<typename std::common_type<T, U>::type>;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-bool operator==(const U& val, const rational<T>& r);
+auto operator/(const U& lhs, const rational<T>& rhs)
+    -> rational<typename std::common_type<T, U>::type>;
 
 template<typename T, typename U>
-bool operator!=(const rational<T>& r1, const rational<U>& r2);
+auto operator==(const rational<T>& lhs, const rational<U>& rhs)
+    -> bool;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-bool operator!=(const rational<T>& r, const U& val);
+auto operator==(const rational<T>& lhs, const U& rhs)
+    -> bool;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-bool operator!=(const U& val, const rational<T>& r);
+auto operator==(const U& lhs, const rational<T>& rhs)
+    -> bool;
 
 template<typename T, typename U>
-bool operator<(const rational<T>& r1, const rational<U>& r2);
+auto operator!=(const rational<T>& lhs, const rational<U>& rhs)
+    -> bool;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-bool operator<(const rational<T>& r, const U& val);
+auto operator!=(const rational<T>& lhs, const U& rhs)
+    -> bool;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-bool operator<(const U& val, const rational<T>& r);
+auto operator!=(const U& lhs, const rational<T>& rhs)
+    -> bool;
 
 template<typename T, typename U>
-bool operator>(const rational<T>& r1, const rational<U>& r2);
+auto operator<(const rational<T>& lhs, const rational<U>& rhs)
+    -> bool;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-bool operator>(const rational<T>& r, const U& val);
+auto operator<(const rational<T>& lhs, const U& rhs)
+    -> bool;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-bool operator>(const U& val, const rational<T>& r);
+auto operator<(const U& lhs, const rational<T>& rhs)
+    -> bool;
 
 template<typename T, typename U>
-bool operator<=(const rational<T>& r1, const rational<U>& r2);
+auto operator>(const rational<T>& lhs, const rational<U>& rhs)
+    -> bool;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-bool operator<=(const rational<T>& r, const U& val);
+auto operator>(const rational<T>& lhs, const U& rhs)
+    -> bool;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-bool operator<=(const U& val, const rational<T>& r);
+auto operator>(const U& lhs, const rational<T>& rhs)
+    -> bool;
 
 template<typename T, typename U>
-bool operator>=(const rational<T>& r1, const rational<U>& r2);
+auto operator<=(const rational<T>& lhs, const rational<U>& rhs)
+    -> bool;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-bool operator>=(const rational<T>& r, const U& val);
+auto operator<=(const rational<T>& lhs, const U& rhs)
+    -> bool;
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-bool operator>=(const U& val, const rational<T>& r);
+auto operator<=(const U& lhs, const rational<T>& rhs)
+    -> bool;
+
+template<typename T, typename U>
+auto operator>=(const rational<T>& lhs, const rational<U>& rhs)
+    -> bool;
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+auto operator>=(const rational<T>& lhs, const U& rhs)
+    -> bool;
+template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+auto operator>=(const U& lhs, const rational<T>& rhs)
+    -> bool;
 
 
 /**
@@ -254,7 +291,8 @@ bool operator>=(const U& val, const rational<T>& r);
  * @return Modified \a stream
  */
 template<typename T>
-std::ostream& operator<<(std::ostream& stream, const rational<T>& r);
+auto operator<<(std::ostream& stream, const rational<T>& rat)
+    -> std::ostream&;
 
 
 /**
@@ -269,7 +307,8 @@ std::ostream& operator<<(std::ostream& stream, const rational<T>& r);
  * @return New rational number
  */
 template<typename T>
-rational<T> make_rational(const T& numerator, const T& denominator=1);
+auto make_rational(T numerator, T denominator=1)
+    -> rational<T>;
 
 #include <POLDER/rational.inl>
 
@@ -281,18 +320,20 @@ rational<T> make_rational(const T& numerator, const T& denominator=1);
 ////////////////////////////////////////////////////////////
 // Global operators
 ////////////////////////////////////////////////////////////
-#if 0
-// So that the functions can be called with or without std::
-inline namespace std
+
+// Overloads for standard math functions
+namespace std
 {
     /**
      * @brief Absolute value of a number
      * @see std::abs(double)
      */
     template<typename T>
-    polder::rational<T> abs(const polder::rational<T>& r)
+    auto abs(const polder::rational<T>& r)
+        -> polder::rational<T>
     {
-        return polder::rational<T>(abs(r.numerator()), abs(r.denominator()));
+        return polder::rational<T>(abs(r.numerator()),
+                                   abs(r.denominator()));
     }
 
     /**
@@ -300,20 +341,22 @@ inline namespace std
      * @see std::pow(double, double)
      */
     template<typename T>
-    polder::rational<T> pow(const polder::rational<T>& r, int n)
+    auto pow(const polder::rational<T>& rat, int n)
+        -> polder::rational<T>
     {
         if (n >= 0)
         {
-            return polder::rational<T>(pow(r.denominator(), n), pow(r.numerator(), n));
+            return polder::rational<T>(pow(rat.denominator(), n),
+                                       pow(rat.numerator(), n));
         }
         else
         {
             n = -n;
-            return polder::rational<T>(pow(r.denominator(), n), pow(r.numerator(), n));
+            return polder::rational<T>(pow(rat.denominator(), n),
+                                       pow(rat.numerator(), n));
         }
     }
 }
-#endif
 
 
 #endif // _POLDER_RATIONAL_H
