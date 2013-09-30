@@ -12,3 +12,4 @@ a bit of documentation for some of the modules using Doxygen.
 If you want to compile the code properly, you will need some C++11
 support. Tested with the following compilers:
 * GCC 4.7.2
+* GCC 4.8.0 & 4.8.1
