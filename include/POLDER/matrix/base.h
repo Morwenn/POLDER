@@ -52,70 +52,66 @@ namespace polder
      * not to see any performance difference.
      */
     template<typename Derived>
-    class ImmutableMatrix
+    struct ImmutableMatrix
     {
-        public:
+        /**
+         * Used to call the functions from the derived
+         * class instead of the ones from this base
+         * class.
+         *
+         * @return *this converted to const Derived&.
+         */
+        auto derived() const
+            -> const Derived&;
 
-            ////////////////////////////////////////////////////////////
-            // Types
-            ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        // Types
+        ////////////////////////////////////////////////////////////
 
-            // Sizes
-            using size_type = std::size_t;
-            using difference_type = std::ptrdiff_t;
-            // Value
-            using value_type = typename types_t<Derived>::value_type;
-            using reference = typename types_t<Derived>::reference;
-            using const_reference = typename types_t<Derived>::const_reference;
-            using pointer = typename types_t<Derived>::pointer;
-            using const_pointer = typename types_t<Derived>::const_pointer;
+        // Sizes
+        using size_type = std::size_t;
+        using difference_type = std::ptrdiff_t;
+        // Value
+        using value_type = typename types_t<Derived>::value_type;
+        using reference = typename types_t<Derived>::reference;
+        using const_reference = typename types_t<Derived>::const_reference;
+        using pointer = typename types_t<Derived>::pointer;
+        using const_pointer = typename types_t<Derived>::const_pointer;
 
-            ////////////////////////////////////////////////////////////
-            // Operators
-            ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        // Operators
+        ////////////////////////////////////////////////////////////
 
-            auto operator()(size_type y, size_type x) const
-                -> value_type;
+        auto operator()(size_type y, size_type x) const
+            -> value_type;
 
-            ////////////////////////////////////////////////////////////
-            // STL-like functions
-            ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        // STL-like functions
+        ////////////////////////////////////////////////////////////
 
-            // Accessors
-            auto at(size_type y, size_type x) const
-                -> value_type;
+        // Accessors
+        auto at(size_type y, size_type x) const
+            -> value_type;
 
-            // Capacity
-            auto size() const
-                -> size_type;
+        // Capacity
+        auto size() const
+            -> size_type;
 
-            ////////////////////////////////////////////////////////////
-            // Miscellaneous functions
-            ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        // Miscellaneous functions
+        ////////////////////////////////////////////////////////////
 
-            // Capacity
-            auto height() const
-                -> size_type;
-            auto width() const
-                -> size_type;
-            auto dimensions() const
-                -> std::pair<size_type, size_type>;
+        // Capacity
+        auto height() const
+            -> size_type;
+        auto width() const
+            -> size_type;
+        auto dimensions() const
+            -> std::pair<size_type, size_type>;
 
-            // Properties
-            auto is_square() const
-                -> bool;
-
-        protected:
-
-            /**
-             * Used to call the functions from the derived
-             * class instead of the ones from this base
-             * class.
-             *
-             * @return *this converted to const Derived&.
-             */
-            auto derived() const
-                -> const Derived&;
+        // Properties
+        auto is_square() const
+            -> bool;
     };
 
     /**
@@ -132,62 +128,60 @@ namespace polder
      * or non-const overloads for some functions.
      */
     template<typename Derived>
-    class MutableMatrix:
-        public ImmutableMatrix<Derived>
+    struct MutableMatrix:
+        ImmutableMatrix<Derived>
     {
-        public:
+        /**
+         * Used to call the functions from the derived
+         * class instead of the ones from this base
+         * class.
+         *
+         * @return *this converted to Derived&.
+         */
+        auto derived()
+            -> Derived&;
 
-            ////////////////////////////////////////////////////////////
-            // Types
-            ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////
+        // Types
+        ////////////////////////////////////////////////////////////
 
-            // Sizes
-            using size_type = std::size_t;
-            using difference_type = std::ptrdiff_t;
-            // Value
-            using value_type = typename types_t<Derived>::value_type;
-            using reference = typename types_t<Derived>::reference;
-            using const_reference = typename types_t<Derived>::const_reference;
-            using pointer = typename types_t<Derived>::pointer;
-            using const_pointer = typename types_t<Derived>::const_pointer;
+        using super = ImmutableMatrix<Derived>;
 
-            ////////////////////////////////////////////////////////////
-            // Operators
-            ////////////////////////////////////////////////////////////
+        // Sizes
+        using typename super::size_type;
+        using typename super::difference_type;
+        // Value
+        using typename super::value_type;
+        using typename super::reference;
+        using typename super::const_reference;
+        using typename super::pointer;
+        using typename super::const_pointer;
 
-            auto operator()(size_type y, size_type x)
-                -> reference;
+        ////////////////////////////////////////////////////////////
+        // Operators
+        ////////////////////////////////////////////////////////////
 
-            ////////////////////////////////////////////////////////////
-            // STL-like functions
-            ////////////////////////////////////////////////////////////
+        auto operator()(size_type y, size_type x)
+            -> reference;
 
-            // Accessors
-            auto at(size_type y, size_type x)
-                -> reference;
+        ////////////////////////////////////////////////////////////
+        // STL-like functions
+        ////////////////////////////////////////////////////////////
 
-            ////////////////////////////////////////////////////////////
-            // Miscellaneous functions
-            ////////////////////////////////////////////////////////////
+        // Accessors
+        auto at(size_type y, size_type x)
+            -> reference;
 
-            // Capacity
-            using ImmutableMatrix<Derived>::height;
-            using ImmutableMatrix<Derived>::width;
+        ////////////////////////////////////////////////////////////
+        // Miscellaneous functions
+        ////////////////////////////////////////////////////////////
 
-            // Properties
-            using ImmutableMatrix<Derived>::is_square;
+        // Capacity
+        using super::height;
+        using super::width;
 
-        protected:
-
-            /**
-             * Used to call the functions from the derived
-             * class instead of the ones from this base
-             * class.
-             *
-             * @return *this converted to Derived&.
-             */
-            auto derived()
-                -> Derived&;
+        // Properties
+        using super::is_square;
     };
 
     #include "base.inl"

@@ -73,14 +73,14 @@ namespace polder
             using super = MutableMatrix<Matrix<T>>;
 
             // Sizes
-            using size_type = typename super::size_type;
-            using difference_type = typename super::difference_type;
+            using typename super::size_type;
+            using typename super::difference_type;
             // Value
-            using value_type = T;
-            using reference = value_type&;
-            using const_reference = const value_type&;
-            using pointer = value_type*;
-            using const_pointer = const value_type*;
+            using typename super::value_type;
+            using typename super::reference;
+            using typename super::const_reference;
+            using typename super::pointer;
+            using typename super::const_pointer;
             // Iterators
             using iterator = typename std::vector<row>::iterator;
             using const_iterator = typename std::vector<row>::const_iterator;
