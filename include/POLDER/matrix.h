@@ -134,6 +134,7 @@ namespace polder
             ////////////////////////////////////////////////////////////
 
             // Accessors
+            using super::operator[]; // Solve name hiding problem
             auto operator[](size_type index)
                 -> row&;
             auto operator[](size_type index) const
@@ -170,7 +171,7 @@ namespace polder
             ////////////////////////////////////////////////////////////
 
             // Capacity
-            using super::size; // Solve ADL problem
+            using super::size; // Solve name hiding problem
 
             // Accessors
             auto front()
@@ -302,7 +303,7 @@ namespace polder
                 -> size_type;
 
             // Properties
-            using super::is_square; // Solve ADL problem
+            using super::is_square; // Solve name hiding problem
             auto is_symmetric() const
                 -> bool;
             auto is_invertible() const

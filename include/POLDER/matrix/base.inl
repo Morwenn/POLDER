@@ -34,6 +34,20 @@ inline auto ImmutableMatrix<Derived>::operator()(size_type y, size_type x) const
     return derived()(y, x);
 }
 
+template<typename Derived>
+inline auto MutableMatrix<Derived>::operator[](const index<2>& index)
+    -> reference
+{
+    return operator()(index[0], index[1]);
+}
+
+template<typename Derived>
+inline auto ImmutableMatrix<Derived>::operator[](const index<2>& index) const
+    -> value_type
+{
+    return operator()(index[0], index[1]);
+}
+
 ////////////////////////////////////////////////////////////
 // STL-like functions
 ////////////////////////////////////////////////////////////

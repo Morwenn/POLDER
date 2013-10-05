@@ -23,6 +23,8 @@
 ////////////////////////////////////////////////////////////
 #include <cstddef>
 #include <utility>
+#include <POLDER/config.h>
+#include <POLDER/index.h>
 
 namespace polder
 {
@@ -83,6 +85,9 @@ namespace polder
         ////////////////////////////////////////////////////////////
 
         auto operator()(size_type y, size_type x) const
+            -> value_type;
+
+        auto operator[](const index<2>& index) const
             -> value_type;
 
         ////////////////////////////////////////////////////////////
@@ -162,6 +167,9 @@ namespace polder
         ////////////////////////////////////////////////////////////
 
         auto operator()(size_type y, size_type x)
+            -> reference;
+
+        auto operator[](const index<2>& index)
             -> reference;
 
         ////////////////////////////////////////////////////////////
