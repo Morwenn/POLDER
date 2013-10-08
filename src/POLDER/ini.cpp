@@ -518,7 +518,7 @@ void key_delete(const char* fname, const char* section, const char* key)
                 }
                 else if (line[0] != ';' && line[0] != '#' && line[0] != '\0') // We check whether the key is the good one
                 {
-                    register int i = -1;
+                    int i = -1;
                     while (is_not_break1(line[++i]));
                     if (is_equal_s(line[i]))
                     {
