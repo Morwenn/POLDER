@@ -45,8 +45,8 @@ namespace polder
             index(const index<N>& other);
             index(index<N>&& other);
 
-            template<typename... Args>
-            index(Args... indices);
+            template<typename... Indices>
+            index(Indices... indices);
 
             auto operator=(const index<N>& other)
                 -> index<N>&;
