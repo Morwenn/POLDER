@@ -804,7 +804,7 @@ auto section_rename(const char* fname, const char* section, const char* new_sect
         {
             fclose(f);
             fclose(temp);
-            throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Section '" + std::string(section) + "' already exists.");
+            throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Section '" + std::string(new_section) + "' already exists.");
         }
 
         // Copy the current line in the new file
@@ -902,7 +902,7 @@ auto key_rename(const char* fname, const char* section, const char* key, const c
                         }
                         else if (!strcmp(new_key, stripped(substr(line, 0, i-1))))
                         {
-                            throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Key '" + std::string(key) + "' already exists.");
+                            throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Key '" + std::string(new_key) + "' already exists.");
                         }
                     }
                 }
