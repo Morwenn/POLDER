@@ -63,7 +63,7 @@ namespace
  * Return whether the given section exists or not
  */
 auto section_exists(const char* fname, const char* section, Dialect dialect)
-    -> std::size_t
+    -> bool
 {
     // Open the file
     FILE* f = fopen(fname, "r");
@@ -80,7 +80,6 @@ auto section_exists(const char* fname, const char* section, Dialect dialect)
     strcat(searched_word, "]");
 
     // Read the lines and search the section number
-    size_t n_line = 1;
     char* line = nullptr;
     while (io::fgetl(line, f))
     {
@@ -88,14 +87,13 @@ auto section_exists(const char* fname, const char* section, Dialect dialect)
         if (!strncmp(line, searched_word, length))
         {
             fclose(f);
-            return n_line;
+            return true;
         }
-        ++n_line;
     }
 
     // Finish, the section has not been found
     fclose(f);
-    return 0;
+    return false;
 }
 
 
@@ -103,7 +101,7 @@ auto section_exists(const char* fname, const char* section, Dialect dialect)
  * Return whether the given key exists or not
  */
 auto key_exists(const char* fname, const char* section, const char* key, Dialect dialect)
-    -> std::size_t
+    -> bool
 {
     // Open the file
     FILE* f = fopen(fname, "r");
@@ -121,7 +119,6 @@ auto key_exists(const char* fname, const char* section, const char* key, Dialect
 
     // Read the lines
     bool section_found = false;
-    size_t n_line = 1;
     char* line = nullptr;
     while (io::fgetl(line, f))
     {
@@ -140,7 +137,7 @@ auto key_exists(const char* fname, const char* section, const char* key, Dialect
             {
                 // We reached another section
                 fclose(f);
-                return 0;
+                return false;
             }
             else if (line[0] != dialect.commentchar && line[0] != '\0') // We check whether the key is the good one
             {
@@ -154,18 +151,17 @@ auto key_exists(const char* fname, const char* section, const char* key, Dialect
                     {
                         // The key has been found
                         fclose(f);
-                        return n_line;
+                        return true;
                     }
                 }
                 // Else, there is no key, strange...
             }
         }
-        ++n_line;
     }
 
     // Finish, an error occured
     fclose(f);
-    return 0;
+    return false;
 }
 
 
