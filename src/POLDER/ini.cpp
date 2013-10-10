@@ -70,7 +70,7 @@ auto section_exists(const std::string& fname, const std::string& section, Dialec
     std::ifstream file(fname);
     if (not file)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + fname + ": Can not open file.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + fname + ": can not open file");
     }
 
     auto searched = "[" + section + "]";
@@ -103,7 +103,7 @@ auto key_exists(const std::string& fname, const std::string& section, const std:
     std::ifstream file(fname);
     if (not file)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + fname + ": Can not open file.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + fname + ": can not open file");
     }
 
     auto searched = "[" + section + "]";
@@ -165,7 +165,7 @@ auto read_string(const char* fname, const char* section, const char* key, char* 
     FILE* f = fopen(fname, "r");
     if (f == nullptr)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Can not open file.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
     }
 
     // Create the searched word : [section]
@@ -236,7 +236,7 @@ auto read_real(const char* fname, const char* section, const char* key, double d
     FILE* f = fopen(fname, "r");
     if (f == nullptr)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Can not open file.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
     }
 
     // Create the searched word : [section]
@@ -315,7 +315,7 @@ auto section_delete(const char* fname, const char* section, Dialect dialect)
     FILE* f = fopen(fname, "r");
     if (f == nullptr)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Can not open file.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
     }
 
     // Creation of a temporary file
@@ -366,7 +366,7 @@ auto section_delete(const char* fname, const char* section, Dialect dialect)
 
     if (!section_found)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Section '" + std::string(section) + "' not found.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(section) + "' not found");
     }
 
     remove(fname);
@@ -384,7 +384,7 @@ auto key_delete(const char* fname, const char* section, const char* key, Dialect
     FILE* f = fopen(fname, "r");
     if (f == nullptr)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Can not open file.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
     }
 
     // Creation of a temporary file
@@ -417,7 +417,7 @@ auto key_delete(const char* fname, const char* section, const char* key, Dialect
                     in_section = false;
                     if (!key_found)
                     {
-                        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Key '" + std::string(key) + "' not found.");
+                        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": key '" + std::string(key) + "' not found");
                     }
                 }
                 else if (line[0] != dialect.commentchar && line[0] != '\0') // We check whether the key is the good one
@@ -464,7 +464,7 @@ auto key_delete(const char* fname, const char* section, const char* key, Dialect
 
     if (!section_found)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Section '" + std::string(section) + "' not found.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(section) + "' not found");
     }
 
     remove(fname);
@@ -752,7 +752,7 @@ auto section_rename(const char* fname, const char* section, const char* new_sect
     FILE* f = fopen(fname, "r");
     if (f == nullptr)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Can not open file.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
     }
 
     // Creation of a temporary file
@@ -790,7 +790,7 @@ auto section_rename(const char* fname, const char* section, const char* new_sect
         {
             fclose(f);
             fclose(temp);
-            throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Section '" + std::string(new_section) + "' already exists.");
+            throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(new_section) + "' already exists");
         }
 
         // Copy the current line in the new file
@@ -812,7 +812,7 @@ auto section_rename(const char* fname, const char* section, const char* new_sect
 
     if (!section_found)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Section '" + std::string(section) + "' not found.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(section) + "' not found");
     }
 }
 
@@ -826,7 +826,7 @@ auto key_rename(const char* fname, const char* section, const char* key, const c
     FILE* f = fopen(fname, "r");
     if (f == nullptr)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Can not open file.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
     }
 
     // Creation of a temporary file
@@ -863,7 +863,7 @@ auto key_rename(const char* fname, const char* section, const char* key, const c
             {
                 if (line[0] == '[')
                 {
-                    throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": key '" + std::string(key) + "' not found.");
+                    throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": key '" + std::string(key) + "' not found");
                 }
                 // We check whether the key is the good one
                 else if (line[0] != dialect.commentchar && line[0] != '\0')
@@ -888,7 +888,7 @@ auto key_rename(const char* fname, const char* section, const char* key, const c
                         }
                         else if (!strcmp(new_key, stripped(substr(line, 0, i-1))))
                         {
-                            throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Key '" + std::string(new_key) + "' already exists.");
+                            throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": key '" + std::string(new_key) + "' already exists");
                         }
                     }
                 }
@@ -912,7 +912,7 @@ auto key_rename(const char* fname, const char* section, const char* key, const c
 
     if (!section_found)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Section '" + std::string(section) + "' not found.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(section) + "' not found");
     }
 
     remove(fname);
