@@ -485,7 +485,7 @@ auto key_delete(const char* fname, const char* section, const char* key, Dialect
 /**
  * Write a string in an INI file
  */
-auto write_string(const char* fname, const char* section, const char* key, const char* value, Dialect dialect)
+auto write(const char* fname, const char* section, const char* key, const char* value, Dialect dialect)
     -> void
 {
     // Open the file
@@ -620,7 +620,7 @@ auto write_string(const char* fname, const char* section, const char* key, const
 /**
  * Write a real in an INI file
  */
-auto write_real(const char* fname, const char* section, const char* key, double value, Dialect dialect)
+auto write(const char* fname, const char* section, const char* key, double value, Dialect dialect)
     -> void
 {
     // Open the file

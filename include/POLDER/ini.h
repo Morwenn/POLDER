@@ -172,7 +172,7 @@ auto key_delete(const char* fname, const char* section, const char* key, Dialect
  * @param dialect Dialect used to parse the file
  */
 POLDER_API
-auto write_string(const char* fname, const char* section, const char* key, const char* value, Dialect dialect={})
+auto write(const char* fname, const char* section, const char* key, const char* value, Dialect dialect={})
     -> void;
 
 /**
@@ -185,7 +185,7 @@ auto write_string(const char* fname, const char* section, const char* key, const
  * @param dialect Dialect used to parse the file
  */
 POLDER_API
-auto write_real(const char* fname, const char* section, const char* key, double value, Dialect dialect={})
+auto write(const char* fname, const char* section, const char* key, double value, Dialect dialect={})
     -> void;
 
 /**
