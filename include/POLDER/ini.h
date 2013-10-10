@@ -22,6 +22,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <exception>
+#include <fstream>
 #include <string>
 #include <POLDER/config.h>
 
@@ -42,6 +43,18 @@ namespace polder
 namespace ini
 {
 
+    /**
+     * @brief Dialect for parsing an INI file.
+     */
+    struct Dialect
+    {
+        char delimiter      = '=';
+        char commentchar    = ';';
+        char escapechar     = '\\';
+        char lineterminator = '\n';
+        char quotechar      = '"';
+        bool doublequote    = false;
+    };
 
 ////////////////////////////////////////////////////////////
 // Exceptions handling
@@ -74,10 +87,13 @@ class POLDER_API ini_error:
  *
  * @param fname INI file to read
  * @param section Section whose existence is checked
+ * @param dialect Dialect used to parse the file
  *
  * @return True is the section exists
  */
-POLDER_API size_t section_exists(const char* fname, const char* section);
+POLDER_API
+auto section_exists(const char* fname, const char* section, Dialect dialect={})
+    -> std::size_t;
 
 /**
  * @brief Return whether the given key exists or not
@@ -85,10 +101,13 @@ POLDER_API size_t section_exists(const char* fname, const char* section);
  * @param fname INI file to read
  * @param section Section whose existence is checked
  * @param key Key whose existence is checked
+ * @param dialect Dialect used to parse the file
  *
  * @return True if the key exists
-*/
-POLDER_API size_t key_exists(const char* fname, const char* section, const char* key);
+ */
+POLDER_API
+auto key_exists(const char* fname, const char* section, const char* key, Dialect dialect={})
+    -> std::size_t;
 
 /**
  * @brief Read the string value corresponding to the given key
@@ -97,10 +116,13 @@ POLDER_API size_t key_exists(const char* fname, const char* section, const char*
  * @param section Section to read
  * @param key Key to read
  * @param default_value Value to return if the key does not exist
+ * @param dialect Dialect used to parse the file
  *
  * @return Read value or default value
-*/
-POLDER_API char* read_string(const char* fname, const char* section, const char* key, char* default_value);
+ */
+POLDER_API
+auto read_string(const char* fname, const char* section, const char* key, char* default_value, Dialect dialect={})
+    -> char*;
 
 /**
  * @brief Read the real value corresponding to the given key
@@ -109,18 +131,24 @@ POLDER_API char* read_string(const char* fname, const char* section, const char*
  * @param section Section to read
  * @param key Key to read
  * @param default_value Value to return if the key does not exist
+ * @param dialect Dialect used to parse the file
  *
  * @return Read value or default value
-*/
-POLDER_API double read_real(const char* fname, const char* section, const char* key, double default_value);
+ */
+POLDER_API
+auto read_real(const char* fname, const char* section, const char* key, double default_value, Dialect dialect={})
+    -> double;
 
 /**
  * @brief Deletes the given section of an INI file
  *
  * @param fname INI file to read
  * @param section Section to delete
-*/
-POLDER_API void section_delete(const char* fname, const char* section);
+ * @param dialect Dialect used to parse the file
+ */
+POLDER_API
+auto section_delete(const char* fname, const char* section, Dialect dialect={})
+    -> void;
 
 /**
  * @brief Deletes the given key of an INI file
@@ -128,8 +156,11 @@ POLDER_API void section_delete(const char* fname, const char* section);
  * @param fname INI file to read
  * @param section Section where is located the key to delete
  * @param key Key to delete
-*/
-POLDER_API void key_delete(const char* fname, const char* section, const char* key);
+ * @param dialect Dialect used to parse the file
+ */
+POLDER_API
+auto key_delete(const char* fname, const char* section, const char* key, Dialect dialect={})
+    -> void;
 
 /**
  * @brief Write a string in an INI file
@@ -138,8 +169,11 @@ POLDER_API void key_delete(const char* fname, const char* section, const char* k
  * @param section Section where to write the string
  * @param key Key where to write the string
  * @param value String to write
-*/
-POLDER_API void write_string(const char* fname, const char* section, const char* key, const char* value);
+ * @param dialect Dialect used to parse the file
+ */
+POLDER_API
+auto write_string(const char* fname, const char* section, const char* key, const char* value, Dialect dialect={})
+    -> void;
 
 /**
  * @brief Write a real in an INI file
@@ -148,8 +182,11 @@ POLDER_API void write_string(const char* fname, const char* section, const char*
  * @param section Section where to write the real
  * @param key Key where to write the real
  * @param value Real to write
-*/
-POLDER_API void write_real(const char* fname, const char* section, const char* key, double value);
+ * @param dialect Dialect used to parse the file
+ */
+POLDER_API
+auto write_real(const char* fname, const char* section, const char* key, double value, Dialect dialect={})
+    -> void;
 
 /**
  * @brief Renames the given section of an INI file
@@ -157,8 +194,11 @@ POLDER_API void write_real(const char* fname, const char* section, const char* k
  * @param fname INI file to read
  * @param section Section to rename
  * @param new_section New name of the section
-*/
-POLDER_API void section_rename(const char* fname, const char* section, const char* new_section);
+ * @param dialect Dialect used to parse the file
+ */
+POLDER_API
+auto section_rename(const char* fname, const char* section, const char* new_section, Dialect dialect={})
+    -> void;
 
 /**
  * @brief Renames the given key of an INI file
@@ -167,8 +207,11 @@ POLDER_API void section_rename(const char* fname, const char* section, const cha
  * @param section Section where is located the key to delete
  * @param key Key to rename
  * @param new_key New name of the key
-*/
-POLDER_API void key_rename(const char* fname, const char* section, const char* key, const char* new_key);
+ * @param dialect Dialect used to parse the file
+ */
+POLDER_API
+auto key_rename(const char* fname, const char* section, const char* key, const char* new_key, Dialect dialect={})
+    -> void;
 
 
 } // namespace ini

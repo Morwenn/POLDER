@@ -19,6 +19,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <sstream>
+#include <utility>
 #include <POLDER/ini.h>
 #include <POLDER/io.h>
 #include <POLDER/string.h>
@@ -36,116 +37,17 @@ using namespace string;
 // INI-specific elements
 namespace
 {
-    // # and ;
-    constexpr bool _comment[256] = {
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    };
-
-    // : and =
-    constexpr bool _equal[256] = {
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    };
-
-    // :, =, \0 and \n
-    constexpr bool _not_break1[256] = {
-        0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-    };
-
-    // #, ;, \0 and \n
-    constexpr bool _not_break2[256] = {
-        0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-    };
-
-    constexpr bool is_comment_s(const char c)
-    {
-        return _comment[(unsigned)c];
-    }
-
-    constexpr bool is_equal_s(const char c)
-    {
-        return _equal[(unsigned)c];
-    }
-
-    constexpr bool is_not_break1(const char c)
-    {
-        return _not_break1[(unsigned)c];
-    }
-
-    constexpr bool is_not_break2(const char c)
-    {
-        return _not_break2[(unsigned)c];
-    }
-
     /**
      * Return a string without comments
      */
-    char* strnorm(const char* str)
+    char* strnorm(const char* str, Dialect dialect)
     {
-        char* new_str = (char*) malloc(strlen(str));
+        char* new_str = new char[strlen(str)];
         int count = -1, i = -1;
         while (str[++i])
         {
-            if (str[i] == '\n' || is_comment_s(str[i]))
+            if (str[i] == dialect.lineterminator
+                || str[i] == dialect.commentchar)
             {
                 count -= 2;
                 break;
@@ -160,7 +62,8 @@ namespace
 /**
  * Return whether the given section exists or not
  */
-size_t section_exists(const char* fname, const char* section)
+auto section_exists(const char* fname, const char* section, Dialect dialect)
+    -> std::size_t
 {
     // Open the file
     FILE* f = fopen(fname, "r");
@@ -199,7 +102,8 @@ size_t section_exists(const char* fname, const char* section)
 /**
  * Return whether the given key exists or not
  */
-size_t key_exists(const char* fname, const char* section, const char* key)
+auto key_exists(const char* fname, const char* section, const char* key, Dialect dialect)
+    -> std::size_t
 {
     // Open the file
     FILE* f = fopen(fname, "r");
@@ -238,11 +142,13 @@ size_t key_exists(const char* fname, const char* section, const char* key)
                 fclose(f);
                 return 0;
             }
-            else if (line[0] != ';' && line[0] != '#' && line[0] != '\0') // We check whether the key is the good one
+            else if (line[0] != dialect.commentchar && line[0] != '\0') // We check whether the key is the good one
             {
                 int i = -1;
-                while (is_not_break1(line[++i]));
-                if (is_equal_s(line[i]))
+                while (line[++i] != '\0'
+                       && line[i] != dialect.lineterminator
+                       && line[i] != dialect.delimiter);
+                if (line[i] == dialect.delimiter)
                 {
                     if (!strcmp(key, stripped(substr(line, 0, i-1))))
                     {
@@ -266,7 +172,8 @@ size_t key_exists(const char* fname, const char* section, const char* key)
 /**
  * Read the string value corresponding to the given key
  */
-char* read_string(const char* fname, const char* section, const char* key, char* default_value)
+auto read_string(const char* fname, const char* section, const char* key, char* default_value, Dialect dialect)
+    -> char*
 {
     // Open the file
     FILE* f = fopen(fname, "r");
@@ -304,17 +211,21 @@ char* read_string(const char* fname, const char* section, const char* key, char*
                 fclose(f);
                 return default_value;
             }
-            else if (line[0] != ';' && line[0] != '#' && line[0] != '\0') // We check whether the key is the good one
+            else if (line[0] != dialect.commentchar && line[0] != '\0') // We check whether the key is the good one
             {
                 int i = -1;
-                while (is_not_break1(line[++i]));
-                if (is_equal_s(line[i]))
+                while (line[++i] != '\0'
+                       && line[i] != dialect.lineterminator
+                       && line[i] != dialect.delimiter);
+                if (line[i] == dialect.delimiter)
                 {
                     if (!strcmp(key, stripped(substr(line, 0, i-1))))
                     {
                         // The key has been found
                         int j = i;
-                        while (is_not_break2(line[++j]));
+                        while (line[++j] != '\0'
+                               && line[j] != dialect.lineterminator
+                               && line[j] != dialect.commentchar);
                         fclose(f);
                         return stripped(substr(line, i+1, j-1));
                     }
@@ -332,7 +243,8 @@ char* read_string(const char* fname, const char* section, const char* key, char*
 /**
  * Read the real value corresponding to the given key
  */
-double read_real(const char* fname, const char* section, const char* key, double default_value)
+auto read_real(const char* fname, const char* section, const char* key, double default_value, Dialect dialect)
+    -> double
 {
     // Open the file
     FILE* f = fopen(fname, "r");
@@ -370,17 +282,21 @@ double read_real(const char* fname, const char* section, const char* key, double
                 fclose(f);
                 return default_value;
             }
-            else if (line[0] != ';' && line[0] != '#' && line[0] != '\0') // We check whether the key is the good one
+            else if (line[0] != dialect.commentchar && line[0] != '\0') // We check whether the key is the good one
             {
                 int i = -1;
-                while (is_not_break1(line[++i]));
-                if (is_equal_s(line[i]))
+                while (line[++i] != '\0'
+                       && line[i] != dialect.lineterminator
+                       && line[i] != dialect.delimiter);
+                if (line[i] == dialect.delimiter)
                 {
                     if (!strcmp(key, stripped(substr(line, 0, i-1))))
                     {
                         // The key has been found
                         int j = i;
-                        while (is_not_break2(line[++j]));
+                        while (line[++j] != '\0'
+                               && line[j] != dialect.lineterminator
+                               && line[j] != dialect.commentchar);
                         fclose(f);
                         if (stype::is_number(substr(line, i+1, j-1)))
                         {
@@ -406,7 +322,8 @@ double read_real(const char* fname, const char* section, const char* key, double
 /**
  * Deletes the given section of an INI file
  */
-void section_delete(const char* fname, const char* section)
+auto section_delete(const char* fname, const char* section, Dialect dialect)
+    -> void
 {
     // Open the file
     FILE* f = fopen(fname, "r");
@@ -474,7 +391,8 @@ void section_delete(const char* fname, const char* section)
 /**
  * Deletes the given key of an INI file
  */
-void key_delete(const char* fname, const char* section, const char* key)
+auto key_delete(const char* fname, const char* section, const char* key, Dialect dialect)
+    -> void
 {
     // Open the file
     FILE* f = fopen(fname, "r");
@@ -516,11 +434,13 @@ void key_delete(const char* fname, const char* section, const char* key)
                         throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Key '" + std::string(key) + "' not found.");
                     }
                 }
-                else if (line[0] != ';' && line[0] != '#' && line[0] != '\0') // We check whether the key is the good one
+                else if (line[0] != dialect.commentchar && line[0] != '\0') // We check whether the key is the good one
                 {
                     int i = -1;
-                    while (is_not_break1(line[++i]));
-                    if (is_equal_s(line[i]))
+                    while (line[++i] != '\0'
+                           && line[i] != dialect.lineterminator
+                           && line[i] != dialect.delimiter);
+                    if (line[i] == dialect.delimiter)
                     {
                         if (!strcmp(key, stripped(substr(line, 0, i-1))))
                         {
@@ -569,7 +489,8 @@ void key_delete(const char* fname, const char* section, const char* key)
 /**
  * Write a string in an INI file
  */
-void write_string(const char* fname, const char* section, const char* key, const char* value)
+auto write_string(const char* fname, const char* section, const char* key, const char* value, Dialect dialect)
+    -> void
 {
     // Open the file
     FILE* f = fopen(fname, "r");
@@ -578,7 +499,7 @@ void write_string(const char* fname, const char* section, const char* key, const
         // Create a new file
         f = fopen(fname, "w");
         fprintf(f, "[%s]\n", section);
-        fprintf(f, "%s%c%s\n", key, '=', value);
+        fprintf(f, "%s%c%s\n", key, dialect.delimiter, value);
     }
 
     // Creation of a temporary file
@@ -616,7 +537,7 @@ void write_string(const char* fname, const char* section, const char* key, const
             }
             else // If the given section exists
             {
-                if (line[0] == '\n')
+                if (line[0] == dialect.lineterminator)
                 {
                     // We "store" the empty line
                     ++empty_lines;
@@ -629,12 +550,12 @@ void write_string(const char* fname, const char* section, const char* key, const
                         // We reached the end of the section
                         // The key still has not be found
                         // So we add it
-                        fprintf(temp, "%s%c%s\n", key, '=', value);
+                        fprintf(temp, "%s%c%s\n", key, dialect.delimiter, value);
                         key_found = true;
                     }
                     for (size_t i = 0 ; i < empty_lines ; ++i)
                     {
-                        fprintf(temp, "\n");
+                        fprintf(temp, "%c", dialect.lineterminator);
                     }
                     empty_lines = 0;
                 }
@@ -643,22 +564,24 @@ void write_string(const char* fname, const char* section, const char* key, const
                     // Add the empty lines needed
                     for (size_t i = 0 ; i < empty_lines ; ++i)
                     {
-                        fprintf(temp, "\n");
+                        fprintf(temp, "%c", dialect.lineterminator);
                     }
                     empty_lines = 0;
 
                     // We check whether the key is the good one
-                    if (line[0] != ';' && line[0] != '#' && line[0] != '\0')
+                    if (line[0] != dialect.commentchar && line[0] != '\0')
                     {
-                        strnorm(line);
+                        strnorm(line, dialect);
                         int i = -1;
-                        while (is_not_break1(line[++i]));
-                        if (is_equal_s(line[i]))
+                        while (line[++i] != '\0'
+                               && line[i] != dialect.lineterminator
+                               && line[i] != dialect.delimiter);
+                        if (line[i] == dialect.delimiter)
                         {
                             if (!strcmp(key, stripped(substr(line, 0, i-1))))
                             {
                                 // The key has been found
-                                fprintf(temp, "%s%c%s\n", key, '=', value);
+                                fprintf(temp, "%s%c%s\n", key, dialect.delimiter, value);
                                 key_found = true;
                                 write_line = false;
                             }
@@ -683,11 +606,11 @@ void write_string(const char* fname, const char* section, const char* key, const
     {
         fprintf(temp, "\n");
         fprintf(temp, "%s\n", searched_word);
-        fprintf(temp, "%s%c%s\n", key, '=', value);
+        fprintf(temp, "%s%c%s\n", key, dialect.delimiter, value);
     }
     else if (!key_found)
     {
-        fprintf(temp, "%s%c%s\n", key, '=', value);
+        fprintf(temp, "%s%c%s\n", key, dialect.delimiter, value);
     }
 
     // Finish
@@ -701,7 +624,8 @@ void write_string(const char* fname, const char* section, const char* key, const
 /**
  * Write a real in an INI file
  */
-void write_real(const char* fname, const char* section, const char* key, double value)
+auto write_real(const char* fname, const char* section, const char* key, double value, Dialect dialect)
+    -> void
 {
     // Open the file
     FILE* f = fopen(fname, "r");
@@ -710,7 +634,7 @@ void write_real(const char* fname, const char* section, const char* key, double 
         // Create a new file
         f = fopen(fname, "w");
         fprintf(f, "[%s]\n", section);
-        fprintf(f, "%s%c%f\n", key, '=', value);
+        fprintf(f, "%s%c%f\n", key, dialect.delimiter, value);
     }
 
     // Creation of a temporary file
@@ -748,7 +672,7 @@ void write_real(const char* fname, const char* section, const char* key, double 
             }
             else // If the given section exists
             {
-                if (line[0] == '\n')
+                if (line[0] == dialect.lineterminator)
                 {
                     // We "store" the empty line
                     ++empty_lines;
@@ -761,12 +685,12 @@ void write_real(const char* fname, const char* section, const char* key, double 
                         // We reached the end of the section
                         // The key still has not be found
                         // So we add it
-                        fprintf(temp, "%s%c%f\n", key, '=', value);
+                        fprintf(temp, "%s%c%f\n", key, dialect.delimiter, value);
                         key_found = true;
                     }
                     for (size_t i = 0 ; i < empty_lines ; ++i)
                     {
-                        fprintf(temp, "\n");
+                        fprintf(temp, "%c", dialect.lineterminator);
                     }
                     empty_lines = 0;
                 }
@@ -775,23 +699,25 @@ void write_real(const char* fname, const char* section, const char* key, double 
                     // Add the empty lines needed
                     for (size_t i = 0 ; i < empty_lines ; ++i)
                     {
-                        fprintf(temp, "\n");
+                        fprintf(temp, "%c", dialect.lineterminator);
                     }
                     empty_lines = 0;
 
 
                     // We check whether the key is the good one
-                    if (line[0] != ';' && line[0] != '#' && line[0] != '\0')
+                    if (line[0] != dialect.commentchar && line[0] != '\0')
                     {
-                        strnorm(line);
+                        strnorm(line, dialect);
                         int i = -1;
-                        while (is_not_break1(line[++i]));
-                        if (line[i] == '=' || line[i] == ':')
+                        while (line[++i] != '\0'
+                               && line[i] != dialect.lineterminator
+                               && line[i] != dialect.delimiter);
+                        if (line[i] == dialect.delimiter)
                         {
                             if (!strcmp(key, stripped(substr(line, 0, i-1))))
                             {
                                 // The key has been found
-                                fprintf(temp, "%s%c%f\n", key, '=', value);
+                                fprintf(temp, "%s%c%f\n", key, dialect.delimiter, value);
                                 key_found = true;
                                 write_line = false;
                             }
@@ -816,11 +742,11 @@ void write_real(const char* fname, const char* section, const char* key, double 
     {
         fprintf(temp, "\n");
         fprintf(temp, "%s\n", searched_word);
-        fprintf(temp, "%s%c%f\n", key, '=', value);
+        fprintf(temp, "%s%c%f\n", key, dialect.delimiter, value);
     }
     else if (!key_found)
     {
-        fprintf(temp, "%s%c%f\n", key, '=', value);
+        fprintf(temp, "%s%c%f\n", key, dialect.delimiter, value);
     }
 
     // Finish
@@ -833,7 +759,8 @@ void write_real(const char* fname, const char* section, const char* key, double 
 /**
  * Renames the given section of an INI file
  */
-void section_rename(const char* fname, const char* section, const char* new_section)
+auto section_rename(const char* fname, const char* section, const char* new_section, Dialect dialect)
+    -> void
 {
     // Open the file
     FILE* f = fopen(fname, "r");
@@ -869,7 +796,7 @@ void section_rename(const char* fname, const char* section, const char* new_sect
         lstrip(line);
         if (!strncmp(line, searched_word, length))
         {
-            fprintf(temp, "%s\n", new_searched_word);
+            fprintf(temp, "%s%c", new_searched_word, dialect.lineterminator);
             write_line = false;
             section_found = true;
         }
@@ -906,7 +833,8 @@ void section_rename(const char* fname, const char* section, const char* new_sect
 /**
  * Renames the given key of an INI file
  */
-void key_rename(const char* fname, const char* section, const char* key, const char* new_key)
+auto key_rename(const char* fname, const char* section, const char* key, const char* new_key, Dialect dialect)
+    -> void
 {
     // Open the file
     FILE* f = fopen(fname, "r");
@@ -949,15 +877,17 @@ void key_rename(const char* fname, const char* section, const char* key, const c
             {
                 if (line[0] == '[')
                 {
-                    throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Key '" + std::string(key) + "' not found.");
+                    throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": key '" + std::string(key) + "' not found.");
                 }
                 // We check whether the key is the good one
-                else if (line[0] != ';' && line[0] != '#' && line[0] != '\0')
+                else if (line[0] != dialect.commentchar && line[0] != '\0')
                 {
-                    strnorm(line);
+                    strnorm(line, dialect);
                     int i = -1;
-                    while (is_not_break1(line[++i]));
-                    if (is_equal_s(line[i]))
+                    while (line[++i] != '\0'
+                           && line[i] != dialect.lineterminator
+                           && line[i] != dialect.delimiter);
+                    if (line[i] == dialect.delimiter)
                     {
                         if (!strcmp(key, stripped(substr(line, 0, i-1))))
                         {
@@ -965,8 +895,10 @@ void key_rename(const char* fname, const char* section, const char* key, const c
                             key_found = true;
                             write_line = false;
                             int j = i;
-                            while (is_not_break2(line[++j]));
-                            fprintf(temp, "%s%c%s\n", new_key, '=', substr(line, i+1, j-1));
+                            while (line[++j] != '\0'
+                                   && line[j] != dialect.lineterminator
+                                   && line[j] != dialect.commentchar);
+                            fprintf(temp, "%s%c%s\n", new_key, dialect.delimiter, substr(line, i+1, j-1));
                         }
                         else if (!strcmp(new_key, stripped(substr(line, 0, i-1))))
                         {
