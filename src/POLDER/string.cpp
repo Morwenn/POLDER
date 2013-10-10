@@ -65,6 +65,20 @@ void strip(char* str)
     // Delete the spaces at the beginning of the line
     memcpy(str, (char*) str + count_spaces, i - count_spaces + 1);
 }
+
+void strip(std::string& str)
+{
+    // Strip the characters at the beginning of the string
+    int i = -1;
+    while (std::isspace(str[++i]));
+    str.erase(0, i);
+
+    // Strip the characters at the end of the string
+    i = str.size();
+    while (std::isspace(str[--i]));
+    str.erase(i+1, str.size()-i);
+}
+
 ////////////////////////////////////////////////////////////
 // Deletes the spaces and tabulations at the beginning of a string
 ////////////////////////////////////////////////////////////
@@ -77,6 +91,15 @@ void lstrip(char* str)
     // Delete the spaces at the beginning of the line
     memcpy(str, (char*) str + count_spaces, strlen(str) - count_spaces + 1);
 }
+
+void lstrip(std::string& str)
+{
+    // Strip the characters at the beginning of the string
+    int i = -1;
+    while (std::isspace(str[++i]));
+    str.erase(0, i);
+}
+
 ////////////////////////////////////////////////////////////
 // Deletes the spaces and tabulations at the end of a string
 ////////////////////////////////////////////////////////////
@@ -100,6 +123,15 @@ void rstrip(char* str)
         }
     }
 }
+
+void rstrip(std::string& str)
+{
+    // Strip the characters at the end of the string
+    int i = str.size();
+    while (std::isspace(str[--i]));
+    str.erase(i+1, str.size()-i);
+}
+
 char* stripped(const char* str)
 {
     size_t length = strlen(str) - 1;
@@ -131,6 +163,14 @@ char* stripped(const char* str)
     memcpy(new_str, (char*) new_str + count_spaces, i - count_spaces + 1);
     return new_str;
 }
+
+auto stripped(std::string str)
+    -> std::string
+{
+    strip(str);
+    return str;
+}
+
 char* lstripped(const char* str)
 {
     size_t length = strlen(str) + 1;
@@ -145,6 +185,14 @@ char* lstripped(const char* str)
     memcpy(new_str, (char*) new_str + count_spaces, length - count_spaces);
     return new_str;
 }
+
+auto lstripped(std::string str)
+    -> std::string
+{
+    lstrip(str);
+    return str;
+}
+
 char* rstripped(const char* str)
 {
     size_t length = strlen(str) - 1;
@@ -170,9 +218,17 @@ char* rstripped(const char* str)
     return new_str;
 }
 
+auto rstripped(std::string str)
+    -> std::string
+{
+    rstrip(str);
+    return str;
+}
 
 ////////////////////////////////////////////////////////////
-// If the given character has more than one successive occurence, successive occurences are deleted until one remain
+// If the given character has more than one successive
+// occurrence, successive occurrences are deleted until
+// only one remains
 ////////////////////////////////////////////////////////////
 void reduce_char(char* str, char c)
 {

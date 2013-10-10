@@ -21,6 +21,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <string>
 #include <POLDER/config.h>
 
 
@@ -93,14 +94,20 @@ POLDER_API void delchr(char* str, const char c);
  * @param str String to modify
  */
 POLDER_API void strip(char* str);
+POLDER_API void strip(std::string& str);
 POLDER_API void lstrip(char* str);
+POLDER_API void lstrip(std::string& str);
 POLDER_API void rstrip(char* str);
+POLDER_API void rstrip(std::string& str);
 POLDER_API char* stripped(const char* str);
+POLDER_API std::string stripped(std::string str);
 POLDER_API char* lstripped(const char* str);
+POLDER_API std::string lstripped(std::string str);
 POLDER_API char* rstripped(const char* str);
+POLDER_API std::string rstripped(std::string str);
 
 /**
- * @brief Reduce all the successive occurences of a character to one
+ * @brief Reduce all the successive occurrences of a character to one
  *
  * @param str String to modify
  * @param c Character to reduce
