@@ -92,7 +92,7 @@ class POLDER_API ini_error:
  * @return True is the section exists
  */
 POLDER_API
-auto section_exists(const char* fname, const char* section, Dialect dialect={})
+auto section_exists(const std::string& fname, const std::string& section, Dialect dialect={})
     -> bool;
 
 /**
@@ -106,7 +106,7 @@ auto section_exists(const char* fname, const char* section, Dialect dialect={})
  * @return True if the key exists
  */
 POLDER_API
-auto key_exists(const char* fname, const char* section, const char* key, Dialect dialect={})
+auto key_exists(const std::string& fname, const std::string& section, const std::string& key, Dialect dialect={})
     -> bool;
 
 /**

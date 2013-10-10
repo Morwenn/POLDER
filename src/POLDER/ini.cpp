@@ -18,6 +18,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <fstream>
 #include <sstream>
 #include <utility>
 #include <POLDER/ini.h>
@@ -62,37 +63,32 @@ namespace
 /**
  * Return whether the given section exists or not
  */
-auto section_exists(const char* fname, const char* section, Dialect dialect)
+auto section_exists(const std::string& fname, const std::string& section, Dialect dialect)
     -> bool
 {
     // Open the file
-    FILE* f = fopen(fname, "r");
-    if (f == nullptr)
+    std::ifstream file(fname);
+    if (not file)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Can not open file.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + fname + ": Can not open file.");
     }
 
-    // Create the searched word : [section]
-    size_t length = strlen(section) + 2;
-    char* searched_word = new char[length+1];
-    strcpy(searched_word, "[");
-    strcat(searched_word, section);
-    strcat(searched_word, "]");
-
-    // Read the lines and search the section number
-    char* line = nullptr;
-    while (io::fgetl(line, f))
+    auto searched = "[" + section + "]";
+    std::string line;
+    // Read the lines
+    while (getline(file, line))
     {
         lstrip(line);
-        if (!strncmp(line, searched_word, length))
+        if (line.substr(0, searched.size()) == searched)
         {
-            fclose(f);
+            // The section has been found
+            file.close();
             return true;
         }
     }
 
-    // Finish, the section has not been found
-    fclose(f);
+    // The section has not been found
+    file.close();
     return false;
 }
 
@@ -100,33 +96,27 @@ auto section_exists(const char* fname, const char* section, Dialect dialect)
 /**
  * Return whether the given key exists or not
  */
-auto key_exists(const char* fname, const char* section, const char* key, Dialect dialect)
+auto key_exists(const std::string& fname, const std::string& section, const std::string& key, Dialect dialect)
     -> bool
 {
     // Open the file
-    FILE* f = fopen(fname, "r");
-    if (f == nullptr)
+    std::ifstream file(fname);
+    if (not file)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": Can not open file.");
+        throw ini_error(std::string(__FUNCTION__) + ": " + fname + ": Can not open file.");
     }
 
-    // Create the searched word : [section]
-    size_t length = strlen(section) + 2;
-    char* searched_word = new char[length+1];
-    strcpy(searched_word, "[");
-    strcat(searched_word, section);
-    strcat(searched_word, "]");
-
-    // Read the lines
+    auto searched = "[" + section + "]";
     bool section_found = false;
-    char* line = nullptr;
-    while (io::fgetl(line, f))
+    std::string line;
+    // Read the lines
+    while (getline(file, line))
     {
         strip(line);
         if (section_found == false)
         {
-            // Search the section number
-            if (!strncmp(line, searched_word, length))
+            // Search the section
+            if (line.substr(0, searched.size()) == searched)
             {
                 section_found = true;
             }
@@ -136,7 +126,7 @@ auto key_exists(const char* fname, const char* section, const char* key, Dialect
             if (line[0] == '[')
             {
                 // We reached another section
-                fclose(f);
+                file.close();
                 return false;
             }
             else if (line[0] != dialect.commentchar && line[0] != '\0') // We check whether the key is the good one
@@ -147,10 +137,10 @@ auto key_exists(const char* fname, const char* section, const char* key, Dialect
                        && line[i] != dialect.delimiter);
                 if (line[i] == dialect.delimiter)
                 {
-                    if (!strcmp(key, stripped(substr(line, 0, i-1))))
+                    if (key == stripped(line.substr(0, i-1)))
                     {
                         // The key has been found
-                        fclose(f);
+                        file.close();
                         return true;
                     }
                 }
@@ -159,8 +149,8 @@ auto key_exists(const char* fname, const char* section, const char* key, Dialect
         }
     }
 
-    // Finish, an error occured
-    fclose(f);
+    // The has not been found
+    file.close();
     return false;
 }
 
