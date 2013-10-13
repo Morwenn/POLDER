@@ -60,6 +60,65 @@ namespace
     }
 }
 
+Element::Element() = default;
+Element::Element(const Element&) = default;
+Element::Element(Element&&) = default;
+Element::~Element() = default;
+
+Element::Element(const std::string& str):
+    _data(str)
+{}
+
+Element::operator std::string() const
+{
+    return _data;
+}
+
+Element::operator int() const
+{
+    return std::stoi(_data);
+}
+
+Element::operator long() const
+{
+    return std::stol(_data);
+}
+
+Element::operator long long() const
+{
+    return std::stoll(_data);
+}
+
+Element::operator unsigned() const
+{
+    return std::stoi(_data);
+}
+
+Element::operator unsigned long() const
+{
+    return std::stoul(_data);
+}
+
+Element::operator unsigned long long() const
+{
+    return std::stoull(_data);
+}
+
+Element::operator float() const
+{
+    return std::stof(_data);
+}
+
+Element::operator double() const
+{
+    return std::stod(_data);
+}
+
+Element::operator long double() const
+{
+    return std::stold(_data);
+}
+
 /**
  * Return whether the given section exists or not
  */
@@ -70,7 +129,7 @@ auto section_exists(const std::string& fname, const std::string& section, Dialec
     std::ifstream file(fname);
     if (not file)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + fname + ": can not open file");
+        throw Error(std::string(__FUNCTION__) + ": " + fname + ": can not open file");
     }
 
     auto searched = "[" + section + "]";
@@ -103,7 +162,7 @@ auto key_exists(const std::string& fname, const std::string& section, const std:
     std::ifstream file(fname);
     if (not file)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + fname + ": can not open file");
+        throw Error(std::string(__FUNCTION__) + ": " + fname + ": can not open file");
     }
 
     auto searched = "[" + section + "]";
@@ -113,7 +172,7 @@ auto key_exists(const std::string& fname, const std::string& section, const std:
     while (getline(file, line))
     {
         strip(line);
-        if (section_found == false)
+        if (not section_found)
         {
             // Search the section
             if (line.substr(0, searched.size()) == searched)
@@ -137,7 +196,7 @@ auto key_exists(const std::string& fname, const std::string& section, const std:
                        && line[i] != dialect.delimiter);
                 if (line[i] == dialect.delimiter)
                 {
-                    if (key == stripped(line.substr(0, i-1)))
+                    if (key == stripped(line.substr(0, i)))
                     {
                         // The key has been found
                         file.close();
@@ -158,33 +217,27 @@ auto key_exists(const std::string& fname, const std::string& section, const std:
 /**
  * Read the string value corresponding to the given key
  */
-auto read_string(const char* fname, const char* section, const char* key, char* default_value, Dialect dialect)
-    -> char*
+auto read(const std::string& fname, const std::string& section, const std::string& key, const std::string& default_value, Dialect dialect)
+    -> Element
 {
     // Open the file
-    FILE* f = fopen(fname, "r");
-    if (f == nullptr)
+    std::ifstream file(fname);
+    if (not file)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
+        throw Error(std::string(__FUNCTION__) + ": " + fname + ": can not open file");
     }
 
-    // Create the searched word : [section]
-    size_t length = strlen(section) + 2;
-    char* searched_word = new char[length+1];
-    strcpy(searched_word, "[");
-    strcat(searched_word, section);
-    strcat(searched_word, "]");
-
-    // Read the lines
+    auto searched = "[" + section + "]";
     bool section_found = false;
-    char* line = nullptr;
-    while (io::fgetl(line, f))
+    std::string line;
+    // Read the lines
+    while (getline(file, line))
     {
         strip(line);
-        if (section_found == false)
+        if (not section_found)
         {
-            // Search the section number
-            if (!strncmp(line, searched_word, length))
+            // Search the section
+            if (line.substr(0, searched.size()) == searched)
             {
                 section_found = true;
             }
@@ -194,7 +247,7 @@ auto read_string(const char* fname, const char* section, const char* key, char* 
             if (line[0] == '[')
             {
                 // We reached another section
-                fclose(f);
+                file.close();
                 return default_value;
             }
             else if (line[0] != dialect.commentchar && line[0] != '\0') // We check whether the key is the good one
@@ -205,102 +258,23 @@ auto read_string(const char* fname, const char* section, const char* key, char* 
                        && line[i] != dialect.delimiter);
                 if (line[i] == dialect.delimiter)
                 {
-                    if (!strcmp(key, stripped(substr(line, 0, i-1))))
+                    if (key == stripped(line.substr(0, i)))
                     {
                         // The key has been found
                         int j = i;
                         while (line[++j] != '\0'
                                && line[j] != dialect.lineterminator
                                && line[j] != dialect.commentchar);
-                        fclose(f);
-                        return stripped(substr(line, i+1, j-1));
+                        file.close();
+                        return stripped(line.substr(i+1));
                     }
                 }
                 // Else, there is no key, strange...
             }
         }
     }
-    // Finish, an error occured
-    fclose(f);
-    return default_value;
-}
-
-
-/**
- * Read the real value corresponding to the given key
- */
-auto read_real(const char* fname, const char* section, const char* key, double default_value, Dialect dialect)
-    -> double
-{
-    // Open the file
-    FILE* f = fopen(fname, "r");
-    if (f == nullptr)
-    {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
-    }
-
-    // Create the searched word : [section]
-    size_t length = strlen(section) + 2;
-    char* searched_word = new char[length+1];
-    strcpy(searched_word, "[");
-    strcat(searched_word, section);
-    strcat(searched_word, "]");
-
-    // Read the lines
-    bool section_found = false;
-    char* line = nullptr;
-    while (io::fgetl(line, f))
-    {
-        strip(line);
-        if (section_found == false)
-        {
-            // Search the section number
-            if (!strncmp(line, searched_word, length))
-            {
-                section_found = true;
-            }
-        }
-        else // If the given section exists
-        {
-            if (line[0] == '[')
-            {
-                // We reached another section
-                fclose(f);
-                return default_value;
-            }
-            else if (line[0] != dialect.commentchar && line[0] != '\0') // We check whether the key is the good one
-            {
-                int i = -1;
-                while (line[++i] != '\0'
-                       && line[i] != dialect.lineterminator
-                       && line[i] != dialect.delimiter);
-                if (line[i] == dialect.delimiter)
-                {
-                    if (!strcmp(key, stripped(substr(line, 0, i-1))))
-                    {
-                        // The key has been found
-                        int j = i;
-                        while (line[++j] != '\0'
-                               && line[j] != dialect.lineterminator
-                               && line[j] != dialect.commentchar);
-                        fclose(f);
-                        if (stype::is_number(substr(line, i+1, j-1)))
-                        {
-                            return atof(substr(line, i+1, j-1));
-                        }
-                        else
-                        {
-                            return default_value;
-                        }
-                    }
-                }
-                // Else, there is no key, strange...
-            }
-        }
-    }
-
-    // Finish, an error occured
-    fclose(f);
+    // Finish, an error occurred
+    file.close();
     return default_value;
 }
 
@@ -315,7 +289,7 @@ auto section_delete(const char* fname, const char* section, Dialect dialect)
     FILE* f = fopen(fname, "r");
     if (f == nullptr)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
+        throw Error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
     }
 
     // Creation of a temporary file
@@ -366,7 +340,7 @@ auto section_delete(const char* fname, const char* section, Dialect dialect)
 
     if (!section_found)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(section) + "' not found");
+        throw Error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(section) + "' not found");
     }
 
     remove(fname);
@@ -384,7 +358,7 @@ auto key_delete(const char* fname, const char* section, const char* key, Dialect
     FILE* f = fopen(fname, "r");
     if (f == nullptr)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
+        throw Error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
     }
 
     // Creation of a temporary file
@@ -417,7 +391,7 @@ auto key_delete(const char* fname, const char* section, const char* key, Dialect
                     in_section = false;
                     if (!key_found)
                     {
-                        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": key '" + std::string(key) + "' not found");
+                        throw Error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": key '" + std::string(key) + "' not found");
                     }
                 }
                 else if (line[0] != dialect.commentchar && line[0] != '\0') // We check whether the key is the good one
@@ -464,7 +438,7 @@ auto key_delete(const char* fname, const char* section, const char* key, Dialect
 
     if (!section_found)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(section) + "' not found");
+        throw Error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(section) + "' not found");
     }
 
     remove(fname);
@@ -752,7 +726,7 @@ auto section_rename(const char* fname, const char* section, const char* new_sect
     FILE* f = fopen(fname, "r");
     if (f == nullptr)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
+        throw Error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
     }
 
     // Creation of a temporary file
@@ -790,7 +764,7 @@ auto section_rename(const char* fname, const char* section, const char* new_sect
         {
             fclose(f);
             fclose(temp);
-            throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(new_section) + "' already exists");
+            throw Error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(new_section) + "' already exists");
         }
 
         // Copy the current line in the new file
@@ -812,7 +786,7 @@ auto section_rename(const char* fname, const char* section, const char* new_sect
 
     if (!section_found)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(section) + "' not found");
+        throw Error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(section) + "' not found");
     }
 }
 
@@ -826,7 +800,7 @@ auto key_rename(const char* fname, const char* section, const char* key, const c
     FILE* f = fopen(fname, "r");
     if (f == nullptr)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
+        throw Error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": can not open file");
     }
 
     // Creation of a temporary file
@@ -863,7 +837,7 @@ auto key_rename(const char* fname, const char* section, const char* key, const c
             {
                 if (line[0] == '[')
                 {
-                    throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": key '" + std::string(key) + "' not found");
+                    throw Error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": key '" + std::string(key) + "' not found");
                 }
                 // We check whether the key is the good one
                 else if (line[0] != dialect.commentchar && line[0] != '\0')
@@ -888,7 +862,7 @@ auto key_rename(const char* fname, const char* section, const char* key, const c
                         }
                         else if (!strcmp(new_key, stripped(substr(line, 0, i-1))))
                         {
-                            throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": key '" + std::string(new_key) + "' already exists");
+                            throw Error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": key '" + std::string(new_key) + "' already exists");
                         }
                     }
                 }
@@ -912,7 +886,7 @@ auto key_rename(const char* fname, const char* section, const char* key, const c
 
     if (!section_found)
     {
-        throw ini_error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(section) + "' not found");
+        throw Error(std::string(__FUNCTION__) + ": " + std::string(fname) + ": section '" + std::string(section) + "' not found");
     }
 
     remove(fname);
@@ -925,15 +899,15 @@ auto key_rename(const char* fname, const char* section, const char* key, const c
  */
 
 // Create a new exception
-ini_error::ini_error()
+Error::Error()
 {
     std::ostringstream oss;
-    oss << "polder::ini::ini_error: undocumented error.";
+    oss << "polder::ini::Error: undocumented error.";
     msg = oss.str();
 }
 
 // Create a new exception
-ini_error::ini_error(const std::string& arg)
+Error::Error(const std::string& arg)
 {
     std::ostringstream oss;
     oss << arg;
@@ -941,10 +915,10 @@ ini_error::ini_error(const std::string& arg)
 }
 
 // Destructor, does nothing
-ini_error::~ini_error() noexcept {}
+Error::~Error() noexcept {}
 
 // Returns what the error is
-const char* ini_error::what() const noexcept
+const char* Error::what() const noexcept
 {
     return msg.c_str();
 }

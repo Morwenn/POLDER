@@ -56,6 +56,35 @@ namespace ini
         bool doublequote    = false;
     };
 
+    /**
+     * @brief Element read by the ini::read function.
+     */
+    struct Element
+    {
+        Element();
+        Element(const Element& other);
+        Element(Element&& other);
+        ~Element();
+
+        Element(const std::string& str);
+
+        operator std::string() const;
+        operator int() const;
+        operator long() const;
+        operator long long() const;
+        operator unsigned() const;
+        operator unsigned long() const;
+        operator unsigned long long() const;
+        operator float() const;
+        operator double() const;
+        operator long double() const;
+
+        private:
+
+            // Read data
+            std::string _data;
+    };
+
 ////////////////////////////////////////////////////////////
 // Exceptions handling
 ////////////////////////////////////////////////////////////
@@ -64,13 +93,13 @@ namespace ini
  * Exceptions that can be raised during the manipulation
  * of an INI file.
  */
-class POLDER_API ini_error:
+class POLDER_API Error:
     public std::exception
 {
     public:
-        explicit ini_error();
-        explicit ini_error(const std::string& arg);
-        virtual ~ini_error() noexcept;
+        explicit Error();
+        explicit Error(const std::string& arg);
+        virtual ~Error() noexcept;
         virtual const char* what() const noexcept;
 
     private:
@@ -121,23 +150,8 @@ auto key_exists(const std::string& fname, const std::string& section, const std:
  * @return Read value or default value
  */
 POLDER_API
-auto read_string(const char* fname, const char* section, const char* key, char* default_value, Dialect dialect={})
-    -> char*;
-
-/**
- * @brief Read the real value corresponding to the given key
- *
- * @param fname INI file to read
- * @param section Section to read
- * @param key Key to read
- * @param default_value Value to return if the key does not exist
- * @param dialect Dialect used to parse the file
- *
- * @return Read value or default value
- */
-POLDER_API
-auto read_real(const char* fname, const char* section, const char* key, double default_value, Dialect dialect={})
-    -> double;
+auto read(const std::string& fname, const std::string& section, const std::string& key, const std::string& default_value, Dialect dialect={})
+    -> Element;
 
 /**
  * @brief Deletes the given section of an INI file
