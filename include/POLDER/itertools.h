@@ -71,7 +71,8 @@ class ZipObject;
  * @param end Last value
  * @return Generator
  */
-constexpr RangeObject range(int end) noexcept;
+constexpr auto range(int end) noexcept
+    -> RangeObject;
 
 /**
  * @brief Versatile range of integers
@@ -86,7 +87,8 @@ constexpr RangeObject range(int end) noexcept;
  * @param step Step between two values
  * @return Generator
  */
-constexpr RangeObject range(int begin, int end, unsigned int step=1) noexcept;
+constexpr auto range(int begin, int end, unsigned int step=1) noexcept
+    -> RangeObject;
 
 /**
  * @brief Global rbegin function
@@ -95,11 +97,14 @@ constexpr RangeObject range(int begin, int end, unsigned int step=1) noexcept;
  * iteration.
  */
 template<typename T>
-auto rbegin(T& iter)        -> decltype(iter.rbegin());
+auto rbegin(T& iter)
+    -> decltype(iter.rbegin());
 template<typename T>
-auto rbegin(const T& iter)  -> decltype(iter.crbegin());
+auto rbegin(const T& iter)
+    -> decltype(iter.crbegin());
 template<typename T, std::size_t N>
-auto rbegin(T (&array)[N])  -> std::reverse_iterator<T*>;
+auto rbegin(T (&array)[N])
+    -> std::reverse_iterator<T*>;
 
 
 /**
@@ -109,11 +114,14 @@ auto rbegin(T (&array)[N])  -> std::reverse_iterator<T*>;
  * iteration.
  */
 template<typename T>
-auto rend(T& iter)          -> decltype(iter.rend());
+auto rend(T& iter)
+    -> decltype(iter.rend());
 template<typename T>
-auto rend(const T& iter)    -> decltype(iter.crend());
+auto rend(const T& iter)
+    -> decltype(iter.crend());
 template<typename T, std::size_t N>
-auto rend(T (&array)[N])    -> std::reverse_iterator<T*>;
+auto rend(T (&array)[N])
+    -> std::reverse_iterator<T*>;
 
 /**
  * @brief Reversed iterable
@@ -200,6 +208,81 @@ template<typename... Iterables>
 auto zip(Iterables&&... iters)
     -> ZipObject<Iterables...>;
 
+/**
+ * @brief Iterator adapter
+ *
+ * Make an iterator which will get the nth
+ * element of the object returned by the
+ * given iterator. It allows to create iterators
+ * to traverse keys of a std::map-like object
+ * for example.
+ * Useful to iter through some specific std::pair
+ * or std::tuple elements.
+ */
+template<std::size_t N, typename Iterator>
+class get_iterator
+{
+    private:
+
+        Iterator _current;
+
+        using value_type =  decltype(std::get<N>(*_current));
+        using pointer =     value_type*;
+        using reference =   value_type&;
+
+    public:
+
+        get_iterator();
+        explicit get_iterator(Iterator it);
+        template<typename U>
+        get_iterator(const get_iterator<N, U>& other);
+
+        template<typename U>
+        auto operator=(const get_iterator<N, U>& other)
+            -> get_iterator&;
+
+        auto base() const
+            -> Iterator;
+
+        auto operator*() const
+            -> reference;
+        auto operator->() const
+            -> pointer;
+
+        auto operator++()
+            -> get_iterator&;
+        auto operator++(int)
+            -> get_iterator&;
+
+        auto operator--()
+            -> get_iterator&;
+        auto operator--(int)
+            -> get_iterator&;
+};
+
+template<std::size_t N, typename Iterator1, typename Iterator2>
+auto operator==(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    -> bool;
+
+template<std::size_t N, typename Iterator1, typename Iterator2>
+auto operator!=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    -> bool;
+
+template<std::size_t N, typename Iterator1, typename Iterator2>
+auto operator<(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    -> bool;
+
+template<std::size_t N, typename Iterator1, typename Iterator2>
+auto operator<=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    -> bool;
+
+template<std::size_t N, typename Iterator1, typename Iterator2>
+auto operator>(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    -> bool;
+
+template<std::size_t N, typename Iterator1, typename Iterator2>
+auto operator>=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    -> bool;
 
 #include <POLDER/itertools.inl>
 

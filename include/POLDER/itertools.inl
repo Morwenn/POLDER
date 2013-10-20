@@ -37,22 +37,26 @@ class RangeObject
 
     public:
 
-        constexpr const RangeObject& begin() noexcept
+        constexpr auto begin() noexcept
+            -> const RangeObject&
         {
             return *this;
         }
 
-        constexpr const RangeObject& end() const noexcept
+        constexpr auto end() const noexcept
+            -> const RangeObject&
         {
             return *this;
         }
 
-        constexpr bool operator!=(const RangeObject&) const noexcept
+        constexpr auto operator!=(const RangeObject&) const noexcept
+            -> bool
         {
             return _sup ? (_i < _end) : (_i > _end);
         }
 
-        inline void operator++() noexcept
+        inline auto operator++() noexcept
+            -> void
         {
             if (_sup)
             {
@@ -64,7 +68,8 @@ class RangeObject
             }
         }
 
-        constexpr const int& operator*() const noexcept
+        constexpr auto operator*() const noexcept
+            -> const int&
         {
             return _i;
         }
@@ -76,8 +81,10 @@ class RangeObject
         const unsigned int _step;
         const bool _sup;
 
-    friend constexpr RangeObject range(int end) noexcept;
-    friend constexpr RangeObject range(int begin, int end, unsigned int step) noexcept;
+    friend constexpr auto range(int end) noexcept
+        -> RangeObject;
+    friend constexpr auto range(int begin, int end, unsigned int step) noexcept
+        -> RangeObject;
 };
 
 constexpr auto range(int end) noexcept
@@ -746,4 +753,129 @@ inline auto zip(Iterables&&... iters)
     -> ZipObject<Iterables...>
 {
     return { std::forward<Iterables>(iters)... };
+}
+
+////////////////////////////////////////////////////////////
+template<std::size_t N, typename Iterator>
+get_iterator<N, Iterator>::get_iterator()
+    = default;
+
+template<std::size_t N, typename Iterator>
+get_iterator<N, Iterator>::get_iterator(Iterator it):
+    _current(it)
+{}
+
+template<std::size_t N, typename Iterator>
+template<typename U>
+get_iterator<N, Iterator>::get_iterator(const get_iterator<N, U>& other):
+    _current(other.base())
+{}
+
+template<std::size_t N, typename Iterator>
+template<typename U>
+auto get_iterator<N, Iterator>::operator=(const get_iterator<N, U>& other)
+    -> get_iterator&
+{
+    if (&other != this)
+    {
+        _current = other.base();
+    }
+    return *this;
+}
+
+template<std::size_t N, typename Iterator>
+auto get_iterator<N, Iterator>::base() const
+    -> Iterator
+{
+    return _current;
+}
+
+template<std::size_t N, typename Iterator>
+auto get_iterator<N, Iterator>::operator*() const
+    -> reference
+{
+    return std::get<N>(*_current);
+}
+
+template<std::size_t N, typename Iterator>
+auto get_iterator<N, Iterator>::operator->() const
+    -> pointer
+{
+    return &(operator*());
+}
+
+template<std::size_t N, typename Iterator>
+auto get_iterator<N, Iterator>::operator++()
+    -> get_iterator&
+{
+    ++_current;
+    return *this;
+}
+
+template<std::size_t N, typename Iterator>
+auto get_iterator<N, Iterator>::operator++(int)
+    -> get_iterator&
+{
+    auto tmp = *this;
+    ++_current;
+    return tmp;
+}
+
+template<std::size_t N, typename Iterator>
+auto get_iterator<N, Iterator>::operator--()
+    -> get_iterator&
+{
+    --_current;
+    return *this;
+}
+
+template<std::size_t N, typename Iterator>
+auto get_iterator<N, Iterator>::operator--(int)
+    -> get_iterator&
+{
+    auto tmp = *this;
+    --_current;
+    return tmp;
+}
+
+template<std::size_t N, typename Iterator1, typename Iterator2>
+auto operator==(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    -> bool
+{
+    return lhs.base() == rhs.base();
+}
+
+template<std::size_t N, typename Iterator1, typename Iterator2>
+auto operator!=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    -> bool
+{
+    return !(lhs == rhs);
+}
+
+template<std::size_t N, typename Iterator1, typename Iterator2>
+auto operator<(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    -> bool
+{
+    return lhs.base() < rhs.base();
+}
+
+template<std::size_t N, typename Iterator1, typename Iterator2>
+auto operator<=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    -> bool
+{
+    return !(rhs < lhs);
+}
+
+template<std::size_t N, typename Iterator1, typename Iterator2>
+auto operator>(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    -> bool
+{
+    return rhs < lhs;
+}
+
+template<std::size_t N, typename Iterator1, typename Iterator2>
+auto operator>=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    -> bool
+{
+    return !(lhs < rhs);
 }
