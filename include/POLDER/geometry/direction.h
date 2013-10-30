@@ -103,7 +103,7 @@ class Direction
         ////////////////////////////////////////////////////////////
 
         /**
-         * @brief Element accessor
+         * @brief Element access
          *
          * @param Index of the coordinate to get
          * @return Coordinate at index
@@ -111,7 +111,7 @@ class Direction
         double operator[](size_t index) const;
 
         /**
-         * Copy assignement operator
+         * Copy assignment operator
          */
         Direction<N>& operator=(const Direction<N>& other);
 
@@ -148,8 +148,8 @@ class Direction
         ////////////////////////////////////////////////////////////
 
         // Basic iterators and constant iterators
-        typedef double* iterator;
-        typedef const double* const_iterator;
+        using iterator = double*;
+        using const_iterator = const double*;
 
         /**
          * @brief First coordinate of a Direction
@@ -202,8 +202,8 @@ class Direction
 #include <POLDER/geometry/direction.inl>
 
 // Define commonly-used types
-typedef Direction<2>    Direction2d;
-typedef Direction<3>    Direction3d;
+using Direction2d = Direction<2>;
+using Direction3d = Direction<3>;
 
 
 } // namespace geometry
