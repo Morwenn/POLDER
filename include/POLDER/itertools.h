@@ -226,7 +226,7 @@ class get_iterator
 
         Iterator _current;
 
-        using value_type =  decltype(std::get<N>(*_current));
+        using value_type =  typename std::decay<decltype(std::get<N>(*_current))>::type;
         using pointer =     value_type*;
         using reference =   value_type&;
 
