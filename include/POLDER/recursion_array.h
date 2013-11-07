@@ -23,6 +23,8 @@
 ////////////////////////////////////////////////////////////
 #include <initializer_list>
 #include <vector>
+#include <POLDER/config.h>
+#include <POLDER/utility.h>
 
 
 namespace polder
@@ -35,36 +37,33 @@ namespace polder
  * Some wrapper to apply memoization principles
  * to some embedded recursive functions.
  *
- * I recommand you see the examples for a better
+ * I recommend you see the examples for a better
  * understanding.
  */
-template<typename T>
+template<typename Derived>
 class RecursionArray
 {
-
     public:
 
-        /*
-         * An empty RecursionArray can not be instantiated
-         */
-        RecursionArray() = delete;
+        using value_type = typename types_t<Derived>::value_type;
 
-        /*
-         * A RecursionArray is not copiable
-         */
+        // A RecursionArray is not copyable
         RecursionArray(const RecursionArray&) = delete;
         RecursionArray& operator=(const RecursionArray&) = delete;
 
         /**
          * @brief Calls "function" and applies memoization
-         * @see T self(size_t n)
+         * @see value_type self(size_t n)
          */
-        inline T operator()(size_t n)
+        inline auto operator()(std::size_t n)
+            -> value_type
         {
             return self(n);
         }
 
     protected:
+
+        RecursionArray() = default;
 
         /**
          * @brief Initializer-list constructor
@@ -74,13 +73,9 @@ class RecursionArray
          *
          * @param vals Results of "function" for the first values
          */
-        RecursionArray(const std::initializer_list<T>& vals)
-        {
-            for (const T& value: vals)
-            {
-                values.push_back(value);
-            }
-        }
+        RecursionArray(std::initializer_list<value_type> vals):
+            _values(vals.begin(), vals.end())
+        {}
 
         /**
          * @brief Calls "function" and applies memoization
@@ -88,43 +83,49 @@ class RecursionArray
          * @param n Index of the value to [compute, memoize and] return
          * @return Value of "function" for n
          */
-        T self(size_t n)
+        auto self(std::size_t n)
+            -> value_type
         {
-            while (values.size() <= n)
+            while (size() <= n)
             {
                 // Compute and add the values to the vector
-                values.push_back(function(values.size()));
+                _values.emplace_back(function(size()));
             }
-            return values[n];
+            return _values[n];
         }
 
         /**
          * @brief Returns the number of computed elements
          * @return Number of computed elements in the vector
          */
-        constexpr inline size_t size() const
+        constexpr auto size() const
+            -> std::size_t
         {
-            return values.size();
+            return _values.size();
         }
 
         /**
          * @brief User-defined function whose results are stored
          *
-         * This is the core of the class. A RecuresionArray is just
+         * This is the core of the class. A RecursionArray is just
          * meant to store the results of "function" are reuse them
          * instead of computing them another time. That is why a
-         * RecursionArray function can just accept unsigned integers
-         * a parameters.
+         * RecursionArray function can only accept unsigned integers
+         * as parameters.
          *
          * @param n Index of the element
          * @return See user-defined function
          */
-        virtual T function(size_t n) = 0;
+        auto function(std::size_t n)
+            -> value_type
+        {
+            return static_cast<Derived&>(*this).function(n);
+        }
 
     private:
 
         // Member data
-        std::vector<T> values;  /**< Computed results of "function" */
+        std::vector<value_type> _values;  /**< Computed results of "function" */
 };
 
 

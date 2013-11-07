@@ -1,77 +1,91 @@
 /*
- * Headers
+ * Copyright (C) 2011-2013 Morwenn
+ *
+ * POLDER is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * POLDER is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program. If not,
+ * see <http://www.gnu.org/licenses/>.
  */
-#include <cstdlib>
 #include <iostream>
 #include <POLDER/recursion_array.h>
-#include <POLDER/singleton.h>
 
 using namespace polder;
 
 
+class MemoizedFibonacci;
+namespace polder
+{
+    /*
+     * We need to tell to the RecursionArray which
+     * kind of data it has to store.
+     */
+    template<>
+    struct types_t<MemoizedFibonacci>
+    {
+        using value_type = unsigned int;
+    };
+}
+
 /**
- * Fibonacci function class
+ * @brief Fibonacci function class
  *
  * A way to implement the Fibonacci function and to force it
  * to store its results in order to gain some speed with the
  * following calls to the function.
  */
-class _fibo:
-    public Singleton<_fibo>,                // Ensure that there will be only one occurence of _fibo
-    public RecursionArray<unsigned int>     // "unsigned int" is the returned type of the Fibonacci function
+struct MemoizedFibonacci:
+    RecursionArray<MemoizedFibonacci>
 {
-    public:
+    using super = RecursionArray<MemoizedFibonacci>;
 
-        /**
-         * @brief Default constructor
-         *
-         * To use a Fibonacci function, we need to know at least
-         * its two first values (for 0 and 1) which are 0 and 1.
-         * We pass those values to the RecursionArray constructor.
-         */
-        _fibo():
-            RecursionArray<unsigned int>( { 0, 1 } )
-        {}
+    /**
+     * @brief Default constructor
+     *
+     * To use a Fibonacci function, we need to know at least
+     * its first two values (for 0 and 1) which are 0 and 1.
+     * We pass those values to the RecursionArray constructor.
+     */
+    MemoizedFibonacci():
+        super( { 0, 1 } )
+    {}
 
-    private:
-
-        /**
-         * @brief Fibonacci function
-         *
-         * Fibonacci function considering that the first values are
-         * already known. Also, "self" will call "function" and
-         * memoize its results.
-         *
-         * @param n Wanted Fibonacci number
-         * @return nth Fibonacci number
-         *
-         */
-        unsigned int function(size_t n) final
-        {
-            return self(n-1) + self(n-2);
-        }
+    /**
+     * @brief Fibonacci function
+     *
+     * Fibonacci function considering that the first values are
+     * already known. Also, "self" will call "function" and
+     * memoize its results.
+     *
+     * @param n Wanted Fibonacci number
+     * @return nth Fibonacci number
+     */
+    auto function(std::size_t n)
+        -> unsigned int
+    {
+        return self(n-1) + self(n-2);
+    }
 };
 
 
-/**
- * @brief Entry point of application
- *
- * @return Application exit code
-*/
 int main()
 {
     // We must declare the Fibonacci function in order to use it.
     // It is the major design issue of recursion arrays.
-    _fibo fibonacci;
+    MemoizedFibonacci fibonacci;
 
-    // Should print 144
-    // The Fibonacci numbers up to the 12th are computed and
-    // stored in the RecursionArray
-    std::cout << fibonacci(12) << std::endl;
-
-    // We try to create another _fibo instance
-    // The program crashes if you uncomment the following line
-    // _fibo fibo2;
-
-    return EXIT_SUCCESS;
+    // The Fibonacci numbers up to the nth are computed
+    // and stored into the RecursionArray
+    std::cout << fibonacci(12) << std::endl;    // 144
+    std::cout << fibonacci(0) << std::endl;     // 0
+    std::cout << fibonacci(1) << std::endl;     // 1
+    std::cout << fibonacci(25) << std::endl;    // 75025
 }
