@@ -30,11 +30,13 @@
 #include <POLDER/math/constants.h>
 #include <POLDER/math/formula.h>
 #include <POLDER/math/factorial.h>
+#include <POLDER/math/norm.h>
 
 
 ////////////////////////////////////////////////////////////
 // Documentation
 ////////////////////////////////////////////////////////////
+
 /**
  * @namespace polder::math
  * @brief Mathematical functions and constants
@@ -61,16 +63,6 @@
  * in some cases. However, at runtime, they are not as fast
  * as the standard ones. That's why we separate the
  * versions.
- */
-
-/**
- * @namespace polder::math::memoized
- * @brief Functions with memoized results
- *
- * Sometimes, we can use some more memory to gain some speed.
- * Memoized functions store their results in memory and them
- * after instead of computing them again. It can be useful
- * when we have to compute many times the same results.
  */
 
 

@@ -95,7 +95,9 @@ inline namespace standard
      * @param C Third member of the quadratic equation
      * @return Roots of the quadratic equation
      */
-    POLDER_API std::pair<std::complex<double>, std::complex<double>> quadratic(double A, double B, double C);
+    POLDER_API
+    auto quadratic(double A, double B, double C)
+        -> std::pair<std::complex<double>, std::complex<double>>;
 
     /**
      * @brief Fibonacci function
@@ -169,20 +171,6 @@ namespace meta
      * @return The radians value
      */
     constexpr double radian(double degrees);
-
-    /**
-     * @brief Unnormalized sinc function
-     * @param x Real value
-     * @return Unnormalized cardinal sine of x
-     */
-    constexpr double sinc(double x);
-
-    /**
-     * @brief Normalized sinc function
-     * @param x Real value
-     * @return Normalized cardinal sine of x
-     */
-    constexpr double normalized_sinc(double x);
 
     /**
      * @brief Fibonacci function

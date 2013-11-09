@@ -64,16 +64,6 @@ constexpr double radian(double deg)
     return deg * M_PI_180;
 }
 
-constexpr double sinc(double x)
-{
-    return sin(x) / x;
-}
-
-constexpr double normalized_sinc(double x)
-{
-    return sin(x * M_PI) / (x * M_PI);
-}
-
 constexpr unsigned long long int fibonacci(unsigned long long int n)
 {
     return (n < 2) ? n : meta::fibonacci(n-2) + meta::fibonacci(n-1);
