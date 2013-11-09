@@ -194,35 +194,6 @@ namespace meta
     #include <POLDER/math/formula.inl>
 }
 
-namespace memoized
-{
-    /**
-     * @brief Tells whether the given number is a prime number
-     * @param n Integer value
-     * @return True if \a n is a prime number
-     */
-    POLDER_API bool is_prime(unsigned long long int n);
-
-    /**
-     * @brief Fibonacci function
-     * @param n Some integer
-     * @return nth Fibonacci number
-     */
-    POLDER_API unsigned long long int fibonacci(unsigned long long int n);
-
-    /**
-     * @brief Search a prime number
-     *
-     * The first prime number returned by the function is 1,
-     * even if it not "really" a prime number. It can still
-     * be useful in some cases.
-     *
-     * @param n Some integer
-     * @return Nth Prime number
-     */
-    POLDER_API unsigned long long int prime(unsigned long long int n);
-}
-
 
 } // namespace math
 } // namespace polder

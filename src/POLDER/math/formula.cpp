@@ -33,20 +33,12 @@ using namespace std;
 
 namespace
 {
-    // Variable used by the fibonacci function
-    unsigned long long int* fibonacci_numbers;
-
     // Variable used by the prime function
     unsigned long long int* prime_numbers;
 
     // Init function
     int __init__()
     {
-        // Initialisation of the variables used by the fibonacci function
-        fibonacci_numbers = (unsigned long long int*) malloc(2 * sizeof(unsigned long long int));
-        fibonacci_numbers[0] = 0;
-        fibonacci_numbers[1] = 1;
-
         // Initialisation of the variables used by the prime function
         prime_numbers = (unsigned long long int*) malloc(3 * sizeof(unsigned long long int));
         prime_numbers[0] = 1;
@@ -147,83 +139,6 @@ inline namespace standard
 
     unsigned long long int prime(unsigned long long int n)
     {
-        return memoized::prime(n);
-    }
-
-    unsigned int gcd(unsigned int a, unsigned int b)
-    {
-        if (a == 0 || b == 0)
-        {
-            return 0;
-        }
-        if (b > a)
-        {
-            swap(a, b);
-        }
-
-        unsigned int r = a % b;
-        while (r != 0)
-        {
-            a = b;
-            b = r;
-            r = a % b;
-        }
-        return b;
-    }
-
-    unsigned int lcm(unsigned int a, unsigned int b)
-    {
-        if (a == 0 || b == 0)
-        {
-            return 1;
-        }
-
-        return a*b / gcd(a, b);
-    }
-}
-
-
-namespace memoized
-{
-    bool is_prime(unsigned long long int n)
-    {
-        const unsigned long long int root = (unsigned long long int) sqrt(n);
-        unsigned long long int _prime = 2;
-        for (unsigned long long int i = 1 ; _prime <= root ; ++i)
-        {
-            _prime = prime(i);
-            if (n % _prime == 0)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    unsigned long long int fibonacci(unsigned long long int n)
-    {
-        // Initialization
-        static size_t size = 2;
-        static bool resize = true;
-
-        // If we do not have enough numbers
-        if (size <= n)
-        {
-            if (resize)
-            {
-                // We resize the table so that it is large enough
-                fibonacci_numbers = (unsigned long long int*) realloc(fibonacci_numbers, (n+1) * sizeof(unsigned long long int));
-                resize = false;
-            }
-            fibonacci_numbers[n] = fibonacci(n-1) + fibonacci(n-2); // Fibonacci formula
-            size = n;
-            resize = true;
-        }
-        return fibonacci_numbers[n];
-    }
-
-    unsigned long long int prime(unsigned long long int n)
-    {
         // Initialization
         static size_t size = 2;
 
@@ -271,6 +186,37 @@ namespace memoized
         }
         // Return the Nth prime number
         return prime_numbers[n];
+    }
+
+    unsigned int gcd(unsigned int a, unsigned int b)
+    {
+        if (a == 0 || b == 0)
+        {
+            return 0;
+        }
+        if (b > a)
+        {
+            swap(a, b);
+        }
+
+        unsigned int r = a % b;
+        while (r != 0)
+        {
+            a = b;
+            b = r;
+            r = a % b;
+        }
+        return b;
+    }
+
+    unsigned int lcm(unsigned int a, unsigned int b)
+    {
+        if (a == 0 || b == 0)
+        {
+            return 1;
+        }
+
+        return a*b / gcd(a, b);
     }
 }
 

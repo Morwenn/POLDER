@@ -76,16 +76,6 @@ namespace meta
     #include <POLDER/math/factorial.inl>
 }
 
-namespace memoized
-{
-    /**
-     * @brief Memoized factorial function
-     * @param n Some integer
-     * @return Factorial of n
-     */
-    POLDER_API unsigned long long int factorial(unsigned long long int n);
-}
-
 
 } // namespace math
 } // namespace polder
