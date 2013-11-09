@@ -512,7 +512,7 @@ class ChainObject:
         First& _first;
         decltype(std::begin(_first)) _iter;
 
-        using parent_type = ChainObject<Iterables...>;
+        using super = ChainObject<Iterables...>;
 
     public:
 
@@ -524,7 +524,7 @@ class ChainObject:
         using iterator_category = std::forward_iterator_tag;
 
         ChainObject(First&& first, Iterables&&... iters):
-            parent_type(std::forward<Iterables>(iters)...),
+            super(std::forward<Iterables>(iters)...),
             _first(first),
             _iter(std::begin(first))
         {}
@@ -544,7 +544,7 @@ class ChainObject:
 
         bool operator!=(const ChainObject&) const
         {
-            return parent_type::operator!=(*this);
+            return super::operator!=(*this);
         }
 
         void operator++()
@@ -555,7 +555,7 @@ class ChainObject:
             }
             else
             {
-                parent_type::operator++();
+                super::operator++();
             }
         }
 
@@ -566,7 +566,7 @@ class ChainObject:
             {
                 return *_iter;
             }
-            return parent_type::operator*();
+            return super::operator*();
         }
 };
 
@@ -643,26 +643,26 @@ class ZipObject:
         First& _first;
         decltype(std::begin(_first)) _iter;
 
-        using parent_type = ZipObject<typename std::decay<Iterables>::type...>;
+        using super = ZipObject<typename std::decay<Iterables>::type...>;
 
     public:
 
         using value_type = decltype(
             std::tuple_cat(
                 std::make_tuple(*_iter),
-                parent_type().operator*()
+                super().operator*()
             )
         );
         using reference = value_type&;
         using pointer   = value_type*;
 
         ZipObject():
-            parent_type(std::forward<typename std::decay<Iterables>::type>(Iterables())...),
+            super(std::forward<typename std::decay<Iterables>::type>(Iterables())...),
             _first(First())
         {}
 
         ZipObject(First&& first, Iterables&&... iters):
-            parent_type(std::forward<typename std::decay<Iterables>::type>(iters)...),
+            super(std::forward<typename std::decay<Iterables>::type>(iters)...),
             _first(first),
             _iter(std::begin(first))
         {}
@@ -685,7 +685,7 @@ class ZipObject:
         void operator++()
         {
             ++_iter;
-            parent_type::operator++();
+            super::operator++();
         }
 
         auto operator*()
@@ -693,7 +693,7 @@ class ZipObject:
         {
             return std::tuple_cat(
                     std::make_tuple(*_iter),
-                    parent_type::operator*()
+                    super::operator*()
                 );
         }
 };
