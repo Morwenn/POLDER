@@ -66,13 +66,6 @@ namespace meta
      */
     constexpr unsigned long long int factorial(unsigned long long int n) noexcept;
 
-    /**
-     * @brief Stirling formula
-     * @param n Some integer
-     * @return Approximation of the factorial of n
-     */
-    constexpr unsigned long long int stirling(unsigned long long int n);
-
     #include <POLDER/math/factorial.inl>
 }
 

@@ -20,8 +20,3 @@ constexpr unsigned long long int factorial(unsigned long long int N) noexcept
 {
     return (N > 1) ? N * meta::factorial(N - 1) : 1;
 }
-
-constexpr unsigned long long int stirling(unsigned long long int N)
-{
-    return (unsigned long long int) (sqrt(M_2PI*N) * pow((N/M_E), N));
-}

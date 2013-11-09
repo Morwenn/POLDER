@@ -52,7 +52,7 @@ inline namespace standard
 
     unsigned long long int stirling(unsigned long long int N)
     {
-        return (unsigned long long int) (sqrt(M_2PI*N) * pow((N/M_E), N));
+        return (unsigned long long int) (std::sqrt(M_2PI*N) * std::pow((N/M_E), N));
     }
 }
 
