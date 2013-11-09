@@ -717,20 +717,14 @@ bool is_postfix(const Token& E)
 ////////////////////////////////////////////////////////////
 
 // Create a new exception
-evaluation_error::evaluation_error()
-{
-    ostringstream oss;
-    oss << "polder::evaluation_error: undocumented error";
-    msg = oss.str();
-}
+evaluation_error::evaluation_error():
+    msg("polder::evaluation_error: undocumented error")
+{}
 
 // Create a new exception
-evaluation_error::evaluation_error(const std::string& arg)
-{
-        ostringstream oss;
-        oss << "polder::evaluation_error: " << arg;
-        msg = oss.str();
-}
+evaluation_error::evaluation_error(const std::string& arg):
+    msg(std::string("polder::evaluation_error: ") + arg)
+{}
 
 // Create a new exception
 evaluation_error::evaluation_error(_eval_error e, char c)
