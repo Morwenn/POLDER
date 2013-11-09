@@ -58,8 +58,8 @@ class POLDER_API evaluation_error:
         explicit evaluation_error(const std::string& arg);
         explicit evaluation_error(_eval_error e, char c);
         explicit evaluation_error(_eval_error e, const std::string& arg);
-        virtual ~evaluation_error() throw();
-        virtual const char* what() const throw();
+        virtual ~evaluation_error() noexcept;
+        virtual const char* what() const noexcept;
 
     private:
         std::string msg; /**< Error message */

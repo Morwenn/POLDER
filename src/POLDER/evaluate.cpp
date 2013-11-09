@@ -192,7 +192,7 @@ void expr_norm(char* str)
             {
                 if (nmb_parenthesis == 0)
                 {
-                    throw evaluation_error("Trying to close a non-opened parenthesis.");
+                    throw evaluation_error("trying to close a non-opened parenthesis");
                 }
                 // Substract 2 so that it compenses that addition done after
                 nmb_parenthesis -= 2;
@@ -397,7 +397,7 @@ void expr_norm(char* str)
     // Check whether all the parenthesis are closed
     if (nmb_parenthesis)
     {
-        throw evaluation_error("There are unclosed parenthesis in the expression.");
+        throw evaluation_error("there are unclosed parenthesis in the expression");
     }
 
     strcpy(str, new_str);
@@ -720,7 +720,7 @@ bool is_postfix(const Token& E)
 evaluation_error::evaluation_error()
 {
     ostringstream oss;
-    oss << "polder::evaluation_error: undocumented error.";
+    oss << "polder::evaluation_error: undocumented error";
     msg = oss.str();
 }
 
@@ -741,16 +741,16 @@ evaluation_error::evaluation_error(_eval_error e, char c)
     switch (e)
     {
         case _eval_error::UNEXPECTED_CHARACTER:
-            oss << "unexpected character '" << c <<"' in the expression.";
+            oss << "unexpected character '" << c <<"' in the expression";
             break;
         case _eval_error::EXPECTED_CHARACTER:
-            oss << "expected character '" << c <<"' in the expression.";
+            oss << "expected character '" << c <<"' in the expression";
             break;
         case _eval_error::LAST_CHARACTER:
-            oss << "unexpected character '" << c <<"' at the end of the expression.";
+            oss << "unexpected character '" << c <<"' at the end of the expression";
             break;
         default:
-            oss << "unknown error in the expression.";
+            oss << "unknown error in the expression";
             break;
     }
 
@@ -766,14 +766,14 @@ evaluation_error::evaluation_error(_eval_error e, const std::string& arg)
     switch (e)
     {
         case _eval_error::UNKNOWN_OPERATOR:
-            oss << "unknown operator '" << arg << "' in the expression.";
+            oss << "unknown operator '" << arg << "' in the expression";
             break;
 
         case _eval_error::INVALID_NUMBER:
-            oss << "'" << arg << "' is not valid number.";
+            oss << "'" << arg << "' is not valid number";
             break;
         default:
-            oss << "unknown error in the expression.";
+            oss << "unknown error in the expression";
             break;
     }
 
@@ -781,10 +781,10 @@ evaluation_error::evaluation_error(_eval_error e, const std::string& arg)
 }
 
 // Destructor, does nothing
-evaluation_error::~evaluation_error() throw() {}
+evaluation_error::~evaluation_error() noexcept {}
 
 // Returns what the error is
-const char* evaluation_error::what() const throw()
+const char* evaluation_error::what() const noexcept
 {
     return msg.c_str();
 }
