@@ -25,20 +25,10 @@
 #include <utility>
 #include <POLDER/config.h>
 #include <POLDER/index.h>
+#include <POLDER/utility.h>
 
 namespace polder
 {
-    /**
-     * @brief Trait holding a class types
-     *
-     * Static polymorphism does not allow to import
-     * the derived class types in the base class.
-     * Therefore, we need a specialized trait to
-     * hold these types.
-     */
-    template<typename T>
-    struct types_t;
-
     /**
      * @brief Common base for immutable matrices
      *

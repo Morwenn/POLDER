@@ -85,6 +85,20 @@ namespace polder
     {
         return std::hash<First>()(first) ^ std::hash<Second>()(second);
     }
+
+    ////////////////////////////////////////////////////////////
+    // Static polymorphism utility
+
+    /**
+     * @brief Trait holding a class types
+     *
+     * Static polymorphism does not allow to import
+     * the derived class types in the base class.
+     * Therefore, we need a specialized trait to
+     * hold these types.
+     */
+    template<typename T>
+    struct types_t;
 }
 
 namespace std
