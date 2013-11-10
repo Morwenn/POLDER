@@ -26,110 +26,86 @@
 #include <POLDER/config.h>
 #include <POLDER/utility.h>
 
-
 namespace polder
 {
+    /**
+     * @brief Recursion array
+     *
+     * A generic wrapper to apply memoization
+     * principles to some embedded recursive
+     * functions. It only allows to create
+     * index-based functions where the index
+     * is an unsigned int.
+     */
+    template<typename Derived>
+    class RecursionArray
+    {
+        public:
 
+            using value_type = typename types_t<Derived>::value_type;
 
-/**
- * @brief Recursion array
- *
- * Some wrapper to apply memoization principles
- * to some embedded recursive functions.
- *
- * I recommend you see the examples for a better
- * understanding.
- */
-template<typename Derived>
-class RecursionArray
-{
-    public:
+            // A RecursionArray is not copyable
+            RecursionArray(const RecursionArray&) = delete;
+            RecursionArray& operator=(const RecursionArray&) = delete;
 
-        using value_type = typename types_t<Derived>::value_type;
+            /**
+             * @brief Calls "function" and applies memoization
+             * @see value_type self(size_t n)
+             */
+            auto operator()(std::size_t n)
+                -> value_type;
 
-        // A RecursionArray is not copyable
-        RecursionArray(const RecursionArray&) = delete;
-        RecursionArray& operator=(const RecursionArray&) = delete;
+        protected:
 
-        /**
-         * @brief Calls "function" and applies memoization
-         * @see value_type self(size_t n)
-         */
-        inline auto operator()(std::size_t n)
-            -> value_type
-        {
-            return self(n);
-        }
+            RecursionArray() = default;
 
-    protected:
+            /**
+             * @brief Initializer-list constructor
+             *
+             * This should be the one and only way to instance a
+             * RecursionArray.
+             *
+             * @param vals Results of "function" for the first values
+             */
+            constexpr RecursionArray(std::initializer_list<value_type> vals);
 
-        RecursionArray() = default;
+            /**
+             * @brief Calls "function" and applies memoization
+             *
+             * @param n Index of the value to [compute, memoize and] return
+             * @return Value of "function" for n
+             */
+            auto self(std::size_t n)
+                -> value_type;
 
-        /**
-         * @brief Initializer-list constructor
-         *
-         * This should be the one and only way to instance a
-         * RecursionArray.
-         *
-         * @param vals Results of "function" for the first values
-         */
-        RecursionArray(std::initializer_list<value_type> vals):
-            _values(vals.begin(), vals.end())
-        {}
+            /**
+             * @brief Returns the number of computed elements
+             * @return Number of computed elements in the vector
+             */
+            constexpr auto size() const
+                -> std::size_t;
 
-        /**
-         * @brief Calls "function" and applies memoization
-         *
-         * @param n Index of the value to [compute, memoize and] return
-         * @return Value of "function" for n
-         */
-        auto self(std::size_t n)
-            -> value_type
-        {
-            while (size() <= n)
-            {
-                // Compute and add the values to the vector
-                _values.emplace_back(function(size()));
-            }
-            return _values[n];
-        }
+            /**
+             * @brief User-defined function whose results are stored
+             *
+             * This is the core of the class. A RecursionArray is just
+             * meant to store the results of "function" are reuse them
+             * instead of computing them another time. That is why a
+             * RecursionArray function can only accept unsigned integers
+             * as parameters.
+             *
+             * @param n Index of the element
+             * @return See user-defined function
+             */
+            auto function(std::size_t n)
+                -> value_type;
 
-        /**
-         * @brief Returns the number of computed elements
-         * @return Number of computed elements in the vector
-         */
-        constexpr auto size() const
-            -> std::size_t
-        {
-            return _values.size();
-        }
+        private:
 
-        /**
-         * @brief User-defined function whose results are stored
-         *
-         * This is the core of the class. A RecursionArray is just
-         * meant to store the results of "function" are reuse them
-         * instead of computing them another time. That is why a
-         * RecursionArray function can only accept unsigned integers
-         * as parameters.
-         *
-         * @param n Index of the element
-         * @return See user-defined function
-         */
-        auto function(std::size_t n)
-            -> value_type
-        {
-            return static_cast<Derived&>(*this).function(n);
-        }
+            std::vector<value_type> _values;  /**< Computed results of "function" */
+    };
 
-    private:
-
-        // Member data
-        std::vector<value_type> _values;  /**< Computed results of "function" */
-};
-
-
-} // namespace polder
-
+    #include "recursion_array.inl"
+}
 
 #endif // _POLDER_RECURSION_ARRAY_H
