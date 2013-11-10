@@ -52,3 +52,10 @@ auto memoized(Ret (*func)(Args...))
 {
     return { std::function<Ret(Args...)>(func) };
 }
+
+template<typename Ret, typename... Args>
+auto memoized(const std::function<Ret(Args...)>& func)
+    -> MemoizedFunction<Ret, Args...>
+{
+    return { func };
+}
