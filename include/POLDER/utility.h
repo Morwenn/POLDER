@@ -110,9 +110,7 @@ namespace std
         auto operator()(const std::tuple<Args...>& args) const
             -> std::size_t
         {
-            return polder::apply(
-                static_cast<std::size_t(*)(Args...)>(polder::hash_all<Args...>),
-                args);
+            return polder::apply(polder::hash_all<Args...>, args);
         }
     };
 }
