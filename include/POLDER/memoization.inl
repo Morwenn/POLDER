@@ -38,7 +38,7 @@ auto MemoizedFunction<Ret, Args...>::operator()(Args&&... args)
 }
 
 template<typename Ret, typename... Args>
-auto memoized(Ret (*func)(Args...))
+auto memoized(Ret (&func)(Args...))
     -> MemoizedFunction<Ret, Args...>
 {
     return { std::function<Ret(Args...)>(func) };

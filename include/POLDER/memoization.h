@@ -77,7 +77,7 @@ namespace polder
      * @return Memoized function corresponding to \a func
      */
     template<typename Ret, typename... Args>
-    auto memoized(Ret (*func)(Args...))
+    auto memoized(Ret (&func)(Args...))
         -> MemoizedFunction<Ret, Args...>;
 
     template<typename Ret, typename... Args>
