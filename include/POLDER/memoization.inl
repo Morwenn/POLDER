@@ -22,17 +22,19 @@ MemoizedFunction<Ret, Args...>::MemoizedFunction(const std::function<Ret(Args...
 {}
 
 template<typename Ret, typename... Args>
-auto MemoizedFunction<Ret, Args...>::operator()(Args... args)
+auto MemoizedFunction<Ret, Args...>::operator()(Args&&... args)
     -> Ret
 {
-    auto tuple_args = std::make_tuple(args...);
-    if (not _memory.count(tuple_args))
+    const auto t_args = std::make_tuple(args...);
+    auto it = _cache.find(t_args);
+    if (it == _cache.end())
     {
-        auto res = _func(args...);
-        _memory[tuple_args] = res;
-        return res;
+        it = _cache.emplace(std::piecewise_construct,
+                            std::forward_as_tuple(t_args),
+                            std::forward_as_tuple(_func(args...))
+                        ).first;
     }
-    return _memory[tuple_args];
+    return it->second;
 }
 
 template<typename Ret, typename... Args>

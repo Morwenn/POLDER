@@ -24,6 +24,7 @@
 #include <functional>
 #include <tuple>
 #include <unordered_map>
+#include <utility>
 #include <POLDER/config.h>
 #include <POLDER/utility.h>
 
@@ -58,7 +59,7 @@ namespace polder
              * @param args Arguments for the underlying function
              * @return Result from the underlying function
              */
-            auto operator()(Args... args)
+            auto operator()(Args&&... args)
                 -> Ret;
 
         private:
@@ -66,7 +67,7 @@ namespace polder
             // Stored function
             std::function<Ret(Args...)> _func;
             // Map containing the pairs args/return
-            std::unordered_map<std::tuple<Args...>, Ret> _memory;
+            std::unordered_map<std::tuple<Args...>, Ret> _cache;
     };
 
     /**
