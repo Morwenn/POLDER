@@ -29,10 +29,52 @@
 
 namespace polder
 {
-    // Forward declaration
+    /**
+     * @brief Wrapper memoizing a function's results
+     *
+     * This class is used to wrap a function and store
+     * its results. Whenever the function is called, it
+     * checks whether the arguments tuple is known and,
+     * if so, simply returns the associated result. If it
+     * is the first time that the argument tuple has been
+     * seen, this class calls the underlying function to
+     * compute the result, stores it and returns it.
+     *
+     * @warning Only works for pure functions
+     */
     template<typename Ret, typename... Args>
-    class MemoizedFunction;
+    class MemoizedFunction
+    {
+        public:
 
+            MemoizedFunction(const std::function<Ret(Args...)>& func);
+
+            /**
+             * @brief Get the result
+             *
+             * Returns the result if it is already known.
+             * If not, it computes and stores it beforehand.
+             *
+             * @param args Arguments for the underlying function
+             * @return Result from the underlying function
+             */
+            auto operator()(Args... args)
+                -> Ret;
+
+        private:
+
+            // Stored function
+            std::function<Ret(Args...)> _func;
+            // Map containing the pairs args/return
+            std::unordered_map<std::tuple<Args...>, Ret> _memory;
+    };
+
+    /**
+     * @brief Create a memoized function
+     *
+     * @param func Function to memoize.
+     * @return Memoized function corresponding to \a func
+     */
     template<typename Ret, typename... Args>
     auto memoized(Ret (*func)(Args...))
         -> MemoizedFunction<Ret, Args...>;

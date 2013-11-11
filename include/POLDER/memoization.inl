@@ -17,34 +17,23 @@
  */
 
 template<typename Ret, typename... Args>
-class MemoizedFunction
+MemoizedFunction<Ret, Args...>::MemoizedFunction(const std::function<Ret(Args...)>& func):
+    _func(func)
+{}
+
+template<typename Ret, typename... Args>
+auto MemoizedFunction<Ret, Args...>::operator()(Args... args)
+    -> Ret
 {
-    public:
-
-        MemoizedFunction(const std::function<Ret(Args...)>& func):
-            _func(func)
-        {}
-
-        inline auto operator()(Args... args)
-            -> Ret
-        {
-            auto tuple_args = std::make_tuple(args...);
-            if (not _memory.count(tuple_args))
-            {
-                auto res = _func(args...);
-                _memory[tuple_args] = res;
-                return res;
-            }
-            return _memory[tuple_args];
-        }
-
-    private:
-
-        // Stored function
-        std::function<Ret(Args...)> _func;
-        // Map containing the pairs args/return
-        std::unordered_map<std::tuple<Args...>, Ret> _memory;
-};
+    auto tuple_args = std::make_tuple(args...);
+    if (not _memory.count(tuple_args))
+    {
+        auto res = _func(args...);
+        _memory[tuple_args] = res;
+        return res;
+    }
+    return _memory[tuple_args];
+}
 
 template<typename Ret, typename... Args>
 auto memoized(Ret (*func)(Args...))
