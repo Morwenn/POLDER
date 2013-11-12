@@ -23,9 +23,11 @@
 ////////////////////////////////////////////////////////////
 #include <functional>
 #include <tuple>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <POLDER/config.h>
+#include <POLDER/type_traits.h>
 #include <POLDER/utility.h>
 
 namespace polder
@@ -81,8 +83,18 @@ namespace polder
         -> MemoizedFunction<Ret, Args...>;
 
     template<typename Ret, typename... Args>
-    auto memoized(const std::function<Ret(Args...)>& func)
+    auto memoized(std::function<Ret(Args...)> func)
         -> MemoizedFunction<Ret, Args...>;
+
+    template<typename Function, std::size_t... Ind>
+    auto memoized_impl(Function&& func, indices<Ind...>)
+        -> MemoizedFunction<
+            typename function_traits<typename std::remove_reference<Function>::type>::result_type,
+            typename function_traits<typename std::remove_reference<Function>::type>::template arg<Ind>::type...>;
+
+    template<typename Function, typename Indices=make_indices<function_traits<typename std::remove_reference<Function>::type>::arity>>
+    auto memoized(Function&& func)
+        -> decltype(memoized_impl(std::forward<Function>(func), Indices()));
 
     #include "memoization.inl"
 }
