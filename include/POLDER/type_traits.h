@@ -22,9 +22,9 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <cstdint>
-#include <tuple>
 #include <type_traits>
 #include <POLDER/config.h>
+#include <POLDER/type_list.h>
 
 
 namespace polder
@@ -58,7 +58,7 @@ namespace polder
         template<std::size_t N>
         struct arg
         {
-            using type = typename std::tuple_element<N, std::tuple<Args...>>::type;
+            using type = typename type_list<Args...>::template at<N>;
         };
     };
 
