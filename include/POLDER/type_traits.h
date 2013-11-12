@@ -22,12 +22,46 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <cstdint>
+#include <tuple>
 #include <type_traits>
 #include <POLDER/config.h>
 
 
 namespace polder
 {
+    template<typename T>
+    struct function_traits:
+        function_traits<decltype(&T::operator())>
+    {};
+
+    template<typename C, typename Ret, typename... Args>
+    struct function_traits<Ret(C::*)(Args...) const>:
+        function_traits<Ret(Args...)>
+    {};
+
+    template<typename Ret, typename... Args>
+    struct function_traits<Ret(Args...)>
+    {
+        /**
+         * Number of arguments of the function.
+         */
+        static constexpr std::size_t arity = sizeof...(Args);
+
+        /**
+         * Return type of the function.
+         */
+        using result_type = Ret;
+
+        /**
+         * Nth argument of the function.
+         */
+        template<std::size_t N>
+        struct arg
+        {
+            using type = typename std::tuple_element<N, std::tuple<Args...>>::type;
+        };
+    };
+
     template<typename T, typename U>
     using greater_of = std::conditional<
         sizeof(T) >= sizeof(U),
