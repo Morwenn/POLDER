@@ -78,7 +78,7 @@ namespace polder
 
     template<typename T>
     struct is_integral<T>:
-        public std::conditional<
+        std::conditional<
             std::is_integral<T>::value,
             std::true_type,
             std::false_type
@@ -87,7 +87,7 @@ namespace polder
 
     template<typename T, typename U, typename... Args>
     struct is_integral<T, U, Args...>:
-        public std::conditional<
+        std::conditional<
             is_integral<T>::value,
             is_integral<U, Args...>,
             std::false_type
@@ -99,7 +99,7 @@ namespace polder
 
     template<typename T>
     struct is_floating_point<T>:
-        public std::conditional<
+        std::conditional<
             std::is_floating_point<T>::value,
             std::true_type,
             std::false_type
@@ -108,7 +108,7 @@ namespace polder
 
     template<typename T, typename U, typename... Args>
     struct is_floating_point<T, U, Args...>:
-        public std::conditional<
+        std::conditional<
             is_floating_point<T>::value,
             is_floating_point<U, Args...>,
             std::false_type
@@ -120,7 +120,7 @@ namespace polder
 
     template<typename T, typename U>
     struct is_same<T, U>:
-        public std::conditional<
+        std::conditional<
             std::is_same<T, U>::value,
             std::true_type,
             std::false_type
@@ -129,7 +129,7 @@ namespace polder
 
     template<typename T, typename U, typename... Args>
     struct is_same<T, U, Args...>:
-        public std::conditional<
+        std::conditional<
             is_same<T, U>::value,
             is_same<U, Args...>,
             std::false_type
@@ -155,10 +155,9 @@ namespace polder
     };
 
     template<typename T, std::size_t N>
-    struct is_iterable<T (&)[N]>
-    {
-        static constexpr bool value = true;
-    };
+    struct is_iterable<T (&)[N]>:
+        std::true_type
+    {};
 
     template<typename T, typename U, typename... Args>
     struct is_iterable<T, U, Args...>:
@@ -188,10 +187,9 @@ namespace polder
     };
 
     template<typename T, std::size_t N>
-    struct is_reverse_iterable<T (&)[N]>
-    {
-        static constexpr bool value = true;
-    };
+    struct is_reverse_iterable<T (&)[N]>:
+        std::true_type
+    {};
 
     template<typename T, typename U, typename... Args>
     struct is_reverse_iterable<T, U, Args...>:
