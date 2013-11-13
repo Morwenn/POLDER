@@ -49,13 +49,6 @@ auto memoized(Ret (&func)(Args...))
     return { std::function<Ret(Args...)>(func) };
 }
 
-template<typename Ret, typename... Args>
-auto memoized(std::function<Ret(Args...)> func)
-    -> MemoizedFunction<Ret, Args...>
-{
-    return { func };
-}
-
 template<typename Function, std::size_t... Ind>
 auto memoized_impl(Function&& func, indices<Ind...>)
     -> MemoizedFunction<

@@ -82,10 +82,6 @@ namespace polder
     auto memoized(Ret (&func)(Args...))
         -> MemoizedFunction<Ret, Args...>;
 
-    template<typename Ret, typename... Args>
-    auto memoized(std::function<Ret(Args...)> func)
-        -> MemoizedFunction<Ret, Args...>;
-
     template<typename Function, std::size_t... Ind>
     auto memoized_impl(Function&& func, indices<Ind...>)
         -> MemoizedFunction<
