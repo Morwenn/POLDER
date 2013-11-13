@@ -53,10 +53,10 @@ template<typename Function, std::size_t... Ind>
 auto memoized_impl(Function&& func, indices<Ind...>)
     -> MemoizedFunction<
         typename function_traits<typename std::remove_reference<Function>::type>::result_type,
-        typename function_traits<typename std::remove_reference<Function>::type>::template arg<Ind>::type...>
+        typename function_traits<typename std::remove_reference<Function>::type>::template arg<Ind>...>
 {
     using Ret = typename function_traits<typename std::remove_reference<Function>::type>::result_type;
-    return { std::function<Ret(typename function_traits<typename std::remove_reference<Function>::type>::template arg<Ind>::type...)>(func) };
+    return { std::function<Ret(typename function_traits<typename std::remove_reference<Function>::type>::template arg<Ind>...)>(func) };
 }
 
 template<typename Function, typename Indices=make_indices<function_traits<typename std::remove_reference<Function>::type>::arity>>

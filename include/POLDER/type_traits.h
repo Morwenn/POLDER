@@ -53,13 +53,10 @@ namespace polder
         using result_type = Ret;
 
         /**
-         * Nth argument of the function.
+         * Type of the Nth argument of the function.
          */
         template<std::size_t N>
-        struct arg
-        {
-            using type = typename type_list<Args...>::template at<N>;
-        };
+        using arg = typename type_list<Args...>::template at<N>;
     };
 
     template<typename T, typename U>

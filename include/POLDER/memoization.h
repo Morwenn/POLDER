@@ -86,7 +86,7 @@ namespace polder
     auto memoized_impl(Function&& func, indices<Ind...>)
         -> MemoizedFunction<
             typename function_traits<typename std::remove_reference<Function>::type>::result_type,
-            typename function_traits<typename std::remove_reference<Function>::type>::template arg<Ind>::type...>;
+            typename function_traits<typename std::remove_reference<Function>::type>::template arg<Ind>...>;
 
     template<typename Function, typename Indices=make_indices<function_traits<typename std::remove_reference<Function>::type>::arity>>
     auto memoized(Function&& func)
