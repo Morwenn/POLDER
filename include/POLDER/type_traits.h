@@ -161,7 +161,7 @@ namespace polder
 
     template<typename T, typename U, typename... Args>
     struct is_iterable<T, U, Args...>:
-        public std::conditional<
+        std::conditional<
             is_iterable<T>::value,
             is_iterable<U, Args...>,
             std::false_type
@@ -193,7 +193,7 @@ namespace polder
 
     template<typename T, typename U, typename... Args>
     struct is_reverse_iterable<T, U, Args...>:
-        public std::conditional<
+        std::conditional<
             is_reverse_iterable<T>::value,
             is_reverse_iterable<U, Args...>,
             std::false_type
