@@ -254,7 +254,8 @@ class FlatObject<FlatIterable, true>:
 {
     private:
 
-        using FlatObject<FlatIterable, false>::_iter;
+        using super = FlatObject<FlatIterable, false>;
+        using super::_iter;
 
         FlatObject(FlatIterable&& iter):
             FlatObject<FlatIterable, false>(iter)
@@ -262,15 +263,15 @@ class FlatObject<FlatIterable, true>:
 
     public:
 
-        using value_type                = typename std::decay<decltype(*_iter.fbegin())>::type;
-        using difference_type           = std::ptrdiff_t;
-        using reference                 = value_type&;
-        using pointer                   = value_type*;
-        using iterator                  = decltype(_iter.fbegin());
-        using const_iterator            = decltype(_iter.cfbegin());
+        using typename super::value_type;
+        using typename super::difference_type;
+        using typename super::reference;
+        using typename super::pointer;
+        using typename super::iterator;
+        using typename super::const_iterator;
         using reverse_iterator          = decltype(_iter.rfbegin());
         using const_reverse_iterator    = decltype(_iter.crfbegin());
-        using iterator_category         = typename std::iterator_traits<iterator>::iterator_category;
+        using typename super::iterator_category;
 
         // Reverse iterator functions
         auto rbegin() -> reverse_iterator
@@ -379,12 +380,12 @@ class MapObject<T, Iterable, true>:
 
     public:
 
-        using value_type                = typename super::value_type;
-        using difference_type           = std::ptrdiff_t;
-        using reference                 = value_type&;
-        using pointer                   = value_type*;
-        using iterator                  = typename super::iterator;
-        using const_iterator            = typename super::const_iterator;
+        using typename super::value_type;
+        using typename super::difference_type;
+        using typename super::reference;
+        using typename super::pointer;
+        using typename super::iterator;
+        using typename super::const_iterator;
         using reverse_iterator          = decltype(itertools::rbegin(_iter));
         using const_reverse_iterator    = decltype(itertools::rbegin(_iter));
         using iterator_category         = std::bidirectional_iterator_tag;
@@ -516,12 +517,12 @@ class ChainObject:
 
     public:
 
-        using value_type        = typename std::decay<decltype(*_iter)>::type;
-        using reference         = value_type&;
-        using pointer           = value_type*;
+        using typename super::value_type;
+        using typename super::reference;
+        using typename super::pointer;
         using iterator          = ChainObject&;
         using const_iterator    = const iterator;
-        using iterator_category = std::forward_iterator_tag;
+        using typename super::iterator_category;
 
         ChainObject(First&& first, Iterables&&... iters):
             super(std::forward<Iterables>(iters)...),
