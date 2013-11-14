@@ -48,7 +48,7 @@ namespace polder
 
     template<typename T>
     struct contract:
-        public std::conditional<
+        std::conditional<
             POLDER_DEBUG,
             make_contract<T>,
             T
@@ -73,7 +73,7 @@ namespace polder
     #define POLDER_CONTRACT(type) \
         template<> \
         struct make_contract<type>: \
-            public type
+            type
 
     #if POLDER_DEBUG == 1
 
@@ -114,7 +114,7 @@ namespace polder
      * failure is a logic error.
      */
     struct contract_error:
-        public std::logic_error
+        std::logic_error
     {
         /**
          * @brief Constructor
