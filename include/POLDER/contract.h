@@ -125,9 +125,9 @@ namespace polder
          * @todo Could benefit from inheriting constructors (C++11)
          * @todo Could benefit from string alias (C++??)
          */
-        template<typename T>
-        contract_error(T&& arg):
-            std::logic_error(std::forward<T>(arg))
+        template<typename... Args>
+        contract_error(Args&&... arg):
+            std::logic_error(std::forward<Args>(arg)...)
         {}
     };
 }
