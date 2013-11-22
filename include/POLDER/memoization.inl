@@ -30,13 +30,13 @@ template<typename Ret, typename... Args>
 auto MemoizedFunction<Ret, Args...>::operator()(Args&&... args)
     -> Ret
 {
-    const auto t_args = std::make_tuple(args...);
+    const auto t_args = std::make_tuple(std::forward<Args>(args)...);
     auto it = _cache.find(t_args);
-    if (it == _cache.end())
+    if (it == _cache.cend())
     {
         it = _cache.emplace(std::piecewise_construct,
                             std::forward_as_tuple(t_args),
-                            std::forward_as_tuple(_func(args...))
+                            std::forward_as_tuple(_func(std::forward<Args>(args)...))
                         ).first;
     }
     return it->second;
