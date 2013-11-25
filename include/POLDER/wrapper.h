@@ -38,7 +38,8 @@ struct WrapperBase
      * The only purpose of this destructor is to make
      * the class polymorphic.
      */
-    virtual ~WrapperBase() {}
+    virtual ~WrapperBase()
+        = default;
 };
 
 
@@ -66,7 +67,8 @@ class Wrapper:
          * @brief Object accessor
          * @return Reference to the enclosed object
          */
-        const T& get() const
+        const auto get() const
+            -> T&
         {
             return _object;
         }
@@ -75,7 +77,8 @@ class Wrapper:
          * @brief Object accessor
          * @return Pointer to the enclosed object
          */
-        const T* get_pointer() const
+        const auto get_pointer() const
+            -> T*
         {
             return &_object;
         }
@@ -83,7 +86,8 @@ class Wrapper:
         /**
          * @brief Destructor
          */
-        ~Wrapper() {}
+        ~Wrapper()
+            = default;
 
     private:
 

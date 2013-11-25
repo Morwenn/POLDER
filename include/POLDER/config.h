@@ -146,13 +146,15 @@
             /**
              * @brief Destructor
              */
-            virtual ~assertion_error() noexcept {}
+            virtual ~assertion_error() noexcept
+                = default;
 
             /**
              * @brief Returns the error message
              * @return Error message
              */
-            virtual const char* what() const noexcept
+            virtual auto what() const noexcept
+                -> const char*
             {
                 return _msg.c_str();
             }
