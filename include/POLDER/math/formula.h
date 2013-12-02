@@ -24,6 +24,7 @@
 #include <cmath>
 #include <complex>
 #include <utility>
+#include <vector>
 #include <POLDER/config.h>
 #include <POLDER/math/constants.h>
 
@@ -41,51 +42,63 @@ inline namespace standard
      * @param n Integer value
      * @return Whether \a n is even or not
      */
-    POLDER_API bool is_even(long long int n);
+    template<typename Integer>
+    auto is_even(Integer n)
+        -> bool;
 
     /**
      * @brief Tells whether the given number is odd
      * @param n Integer value
      * @return Whether \a n is odd or not
      */
-    POLDER_API bool is_odd(long long int n);
+    template<typename Integer>
+    auto is_odd(Integer n)
+        -> bool;
 
     /**
      * @brief Tells whether the given number is a prime number
      * @param n Integer value
      * @return True if \a n is a prime number
      */
-    POLDER_API bool is_prime(unsigned long long int n);
+    template<typename Unsigned>
+    auto is_prime(Unsigned n)
+        -> bool;
 
     /**
      * @brief Converts an angle in radians into an angle in degrees.
      * @param radians Angle in radians
      * @return The degrees value
      */
-    POLDER_API double degree(double radians);
+    template<typename Float>
+    auto degree(Float radians)
+        -> Float;
 
     /**
      * @brief Converts an angle in degrees into an angle in radians.
      * @param degrees Angle in degrees
      * @return The radians value
      */
-    POLDER_API double radian(double degrees);
+    template<typename Float>
+    auto radian(Float degrees)
+        -> Float;
 
     /**
      * @brief Unnormalized sinc function
      * @param x Real value
      * @return Unnormalized cardinal sine of x
      */
-    POLDER_API double sinc(double x);
-    POLDER_API float sinc(float x);
-    POLDER_API long double sinc(long double x);
+    template<typename Float>
+    auto sinc(Float x)
+        -> Float;
 
     /**
      * @brief Normalized sinc function
      * @param x Real value
      * @return Normalized cardinal sine of x
      */
-    POLDER_API double normalized_sinc(double x);
+    template<typename Float>
+    auto normalized_sinc(Float x)
+        -> Float;
 
     /**
      * @brief Resolves a quadratic equation
@@ -95,16 +108,18 @@ inline namespace standard
      * @param C Third member of the quadratic equation
      * @return Roots of the quadratic equation
      */
-    POLDER_API
-    auto quadratic(double A, double B, double C)
-        -> std::pair<std::complex<double>, std::complex<double>>;
+    template<typename Float>
+    auto quadratic(Float A, Float B, Float C)
+        -> std::pair<std::complex<Float>, std::complex<Float>>;
 
     /**
      * @brief Fibonacci function
      * @param n Some integer
      * @return Nth Fibonacci number
      */
-    POLDER_API unsigned long long int fibonacci(unsigned long long int n);
+    template<typename Unsigned>
+    auto fibonacci(Unsigned n)
+        -> Unsigned;
 
     /**
      * @brief Search a prime number
@@ -116,7 +131,9 @@ inline namespace standard
      * @param n Some integer
      * @return Nth Prime number
      */
-    POLDER_API unsigned long long int prime(unsigned long long int n);
+    template<typename Unsigned>
+    auto prime(Unsigned n)
+        -> Unsigned;
 
     /**
      * @brief Greatest common divisor
@@ -124,7 +141,9 @@ inline namespace standard
      * @param b Some integer
      * @return Greatest common divisor of a and b
      */
-    POLDER_API unsigned int gcd(unsigned int a, unsigned int b);
+    template<typename Unsigned>
+    auto gcd(Unsigned a, Unsigned b)
+        -> Unsigned;
 
     /**
      * @brief Least common multiple
@@ -132,7 +151,9 @@ inline namespace standard
      * @param b Some integer
      * @return Least common multiple of a and b
      */
-    POLDER_API unsigned int lcm(unsigned int a, unsigned int b);
+    template<typename Unsigned>
+    auto lcm(Unsigned a, Unsigned b)
+        -> Unsigned;
 }
 
 namespace meta
@@ -142,45 +163,57 @@ namespace meta
      * @param n Integer value
      * @return Whether \a n is even or not
      */
-    constexpr bool is_even(long long int n);
+    template<typename Integer>
+    constexpr auto is_even(Integer n)
+        -> bool;
 
     /**
      * @brief Tells whether the given number is odd
      * @param n Integer value
      * @return Whether \a n is odd or not
      */
-    constexpr bool is_odd(long long int n);
+    template<typename Integer>
+    constexpr auto is_odd(Integer n)
+        -> bool;
 
     /**
      * @brief Tells whether the given number is a prime number
      * @param n Integer value
      * @return True if \a n is a prime number
      */
-    constexpr bool is_prime(unsigned long long int n);
+    template<typename Unsigned>
+    constexpr auto is_prime(Unsigned n)
+        -> bool;
 
     /**
      * @brief Converts an angle in radians into an angle in degrees.
      * @param radians Angle in radians
      * @return The degrees value
      */
-    constexpr double degree(double radians);
+    template<typename Float>
+    constexpr auto degree(Float radians)
+        -> Float;
 
     /**
      * @brief Converts an angle in degrees into an angle in radians.
      * @param degrees Angle in degrees
      * @return The radians value
      */
-    constexpr double radian(double degrees);
+    template<typename Float>
+    constexpr auto radian(Float degrees)
+        -> Float;
 
     /**
      * @brief Fibonacci function
      * @param n Some integer
      * @return nth Fibonacci number
      */
-    constexpr unsigned long long int fibonacci(unsigned long long int n);
-
-    #include <POLDER/math/formula.inl>
+    template<typename Unsigned>
+    constexpr auto fibonacci(Unsigned n)
+        -> Unsigned;
 }
+
+#include <POLDER/math/formula.inl>
 
 
 } // namespace math
