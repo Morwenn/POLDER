@@ -9,17 +9,20 @@ using namespace polder;
 // Simple class with two functions
 struct Foo
 {
-    static unsigned int sum(unsigned int a, unsigned int b)
+    static auto sum(unsigned int a, unsigned int b)
+        -> unsigned int
     {
         return a + b;
     }
 
-    static double sqrt(double a)
+    static auto sqrt(double a)
+        -> double
     {
         return std::sqrt(a);
     }
 
-    static double bar(int a)
+    static auto bar(int a)
+        -> double
     {
         return double(a);
     }
@@ -39,28 +42,21 @@ namespace polder
     // to compile this if NDEBUG is on
     POLDER_CONTRACT(Foo)
     {
-        POLDER_INVARIANTS(
-            assert(0 < 1);
-            assert(3 >= 2);
-        );
-
-        static unsigned int sum(unsigned int a, unsigned int b)
+        static auto sum(unsigned int a, unsigned int b)
+            -> unsigned int
         {
-            check invariants;
-
             // precondition: none
             auto res = Foo::sum(a, b);
             // postcondition:
-            assert(res >= a+b);
+            POLDER_ASSERT(res >= a+b);
             return res;
         }
 
-        static double sqrt(double a)
+        static auto sqrt(double a)
+            -> double
         {
-            check invariants;
-
             // precondition:
-            assert(a >= 0.0);
+            POLDER_ASSERT(a >= 0.0);
             auto res = Foo::sqrt(a);
             // postcondition: none
             return res;
@@ -83,7 +79,7 @@ int main()
     double a = math::bar(5);
 
     double b = math::sqrt(4.0);
-    double c = math::sqrt(-2.0); // Should crach here in debug mode
+    double c = math::sqrt(-2.0); // Should crash here in debug mode
 
     int d = math::sum(2, 3);
     int e = math::sum(9, 10);
