@@ -39,21 +39,27 @@ inline namespace standard
      * @param n Some integer
      * @return Factorial of n
      */
-    POLDER_API unsigned long long int factorial(unsigned long long int n);
+    template<typename Unsigned>
+    auto factorial(Unsigned n)
+        -> Unsigned;
 
     /**
      * @brief Double factorial function
      * @param n Some integer
      * @return Double factorial of n
      */
-    POLDER_API unsigned long long int double_factorial(unsigned long long int n);
+    template<typename Unsigned>
+    auto double_factorial(Unsigned n)
+        -> Unsigned;
 
     /**
      * @brief Stirling formula
      * @param n Some integer
      * @return Approximation of the factorial of n
      */
-    POLDER_API unsigned long long int stirling(unsigned long long int n);
+    template<typename Unsigned>
+    auto stirling(Unsigned n)
+        -> Unsigned;
 }
 
 
@@ -64,10 +70,12 @@ namespace meta
      * @param n Some integer
      * @return Factorial of n
      */
-    constexpr unsigned long long int factorial(unsigned long long int n) noexcept;
-
-    #include <POLDER/math/factorial.inl>
+    template<typename Unsigned>
+    constexpr auto factorial(Unsigned n)
+        -> Unsigned;
 }
+
+#include <POLDER/math/factorial.inl>
 
 
 } // namespace math

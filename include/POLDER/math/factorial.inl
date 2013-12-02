@@ -16,7 +16,48 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-constexpr unsigned long long int factorial(unsigned long long int N) noexcept
+inline namespace standard
 {
-    return (N > 1) ? N * meta::factorial(N - 1) : 1;
+    template<typename Unsigned>
+    auto factorial(Unsigned n)
+        -> Unsigned
+    {
+        Unsigned result = 1;
+        for (Unsigned i = 2 ; i <= n ; ++i)
+        {
+            result *= i;
+        }
+        return result;
+    }
+
+    template<typename Unsigned>
+    auto double_factorial(Unsigned n)
+        -> Unsigned
+    {
+        POLDER_ASSERT(is_odd(n));
+        Unsigned k = (n + 1) / 2;
+        Unsigned res = 1;
+        for (Unsigned i = 1 ; i <= k ; ++i)
+        {
+            res *= 2 * i - 1;
+        }
+        return res;
+    }
+
+    template<typename Unsigned>
+    auto stirling(Unsigned n)
+        -> Unsigned
+    {
+        return Unsigned(std::sqrt(M_2PI*n) * std::pow((n/M_E), n));
+    }
+}
+
+namespace meta
+{
+    template<typename Unsigned>
+    constexpr auto factorial(Unsigned n)
+        -> Unsigned
+    {
+        return (n > 1) ? n * meta::factorial(n - 1) : 1;
+    }
 }
