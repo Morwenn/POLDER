@@ -70,7 +70,7 @@ inline namespace standard
      * @return The degrees value
      */
     template<typename Float>
-    auto degree(Float radians)
+    auto degrees(Float radians)
         -> Float;
 
     /**
@@ -79,7 +79,7 @@ inline namespace standard
      * @return The radians value
      */
     template<typename Float>
-    auto radian(Float degrees)
+    auto radians(Float degrees)
         -> Float;
 
     /**
@@ -191,7 +191,7 @@ namespace meta
      * @return The degrees value
      */
     template<typename Float>
-    constexpr auto degree(Float radians)
+    constexpr auto degrees(Float radians)
         -> Float;
 
     /**
@@ -200,7 +200,7 @@ namespace meta
      * @return The radians value
      */
     template<typename Float>
-    constexpr auto radian(Float degrees)
+    constexpr auto radians(Float degrees)
         -> Float;
 
     /**

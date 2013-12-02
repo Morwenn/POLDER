@@ -40,17 +40,17 @@ inline namespace standard
     }
 
     template<typename Float>
-    auto degree(Float rad)
+    auto degrees(Float rad)
         -> Float
     {
-        return meta::degree(rad);
+        return meta::degrees(rad);
     }
 
     template<typename Float>
-    auto radian(Float deg)
+    auto radians(Float deg)
         -> Float
     {
-        return meta::radian(deg);
+        return meta::radians(deg);
     }
 
     template<typename Float>
@@ -240,14 +240,14 @@ namespace meta
     }
 
     template<typename Float>
-    constexpr auto degree(Float rad)
+    constexpr auto degrees(Float rad)
         -> Float
     {
         return rad * M_180_PI;
     }
 
     template<typename Float>
-    constexpr auto radian(Float deg)
+    constexpr auto radians(Float deg)
         -> Float
     {
         return deg * M_PI_180;
