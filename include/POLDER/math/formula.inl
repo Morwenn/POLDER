@@ -220,14 +220,14 @@ namespace meta
     constexpr auto is_even(Integer n)
         -> bool
     {
-        return not Integer(n & 1);
+        return not bool(n % 2);
     }
 
     template<typename Integer>
     constexpr auto is_odd(Integer n)
         -> bool
     {
-        return Integer(n & 1);
+        return bool(n % 2);
     }
 
     template<typename Unsigned>
