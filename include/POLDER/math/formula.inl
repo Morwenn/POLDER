@@ -134,7 +134,7 @@ inline namespace standard
 
                 // Try to divide the supposed prime by all the known primes
                 // starting with 3
-                for (auto it = primes.begin()+2 ; it != primes.end() ; ++it)
+                for (auto it = primes.cbegin()+2 ; it != primes.cend() ; ++it)
                 {
                     const auto& pri = *it;
                     // We don't have to search above the square root
