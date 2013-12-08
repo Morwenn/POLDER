@@ -67,8 +67,8 @@ class Wrapper:
          * @brief Object accessor
          * @return Reference to the enclosed object
          */
-        const auto get() const
-            -> T&
+        auto get() const
+            -> const T&
         {
             return _object;
         }
@@ -77,8 +77,8 @@ class Wrapper:
          * @brief Object accessor
          * @return Pointer to the enclosed object
          */
-        const auto get_pointer() const
-            -> T*
+        auto get_pointer() const
+            -> const T*
         {
             return &_object;
         }
