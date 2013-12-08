@@ -38,6 +38,15 @@ namespace math
 inline namespace standard
 {
     /**
+     * @brief signum function
+     * @param val Any number
+     * @return Sign of \a val
+     */
+    template<typename Number>
+    auto sign(Number val)
+        -> int;
+
+    /**
      * @brief Tells whether the given number is even
      * @param n Integer value
      * @return Whether \a n is even or not
@@ -158,6 +167,15 @@ inline namespace standard
 
 namespace meta
 {
+    /**
+     * @brief signum function
+     * @param val Any number
+     * @return Sign of \a val
+     */
+    template<typename Number>
+    constexpr auto sign(Number val)
+        -> int;
+
     /**
      * @brief Tells whether the given number is even
      * @param n Integer value

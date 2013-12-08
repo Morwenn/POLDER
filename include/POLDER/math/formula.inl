@@ -18,6 +18,13 @@
 
 inline namespace standard
 {
+    template<typename Number>
+    auto sign(Number val)
+        -> int
+    {
+        return meta::sign(val);
+    }
+
     template<typename Integer>
     auto is_even(Integer n)
         -> bool
@@ -207,14 +214,21 @@ namespace meta
             -> bool
         {
             return (div*div > n) ? true :
-                                 (n % div == 0) ? false :
-                                                _is_prime_helper(n, div+2);
+                (n % div == 0) ? false :
+                    _is_prime_helper(n, div+2);
         }
     }
 
     ////////////////////////////////////////////////////////////
     // POLDER functions
     ////////////////////////////////////////////////////////////
+
+    template<typename Number>
+    constexpr auto sign(Number value)
+        -> int
+    {
+        return (value > 0) ? 1 : (value < 0) ? -1 : 0;
+    }
 
     template<typename Integer>
     constexpr auto is_even(Integer n)
@@ -235,8 +249,9 @@ namespace meta
         -> bool
     {
         return (n < 2) ? false :
-                         (n == 2) ? true :
-                                  _is_prime_helper(n, 3);
+            (n == 2) ? true :
+                (n % 2 == 0) ? false :
+                    _is_prime_helper(n, 3);
     }
 
     template<typename Float>
