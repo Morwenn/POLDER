@@ -73,48 +73,6 @@ namespace polder
         U
     >;
 
-    template<typename...>
-    struct is_integral;
-
-    template<typename T>
-    struct is_integral<T>:
-        std::conditional<
-            std::is_integral<T>::value,
-            std::true_type,
-            std::false_type
-        >::type
-    {};
-
-    template<typename T, typename U, typename... Args>
-    struct is_integral<T, U, Args...>:
-        std::conditional<
-            is_integral<T>::value,
-            is_integral<U, Args...>,
-            std::false_type
-        >::type
-    {};
-
-    template<typename...>
-    struct is_floating_point;
-
-    template<typename T>
-    struct is_floating_point<T>:
-        std::conditional<
-            std::is_floating_point<T>::value,
-            std::true_type,
-            std::false_type
-        >::type
-    {};
-
-    template<typename T, typename U, typename... Args>
-    struct is_floating_point<T, U, Args...>:
-        std::conditional<
-            is_floating_point<T>::value,
-            is_floating_point<U, Args...>,
-            std::false_type
-        >::type
-    {};
-
     template<typename T, typename...>
     struct is_same;
 
