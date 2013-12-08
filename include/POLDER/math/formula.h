@@ -167,65 +167,30 @@ inline namespace standard
 
 namespace meta
 {
-    /**
-     * @brief signum function
-     * @param val Any number
-     * @return Sign of \a val
-     */
     template<typename Number>
     constexpr auto sign(Number val)
         -> int;
 
-    /**
-     * @brief Tells whether the given number is even
-     * @param n Integer value
-     * @return Whether \a n is even or not
-     */
     template<typename Integer>
     constexpr auto is_even(Integer n)
         -> bool;
 
-    /**
-     * @brief Tells whether the given number is odd
-     * @param n Integer value
-     * @return Whether \a n is odd or not
-     */
     template<typename Integer>
     constexpr auto is_odd(Integer n)
         -> bool;
 
-    /**
-     * @brief Tells whether the given number is a prime number
-     * @param n Integer value
-     * @return True if \a n is a prime number
-     */
     template<typename Unsigned>
     constexpr auto is_prime(Unsigned n)
         -> bool;
 
-    /**
-     * @brief Converts an angle in radians into an angle in degrees.
-     * @param radians Angle in radians
-     * @return The degrees value
-     */
     template<typename Float>
     constexpr auto degrees(Float radians)
         -> Float;
 
-    /**
-     * @brief Converts an angle in degrees into an angle in radians.
-     * @param degrees Angle in degrees
-     * @return The radians value
-     */
     template<typename Float>
     constexpr auto radians(Float degrees)
         -> Float;
 
-    /**
-     * @brief Fibonacci function
-     * @param n Some integer
-     * @return nth Fibonacci number
-     */
     template<typename Unsigned>
     constexpr auto fibonacci(Unsigned n)
         -> Unsigned;

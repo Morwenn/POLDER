@@ -65,11 +65,6 @@ inline namespace standard
 
 namespace meta
 {
-    /**
-     * @brief Compile time factorial function
-     * @param n Some integer
-     * @return Factorial of n
-     */
     template<typename Unsigned>
     constexpr auto factorial(Unsigned n)
         -> Unsigned;
