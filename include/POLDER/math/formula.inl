@@ -114,6 +114,20 @@ inline namespace standard
         return a;
     }
 
+    template<typename Number, typename... Rest>
+    auto sum(Number first, Number second, Rest... rest)
+        -> Number
+    {
+        return meta::sum(first, second, rest...);
+    }
+
+    template<typename... Args>
+    auto mean(Args... args)
+        -> decltype(sum(args...) / sizeof...(args))
+    {
+        return sum(args...) / sizeof...(args);
+    }
+
     template<typename Unsigned>
     auto prime(Unsigned n)
         -> Unsigned
@@ -198,6 +212,20 @@ inline namespace standard
         }
         return a*b / gcd(a, b);
     }
+
+    template<typename Number>
+    auto sqr(Number val)
+        -> Number
+    {
+        return meta::sqr(val);
+    }
+
+    template<typename Number>
+    auto clamp(Number val, Number min, Number max)
+        -> Number
+    {
+        return meta::clamp(val, min, max);
+    }
 }
 
 namespace meta
@@ -216,6 +244,13 @@ namespace meta
             return (div*div > n) ? true :
                 (n % div == 0) ? false :
                     _is_prime_helper(n, div+2);
+        }
+
+        template<typename Unsigned>
+        constexpr auto _gcd_helper(Unsigned b, Unsigned r)
+            -> Unsigned
+        {
+            return (r == 0) ? b : _gcd_helper(r, b % r);
         }
     }
 
@@ -273,5 +308,57 @@ namespace meta
         -> Unsigned
     {
         return (n < 2) ? n : meta::fibonacci(n-2) + meta::fibonacci(n-1);
+    }
+
+    template<typename Number, typename... Rest>
+    constexpr auto sum(Number first, Number second, Rest... rest)
+        -> Number
+    {
+        return first + sum(second, rest...);
+    }
+
+    template<typename Number>
+    constexpr auto sum(Number first, Number second)
+        -> Number
+    {
+        return first + second;
+    }
+
+    template<typename... Args>
+    constexpr auto mean(Args... args)
+        -> decltype(sum(args...) / sizeof...(args))
+    {
+        return sum(args...) / sizeof...(args);
+    }
+
+    template<typename Unsigned>
+    constexpr auto gcd(Unsigned a, Unsigned b)
+        -> Unsigned
+    {
+        return (a == 0 || b == 0) ? 0 :
+            (a >= b) ? _gcd_helper(b, a % b) :
+                _gcd_helper(a, b % a);
+    }
+
+    template<typename Unsigned>
+    constexpr auto lcm(Unsigned a, Unsigned b)
+        -> Unsigned
+    {
+        return (a == 0 || b == 0) ? 1 :
+            a * b / gcd(a, b);
+    }
+
+    template<typename Number>
+    constexpr auto sqr(Number val)
+        -> Number
+    {
+        return val * val;
+    }
+
+    template<typename Number>
+    constexpr auto clamp(Number val, Number min, Number max)
+        -> Number
+    {
+        return (val < min) ? min : (val > max) ? max : val;
     }
 }

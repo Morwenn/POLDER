@@ -39,7 +39,7 @@ inline namespace standard
 {
     /**
      * @brief signum function
-     * @param val Any number
+     * @param val Some number
      * @return Sign of \a val
      */
     template<typename Number>
@@ -131,6 +131,20 @@ inline namespace standard
         -> Unsigned;
 
     /**
+     * @brief Sum of a number of variables
+     */
+    template<typename Number, typename... Rest>
+    auto sum(Number first, Number second, Rest... rest)
+        -> Number;
+
+    /**
+     * @brief Mean of a number of variables
+     */
+    template<typename... Args>
+    auto mean(Args... args)
+        -> decltype(sum(args...) / sizeof...(args));
+
+    /**
      * @brief Search a prime number
      *
      * The first prime number returned by the function is 1,
@@ -163,6 +177,26 @@ inline namespace standard
     template<typename Unsigned>
     auto lcm(Unsigned a, Unsigned b)
         -> Unsigned;
+
+    /**
+     * @brief Square function
+     * @param val Some number
+     * @return Square of \a val
+     */
+    template<typename Number>
+    auto sqr(Number val)
+        -> Number;
+
+    /**
+     * @brief Limits a value to a range
+     * @param val Number to clamp
+     * @param min Lower limit
+     * @param max Higher limit
+     * @return \a val clamped between \a min and \a max
+     */
+    template<typename Number>
+    auto clamp(Number val, Number min, Number max)
+        -> Number;
 }
 
 namespace meta
@@ -194,6 +228,34 @@ namespace meta
     template<typename Unsigned>
     constexpr auto fibonacci(Unsigned n)
         -> Unsigned;
+
+    template<typename Number, typename... Rest>
+    constexpr auto sum(Number first, Number second, Rest... rest)
+        -> Number;
+
+    template<typename Number>
+    constexpr auto sum(Number first, Number second)
+        -> Number;
+
+    template<typename... Args>
+    constexpr auto mean(Args... args)
+        -> decltype(sum(args...) / sizeof...(args));
+
+    template<typename Unsigned>
+    constexpr auto gcd(Unsigned a, Unsigned b)
+        -> Unsigned;
+
+    template<typename Unsigned>
+    constexpr auto lcm(Unsigned a, Unsigned b)
+        -> Unsigned;
+
+    template<typename Number>
+    constexpr auto sqr(Number val)
+        -> Number;
+
+    template<typename Number>
+    constexpr auto clamp(Number val, Number min, Number max)
+        -> Number;
 }
 
 #include <POLDER/math/formula.inl>
