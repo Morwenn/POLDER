@@ -85,7 +85,7 @@ bool round_equal(InputIterator first, InputIterator last, InputIterator first2)
     auto j = first2;
     for (auto i = first ; i != last ; ++i, ++j)
     {
-        if (fabs(*i-*j) > geo_margin_error * *i)
+        if (std::abs(*i-*j) > geo_margin_error * *i)
         {
             return false;
         }

@@ -80,7 +80,7 @@ T Vector<N, T>::norm(math::Norm n) const
             T res = 0;
             for (size_t i = 0 ; i < N ; ++i)
             {
-                res += fabs(coordinates[i]);
+                res += std::abs(coordinates[i]);
             }
             return res;
         }
@@ -95,10 +95,10 @@ T Vector<N, T>::norm(math::Norm n) const
         }
         case math::Norm::Maximum:
         {
-            T res = fabs(coordinates[0]);
+            T res = std::abs(coordinates[0]);
             for (size_t i = 1 ; i < N ; ++i)
             {
-                const T tmp = fabs(coordinates[i]);
+                const T tmp = std::abs(coordinates[i]);
                 if (tmp > res)
                 {
                     res = tmp;
@@ -120,7 +120,7 @@ T Vector<N, T>::norm(math::Norm n, unsigned int p) const
             T res = 0;
             for (size_t i = 0 ; i < N ; ++i)
             {
-                res += pow(fabs(coordinates[i]), p);
+                res += pow(std::abs(coordinates[i]), p);
             }
             return pow(res, 1.0 / p);
         }
