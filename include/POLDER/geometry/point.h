@@ -22,7 +22,6 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <algorithm>
-#include <cassert>
 #include <cstdarg>
 #include <initializer_list>
 #include <POLDER/geometry/limits.h>

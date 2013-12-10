@@ -21,7 +21,7 @@ inline Line<N, T>::Line(const Point<N, T>& P1, const Point<N, T>& P2):
     P(P1),
     D(Direction<N, T>(P1, P2))
 {
-    assert(P1 != P2);
+    POLDER_ASSERT(P1 != P2);
 }
 
 template<size_t N, typename T>

@@ -25,7 +25,7 @@ inline Vector<N, T>::Vector(const Vector<N, T>& other)
 template<size_t N, typename T>
 inline Vector<N, T>::Vector(const std::initializer_list<T>& coords)
 {
-    assert(coords.size() == N);
+    POLDER_ASSERT(coords.size() == N);
     std::copy(coords.begin(), coords.end(), coordinates);
 }
 
@@ -136,14 +136,14 @@ T Vector<N, T>::norm(math::Norm n, unsigned int p) const
 template<size_t N, typename T>
 inline T Vector<N, T>::operator[](size_t index) const
 {
-    assert(index < N);
+    POLDER_ASSERT(index < N);
     return coordinates[index];
 }
 
 template<size_t N, typename T>
 inline T& Vector<N, T>::operator[](size_t index)
 {
-    assert(index < N);
+    POLDER_ASSERT(index < N);
     return coordinates[index];
 }
 
@@ -238,7 +238,7 @@ Vector<N, T>& Vector<N, T>::operator*=(T other)
 template<size_t N, typename T>
 Vector<N, T>& Vector<N, T>::operator/=(T other)
 {
-    assert(other != 0);
+    POLDER_ASSERT(other != 0);
     for (size_t i = 0 ; i < N ; ++i)
     {
         coordinates /= other;

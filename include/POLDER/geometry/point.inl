@@ -25,14 +25,14 @@ inline Point<N, T>::Point(const Point<N, T>& other)
 template<size_t N, typename T>
 inline Point<N, T>::Point(const std::initializer_list<T>& coords)
 {
-    assert(N > 1 && coords.size() == N);
+    POLDER_ASSERT(N > 1 && coords.size() == N);
     std::copy(coords.begin(), coords.end(), coordinates);
 }
 
 template<size_t N, typename T>
 Point<N, T>::Point(T first, ...)
 {
-    assert(N > 1);
+    POLDER_ASSERT(N > 1);
     coordinates[0] = first;
     va_list args;
     va_start(args, first);
@@ -46,14 +46,14 @@ Point<N, T>::Point(T first, ...)
 template<size_t N, typename T>
 inline T& Point<N, T>::operator[](size_t index)
 {
-    assert(index < N);
+    POLDER_ASSERT(index < N);
     return coordinates[index];
 }
 
 template<size_t N, typename T>
 inline T Point<N, T>::operator[](size_t index) const
 {
-    assert(index < N);
+    POLDER_ASSERT(index < N);
     return coordinates[index];
 }
 
@@ -131,14 +131,14 @@ inline T& Point<N, T>::x()
 template<size_t N, typename T>
 inline T& Point<N, T>::y()
 {
-    assert(N > 1);
+    POLDER_ASSERT(N > 1);
     return coordinates[1];
 }
 
 template<size_t N, typename T>
 inline T& Point<N, T>::z()
 {
-    assert(N > 2);
+    POLDER_ASSERT(N > 2);
     return coordinates[2];
 }
 
@@ -151,14 +151,14 @@ inline T Point<N, T>::x() const
 template<size_t N, typename T>
 inline T Point<N, T>::y() const
 {
-    assert(N > 1);
+    POLDER_ASSERT(N > 1);
     return coordinates[1];
 }
 
 template<size_t N, typename T>
 inline T Point<N, T>::z() const
 {
-    assert(N > 2);
+    POLDER_ASSERT(N > 2);
     return coordinates[2];
 }
 
