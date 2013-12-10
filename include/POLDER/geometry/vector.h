@@ -23,7 +23,6 @@
 ////////////////////////////////////////////////////////////
 #include <algorithm>
 #include <cmath>
-#include <cstdarg>
 #include <initializer_list>
 #include <POLDER/math/norm.h>
 
@@ -77,12 +76,10 @@ class Vector
         Vector(const std::initializer_list<T>& coords);
 
         /**
-         * @brief Variadic constructor
-         *
-         * @param first First coordinate value
-         * @warning Be sure to pass Ts and not floats or any other numeric numbers
+         * Variadic constructor
          */
-        Vector(T first, ...);
+        template<typename... Args>
+        Vector(Args... args);
 
         /**
          * @brief Constructs the Vector from the origin to a Point
@@ -201,6 +198,13 @@ class Vector
         const_iterator cend() const;
 
     private:
+
+        template<typename First, typename... Args>
+        auto construct(First first, Args... args)
+            -> void;
+        template<typename First>
+        auto construct(First first)
+            -> void;
 
         // Coordinates
         T coordinates[N];    /**< Coordinates */

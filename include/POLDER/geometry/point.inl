@@ -30,17 +30,12 @@ inline Point<N, T>::Point(const std::initializer_list<T>& coords)
 }
 
 template<size_t N, typename T>
-Point<N, T>::Point(T first, ...)
+template<typename... Args>
+Point<N, T>::Point(Args... args)
 {
-    POLDER_ASSERT(N > 1);
-    coordinates[0] = first;
-    va_list args;
-    va_start(args, first);
-    for (size_t i = 1 ; i < N ; ++i)
-    {
-        coordinates[i] = va_arg(args, T);
-    }
-    va_end(args);
+    static_assert(sizeof...(Args) == N,
+                  "Point constructed with wrong number of coordinates.");
+    construct(args...);
 }
 
 template<size_t N, typename T>
@@ -196,4 +191,21 @@ template<size_t N, typename T>
 inline typename Point<N, T>::const_iterator Point<N, T>::cend() const
 {
     return coordinates + N;
+}
+
+template<size_t N, typename T>
+template<typename First, typename... Args>
+auto Point<N, T>::construct(First first, Args... args)
+    -> void
+{
+    coordinates[N-sizeof...(args)-1] = first;
+    construct(args...);
+}
+
+template<size_t N, typename T>
+template<typename First>
+auto Point<N, T>::construct(First first)
+    -> void
+{
+    coordinates[N-1] = first;
 }

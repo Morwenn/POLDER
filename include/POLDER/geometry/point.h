@@ -22,7 +22,6 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <algorithm>
-#include <cstdarg>
 #include <initializer_list>
 #include <POLDER/geometry/limits.h>
 
@@ -71,10 +70,9 @@ class Point
 
         /**
          * Variadic constructor
-         *
-         * @param first First coordinate value
          */
-        Point(T first, ...);
+        template<typename... Args>
+        Point(Args... args);
 
 
         ////////////////////////////////////////////////////////////
@@ -145,6 +143,13 @@ class Point
         const_iterator cend() const;
 
     private:
+
+        template<typename First, typename... Args>
+        auto construct(First first, Args... args)
+            -> void;
+        template<typename First>
+        auto construct(First first)
+            -> void;
 
         // Member data
         T coordinates[N];    /**< Coordinates */
