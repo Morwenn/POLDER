@@ -34,7 +34,8 @@ namespace geometry
 {
 
 // Forward declaration
-template<size_t N> class Vector;
+template<size_t N, typename T>
+class Vector;
 
 
 /**
@@ -43,7 +44,7 @@ template<size_t N> class Vector;
  * A point is simply defined by N coordinates
  * in a N-dimensional space.
  */
-template<size_t N>
+template<size_t N, typename T=double>
 class Point
 {
     public:
@@ -60,21 +61,21 @@ class Point
         /**
          * Copy constructor
          */
-        Point(const Point<N>& other);
+        Point(const Point<N, T>& other);
 
         /**
          * @brief Initializer list constructor
          *
          * @param args List of coordinates
          */
-        Point(const std::initializer_list<double>& coords);
+        Point(const std::initializer_list<T>& coords);
 
         /**
          * Variadic constructor
          *
          * @param first First coordinate value
          */
-        Point(double first, ...);
+        Point(T first, ...);
 
 
         ////////////////////////////////////////////////////////////
@@ -87,53 +88,53 @@ class Point
          * @param index Index of the ccordinate to access
          * @return indexth coordinate
          */
-        double& operator[](size_t index);
+        T& operator[](size_t index);
 
         /**
-         * @see double& operator[](size_t index)
+         * @see T& operator[](size_t index)
          */
-        double operator[](size_t index) const;
+        T operator[](size_t index) const;
 
         /**
          * Copy assignment operator
          */
-        Point<N>& operator=(const Point<N>& other);
+        Point<N, T>& operator=(const Point<N, T>& other);
 
         // Comparison
-        bool operator==(const Point<N>& other) const;
+        bool operator==(const Point<N, T>& other) const;
 
-        bool operator!=(const Point<N>& other) const;
+        bool operator!=(const Point<N, T>& other) const;
 
         // Point-Vector arithmetics
-        Point<N>& operator+=(const Vector<N>& V);
+        Point<N, T>& operator+=(const Vector<N, T>& V);
 
-        Point<N>& operator-=(const Vector<N>& V);
+        Point<N, T>& operator-=(const Vector<N, T>& V);
 
-        const Point<N> operator+(const Vector<N>& V);
+        const Point<N, T> operator+(const Vector<N, T>& V);
 
-        const Point<N> operator-(const Vector<N>& V);
+        const Point<N, T> operator-(const Vector<N, T>& V);
 
-        const Vector<N> operator-(const Point<N>& other);
+        const Vector<N, T> operator-(const Point<N, T>& other);
 
         ////////////////////////////////////////////////////////////
         // Coordinates aliases
         ////////////////////////////////////////////////////////////
 
-        double& x();
-        double& y();
-        double& z();
+        T& x();
+        T& y();
+        T& z();
 
-        double x() const;
-        double y() const;
-        double z() const;
+        T x() const;
+        T y() const;
+        T z() const;
 
 
         ////////////////////////////////////////////////////////////
         // Point iterators
         ////////////////////////////////////////////////////////////
 
-        typedef double* iterator;
-        typedef const double* const_iterator;
+        typedef T* iterator;
+        typedef const T* const_iterator;
 
         iterator begin();
         iterator end();
@@ -147,9 +148,9 @@ class Point
     private:
 
         // Member data
-        double coordinates[N];    /**< Coordinates */
+        T coordinates[N];    /**< Coordinates */
 
-    friend class Vector<N>;
+    friend class Vector<N, T>;
 };
 
 #include <POLDER/geometry/point.inl>

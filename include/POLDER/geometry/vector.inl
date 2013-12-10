@@ -16,21 +16,21 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-template<size_t N>
-inline Vector<N>::Vector(const Vector<N>& other)
+template<size_t N, typename T>
+inline Vector<N, T>::Vector(const Vector<N, T>& other)
 {
     std::copy(other.coordinates, other.coordinates+N, coordinates);
 }
 
-template<size_t N>
-inline Vector<N>::Vector(const std::initializer_list<double>& coords)
+template<size_t N, typename T>
+inline Vector<N, T>::Vector(const std::initializer_list<T>& coords)
 {
     assert(coords.size() == N);
     std::copy(coords.begin(), coords.end(), coordinates);
 }
 
-template<size_t N>
-Vector<N>::Vector(double first, ...)
+template<size_t N, typename T>
+Vector<N, T>::Vector(T first, ...)
 {
     coordinates[0] = first;
 
@@ -38,19 +38,19 @@ Vector<N>::Vector(double first, ...)
     va_start(args, first);
     for (size_t i = 1 ; i < N ; ++i)
     {
-        coordinates[i] = va_arg(args, double);
+        coordinates[i] = va_arg(args, T);
     }
     va_end(args);
 }
 
-template<size_t N>
-inline Vector<N>::Vector(const Point<N>& P)
+template<size_t N, typename T>
+inline Vector<N, T>::Vector(const Point<N, T>& P)
 {
     std::copy(P.coordinates, P.coordinates+N, coordinates);
 }
 
-template<size_t N>
-Vector<N>::Vector(const Point<N>& origin, const Point<N>& target)
+template<size_t N, typename T>
+Vector<N, T>::Vector(const Point<N, T>& origin, const Point<N, T>& target)
 {
     for (size_t i = 0 ; i < N ; ++i)
     {
@@ -58,31 +58,31 @@ Vector<N>::Vector(const Point<N>& origin, const Point<N>& target)
     }
 }
 
-template<size_t N>
-Vector<N>::Vector(const Line<N>& L)
+template<size_t N, typename T>
+Vector<N, T>::Vector(const Line<N, T>& L)
 {
     coordinates[0] = 1.0;
-    const Direction<N>& dir = L.direction();
+    const Direction<N, T>& dir = L.direction();
     for (size_t i = 1 ; i < N ; ++i)
     {
         coordinates[i] = dir[i-1];
     }
 }
 
-template<size_t N>
-inline Direction<N> Vector<N>::direction() const
+template<size_t N, typename T>
+inline Direction<N, T> Vector<N, T>::direction() const
 {
-    return Direction<N>(*this);
+    return Direction<N, T>(*this);
 }
 
-template<size_t N>
-double Vector<N>::norm(math::Norm n) const
+template<size_t N, typename T>
+T Vector<N, T>::norm(math::Norm n) const
 {
     switch (n)
     {
         case math::Norm::Manhattan:
         {
-            double res = 0;
+            T res = 0;
             for (size_t i = 0 ; i < N ; ++i)
             {
                 res += fabs(coordinates[i]);
@@ -91,7 +91,7 @@ double Vector<N>::norm(math::Norm n) const
         }
         case math::Norm::Euclidean:
         {
-            double res = 0;
+            T res = 0;
             for (size_t i = 0 ; i < N ; ++i)
             {
                 res += coordinates[i] * coordinates[i];
@@ -100,10 +100,10 @@ double Vector<N>::norm(math::Norm n) const
         }
         case math::Norm::Maximum:
         {
-            double res = fabs(coordinates[0]);
+            T res = fabs(coordinates[0]);
             for (size_t i = 1 ; i < N ; ++i)
             {
-                const double tmp = fabs(coordinates[i]);
+                const T tmp = fabs(coordinates[i]);
                 if (tmp > res)
                 {
                     res = tmp;
@@ -115,14 +115,14 @@ double Vector<N>::norm(math::Norm n) const
     return 1.0; // Should never be executed
 }
 
-template<size_t N>
-double Vector<N>::norm(math::Norm n, unsigned int p) const
+template<size_t N, typename T>
+T Vector<N, T>::norm(math::Norm n, unsigned int p) const
 {
     switch (n)
     {
         case math::Norm::P:
         {
-            double res = 0;
+            T res = 0;
             for (size_t i = 0 ; i < N ; ++i)
             {
                 res += pow(fabs(coordinates[i]), p);
@@ -133,46 +133,46 @@ double Vector<N>::norm(math::Norm n, unsigned int p) const
     return 1.0; // Should never be executed
 }
 
-template<size_t N>
-inline double Vector<N>::operator[](size_t index) const
+template<size_t N, typename T>
+inline T Vector<N, T>::operator[](size_t index) const
 {
     assert(index < N);
     return coordinates[index];
 }
 
-template<size_t N>
-inline double& Vector<N>::operator[](size_t index)
+template<size_t N, typename T>
+inline T& Vector<N, T>::operator[](size_t index)
 {
     assert(index < N);
     return coordinates[index];
 }
 
-template<size_t N>
-inline Vector<N>& Vector<N>::operator=(const Vector<N>& other)
+template<size_t N, typename T>
+inline Vector<N, T>& Vector<N, T>::operator=(const Vector<N, T>& other)
 {
     if (this != &other)
     {
         delete[] coordinates;
-        coordinates = new double[N];
+        coordinates = new T[N];
         std::copy(other.coordinates, other.coordinates+N, coordinates);
     }
     return *this;
 }
 
-template<size_t N>
-inline bool Vector<N>::operator==(const Vector<N>& other) const
+template<size_t N, typename T>
+inline bool Vector<N, T>::operator==(const Vector<N, T>& other) const
 {
     return round_equal(coordinates, coordinates+N, other.coordinates);
 }
 
-template<size_t N>
-inline bool Vector<N>::operator!=(const Vector<N>& other) const
+template<size_t N, typename T>
+inline bool Vector<N, T>::operator!=(const Vector<N, T>& other) const
 {
     return !(*this == other);
 }
 
-template<size_t N>
-Vector<N>& Vector<N>::operator+=(const Vector<N>& other)
+template<size_t N, typename T>
+Vector<N, T>& Vector<N, T>::operator+=(const Vector<N, T>& other)
 {
     for (size_t i = 0 ; i < N ; ++i)
     {
@@ -181,8 +181,8 @@ Vector<N>& Vector<N>::operator+=(const Vector<N>& other)
     return *this;
 }
 
-template<size_t N>
-Vector<N>& Vector<N>::operator-=(const Vector<N>& other)
+template<size_t N, typename T>
+Vector<N, T>& Vector<N, T>::operator-=(const Vector<N, T>& other)
 {
     for (size_t i = 0 ; i < N ; ++i)
     {
@@ -191,22 +191,22 @@ Vector<N>& Vector<N>::operator-=(const Vector<N>& other)
     return *this;
 }
 
-template<size_t N>
-inline Vector<N> Vector<N>::operator+(const Vector<N>& other) const
+template<size_t N, typename T>
+inline Vector<N, T> Vector<N, T>::operator+(const Vector<N, T>& other) const
 {
-    return Vector<N>(*this) += other;
+    return Vector<N, T>(*this) += other;
 }
 
-template<size_t N>
-inline Vector<N> Vector<N>::operator-(const Vector<N>& other) const
+template<size_t N, typename T>
+inline Vector<N, T> Vector<N, T>::operator-(const Vector<N, T>& other) const
 {
-    return Vector<N>(*this) -= other;
+    return Vector<N, T>(*this) -= other;
 }
 
-template<size_t N>
-double Vector<N>::operator*(const Vector<N>& other) const
+template<size_t N, typename T>
+T Vector<N, T>::operator*(const Vector<N, T>& other) const
 {
-    double res = 0;
+    T res = 0;
     for (size_t i = 0 ; i < N ; ++i)
     {
         res += coordinates[i] * other.coordinates[i];
@@ -214,10 +214,10 @@ double Vector<N>::operator*(const Vector<N>& other) const
     return res;
 }
 
-template<size_t N>
-Vector<N> Vector<N>::operator-() const
+template<size_t N, typename T>
+Vector<N, T> Vector<N, T>::operator-() const
 {
-    Vector<N> V = *this;
+    Vector<N, T> V = *this;
     for (size_t i = 0 ; i < N ; ++i)
     {
         V.coordinates[i] = -V.coordinates[i];
@@ -225,8 +225,8 @@ Vector<N> Vector<N>::operator-() const
     return V;
 }
 
-template<size_t N>
-Vector<N>& Vector<N>::operator*=(double other)
+template<size_t N, typename T>
+Vector<N, T>& Vector<N, T>::operator*=(T other)
 {
     for (size_t i = 0 ; i < N ; ++i)
     {
@@ -235,8 +235,8 @@ Vector<N>& Vector<N>::operator*=(double other)
     return *this;
 }
 
-template<size_t N>
-Vector<N>& Vector<N>::operator/=(double other)
+template<size_t N, typename T>
+Vector<N, T>& Vector<N, T>::operator/=(T other)
 {
     assert(other != 0);
     for (size_t i = 0 ; i < N ; ++i)
@@ -246,86 +246,86 @@ Vector<N>& Vector<N>::operator/=(double other)
     return *this;
 }
 
-template<size_t N>
-inline Vector<N> Vector<N>::operator*(double other) const
+template<size_t N, typename T>
+inline Vector<N, T> Vector<N, T>::operator*(T other) const
 {
     return Vector(*this) *= other;
 }
 
-template<size_t N>
-inline Vector<N> Vector<N>::operator/(double other) const
+template<size_t N, typename T>
+inline Vector<N, T> Vector<N, T>::operator/(T other) const
 {
     return Vector(*this) /= other;
 }
 
-template<size_t N>
-inline double& Vector<N>::x()
+template<size_t N, typename T>
+inline T& Vector<N, T>::x()
 {
     return coordinates[0];
 }
 
-template<size_t N>
-inline double& Vector<N>::y()
+template<size_t N, typename T>
+inline T& Vector<N, T>::y()
 {
     return coordinates[1];
 }
 
-template<size_t N>
-inline double& Vector<N>::z()
+template<size_t N, typename T>
+inline T& Vector<N, T>::z()
 {
     return coordinates[2];
 }
 
-template<size_t N>
-inline double Vector<N>::x() const
+template<size_t N, typename T>
+inline T Vector<N, T>::x() const
 {
     return coordinates[0];
 }
 
-template<size_t N>
-inline double Vector<N>::y() const
+template<size_t N, typename T>
+inline T Vector<N, T>::y() const
 {
     return coordinates[1];
 }
 
-template<size_t N>
-inline double Vector<N>::z() const
+template<size_t N, typename T>
+inline T Vector<N, T>::z() const
 {
     return coordinates[2];
 }
 
-template<size_t N>
-inline typename Vector<N>::iterator Vector<N>::begin()
+template<size_t N, typename T>
+inline typename Vector<N, T>::iterator Vector<N, T>::begin()
 {
     return coordinates;
 }
 
-template<size_t N>
-inline typename Vector<N>::iterator Vector<N>::end()
+template<size_t N, typename T>
+inline typename Vector<N, T>::iterator Vector<N, T>::end()
 {
     return coordinates + N;
 }
 
-template<size_t N>
-inline typename Vector<N>::const_iterator Vector<N>::begin() const
+template<size_t N, typename T>
+inline typename Vector<N, T>::const_iterator Vector<N, T>::begin() const
 {
     return coordinates;
 }
 
-template<size_t N>
-inline typename Vector<N>::const_iterator Vector<N>::end() const
+template<size_t N, typename T>
+inline typename Vector<N, T>::const_iterator Vector<N, T>::end() const
 {
     return coordinates + N;
 }
 
-template<size_t N>
-inline typename Vector<N>::const_iterator Vector<N>::cbegin() const
+template<size_t N, typename T>
+inline typename Vector<N, T>::const_iterator Vector<N, T>::cbegin() const
 {
     return coordinates;
 }
 
-template<size_t N>
-inline typename Vector<N>::const_iterator Vector<N>::cend() const
+template<size_t N, typename T>
+inline typename Vector<N, T>::const_iterator Vector<N, T>::cend() const
 {
     return coordinates + N;
 }

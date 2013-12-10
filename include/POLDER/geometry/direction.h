@@ -32,9 +32,12 @@ namespace geometry
 {
 
 // Forward declarations
-template<size_t N> class Point;
-template<size_t N> class Vector;
-template<size_t N> class Line;
+template<size_t N, typename T>
+class Point;
+template<size_t N, typename T>
+class Vector;
+template<size_t N, typename T>
+class Line;
 
 
 /**
@@ -49,7 +52,7 @@ template<size_t N> class Line;
  * Actually, remember that a direction has N-1 coordinates in a
  * N-dimensional space when you have to use it.
 */
-template<size_t N>
+template<size_t N, typename T=double>
 class Direction
 {
     public:
@@ -66,14 +69,14 @@ class Direction
         /**
          * @brief Copy constructor
          */
-        Direction(const Direction<N>& other);
+        Direction(const Direction<N, T>& other);
 
         /**
          * @brief Direction of a Line passing by the origin and a given point
          *
          * @param P Point forming a Line with the Origin
          */
-        Direction(const Point<N>& P);
+        Direction(const Point<N, T>& P);
 
         /**
          * @brief Direction of a Line passing by two given points
@@ -81,21 +84,21 @@ class Direction
          * @param P1 First Point
          * @param P2 Second Point
          */
-        Direction(const Point<N>& P1, const Point<N>& P2);
+        Direction(const Point<N, T>& P1, const Point<N, T>& P2);
 
         /**
          * @brief Creates the Direction from a Vector
          *
          * @param V Vector whose we take the direction
          */
-        Direction(const Vector<N>& V);
+        Direction(const Vector<N, T>& V);
 
         /**
          * @brief Creates the Direction from a Line
          *
          * @param L Line whose we take the direction
          */
-        Direction(const Line<N>& L);
+        Direction(const Line<N, T>& L);
 
 
         ////////////////////////////////////////////////////////////
@@ -108,12 +111,12 @@ class Direction
          * @param Index of the coordinate to get
          * @return Coordinate at index
          */
-        double operator[](size_t index) const;
+        T operator[](size_t index) const;
 
         /**
          * Copy assignment operator
          */
-        Direction<N>& operator=(const Direction<N>& other);
+        Direction<N, T>& operator=(const Direction<N, T>& other);
 
         /**
          * @brief Equality between two Directions
@@ -123,7 +126,7 @@ class Direction
          * @param other Right operand (Direction)
          * @return True if the Directions are equal
          */
-        bool operator==(const Direction<N>& other) const;
+        bool operator==(const Direction<N, T>& other) const;
 
         /**
          * @brief Inequality between two Directions
@@ -133,14 +136,14 @@ class Direction
          * @param other Right operand (Direction)
          * @return True if the Directions are not equal
          */
-        bool operator!=(const Direction<N>& other) const;
+        bool operator!=(const Direction<N, T>& other) const;
 
         /**
          * @brief Opposite of the direction
          *
          * @return Element-wise opposite of the direction
          */
-        Direction<N> operator-() const;
+        Direction<N, T> operator-() const;
 
 
         ////////////////////////////////////////////////////////////
@@ -148,8 +151,8 @@ class Direction
         ////////////////////////////////////////////////////////////
 
         // Basic iterators and constant iterators
-        using iterator = double*;
-        using const_iterator = const double*;
+        using iterator = T*;
+        using const_iterator = const T*;
 
         /**
          * @brief First coordinate of a Direction
@@ -196,7 +199,7 @@ class Direction
     private:
 
         // Member data
-        double coordinates[N-1]; /**< Coordinates of the Direction */
+        T coordinates[N-1]; /**< Coordinates of the Direction */
 };
 
 #include <POLDER/geometry/direction.inl>

@@ -47,16 +47,16 @@ namespace geometry
      * @param HS Hypersphere
      * @return Some object
      */
-    template<size_t N>
-    Object intersection(const Line<N>& L, const Hypersphere<N>& HS);
+    template<size_t N, typename T>
+    Object intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS);
 
     /**
      * @brief Intersection between a Line and an Hypersphere
      *
      * @see intersection(const Line<N>&, const Hypersphere<N>&)
      */
-    template<size_t N>
-    Object intersection(const Hypersphere<N>& HS, const Line<N>& L);
+    template<size_t N, typename T>
+    Object intersection(const Hypersphere<N, T>& HS, const Line<N, T>& L);
 
 
     /**
@@ -70,8 +70,8 @@ namespace geometry
      * @param L2 Second Line
      * @return Some object
      */
-    template<size_t N>
-    Object intersection(const Line<N>& L1, const Line<N>& L2);
+    template<size_t N, typename T>
+    Object intersection(const Line<N, T>& L1, const Line<N, T>& L2);
 
     #include <POLDER/geometry/intersection.inl>
 
