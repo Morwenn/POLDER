@@ -23,7 +23,7 @@
 ////////////////////////////////////////////////////////////
 #include <algorithm>
 #include <initializer_list>
-#include <POLDER/geometry/limits.h>
+#include <POLDER/algorithm.h>
 
 
 namespace polder

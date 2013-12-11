@@ -27,8 +27,6 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-
-// Basic headers
 #include <POLDER/geometry/direction.h>
 #include <POLDER/geometry/hypersphere.h>
 #include <POLDER/geometry/intersection.h>
@@ -36,19 +34,18 @@
 #include <POLDER/geometry/point.h>
 #include <POLDER/geometry/vector.h>
 
-
 ////////////////////////////////////////////////////////////
 // Documentation
 ////////////////////////////////////////////////////////////
+
 /**
  * @namespace polder::geometry
  * @brief Geometry-related objects and functions
  *
  * This namespace contains many objects and functions
  * that allow to perform geometry in N-dimensional spaces.
- * For exemple, points, vectors, lines... representations
- * and useful functions such as distances and intersections.
+ * For example, points, vectors, lines... representations
+ * and related functions such as distances and intersections.
  */
-
 
 #endif // _POLDER_GEOMETRY_H

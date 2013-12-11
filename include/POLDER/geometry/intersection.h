@@ -22,10 +22,10 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <utility>
+#include <POLDER/algorithm.h>
 #include <POLDER/math.h>
 #include <POLDER/object.h>
 #include <POLDER/geometry/hypersphere.h>
-#include <POLDER/geometry/limits.h>
 #include <POLDER/geometry/line.h>
 #include <POLDER/geometry/point.h>
 

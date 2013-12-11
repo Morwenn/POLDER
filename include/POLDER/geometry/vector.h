@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <cmath>
 #include <initializer_list>
+#include <POLDER/algorithm.h>
 #include <POLDER/math/norm.h>
 
 
