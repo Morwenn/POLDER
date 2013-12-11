@@ -130,8 +130,8 @@ class Point
         // Point iterators
         ////////////////////////////////////////////////////////////
 
-        typedef T* iterator;
-        typedef const T* const_iterator;
+        using iterator = T*;
+        using const_iterator = const T*;
 
         iterator begin();
         iterator end();
