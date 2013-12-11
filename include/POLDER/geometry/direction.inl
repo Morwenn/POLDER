@@ -79,7 +79,11 @@ Direction<N, T>& Direction<N, T>::operator=(const Direction<N, T>& other)
 template<size_t N, typename T>
 inline bool Direction<N, T>::operator==(const Direction<N, T>& other) const
 {
-    return round_equal(coordinates, coordinates+N-1, other.coordinates);
+    return std::equal(coordinates, coordinates+N-1, other.coordinates,
+                      [](T a, T b)
+                      {
+                          return float_equal(a, b);
+                      });
 }
 
 template<size_t N, typename T>

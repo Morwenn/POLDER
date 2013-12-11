@@ -67,7 +67,8 @@ Hypersphere<N, T>& Hypersphere<N, T>::operator=(const Hypersphere<N, T>& other)
 template<size_t N, typename T>
 inline bool Hypersphere<N, T>::operator==(const Hypersphere<N, T>& other) const
 {
-    return _center == other._center && round_equal(_radius, other._radius);
+    return _center == other._center
+        && float_equal(_radius, other._radius);
 }
 
 template<size_t N, typename T>
@@ -93,5 +94,5 @@ bool Hypersphere<N, T>::includes(const Point<N, T>& P) const
         const T temp = P[i] - _center[i];
         res += temp * temp;
     }
-    return round_equal(res, _radius*_radius);
+    return float_equal(res, _radius*_radius);
 }

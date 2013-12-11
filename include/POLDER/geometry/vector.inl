@@ -157,7 +157,11 @@ inline Vector<N, T>& Vector<N, T>::operator=(const Vector<N, T>& other)
 template<size_t N, typename T>
 inline bool Vector<N, T>::operator==(const Vector<N, T>& other) const
 {
-    return round_equal(coordinates, coordinates+N, other.coordinates);
+    return std::equal(coordinates, coordinates+N, other.coordinates,
+                      [](T a, T b)
+                      {
+                          return float_equal(a, b);
+                      });
 }
 
 template<size_t N, typename T>

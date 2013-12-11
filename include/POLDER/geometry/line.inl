@@ -81,11 +81,11 @@ bool Line<N, T>::includes(const Point<N, T>& P) const
     // A point is included in the line if it satisfies the parametric
     // equation for all the coordinates
 
-    const double t1 = P.x() - this->P.x();
+    const T t1 = P.x() - this->P.x();
     for (size_t i = 1 ; i < N ; ++i)
     {
-        const double t = (P[i] - this->P[i]) / D[i-1];
-        if (!round_equal(t, t1))
+        const T t = (P[i] - this->P[i]) / D[i-1];
+        if (not float_equal(t, t1))
         {
             return false;
         }

@@ -23,6 +23,7 @@
 ////////////////////////////////////////////////////////////
 #include <algorithm>
 #include <stdexcept>
+#include <POLDER/algorithm.h>
 #include <POLDER/geometry/limits.h>
 
 

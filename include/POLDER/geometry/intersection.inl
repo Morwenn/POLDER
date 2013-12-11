@@ -70,7 +70,7 @@ Object intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS)
     T t1 = t.first.real();
     T t2 = t.second.real();
 
-    if (round_equal(t1, t2))
+    if (float_equal(t1, t2))
     {
         // The solution is a unique point
         Point<N, T> res;
