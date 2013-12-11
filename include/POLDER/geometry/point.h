@@ -159,11 +159,6 @@ class Point
 
 #include <POLDER/geometry/point.inl>
 
-// Define commonly-used types
-typedef Point<2>    Point2d;
-typedef Point<3>    Point3d;
-
-
 } // namespace geometry
 } // namespace polder
 

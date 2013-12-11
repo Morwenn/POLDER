@@ -214,11 +214,6 @@ class Vector
 
 #include <POLDER/geometry/vector.inl>
 
-// Define commonly-used types
-typedef Vector<2>   Vector2d;
-typedef Vector<3>   Vector3d;
-
-
 } // namespace geometry
 } // namespace polder
 

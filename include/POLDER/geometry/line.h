@@ -159,11 +159,6 @@ class Line
 
 #include <POLDER/geometry/line.inl>
 
-// Define commonly-used types
-typedef Line<2> Line2d;
-typedef Line<3> Line3d;
-
-
 } // namespace geometry
 } // namespace polder
 

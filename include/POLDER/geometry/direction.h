@@ -204,11 +204,6 @@ class Direction
 
 #include <POLDER/geometry/direction.inl>
 
-// Define commonly-used types
-using Direction2d = Direction<2>;
-using Direction3d = Direction<3>;
-
-
 } // namespace geometry
 } // namespace polder
 

@@ -162,13 +162,6 @@ class Hypersphere
 
 #include <POLDER/geometry/hypersphere.inl>
 
-// Define commonly-used types
-typedef Hypersphere<2>  Hypersphere2d;
-typedef Hypersphere<3>  Hypersphere3d;
-typedef Hypersphere<2>  Circle2d;
-typedef Hypersphere<3>  Sphere3d;
-
-
 } // namespace geometry
 } // namespace polder
 
