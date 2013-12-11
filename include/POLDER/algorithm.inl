@@ -34,3 +34,12 @@ auto range_map(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation
         binary_op(*first1++, *first2++);
     }
 }
+
+template<typename Float>
+auto equals(Float lhs, Float rhs)
+    -> bool
+{
+    return std::abs(lhs-rhs) <=
+        std::numeric_limits<Float>::epsilon() *
+        std::max(std::abs(lhs), std::abs(rhs));
+}

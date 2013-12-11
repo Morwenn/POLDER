@@ -17,6 +17,12 @@
 #ifndef _POLDER_ALGORITHM_H
 #define _POLDER_ALGORITHM_H
 
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include <algorithm>
+#include <cmath>
+#include <limits>
 
 namespace polder
 {
@@ -48,6 +54,22 @@ namespace polder
     template<typename InputIt1, typename InputIt2, typename BinaryOperation>
     auto range_map(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation binary_op)
         -> void;
+
+    /**
+     *
+     * @brief Floating point comparison
+     *
+     * Compares two floting point numbers by checking whether
+     * the difference between the two of them is lower than a
+     * given value.
+     *
+     * @param lhs First value to compare
+     * @param rhs Secon value to compare
+     * @return true if the values compare equal
+     */
+    template<typename Float>
+    auto equals(Float lhs, Float rhs)
+        -> bool;
 
     #include <POLDER/algorithm.inl>
 
