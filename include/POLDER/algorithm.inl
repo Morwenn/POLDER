@@ -36,7 +36,7 @@ auto range_map(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation
 }
 
 template<typename Float>
-auto equals(Float lhs, Float rhs)
+auto float_equal(Float lhs, Float rhs)
     -> bool
 {
     return std::abs(lhs-rhs) <=

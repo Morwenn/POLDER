@@ -68,7 +68,7 @@ namespace polder
      * @return true if the values compare equal
      */
     template<typename Float>
-    auto equals(Float lhs, Float rhs)
+    auto float_equal(Float lhs, Float rhs)
         -> bool;
 
     #include <POLDER/algorithm.inl>
