@@ -22,8 +22,8 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <cstdlib>
+#include <POLDER/algorithm.h>
 #include <POLDER/geometry/direction.h>
-#include <POLDER/geometry/limits.h>
 #include <POLDER/geometry/point.h>
 
 
