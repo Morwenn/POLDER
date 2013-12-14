@@ -26,22 +26,13 @@
 #include <initializer_list>
 #include <POLDER/algorithm.h>
 #include <POLDER/math/norm.h>
+#include <POLDER/geometry/types.h>
 
 
 namespace polder
 {
 namespace geometry
 {
-
-
-// Forward declarations
-template<size_t N, typename T>
-class Direction;
-template<size_t N, typename T>
-class Point;
-template<size_t N, typename T>
-class Line;
-
 
 /**
  * @brief Geometric vector
