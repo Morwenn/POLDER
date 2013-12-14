@@ -23,7 +23,7 @@ inline Vector<N, T>::Vector(const Vector<N, T>& other)
 }
 
 template<size_t N, typename T>
-inline Vector<N, T>::Vector(const std::initializer_list<T>& coords)
+inline Vector<N, T>::Vector(std::initializer_list<T> coords)
 {
     POLDER_ASSERT(coords.size() == N);
     std::copy(coords.begin(), coords.end(), coordinates);

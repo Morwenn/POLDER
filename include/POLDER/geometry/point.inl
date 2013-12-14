@@ -23,7 +23,7 @@ inline Point<N, T>::Point(const Point<N, T>& other)
 }
 
 template<size_t N, typename T>
-inline Point<N, T>::Point(const std::initializer_list<T>& coords)
+inline Point<N, T>::Point(std::initializer_list<T> coords)
 {
     POLDER_ASSERT(N > 1 && coords.size() == N);
     std::copy(coords.begin(), coords.end(), coordinates);

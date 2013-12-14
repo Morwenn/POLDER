@@ -65,7 +65,7 @@ class Vector
          *
          * @param coords List of N coordinates
          */
-        Vector(const std::initializer_list<T>& coords);
+        Vector(std::initializer_list<T> coords);
 
         /**
          * Variadic constructor

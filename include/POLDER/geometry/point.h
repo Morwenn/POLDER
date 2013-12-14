@@ -62,7 +62,7 @@ class Point
          *
          * @param args List of coordinates
          */
-        Point(const std::initializer_list<T>& coords);
+        Point(std::initializer_list<T> coords);
 
         /**
          * Variadic constructor
