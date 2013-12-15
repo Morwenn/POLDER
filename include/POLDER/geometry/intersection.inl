@@ -16,8 +16,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-template<size_t N, typename T>
-Object intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS)
+template<std::size_t N, typename T>
+auto intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS)
+    -> Object
 {
     // Take an arbitrary point from the Line and its direction
     const Point<N, T>& P = L.point();
@@ -48,7 +49,7 @@ Object intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS)
     T c = std::fma(P[0], P[0] - 2*C[0], C[0]*C[0]);
 
     // Use the other coordinates
-    for (size_t i = 1 ; i < N ; ++i)
+    for (std::size_t i = 1 ; i < N ; ++i)
     {
         a += D[i-1] * D[i-1];
         b += D[i-1] * (P[i] - C[i]);
@@ -76,7 +77,7 @@ Object intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS)
         Point<N, T> res;
 
         res.x() = P.x() + t1;
-        for (size_t i = 1 ; i < N ; ++i)
+        for (std::size_t i = 1 ; i < N ; ++i)
         {
             // res[i] = P[i] + t1 * C[i-1]
             res[i] = std::fma(t1, C[i-1], P[i]);
@@ -90,7 +91,7 @@ Object intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS)
 
     res1.x() = P.x() + t1;
     res2.x() = P.x() + t2;
-    for (size_t i = 1 ; i < N ; ++i)
+    for (std::size_t i = 1 ; i < N ; ++i)
     {
         res1[i] = std::fma(t1, C[i-1], P[i]);
         res2[i] = std::fma(t2, C[i-1], P[i]);
@@ -99,14 +100,16 @@ Object intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS)
     return Object(std::make_pair(res1, res2));
 }
 
-template<size_t N, typename T>
-inline Object intersection(const Hypersphere<N, T>& HS, const Line<N, T>& L)
+template<std::size_t N, typename T>
+inline auto intersection(const Hypersphere<N, T>& HS, const Line<N, T>& L)
+    -> Object
 {
     return intersection(L, HS);
 }
 
-template<size_t N, typename T>
-Object intersection(const Line<N, T>& L1, const Line<N, T>& L2)
+template<std::size_t N, typename T>
+auto intersection(const Line<N, T>& L1, const Line<N, T>& L2)
+    -> Object
 {
     // Take the directions of the lines
     const Direction<N, T>& D1 = L1.direction();

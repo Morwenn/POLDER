@@ -29,35 +29,33 @@
 #include <POLDER/geometry/line.h>
 #include <POLDER/geometry/point.h>
 
-
 namespace polder
 {
 namespace geometry
 {
-
-
     /**
      * @brief Intersection between a Line and an Hypersphere
      *
      * This function returns an Object.
-     * The Object main contain a std::pair<Point<N>, Point<N>>, a Point<N> or nothing
+     * The Object may contain a std::pair<Point<N>, Point<N>>, a Point<N> or nothing
      * It depends on what the intersection is.
      *
      * @param L Line
      * @param HS Hypersphere
      * @return Some object
      */
-    template<size_t N, typename T>
-    Object intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS);
+    template<std::size_t N, typename T>
+    auto intersection(const Line<N, T>& , const Hypersphere<N, T>& HS)
+        -> Object;
 
     /**
      * @brief Intersection between a Line and an Hypersphere
      *
      * @see intersection(const Line<N>&, const Hypersphere<N>&)
      */
-    template<size_t N, typename T>
-    Object intersection(const Hypersphere<N, T>& HS, const Line<N, T>& L);
-
+    template<std::size_t N, typename T>
+    auto intersection(const Hypersphere<N, T>& HS, const Line<N, T>& L)
+        -> Object;
 
     /**
      * @brief Intersection between two Lines
@@ -70,14 +68,11 @@ namespace geometry
      * @param L2 Second Line
      * @return Some object
      */
-    template<size_t N, typename T>
-    Object intersection(const Line<N, T>& L1, const Line<N, T>& L2);
+    template<std::size_t N, typename T>
+    auto intersection(const Line<N, T>& L1, const Line<N, T>& L2)
+        -> Object;
 
     #include <POLDER/geometry/intersection.inl>
-
-
-} // namespace geometry
-} // namespace polder
-
+}}
 
 #endif // _POLDER_GEOMETRY_INTERSECTION_H
