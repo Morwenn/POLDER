@@ -653,7 +653,7 @@ Token operation(double a, double b, op_t op)
         case op_t::AND: res.data = (a && b); break;                  // &&
         case op_t::XOR: res.data = (a && !b) || (b && !a); break;    // ^^
         case op_t::OR: res.data = (a || b); break;                   // ||
-        case op_t::POW: res.data = pow(a, b); break;                 // **
+        case op_t::POW: res.data = std::pow(a, b); break;            // **
         case op_t::SPACE: res.data = (a < b) ? -1 : (a != b); break; // <=>
         case op_t::LSHIFT: res.data = (int) a << (int) b; break;     // <<
         case op_t::RSHIFT: res.data = (int) a >> (int) b; break;     // >>

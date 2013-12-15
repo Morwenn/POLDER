@@ -38,7 +38,7 @@ Hypersphere<N, T>::Hypersphere(const Point<N, T>& center, const Point<N, T>& P):
         const T tmp = P[i] - _center[i];
         _radius += tmp * tmp;
     }
-    _radius = sqrt(_radius);
+    _radius = std::sqrt(_radius);
 }
 
 template<std::size_t N, typename T>
@@ -88,7 +88,7 @@ bool Hypersphere<N, T>::includes(const Point<N, T>& P) const
     // A point is included in the hypersphere if its distance to the center equals the radius
     // Actually, the above equations are used to spare the square root computation
 
-    T res = 0.0;
+    T res = T(0);
     for (std::size_t i = 0 ; i < N ; ++i)
     {
         const T temp = P[i] - _center[i];
