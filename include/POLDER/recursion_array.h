@@ -50,7 +50,7 @@ namespace polder
 
             /**
              * @brief Calls "function" and applies memoization
-             * @see value_type self(size_t n)
+             * @see value_type self(std::size_t n)
              */
             auto operator()(std::size_t n)
                 -> value_type;

@@ -17,6 +17,7 @@
  */
 #include <cctype>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
 #include <sstream>
 #include <stack>
@@ -182,8 +183,8 @@ void expr_norm(char* str)
     // Number of parenthesis
     int nmb_parenthesis = 0;
 
-    size_t count = 0;
-    for (size_t i = 0 ; str[i] ; ++i)
+    std::size_t count = 0;
+    for (std::size_t i = 0 ; str[i] ; ++i)
     {
         switch (str[i])
         {
@@ -425,7 +426,7 @@ vector<Token> tokenize(const char* expr)
             e.type = elem_t::OPERAND;
             if (stype::is_unumber(word))
             {
-                e.data = atof(word);
+                e.data = std::atof(word);
             }
             else
             {

@@ -43,7 +43,7 @@ std::string make_path(const std::string& base)
 // Get the extension of a file
 char* get_ext(const char* path)
 {
-    size_t length = strlen(path);
+    std::size_t length = strlen(path);
     for (int i = length - 1 ; i >= 0 ; --i)
     {
         if (path[i] == '.')
