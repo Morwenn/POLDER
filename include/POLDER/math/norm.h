@@ -23,29 +23,26 @@
 ////////////////////////////////////////////////////////////
 #include <POLDER/config.h>
 
-
 namespace polder
 {
 namespace math
 {
-
-
-/**
- * @brief Mathematical norms
- *
- * Those norms can be used by Vector or Matrix.
- */
-enum class Norm
-{
-    Manhattan,  /**< Manhattan, Taxicab norm (norm 1) */
-    Euclidean,  /**< Euclidean norm (norm 2) */
-    Maximum,    /**< Maximum norm (norm infinite) */
-    P           /**< P norm */
-};
-
+    /**
+     * @brief Mathematical norms
+     *
+     * Norms are frequently used to compute distances.
+     * These "norms" can be used in distance functions
+     * or norm functions (vector, matrix...).
+     */
+    namespace norm
+    {
+        struct manhattan {};
+        struct euclidean {};
+        struct maximum {};
+        struct p {};
+    }
 
 } // namespace math
 } // namespace polder
-
 
 #endif // _POLDER_MATH_NORM_H

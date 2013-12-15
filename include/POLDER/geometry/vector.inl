@@ -16,6 +16,78 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+namespace details
+{
+    template<std::size_t N, typename T, typename Norm>
+    struct vecnorm_helper_t;
+
+    template<std::size_t N, typename T>
+    struct vecnorm_helper_t<N, T, math::norm::manhattan>
+    {
+        static auto norm(const Vector<N, T>& vec)
+            -> T
+        {
+            T res = T(0);
+            for (auto coord: vec)
+            {
+                res += std::abs(coord);
+            }
+            return res;
+        }
+    };
+
+    template<std::size_t N, typename T>
+    struct vecnorm_helper_t<N, T, math::norm::euclidean>
+    {
+        static auto norm(const Vector<N, T>& vec)
+            -> T
+        {
+            T res = T(0);
+            for (auto coord: vec)
+            {
+                auto tmp = std::abs(coord);
+                res += tmp * tmp;
+            }
+            return std::sqrt(res);
+        }
+    };
+
+    template<std::size_t N, typename T>
+    struct vecnorm_helper_t<N, T, math::norm::maximum>
+    {
+        static auto norm(const Vector<N, T>& vec)
+            -> T
+        {
+            T res = std::abs(vec[0]);
+            for (std::size_t i = 1 ; i < N ; ++i)
+            {
+                T tmp = std::abs(vec[i]);
+                if (tmp > res)
+                {
+                    res = tmp;
+                }
+            }
+            return res;
+        }
+    };
+
+    template<std::size_t N, typename T>
+    struct vecnorm_helper_t<N, T, math::norm::p>
+    {
+        static auto norm(const Vector<N, T>& vec, unsigned p)
+            -> T
+        {
+            T res = T(0);
+            for (auto coord: vec)
+            {
+                auto tmp = std::abs(coord);
+                res += std::pow(tmp, p);
+            }
+            return std::pow(res, 1.0/p);
+        }
+    };
+}
+
 template<size_t N, typename T>
 inline Vector<N, T>::Vector(const Vector<N, T>& other)
 {
@@ -71,61 +143,19 @@ inline Direction<N, T> Vector<N, T>::direction() const
 }
 
 template<size_t N, typename T>
-T Vector<N, T>::norm(math::Norm n) const
+template<typename Norm>
+auto Vector<N, T>::norm() const
+    -> T
 {
-    switch (n)
-    {
-        case math::Norm::Manhattan:
-        {
-            T res = 0;
-            for (size_t i = 0 ; i < N ; ++i)
-            {
-                res += std::abs(coordinates[i]);
-            }
-            return res;
-        }
-        case math::Norm::Euclidean:
-        {
-            T res = 0;
-            for (size_t i = 0 ; i < N ; ++i)
-            {
-                res += coordinates[i] * coordinates[i];
-            }
-            return sqrt(res);
-        }
-        case math::Norm::Maximum:
-        {
-            T res = std::abs(coordinates[0]);
-            for (size_t i = 1 ; i < N ; ++i)
-            {
-                const T tmp = std::abs(coordinates[i]);
-                if (tmp > res)
-                {
-                    res = tmp;
-                }
-            }
-            return res;
-        }
-    }
-    return 1.0; // Should never be executed
+    return details::vecnorm_helper_t<N, T, Norm>::norm(*this);
 }
 
 template<size_t N, typename T>
-T Vector<N, T>::norm(math::Norm n, unsigned int p) const
+template<typename Norm>
+auto Vector<N, T>::norm(unsigned p) const
+    -> T
 {
-    switch (n)
-    {
-        case math::Norm::P:
-        {
-            T res = 0;
-            for (size_t i = 0 ; i < N ; ++i)
-            {
-                res += pow(std::abs(coordinates[i]), p);
-            }
-            return pow(res, 1.0 / p);
-        }
-    }
-    return 1.0; // Should never be executed
+    return details::vecnorm_helper_t<N, T, Norm>::norm(*this, p);
 }
 
 template<size_t N, typename T>

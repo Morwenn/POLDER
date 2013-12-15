@@ -107,16 +107,15 @@ class Vector
         /**
          * @brief Vector norm
          *
-         * @param n Norm to use
-         * @return Selected Norm
+         * @return Selected topological norm.
          */
-        T norm(math::Norm n=math::Norm::Euclidean) const;
+        template<typename Norm=math::norm::euclidean>
+        auto norm() const
+            -> T;
 
-        /**
-         * @brief Vector norm overload
-         * @overload T norm(Norm n=Norm::Euclidean) const
-         */
-        T norm(math::Norm n, unsigned int p) const;
+        template<typename Norm=math::norm::p>
+        auto norm(unsigned p) const
+            -> T;
 
 
         ////////////////////////////////////////////////////////////
