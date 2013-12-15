@@ -58,7 +58,8 @@ namespace polder
         template<typename T=double>
         using Vector = geometry::Vector<2, T>;
 
-        // Aliases for function
+        // Aliases for functions
+        using geometry::distance;
         using geometry::intersection;
     }
 }

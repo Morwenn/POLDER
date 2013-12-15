@@ -59,6 +59,7 @@ namespace polder
         using Vector = geometry::Vector<3, T>;
 
         // Aliases for function
+        using geometry::distance;
         using geometry::intersection;
     }
 }

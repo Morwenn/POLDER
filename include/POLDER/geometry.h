@@ -28,6 +28,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <POLDER/geometry/direction.h>
+#include <POLDER/geometry/distance.h>
 #include <POLDER/geometry/hypersphere.h>
 #include <POLDER/geometry/intersection.h>
 #include <POLDER/geometry/line.h>
