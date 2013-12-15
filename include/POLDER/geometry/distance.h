@@ -43,14 +43,34 @@ namespace polder
 {
 namespace geometry
 {
-    template<std::size_t N, typename T,
-             typename Norm=math::norm::euclidean>
+    ////////////////////////////////////////////////////////////
+    // Distance between
+    // - Point
+    // - Point
+
+    template<typename Norm=math::norm::euclidean,
+             std::size_t N, typename T>
     auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
         -> T;
 
-    template<std::size_t N, typename T,
-             typename Norm=math::norm::p>
+    template<typename Norm=math::norm::p,
+             std::size_t N, typename T>
     auto distance(const Point<N, T>& p1, const Point<N, T>& p2, unsigned p)
+        -> T;
+
+    ////////////////////////////////////////////////////////////
+    // Distance between
+    // - Point
+    // - Hypersphere
+
+    template<typename Norm=math::norm::euclidean,
+             std::size_t N, typename T>
+    auto distance(const Point<N, T>& p, const Hypersphere<N, T>& h)
+        -> T;
+
+    template<typename Norm=math::norm::euclidean,
+             std::size_t N, typename T>
+    auto distance(const Hypersphere<N, T>& h, const Point<N, T>& p)
         -> T;
 
     #include "distance.inl"

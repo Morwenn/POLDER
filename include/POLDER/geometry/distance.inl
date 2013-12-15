@@ -50,6 +50,12 @@ namespace details
             }
             return std::sqrt(res);
         }
+
+        static auto distance(const Point<N, T>& p, const Hypersphere<N, T>& h)
+            -> T
+        {
+            return std::abs(distance(p, h.center()) - h.radius());
+        }
     };
 
     template<std::size_t N, typename T>
@@ -88,16 +94,30 @@ namespace details
     };
 }
 
-template<std::size_t N, typename T, typename Norm>
+template<typename Norm, std::size_t N, typename T>
 auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
     -> T
 {
    return details::distance_helper_t<N, T, Norm>::distance(p1, p2);
 }
 
-template<std::size_t N, typename T, typename Norm>
+template<typename Norm, std::size_t N, typename T>
 auto distance(const Point<N, T>& p1, const Point<N, T>& p2, unsigned p)
     -> T
 {
     return details::distance_helper_t<N, T, Norm>::distance(p1, p2, p);
+}
+
+template<typename Norm, std::size_t N, typename T>
+auto distance(const Point<N, T>& p, const Hypersphere<N, T>& h)
+    -> T
+{
+    return details::distance_helper_t<N, T, Norm>::distance(p, h);
+}
+
+template<typename Norm, std::size_t N, typename T>
+auto distance(const Hypersphere<N, T>& h, const Point<N, T>& p)
+    -> T
+{
+    return details::distance_helper_t<N, T, Norm>::distance(p, h);
 }
