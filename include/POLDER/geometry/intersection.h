@@ -72,7 +72,7 @@ namespace geometry
     auto intersection(const Line<N, T>& L1, const Line<N, T>& L2)
         -> Object;
 
-    #include <POLDER/geometry/intersection.inl>
+    #include "intersection.inl"
 }}
 
 #endif // _POLDER_GEOMETRY_INTERSECTION_H

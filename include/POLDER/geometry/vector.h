@@ -122,11 +122,11 @@ class Vector
         // Operators
         ////////////////////////////////////////////////////////////
 
-        // Accessor
+        // Accessors
         T operator[](std::size_t index) const;
         T& operator[](std::size_t index);
 
-        // Assignement
+        // Assignment
         Vector<N, T>& operator=(const Vector<N, T>& other);
 
         // Comparison
@@ -134,7 +134,7 @@ class Vector
 
         bool operator!=(const Vector<N, T>& other) const;
 
-        // Vector arithmetics
+        // Vector arithmetic
         Vector<N, T>& operator+=(const Vector<N, T>& other);
 
         Vector<N, T>& operator-=(const Vector<N, T>& other);
@@ -149,7 +149,7 @@ class Vector
         // Opposite of the vector
         Vector<N, T> operator-() const;
 
-        // Vector-T arithmetics
+        // Vector-T arithmetic
         Vector<N, T>& operator*=(T other);
 
         Vector<N, T>& operator/=(T other);
@@ -203,7 +203,7 @@ class Vector
     friend class Point<N, T>;
 };
 
-#include <POLDER/geometry/vector.inl>
+#include "vector.inl"
 
 } // namespace geometry
 } // namespace polder

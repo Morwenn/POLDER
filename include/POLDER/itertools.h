@@ -284,7 +284,7 @@ template<std::size_t N, typename Iterator1, typename Iterator2>
 auto operator>=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
     -> bool;
 
-#include <POLDER/itertools.inl>
+#include "itertools.inl"
 
 } // namespace itertools
 } // namespace polder

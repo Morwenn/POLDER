@@ -258,7 +258,7 @@ namespace meta
         -> Number;
 }
 
-#include <POLDER/math/formula.inl>
+#include "formula.inl"
 
 
 } // namespace math

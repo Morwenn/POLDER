@@ -153,7 +153,7 @@ class Point
     friend class Vector<N, T>;
 };
 
-#include <POLDER/geometry/point.inl>
+#include "point.inl"
 
 } // namespace geometry
 } // namespace polder

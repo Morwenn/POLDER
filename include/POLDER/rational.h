@@ -310,7 +310,7 @@ template<typename T>
 auto make_rational(T numerator, T denominator=1)
     -> rational<T>;
 
-#include <POLDER/rational.inl>
+#include "rational.inl"
 
 
 } // namespace polder

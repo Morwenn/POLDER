@@ -152,7 +152,7 @@ class Line
 
 };
 
-#include <POLDER/geometry/line.inl>
+#include "line.inl"
 
 } // namespace geometry
 } // namespace polder

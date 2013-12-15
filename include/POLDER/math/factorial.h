@@ -70,7 +70,7 @@ namespace meta
         -> Unsigned;
 }
 
-#include <POLDER/math/factorial.inl>
+#include "factorial.inl"
 
 
 } // namespace math

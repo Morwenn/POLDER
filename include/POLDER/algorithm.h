@@ -71,7 +71,7 @@ namespace polder
     auto float_equal(Float lhs, Float rhs)
         -> bool;
 
-    #include <POLDER/algorithm.inl>
+    #include "algorithm.inl"
 
 } // namespace polder
 

@@ -155,7 +155,7 @@ class Hypersphere
         T _radius;     /**< Distance from the center to the surface */
 };
 
-#include <POLDER/geometry/hypersphere.inl>
+#include "hypersphere.inl"
 
 } // namespace geometry
 } // namespace polder

@@ -161,7 +161,7 @@ POLDER_API void normalize(char* path);
  */
 POLDER_API char* normalized(const char* path);
 
-#include <POLDER/path.inl>
+#include "path.inl"
 
 } // namespace path
 } // namespace polder

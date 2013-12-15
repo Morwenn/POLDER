@@ -194,7 +194,7 @@ class Direction
         T coordinates[N-1]; /**< Coordinates of the Direction */
 };
 
-#include <POLDER/geometry/direction.inl>
+#include "direction.inl"
 
 } // namespace geometry
 } // namespace polder
