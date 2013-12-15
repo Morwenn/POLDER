@@ -496,7 +496,7 @@ namespace polder
     auto adjugate(const Matrix<T>& mat)
         -> Matrix<T>;
     template<typename T>
-    auto cofactor(const Matrix<T> mat, std::pair<size_t, size_t> index)
+    auto cofactor(const Matrix<T> mat, std::pair<std::size_t, std::size_t> index)
         -> typename Matrix<T>::value_type;
     template<typename T>
     auto determinant(const Matrix<T>& mat)
@@ -505,7 +505,7 @@ namespace polder
     auto inverse(const Matrix<T>& mat)
         -> Matrix<T>;
     template<typename T>
-    auto minor(const Matrix<T>& mat, std::pair<size_t, size_t> index)
+    auto minor(const Matrix<T>& mat, std::pair<std::size_t, std::size_t> index)
         -> typename Matrix<T>::value_type;
     template<typename T>
     auto trace(const Matrix<T>& mat)

@@ -43,7 +43,7 @@ namespace geometry
  * for the radius. The most well-known hypersphere are
  * the circle and the ordinary sphere.
  */
-template<size_t N, typename T=double>
+template<std::size_t N, typename T=double>
 class Hypersphere
 {
     public:

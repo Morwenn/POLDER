@@ -32,15 +32,15 @@ namespace polder
 {
 namespace geometry
 {
-    template<size_t N, typename T>
+    template<std::size_t N, typename T>
     class Direction;
-    template<size_t N, typename T>
+    template<std::size_t N, typename T>
     class Hypersphere;
-    template<size_t N, typename T>
+    template<std::size_t N, typename T>
     class Line;
-    template<size_t N, typename T>
+    template<std::size_t N, typename T>
     class Point;
-    template<size_t N, typename T>
+    template<std::size_t N, typename T>
     class Vector;
 }
 }

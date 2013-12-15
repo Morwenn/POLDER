@@ -985,7 +985,7 @@ auto adjugate(const Matrix<T>& mat)
 }
 
 template<typename T>
-auto cofactor(const Matrix<T> mat, std::pair<size_t, size_t> index)
+auto cofactor(const Matrix<T> mat, std::pair<std::size_t, std::size_t> index)
     -> typename Matrix<T>::value_type
 {
     auto y = index.first;
@@ -1028,7 +1028,7 @@ auto inverse(const Matrix<T>& mat)
 }
 
 template<typename T>
-inline auto minor(const Matrix<T>& mat, std::pair<size_t, size_t> index)
+inline auto minor(const Matrix<T>& mat, std::pair<std::size_t, std::size_t> index)
     -> typename Matrix<T>::value_type
 {
     return mat.minor(index.first, index.second);

@@ -38,7 +38,7 @@ namespace geometry
  * A point is simply defined by N coordinates
  * in a N-dimensional space.
  */
-template<size_t N, typename T=double>
+template<std::size_t N, typename T=double>
 class Point
 {
     public:
@@ -81,12 +81,12 @@ class Point
          * @param index Index of the ccordinate to access
          * @return indexth coordinate
          */
-        T& operator[](size_t index);
+        T& operator[](std::size_t index);
 
         /**
-         * @see T& operator[](size_t index)
+         * @see T& operator[](std::size_t index)
          */
-        T operator[](size_t index) const;
+        T operator[](std::size_t index) const;
 
         /**
          * Copy assignment operator

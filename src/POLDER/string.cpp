@@ -30,8 +30,8 @@ namespace string
 ////////////////////////////////////////////////////////////
 
 // For read_word_first() and read_word_next()
-static size_t read_word_index;
-static size_t read_word_length;
+static std::size_t read_word_index;
+static std::size_t read_word_length;
 static char* read_word_str;
 
 
@@ -40,7 +40,7 @@ static char* read_word_str;
 ////////////////////////////////////////////////////////////
 void strip(char* str)
 {
-    size_t length = strlen(str) - 1;
+    std::size_t length = strlen(str) - 1;
     bool offset = (str[length] == '\n');
 
     // Delete the spaces at the end of the string
@@ -105,7 +105,7 @@ void lstrip(std::string& str)
 ////////////////////////////////////////////////////////////
 void rstrip(char* str)
 {
-    size_t length = strlen(str) - 1;
+    std::size_t length = strlen(str) - 1;
     bool offset = (str[length] == '\n');
 
     // Delete the spaces at the end of the string
@@ -134,7 +134,7 @@ void rstrip(std::string& str)
 
 char* stripped(const char* str)
 {
-    size_t length = strlen(str) - 1;
+    std::size_t length = strlen(str) - 1;
     bool offset = (str[length] == '\n');
 
     char* new_str = new char[length+2];
@@ -173,7 +173,7 @@ auto stripped(std::string str)
 
 char* lstripped(const char* str)
 {
-    size_t length = strlen(str) + 1;
+    std::size_t length = strlen(str) + 1;
     char* new_str = new char[length];
     strcpy(new_str, str);
 
@@ -195,7 +195,7 @@ auto lstripped(std::string str)
 
 char* rstripped(const char* str)
 {
-    size_t length = strlen(str) - 1;
+    std::size_t length = strlen(str) - 1;
     bool offset = (str[length] == '\n');
 
     char* new_str = new char[length+2];
@@ -232,7 +232,7 @@ auto rstripped(std::string str)
 ////////////////////////////////////////////////////////////
 void reduce_char(char* str, char c)
 {
-    size_t index = 0;
+    std::size_t index = 0;
     for (int i = -1 ; str[++i] ;)
     {
         if (str[i] != c || str[i+1] != c)
@@ -249,7 +249,7 @@ void reduce_char(char* str, char c)
 ////////////////////////////////////////////////////////////
 void reduce_all(char* str)
 {
-    size_t index = 0;
+    std::size_t index = 0;
     for (int i = -1 ; str[++i] ;)
     {
         if (str[i] != str[i+1])
@@ -264,7 +264,7 @@ void reduce_all(char* str)
 ////////////////////////////////////////////////////////////
 // Returns a sub-string of the given string
 ////////////////////////////////////////////////////////////
-char* read_word(const char* str, size_t searched_word_number)
+char* read_word(const char* str, std::size_t searched_word_number)
 {
     unsigned int word_number = 0;
     unsigned int word_begin;
@@ -314,7 +314,7 @@ char* read_word_first(const char* str)
 ////////////////////////////////////////////////////////////
 char* read_word_next()
 {
-    size_t word_begin;
+    std::size_t word_begin;
     if (read_word_index == 0 && !isspace(read_word_str[0]))
     {
         word_begin = 0;
@@ -346,7 +346,7 @@ char* read_word_next()
 ////////////////////////////////////////////////////////////
 // Returns a sub-string of the given string
 ////////////////////////////////////////////////////////////
-char* substr(const char* str, size_t index_begin, size_t index_end)
+char* substr(const char* str, std::size_t index_begin, size_t index_end)
 {
     if (index_end <= strlen(str) && index_begin <= index_end)
     {
@@ -366,7 +366,7 @@ char* substr(const char* str, size_t index_begin, size_t index_end)
 ////////////////////////////////////////////////////////////
 void delchr(char* str, const char c)
 {
-    size_t index = 0;
+    std::size_t index = 0;
     for (int i = -1 ; str[++i] ;)
     {
         if (str[i] != c)
@@ -383,7 +383,7 @@ void delchr(char* str, const char c)
 ////////////////////////////////////////////////////////////
 char* lower(const char* str)
 {
-    size_t length = strlen(str);
+    std::size_t length = strlen(str);
     char* res_str = new char[length+1];
     strcpy(res_str, str);
     for (int i = -1 ; res_str[++i] ;)
@@ -406,7 +406,7 @@ void to_lower(char* str)
 ////////////////////////////////////////////////////////////
 char* upper(const char* str)
 {
-    size_t length = strlen(str);
+    std::size_t length = strlen(str);
     char* res_str = new char[length+1];
     strcpy(res_str, str);
     for (int i = -1 ; res_str[++i] ;)

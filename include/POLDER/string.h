@@ -47,7 +47,7 @@ namespace string
  * @param searched_word_number Number of the word to search
  * @return nth word or an empty string if not found
  */
-POLDER_API char* read_word(const char* str, size_t searched_word_number);
+POLDER_API char* read_word(const char* str, std::size_t searched_word_number);
 
 /**
  * @brief Initializes the reading of a string
@@ -78,7 +78,7 @@ POLDER_API char* read_word_next();
  * @param index_end Index of the last character of the sub-string in the string
  * @return Substring between the two given indexes
  */
-POLDER_API char* substr(const char* str, size_t index_begin, size_t index_end);
+POLDER_API char* substr(const char* str, size_t index_begin, std::size_t index_end);
 
 /**
  * @brief Delete all the occurences of the given character

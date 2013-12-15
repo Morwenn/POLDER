@@ -88,20 +88,20 @@ namespace details
     };
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Vector<N, T>::Vector(const Vector<N, T>& other)
 {
     std::copy(other.coordinates, other.coordinates+N, coordinates);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Vector<N, T>::Vector(std::initializer_list<T> coords)
 {
     POLDER_ASSERT(coords.size() == N);
     std::copy(coords.begin(), coords.end(), coordinates);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 template<typename... Args>
 Vector<N, T>::Vector(Args... args)
 {
@@ -110,39 +110,39 @@ Vector<N, T>::Vector(Args... args)
     construct(args...);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Vector<N, T>::Vector(const Point<N, T>& P)
 {
     std::copy(P.coordinates, P.coordinates+N, coordinates);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 Vector<N, T>::Vector(const Point<N, T>& origin, const Point<N, T>& target)
 {
-    for (size_t i = 0 ; i < N ; ++i)
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
         coordinates[i] = target[i] - origin[i];
     }
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 Vector<N, T>::Vector(const Line<N, T>& L)
 {
     coordinates[0] = 1.0;
     const Direction<N, T>& dir = L.direction();
-    for (size_t i = 1 ; i < N ; ++i)
+    for (std::size_t i = 1 ; i < N ; ++i)
     {
         coordinates[i] = dir[i-1];
     }
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Direction<N, T> Vector<N, T>::direction() const
 {
     return Direction<N, T>(*this);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 template<typename Norm>
 auto Vector<N, T>::norm() const
     -> T
@@ -150,7 +150,7 @@ auto Vector<N, T>::norm() const
     return details::vecnorm_helper_t<N, T, Norm>::norm(*this);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 template<typename Norm>
 auto Vector<N, T>::norm(unsigned p) const
     -> T
@@ -158,21 +158,21 @@ auto Vector<N, T>::norm(unsigned p) const
     return details::vecnorm_helper_t<N, T, Norm>::norm(*this, p);
 }
 
-template<size_t N, typename T>
-inline T Vector<N, T>::operator[](size_t index) const
+template<std::size_t N, typename T>
+inline T Vector<N, T>::operator[](std::size_t index) const
 {
     POLDER_ASSERT(index < N);
     return coordinates[index];
 }
 
-template<size_t N, typename T>
-inline T& Vector<N, T>::operator[](size_t index)
+template<std::size_t N, typename T>
+inline T& Vector<N, T>::operator[](std::size_t index)
 {
     POLDER_ASSERT(index < N);
     return coordinates[index];
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Vector<N, T>& Vector<N, T>::operator=(const Vector<N, T>& other)
 {
     if (this != &other)
@@ -184,7 +184,7 @@ inline Vector<N, T>& Vector<N, T>::operator=(const Vector<N, T>& other)
     return *this;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline bool Vector<N, T>::operator==(const Vector<N, T>& other) const
 {
     return std::equal(coordinates, coordinates+N, other.coordinates,
@@ -194,172 +194,172 @@ inline bool Vector<N, T>::operator==(const Vector<N, T>& other) const
                       });
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline bool Vector<N, T>::operator!=(const Vector<N, T>& other) const
 {
     return !(*this == other);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 Vector<N, T>& Vector<N, T>::operator+=(const Vector<N, T>& other)
 {
-    for (size_t i = 0 ; i < N ; ++i)
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
         coordinates[i] += other.coordinates[i];
     }
     return *this;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 Vector<N, T>& Vector<N, T>::operator-=(const Vector<N, T>& other)
 {
-    for (size_t i = 0 ; i < N ; ++i)
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
         coordinates[i] -= other.coordinates[i];
     }
     return *this;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Vector<N, T> Vector<N, T>::operator+(const Vector<N, T>& other) const
 {
     return Vector<N, T>(*this) += other;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Vector<N, T> Vector<N, T>::operator-(const Vector<N, T>& other) const
 {
     return Vector<N, T>(*this) -= other;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 T Vector<N, T>::operator*(const Vector<N, T>& other) const
 {
     T res = 0;
-    for (size_t i = 0 ; i < N ; ++i)
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
         res += coordinates[i] * other.coordinates[i];
     }
     return res;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 Vector<N, T> Vector<N, T>::operator-() const
 {
     Vector<N, T> V = *this;
-    for (size_t i = 0 ; i < N ; ++i)
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
         V.coordinates[i] = -V.coordinates[i];
     }
     return V;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 Vector<N, T>& Vector<N, T>::operator*=(T other)
 {
-    for (size_t i = 0 ; i < N ; ++i)
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
         coordinates *= other;
     }
     return *this;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 Vector<N, T>& Vector<N, T>::operator/=(T other)
 {
     POLDER_ASSERT(other != 0);
-    for (size_t i = 0 ; i < N ; ++i)
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
         coordinates /= other;
     }
     return *this;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Vector<N, T> Vector<N, T>::operator*(T other) const
 {
     return Vector(*this) *= other;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Vector<N, T> Vector<N, T>::operator/(T other) const
 {
     return Vector(*this) /= other;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline T& Vector<N, T>::x()
 {
     return coordinates[0];
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline T& Vector<N, T>::y()
 {
     return coordinates[1];
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline T& Vector<N, T>::z()
 {
     return coordinates[2];
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline T Vector<N, T>::x() const
 {
     return coordinates[0];
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline T Vector<N, T>::y() const
 {
     return coordinates[1];
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline T Vector<N, T>::z() const
 {
     return coordinates[2];
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline typename Vector<N, T>::iterator Vector<N, T>::begin()
 {
     return coordinates;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline typename Vector<N, T>::iterator Vector<N, T>::end()
 {
     return coordinates + N;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline typename Vector<N, T>::const_iterator Vector<N, T>::begin() const
 {
     return coordinates;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline typename Vector<N, T>::const_iterator Vector<N, T>::end() const
 {
     return coordinates + N;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline typename Vector<N, T>::const_iterator Vector<N, T>::cbegin() const
 {
     return coordinates;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline typename Vector<N, T>::const_iterator Vector<N, T>::cend() const
 {
     return coordinates + N;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 template<typename First, typename... Args>
 auto Vector<N, T>::construct(First first, Args... args)
     -> void
@@ -368,7 +368,7 @@ auto Vector<N, T>::construct(First first, Args... args)
     construct(args...);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 template<typename First>
 auto Vector<N, T>::construct(First first)
     -> void

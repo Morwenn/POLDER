@@ -16,24 +16,24 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Hypersphere<N, T>::Hypersphere(const Point<N, T>& center, T radius):
     _center(center),
     _radius(radius)
 {}
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Hypersphere<N, T>::Hypersphere(const Point<N, T>& center, const Vector<N, T>& V):
     _center(center),
     _radius(V.norm())
 {}
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 Hypersphere<N, T>::Hypersphere(const Point<N, T>& center, const Point<N, T>& P):
     _center(center),
     _radius(0.0)
 {
-    for (size_t i = 0 ; i < N ; ++i)
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
         const T tmp = P[i] - _center[i];
         _radius += tmp * tmp;
@@ -41,19 +41,19 @@ Hypersphere<N, T>::Hypersphere(const Point<N, T>& center, const Point<N, T>& P):
     _radius = sqrt(_radius);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Point<N, T> Hypersphere<N, T>::center() const
 {
     return _center;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline T Hypersphere<N, T>::radius() const
 {
     return _radius;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 Hypersphere<N, T>& Hypersphere<N, T>::operator=(const Hypersphere<N, T>& other)
 {
     if (this != &other)
@@ -64,20 +64,20 @@ Hypersphere<N, T>& Hypersphere<N, T>::operator=(const Hypersphere<N, T>& other)
     return *this;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline bool Hypersphere<N, T>::operator==(const Hypersphere<N, T>& other) const
 {
     return _center == other._center
         && float_equal(_radius, other._radius);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline bool Hypersphere<N, T>::operator!=(const Hypersphere<N, T>& other) const
 {
     return !(*this = other);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 bool Hypersphere<N, T>::includes(const Point<N, T>& P) const
 {
     // Hypersphere equation:
@@ -89,7 +89,7 @@ bool Hypersphere<N, T>::includes(const Point<N, T>& P) const
     // Actually, the above equations are used to spare the square root computation
 
     T res = 0.0;
-    for (size_t i = 0 ; i < N ; ++i)
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
         const T temp = P[i] - _center[i];
         res += temp * temp;

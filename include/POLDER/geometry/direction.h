@@ -44,7 +44,7 @@ namespace geometry
  * Actually, remember that a direction has N-1 coordinates in a
  * N-dimensional space when you have to use it.
 */
-template<size_t N, typename T=double>
+template<std::size_t N, typename T=double>
 class Direction
 {
     public:
@@ -103,7 +103,7 @@ class Direction
          * @param Index of the coordinate to get
          * @return Coordinate at index
          */
-        T operator[](size_t index) const;
+        T operator[](std::size_t index) const;
 
         /**
          * Copy assignment operator

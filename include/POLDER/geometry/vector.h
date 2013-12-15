@@ -41,7 +41,7 @@ namespace geometry
  * and a direction. As a Point, it can be defined
  * by N coordinates in a N-dimensional space.
  */
-template<size_t N, typename T=double>
+template<std::size_t N, typename T=double>
 class Vector
 {
     public:
@@ -123,8 +123,8 @@ class Vector
         ////////////////////////////////////////////////////////////
 
         // Accessor
-        T operator[](size_t index) const;
-        T& operator[](size_t index);
+        T operator[](std::size_t index) const;
+        T& operator[](std::size_t index);
 
         // Assignement
         Vector<N, T>& operator=(const Vector<N, T>& other);

@@ -16,7 +16,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Line<N, T>::Line(const Point<N, T>& P1, const Point<N, T>& P2):
     P(P1),
     D(Direction<N, T>(P1, P2))
@@ -24,25 +24,25 @@ inline Line<N, T>::Line(const Point<N, T>& P1, const Point<N, T>& P2):
     POLDER_ASSERT(P1 != P2);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Line<N, T>::Line(const Point<N, T>& P, const Vector<N, T>& V):
     P(P),
     D(Direction<N, T>(V))
 {}
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Line<N, T>::Line(const Point<N, T>& P, const Direction<N, T>& D):
     P(P),
     D(D)
 {}
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Direction<N, T> Line<N, T>::direction() const
 {
     return D;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Line<N, T>& Line<N, T>::operator=(const Line<N, T>& other)
 {
     if (this != &other)
@@ -53,19 +53,19 @@ inline Line<N, T>& Line<N, T>::operator=(const Line<N, T>& other)
     return *this;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline bool Line<N, T>::operator==(const Line<N, T>& other) const
 {
     return D == other.D && other.includes(P);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline bool Line<N, T>::operator!=(const Line<N, T>& other) const
 {
     return !(*this == other);
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 bool Line<N, T>::includes(const Point<N, T>& P) const
 {
     // Line equation:
@@ -82,7 +82,7 @@ bool Line<N, T>::includes(const Point<N, T>& P) const
     // equation for all the coordinates
 
     const T t1 = P.x() - this->P.x();
-    for (size_t i = 1 ; i < N ; ++i)
+    for (std::size_t i = 1 ; i < N ; ++i)
     {
         const T t = (P[i] - this->P[i]) / D[i-1];
         if (not float_equal(t, t1))
@@ -93,7 +93,7 @@ bool Line<N, T>::includes(const Point<N, T>& P) const
     return true;
 }
 
-template<size_t N, typename T>
+template<std::size_t N, typename T>
 inline Point<N, T> Line<N, T>::point() const
 {
     return P;

@@ -41,7 +41,7 @@ namespace geometry
  * ways to define a Line. In POLDER, the Lines are
  * defined by a Point and a Direction.
  */
-template<size_t N, typename T=double>
+template<std::size_t N, typename T=double>
 class Line
 {
     public:
