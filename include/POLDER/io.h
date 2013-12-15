@@ -126,16 +126,19 @@ class POLDER_API File
         FILE* _file;    /**< Enclosed file */
         bool _closed;   /**< true if the file is closed */
 
-    friend File open(std::string&&, std::string&&);
+    friend auto open(std::string&&, std::string&&)
+        -> File;
 };
 
 /**
  * @brief Wrapper for the File constructor
  */
-POLDER_API File open(std::string&& fname, std::string&& mode="r");
+POLDER_API
+auto open(std::string&& fname, std::string&& mode="r")
+    -> File;
 
 
-#include <POLDER/io.inl>
+#include"io.inl"
 
 } // namespace io
 } // namespace polder

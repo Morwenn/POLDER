@@ -126,9 +126,10 @@ string File::operator*() const
     return string("");
 }
 
-File open(string&& fname, string&& mode)
+auto open(std::string&& fname, std::string&& mode)
+    -> File
 {
-    return File(forward<string>(fname), forward<string>(mode));
+    return { std::forward<string>(fname), std::forward<string>(mode) };
 }
 
 
