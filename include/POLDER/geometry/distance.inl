@@ -78,6 +78,23 @@ namespace details
     };
 
     template<std::size_t N, typename T>
+    struct distance_helper_t<N, T, math::norm::canberra>
+    {
+        static auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
+            -> T
+        {
+            T res = T(0);
+            for (std::size_t i = 0 ; i < N ; ++i)
+            {
+                auto tmp = std::abs(p1[i] - p2[i]);
+                tmp /= std::abs(p1[i]) + std::abs(p2[i]);
+                res += tmp;
+            }
+            return res;
+        }
+    };
+
+    template<std::size_t N, typename T>
     struct distance_helper_t<N, T, math::norm::p>
     {
         static auto distance(const Point<N, T>& p1, const Point<N, T>& p2, unsigned p)

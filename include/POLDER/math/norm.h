@@ -40,6 +40,7 @@ namespace math
         struct euclidean {};
         struct maximum {};
         struct p {};
+        struct canberra {};
     }
 
 } // namespace math
