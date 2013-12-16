@@ -27,7 +27,7 @@ namespace details
         static auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
             -> T
         {
-            T res = T(0);
+            T res{};
             for (std::size_t i = 0 ; i < N ; ++i)
             {
                 res += std::abs(p1[i] - p2[i]);
@@ -42,7 +42,7 @@ namespace details
         static auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
             -> T
         {
-            T res = T(0);
+            T res{};
             for (std::size_t i = 0 ; i < N ; ++i)
             {
                 auto tmp = std::abs(p1[i] - p2[i]);
@@ -83,7 +83,7 @@ namespace details
         static auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
             -> T
         {
-            T res = T(0);
+            T res{};
             for (std::size_t i = 0 ; i < N ; ++i)
             {
                 auto tmp = std::abs(p1[i] - p2[i]);
@@ -100,7 +100,7 @@ namespace details
         static auto distance(const Point<N, T>& p1, const Point<N, T>& p2, unsigned p)
             -> T
         {
-            T res = T(0);
+            T res{};
             for (std::size_t i = 0 ; i < N ; ++i)
             {
                 auto tmp = std::abs(p1[i] - p2[i]);

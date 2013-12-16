@@ -88,7 +88,7 @@ bool Hypersphere<N, T>::includes(const Point<N, T>& P) const
     // A point is included in the hypersphere if its distance to the center equals the radius
     // Actually, the above equations are used to spare the square root computation
 
-    T res = T(0);
+    T res{};
     for (std::size_t i = 0 ; i < N ; ++i)
     {
         const T temp = P[i] - _center[i];

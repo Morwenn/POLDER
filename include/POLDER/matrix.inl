@@ -111,7 +111,7 @@ auto Matrix<T>::zeros(size_type height, size_type width)
     -> Matrix
 {
     auto res = Matrix<T>(height, width);
-    res.fill(T{0});
+    res.fill(T{});
     return res;
 }
 
@@ -120,7 +120,7 @@ auto Matrix<T>::zeros(size_type width)
     -> Matrix
 {
     auto res = Matrix<T>(width);
-    res.fill(T{0});
+    res.fill(T{});
     return res;
 }
 
@@ -171,7 +171,7 @@ auto Matrix<T>::eye(size_type x, size_type y, int k)
             }
             else
             {
-                res(i, j) = T{0};
+                res(i, j) = T{};
             }
         }
     }
@@ -588,7 +588,7 @@ auto Matrix<T>::determinant() const
     }
     else
     {
-        value_type res = T{0};
+        value_type res{};
         // For all numbers in the first line
         for (size_type i = 0 ; i < width() ; ++i)
         {
@@ -887,7 +887,7 @@ auto operator*(Matrix<T> lhs, const Matrix<T>& rhs)
     {
         for (size_type j = 0 ; j < rhs.width() ; ++j)
         {
-            T val = T{0};
+            T val{};
             for (size_type k = 0 ; k < lhs.width() ; ++k)
             {
                 val += lhs(i, k) * rhs(k, j);

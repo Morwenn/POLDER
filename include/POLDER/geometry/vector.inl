@@ -27,7 +27,7 @@ namespace details
         static auto norm(const Vector<N, T>& vec)
             -> T
         {
-            T res = T(0);
+            T res{};
             for (auto coord: vec)
             {
                 res += std::abs(coord);
@@ -42,7 +42,7 @@ namespace details
         static auto norm(const Vector<N, T>& vec)
             -> T
         {
-            T res = T(0);
+            T res{};
             for (auto coord: vec)
             {
                 auto tmp = std::abs(coord);
@@ -77,7 +77,7 @@ namespace details
         static auto norm(const Vector<N, T>& vec, unsigned p)
             -> T
         {
-            T res = T(0);
+            T res{};
             for (auto coord: vec)
             {
                 auto tmp = std::abs(coord);
