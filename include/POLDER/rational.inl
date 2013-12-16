@@ -21,10 +21,6 @@
 ////////////////////////////////////////////////////////////
 
 template<typename T>
-rational<T>::rational()
-    = default;
-
-template<typename T>
 rational<T>::rational(const rational&)
     = default;
 
@@ -40,6 +36,12 @@ auto rational<T>::operator=(const rational<T>&)
 ////////////////////////////////////////////////////////////
 // Constructors
 ////////////////////////////////////////////////////////////
+
+template<typename T>
+rational<T>::rational():
+    _numerator(0),
+    _denominator(1)
+{}
 
 template<typename T>
 rational<T>::rational(const T& numerator, const T& denominator):
