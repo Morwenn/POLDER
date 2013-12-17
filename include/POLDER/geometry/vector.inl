@@ -185,22 +185,6 @@ inline Vector<N, T>& Vector<N, T>::operator=(const Vector<N, T>& other)
 }
 
 template<std::size_t N, typename T>
-inline bool Vector<N, T>::operator==(const Vector<N, T>& other) const
-{
-    return std::equal(coordinates, coordinates+N, other.coordinates,
-                      [](T a, T b)
-                      {
-                          return float_equal(a, b);
-                      });
-}
-
-template<std::size_t N, typename T>
-inline bool Vector<N, T>::operator!=(const Vector<N, T>& other) const
-{
-    return !(*this == other);
-}
-
-template<std::size_t N, typename T>
 Vector<N, T>& Vector<N, T>::operator+=(const Vector<N, T>& other)
 {
     for (std::size_t i = 0 ; i < N ; ++i)
@@ -374,4 +358,22 @@ auto Vector<N, T>::construct(First first)
     -> void
 {
     coordinates[N-1] = first;
+}
+
+template<std::size_t N, typename T>
+auto operator==(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
+    -> bool
+{
+    return std::equal(lhs.begin(), lhs.end(), rhs.begin(),
+                      [](T a, T b)
+                      {
+                          return float_equal(a, b);
+                      });
+}
+
+template<std::size_t N, typename T>
+auto operator!=(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
+    -> bool
+{
+    return !(lhs == rhs);
 }

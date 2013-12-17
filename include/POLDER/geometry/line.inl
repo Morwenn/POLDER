@@ -54,18 +54,6 @@ inline Line<N, T>& Line<N, T>::operator=(const Line<N, T>& other)
 }
 
 template<std::size_t N, typename T>
-inline bool Line<N, T>::operator==(const Line<N, T>& other) const
-{
-    return D == other.D && other.includes(P);
-}
-
-template<std::size_t N, typename T>
-inline bool Line<N, T>::operator!=(const Line<N, T>& other) const
-{
-    return !(*this == other);
-}
-
-template<std::size_t N, typename T>
 bool Line<N, T>::includes(const Point<N, T>& P) const
 {
     // Line equation:
@@ -97,4 +85,19 @@ template<std::size_t N, typename T>
 inline Point<N, T> Line<N, T>::point() const
 {
     return P;
+}
+
+template<std::size_t N, typename T>
+auto operator==(const Line<N, T>& lhs, const Line<N, T>& rhs)
+    -> bool
+{
+    return lhs.direction() == rhs.direction()
+        && lhs.includes(rhs.point());
+}
+
+template<std::size_t N, typename T>
+auto operator!=(const Line<N, T>& lhs, const Line<N, T>& rhs)
+    -> bool
+{
+    return !(lhs == rhs);
 }

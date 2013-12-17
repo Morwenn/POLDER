@@ -104,23 +104,6 @@ class Line
          */
         Line<N, T>& operator=(const Line<N, T>& other);
 
-        /**
-         * @brief Compares strict equality between two lines
-         *
-         * @param other Right operand (Line)
-         * @return True if the lines are equal
-         */
-        bool operator==(const Line<N, T>& other) const;
-
-        /**
-         * @brief Compares strict inequality between two lines
-         *
-         * @param other Right operand (Line)
-         * @return True if the lines are not equal
-         */
-        bool operator!=(const Line<N, T>& other) const;
-
-
         ////////////////////////////////////////////////////////////
         // Miscellaneous functions
         ////////////////////////////////////////////////////////////
@@ -151,6 +134,18 @@ class Line
         Direction<N, T> D; /**< Direction of the line */
 
 };
+
+////////////////////////////////////////////////////////////
+// Outside class operators
+////////////////////////////////////////////////////////////
+
+// Comparison
+template<std::size_t N, typename T>
+auto operator==(const Line<N, T>& lhs, const Line<N, T>& rhs)
+    -> bool;
+template<std::size_t N, typename T>
+auto operator!=(const Line<N, T>& lhs, const Line<N, T>& rhs)
+    -> bool;
 
 #include "line.inl"
 

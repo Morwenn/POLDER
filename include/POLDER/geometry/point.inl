@@ -63,22 +63,6 @@ inline Point<N, T>& Point<N, T>::operator=(const Point<N, T>& other)
 }
 
 template<std::size_t N, typename T>
-inline bool Point<N, T>::operator==(const Point<N, T>& other) const
-{
-    return std::equal(coordinates, coordinates+N, other.coordinates,
-                      [](T a, T b)
-                      {
-                          return float_equal(a, b);
-                      });
-}
-
-template<std::size_t N, typename T>
-inline bool Point<N, T>::operator!=(const Point<N, T>& other) const
-{
-    return !(*this == other);
-}
-
-template<std::size_t N, typename T>
 Point<N, T>& Point<N, T>::operator+=(const Vector<N, T>& V)
 {
     for (std::size_t i = 0 ; i < N ; ++i)
@@ -212,4 +196,22 @@ auto Point<N, T>::construct(First first)
     -> void
 {
     coordinates[N-1] = first;
+}
+
+template<std::size_t N, typename T>
+auto operator==(const Point<N, T>& lhs, const Point<N, T>& rhs)
+    -> bool
+{
+    return std::equal(lhs.begin(), lhs.end(), rhs.begin(),
+                      [](T a, T b)
+                      {
+                          return float_equal(a, b);
+                      });
+}
+
+template<std::size_t N, typename T>
+auto operator!=(const Point<N, T>& lhs, const Point<N, T>& rhs)
+    -> bool
+{
+    return !(lhs == rhs);
 }

@@ -39,7 +39,7 @@ namespace geometry
  * of the surface of an ordinary sphere to arbitrary
  * dimension.
  *
- * It is defined by a point for the center, and a number
+ * It is defined by a point for the centre, and a number
  * for the radius. The most well-known hypersphere are
  * the circle and the ordinary sphere.
  */
@@ -115,26 +115,6 @@ class Hypersphere
          */
         Hypersphere<N, T>& operator=(const Hypersphere<N, T>& other);
 
-        /**
-         * @brief Equality between two Hyperspheres
-         *
-         * Compares two hyperspheres taking the margin error in account
-         *
-         * @param other Right operand (Hypersphere)
-         * @return True if the Hyperspheres are equal
-         */
-        bool operator==(const Hypersphere<N, T>& other) const;
-
-        /**
-         * @brief Inequality between two Hyperspheres
-         *
-         * Compares two hyperspheres taking the margin error in account
-         *
-         * @param other Right operand (Hypersphere)
-         * @return True if the Hyperspheres are not equal
-         */
-        bool operator!=(const Hypersphere<N, T>& other) const;
-
 
         ////////////////////////////////////////////////////////////
         // Miscellaneous functions
@@ -154,6 +134,18 @@ class Hypersphere
         Point<N, T> _center;   /**< Center of the Hypersphere */
         T _radius;     /**< Distance from the center to the surface */
 };
+
+////////////////////////////////////////////////////////////
+// Outside class operators
+////////////////////////////////////////////////////////////
+
+// Comparison
+template<std::size_t N, typename T>
+auto operator==(const Hypersphere<N, T>& lhs, const Hypersphere<N, T>& rhs)
+    -> bool;
+template<std::size_t N, typename T>
+auto operator!=(const Hypersphere<N, T>& lhs, const Hypersphere<N, T>& rhs)
+    -> bool;
 
 #include "hypersphere.inl"
 

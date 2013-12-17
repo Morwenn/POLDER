@@ -129,11 +129,6 @@ class Vector
         // Assignment
         Vector<N, T>& operator=(const Vector<N, T>& other);
 
-        // Comparison
-        bool operator==(const Vector<N, T>& other) const;
-
-        bool operator!=(const Vector<N, T>& other) const;
-
         // Vector arithmetic
         Vector<N, T>& operator+=(const Vector<N, T>& other);
 
@@ -202,6 +197,18 @@ class Vector
 
     friend class Point<N, T>;
 };
+
+////////////////////////////////////////////////////////////
+// Outside class operators
+////////////////////////////////////////////////////////////
+
+// Comparison
+template<std::size_t N, typename T>
+auto operator==(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
+    -> bool;
+template<std::size_t N, typename T>
+auto operator!=(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
+    -> bool;
 
 #include "vector.inl"
 

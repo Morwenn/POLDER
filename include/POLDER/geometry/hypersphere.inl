@@ -65,19 +65,6 @@ Hypersphere<N, T>& Hypersphere<N, T>::operator=(const Hypersphere<N, T>& other)
 }
 
 template<std::size_t N, typename T>
-inline bool Hypersphere<N, T>::operator==(const Hypersphere<N, T>& other) const
-{
-    return _center == other._center
-        && float_equal(_radius, other._radius);
-}
-
-template<std::size_t N, typename T>
-inline bool Hypersphere<N, T>::operator!=(const Hypersphere<N, T>& other) const
-{
-    return !(*this = other);
-}
-
-template<std::size_t N, typename T>
 bool Hypersphere<N, T>::includes(const Point<N, T>& P) const
 {
     // Hypersphere equation:
@@ -95,4 +82,19 @@ bool Hypersphere<N, T>::includes(const Point<N, T>& P) const
         res += temp * temp;
     }
     return float_equal(res, _radius*_radius);
+}
+
+template<std::size_t N, typename T>
+auto operator==(const Hypersphere<N, T>& lhs, const Hypersphere<N, T>& rhs)
+    -> bool
+{
+    return lhs.center() == rhs.center()
+        && float_equal(lhs.radius(), rhs.radius());
+}
+
+template<std::size_t N, typename T>
+auto operator!=(const Hypersphere<N, T>& lhs, const Hypersphere<N, T>& rhs)
+    -> bool
+{
+    return !(lhs == rhs);
 }

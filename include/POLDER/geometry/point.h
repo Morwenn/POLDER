@@ -76,10 +76,10 @@ class Point
         ////////////////////////////////////////////////////////////
 
         /**
-         * @brief Element accessor
+         * @brief Element accessors
          *
-         * @param index Index of the ccordinate to access
-         * @return indexth coordinate
+         * @param index Index of the coordinate to access
+         * @return coordinate at \a index
          */
         T& operator[](std::size_t index);
 
@@ -93,12 +93,7 @@ class Point
          */
         Point<N, T>& operator=(const Point<N, T>& other);
 
-        // Comparison
-        bool operator==(const Point<N, T>& other) const;
-
-        bool operator!=(const Point<N, T>& other) const;
-
-        // Point-Vector arithmetics
+        // Point-Vector arithmetic
         Point<N, T>& operator+=(const Vector<N, T>& V);
 
         Point<N, T>& operator-=(const Vector<N, T>& V);
@@ -152,6 +147,18 @@ class Point
 
     friend class Vector<N, T>;
 };
+
+////////////////////////////////////////////////////////////
+// Outside class operators
+////////////////////////////////////////////////////////////
+
+// Comparison
+template<std::size_t N, typename T>
+auto operator==(const Point<N, T>& lhs, const Point<N, T>& rhs)
+    -> bool;
+template<std::size_t N, typename T>
+auto operator!=(const Point<N, T>& lhs, const Point<N, T>& rhs)
+    -> bool;
 
 #include "point.inl"
 
