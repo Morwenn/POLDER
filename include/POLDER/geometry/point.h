@@ -23,6 +23,7 @@
 ////////////////////////////////////////////////////////////
 #include <algorithm>
 #include <array>
+#include <iterator>
 #include <POLDER/algorithm.h>
 #include <POLDER/geometry/types.h>
 
