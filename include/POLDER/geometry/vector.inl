@@ -113,7 +113,7 @@ Vector<N, T>::Vector(Args... args)
 template<std::size_t N, typename T>
 inline Vector<N, T>::Vector(const Point<N, T>& P)
 {
-    std::copy(P.coordinates, P.coordinates+N, coordinates);
+    std::copy(P.begin(), P.end(), begin());
 }
 
 template<std::size_t N, typename T>
@@ -177,9 +177,7 @@ inline Vector<N, T>& Vector<N, T>::operator=(const Vector<N, T>& other)
 {
     if (this != &other)
     {
-        delete[] coordinates;
-        coordinates = new T[N];
-        std::copy(other.coordinates, other.coordinates+N, coordinates);
+        std::copy(other.begin(), other.end(), begin());
     }
     return *this;
 }
@@ -310,37 +308,37 @@ inline T Vector<N, T>::z() const
 template<std::size_t N, typename T>
 inline typename Vector<N, T>::iterator Vector<N, T>::begin()
 {
-    return coordinates;
+    return std::begin(coordinates);
 }
 
 template<std::size_t N, typename T>
 inline typename Vector<N, T>::iterator Vector<N, T>::end()
 {
-    return coordinates + N;
+    return std::end(coordinates);
 }
 
 template<std::size_t N, typename T>
 inline typename Vector<N, T>::const_iterator Vector<N, T>::begin() const
 {
-    return coordinates;
+    return std::begin(coordinates);
 }
 
 template<std::size_t N, typename T>
 inline typename Vector<N, T>::const_iterator Vector<N, T>::end() const
 {
-    return coordinates + N;
+    return std::end(coordinates);
 }
 
 template<std::size_t N, typename T>
 inline typename Vector<N, T>::const_iterator Vector<N, T>::cbegin() const
 {
-    return coordinates;
+    return std::begin(coordinates);
 }
 
 template<std::size_t N, typename T>
 inline typename Vector<N, T>::const_iterator Vector<N, T>::cend() const
 {
-    return coordinates + N;
+    return std::end(coordinates);
 }
 
 template<std::size_t N, typename T>

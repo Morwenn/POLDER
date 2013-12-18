@@ -144,8 +144,6 @@ class Point
 
         // Member data
         T coordinates[N];    /**< Coordinates */
-
-    friend class Vector<N, T>;
 };
 
 ////////////////////////////////////////////////////////////

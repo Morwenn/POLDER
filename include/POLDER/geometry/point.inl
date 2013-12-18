@@ -19,14 +19,14 @@
 template<std::size_t N, typename T>
 inline Point<N, T>::Point(const Point<N, T>& other)
 {
-    std::copy(other.coordinates, other.coordinates+N, coordinates);
+    std::copy(other.begin(), other.end(), begin());
 }
 
 template<std::size_t N, typename T>
 inline Point<N, T>::Point(std::initializer_list<T> coords)
 {
     POLDER_ASSERT(N > 1 && coords.size() == N);
-    std::copy(coords.begin(), coords.end(), coordinates);
+    std::copy(coords.begin(), coords.end(), begin());
 }
 
 template<std::size_t N, typename T>
@@ -57,7 +57,7 @@ inline Point<N, T>& Point<N, T>::operator=(const Point<N, T>& other)
 {
     if (this != &other)
     {
-        std::copy(other.coordinates, other.coordinates+N, coordinates);
+        std::copy(other.begin(), other.end(), begin());
     }
     return *this;
 }
@@ -100,7 +100,7 @@ const Vector<N, T> Point<N, T>::operator-(const Point<N, T>& other)
     Vector<N, T> res = *this;
     for (std::size_t i = 0 ; i < N ; ++i)
     {
-        res.coordinates[i] -= other[i];
+        res[i] -= other[i];
     }
     return res;
 }
@@ -148,37 +148,37 @@ inline T Point<N, T>::z() const
 template<std::size_t N, typename T>
 inline typename Point<N, T>::iterator Point<N, T>::begin()
 {
-    return coordinates;
+    return std::begin(coordinates);
 }
 
 template<std::size_t N, typename T>
 inline typename Point<N, T>::iterator Point<N, T>::end()
 {
-    return coordinates + N;
+    return std::end(coordinates);
 }
 
 template<std::size_t N, typename T>
 inline typename Point<N, T>::const_iterator Point<N, T>::begin() const
 {
-    return coordinates;
+    return std::begin(coordinates);;
 }
 
 template<std::size_t N, typename T>
 inline typename Point<N, T>::const_iterator Point<N, T>::end() const
 {
-    return coordinates + N;
+    return std::end(coordinates);
 }
 
 template<std::size_t N, typename T>
 inline typename Point<N, T>::const_iterator Point<N, T>::cbegin() const
 {
-    return coordinates;
+    return std::begin(coordinates);
 }
 
 template<std::size_t N, typename T>
 inline typename Point<N, T>::const_iterator Point<N, T>::cend() const
 {
-    return coordinates + N;
+    return std::end(coordinates);
 }
 
 template<std::size_t N, typename T>
