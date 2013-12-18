@@ -51,10 +51,10 @@ namespace details
             return std::sqrt(res);
         }
 
-        static auto distance(const Point<N, T>& p, const Hypersphere<N, T>& h)
+        static auto distance(const Point<N, T>& p, const Hypersphere<N, T>& hs)
             -> T
         {
-            return std::abs(distance(p, h.center()) - h.radius());
+            return std::abs(distance(p, hs.centre) - hs.radius);
         }
     };
 

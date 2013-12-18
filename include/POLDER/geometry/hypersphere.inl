@@ -16,80 +16,87 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+////////////////////////////////////////////////////////////
+// Defaulted functions
+////////////////////////////////////////////////////////////
+
 template<std::size_t N, typename T>
-inline Hypersphere<N, T>::Hypersphere(const Point<N, T>& center, T radius):
-    _center(center),
-    _radius(radius)
+Hypersphere<N, T>::Hypersphere()
+    = default;
+
+template<std::size_t N, typename T>
+Hypersphere<N, T>::Hypersphere(const Hypersphere<N, T>&)
+    = default;
+
+template<std::size_t N, typename T>
+auto Hypersphere<N, T>::operator=(const Hypersphere<N, T>& other)
+    -> Hypersphere&
+    = default;
+
+////////////////////////////////////////////////////////////
+// Constructors
+////////////////////////////////////////////////////////////
+
+template<std::size_t N, typename T>
+Hypersphere<N, T>::Hypersphere(const Point<N, T>& centre, T radius):
+    centre(centre),
+    radius(radius)
 {}
 
 template<std::size_t N, typename T>
-inline Hypersphere<N, T>::Hypersphere(const Point<N, T>& center, const Vector<N, T>& V):
-    _center(center),
-    _radius(V.norm())
+Hypersphere<N, T>::Hypersphere(const Point<N, T>& centre, const Vector<N, T>& vec):
+    centre(centre),
+    radius(vec.norm())
 {}
 
 template<std::size_t N, typename T>
-Hypersphere<N, T>::Hypersphere(const Point<N, T>& center, const Point<N, T>& P):
-    _center(center),
-    _radius(0.0)
+Hypersphere<N, T>::Hypersphere(const Point<N, T>& centre, const Point<N, T>& pt):
+    centre(centre),
+    radius(value_type{})
 {
     for (std::size_t i = 0 ; i < N ; ++i)
     {
-        const T tmp = P[i] - _center[i];
-        _radius += tmp * tmp;
+        const T tmp = pt[i] - centre[i];
+        radius += tmp * tmp;
     }
-    _radius = std::sqrt(_radius);
+    radius = std::sqrt(radius);
 }
 
-template<std::size_t N, typename T>
-inline Point<N, T> Hypersphere<N, T>::center() const
-{
-    return _center;
-}
+////////////////////////////////////////////////////////////
+// Miscellaneous functions
+////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
-inline T Hypersphere<N, T>::radius() const
-{
-    return _radius;
-}
-
-template<std::size_t N, typename T>
-Hypersphere<N, T>& Hypersphere<N, T>::operator=(const Hypersphere<N, T>& other)
-{
-    if (this != &other)
-    {
-        _center = other.Center;
-        _radius = other.Radius;
-    }
-    return *this;
-}
-
-template<std::size_t N, typename T>
-bool Hypersphere<N, T>::includes(const Point<N, T>& P) const
+auto Hypersphere<N, T>::includes(const Point<N, T>& pt) const
+    -> bool
 {
     // Hypersphere equation:
         // Two dimensions:   (x - xc)² + (y - yc)² = R²
         // Three dimensions: (x - xc)² + (y - yc)² + (z - zc)² = R²
         // Four dimensions:  (x - xc)² + (y - yc)² + (z - zc)² + (w - wc)² = R²
         // Etc...
-    // A point is included in the hypersphere if its distance to the center equals the radius
+    // A point is included in the hypersphere if its distance to the centre equals the radius
     // Actually, the above equations are used to spare the square root computation
 
-    T res{};
+    value_type res{};
     for (std::size_t i = 0 ; i < N ; ++i)
     {
-        const T temp = P[i] - _center[i];
+        const T temp = pt[i] - centre[i];
         res += temp * temp;
     }
-    return float_equal(res, _radius*_radius);
+    return float_equal(res, radius*radius);
 }
+
+////////////////////////////////////////////////////////////
+// Outside class operators
+////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
 auto operator==(const Hypersphere<N, T>& lhs, const Hypersphere<N, T>& rhs)
     -> bool
 {
-    return lhs.center() == rhs.center()
-        && float_equal(lhs.radius(), rhs.radius());
+    return lhs.centre == rhs.centre
+        && float_equal(lhs.radius, rhs.radius);
 }
 
 template<std::size_t N, typename T>

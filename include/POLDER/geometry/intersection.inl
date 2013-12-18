@@ -17,14 +17,14 @@
  */
 
 template<std::size_t N, typename T>
-auto intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS)
+auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
     -> Object
 {
     // Take an arbitrary point from the Line and its direction
-    const Point<N, T>& P = L.point();
-    const Direction<N, T>& D = L.direction();
-    // Take the center of the Hypersphere
-    const Point<N, T>& C = HS.center();
+    const auto& pt  = line.point();
+    const auto& dir = line.direction();
+    // Take the centre of the Hypersphere
+    const auto& ctr = hs.centre;
 
     // Line equation:
         // X = px + t * dx
@@ -44,19 +44,19 @@ auto intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS)
         // c = (px² - 2xc*px + xc²) + (py² - 2yc*py + yc²) + ... - R²
 
     // Use the first coordinates (considering that dx = 1.0)
-    T a = 1.0;
-    T b = P[0] - C[0];
-    T c = std::fma(P[0], P[0] - 2*C[0], C[0]*C[0]);
+    auto a = T(1.0);
+    auto b = pt[0] - ctr[0];
+    auto c = std::fma(pt[0], pt[0] - 2*ctr[0], ctr[0]*ctr[0]);
 
     // Use the other coordinates
     for (std::size_t i = 1 ; i < N ; ++i)
     {
-        a += D[i-1] * D[i-1];
-        b += D[i-1] * (P[i] - C[i]);
-        c += std::fma(P[i], P[i] - 2*C[i], C[i]*C[i]);
+        a += dir[i-1] * dir[i-1];
+        b += dir[i-1] * (pt[i] - ctr[i]);
+        c += std::fma(pt[i], pt[i] - 2*ctr[i], ctr[i]*ctr[i]);
     }
     b *= 2;
-    c -= HS.radius() * HS.radius();
+    c -= hs.radius * hs.radius;
 
     // Compute the results of the equation to find t
     auto t = math::quadratic(a, b, c);
@@ -68,64 +68,40 @@ auto intersection(const Line<N, T>& L, const Hypersphere<N, T>& HS)
         return Object();
     }
 
-    T t1 = t.first.real();
-    T t2 = t.second.real();
+    auto t1 = t.first.real();
+    auto t2 = t.second.real();
 
     if (float_equal(t1, t2))
     {
         // The solution is a unique point
         Point<N, T> res;
 
-        res.x() = P.x() + t1;
+        res.x() = pt.x() + t1;
         for (std::size_t i = 1 ; i < N ; ++i)
         {
-            // res[i] = P[i] + t1 * C[i-1]
-            res[i] = std::fma(t1, C[i-1], P[i]);
+            // res[i] = pt[i] + t1 * ctr[i-1]
+            res[i] = std::fma(t1, ctr[i-1], pt[i]);
         }
-
         return Object(res);
     }
 
     // In the other cases, the result is two points
     Point<N, T> res1, res2;
 
-    res1.x() = P.x() + t1;
-    res2.x() = P.x() + t2;
+    res1.x() = pt.x() + t1;
+    res2.x() = pt.x() + t2;
     for (std::size_t i = 1 ; i < N ; ++i)
     {
-        res1[i] = std::fma(t1, C[i-1], P[i]);
-        res2[i] = std::fma(t2, C[i-1], P[i]);
+        res1[i] = std::fma(t1, ctr[i-1], pt[i]);
+        res2[i] = std::fma(t2, ctr[i-1], pt[i]);
     }
 
     return Object(std::make_pair(res1, res2));
 }
 
 template<std::size_t N, typename T>
-inline auto intersection(const Hypersphere<N, T>& HS, const Line<N, T>& L)
+inline auto intersection(const Hypersphere<N, T>& hs, const Line<N, T>& line)
     -> Object
 {
-    return intersection(L, HS);
-}
-
-template<std::size_t N, typename T>
-auto intersection(const Line<N, T>& L1, const Line<N, T>& L2)
-    -> Object
-{
-    // Take the directions of the lines
-    const Direction<N, T>& D1 = L1.direction();
-    const Direction<N, T>& D2 = L2.direction();
-    // Take arbitrary points in the lines
-    const Point<N, T>& P1 = L1.point();
-    const Point<N, T>& P2 = L2.point();
-
-    // Line equation:
-        // X = px + t * dx
-        // Y = py + t * dy
-        // Z = pz + t * dz
-        // Etc...
-
-
-    /// TODO
-
-    return Object();
+    return intersection(line, hs);
 }

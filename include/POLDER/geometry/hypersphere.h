@@ -31,90 +31,71 @@ namespace polder
 {
 namespace geometry
 {
+    /**
+     * @brief Hypersphere
+     *
+     * A Hypersphere, also called n-sphere is a generalization
+     * of the surface of an ordinary sphere to arbitrary
+     * dimension.
+     *
+     * It is defined by a point for the centre, and a number
+     * for the radius. The most well-known hyperspheres are
+     * the circle and the ordinary sphere.
+     */
+    template<std::size_t N, typename T=double>
+    struct Hypersphere
+    {
+        ////////////////////////////////////////////////////////////
+        // Types
+        ////////////////////////////////////////////////////////////
 
-/**
- * @brief Hypersphere class
- *
- * A Hypersphere, also called n-sphere is a generalization
- * of the surface of an ordinary sphere to arbitrary
- * dimension.
- *
- * It is defined by a point for the centre, and a number
- * for the radius. The most well-known hypersphere are
- * the circle and the ordinary sphere.
- */
-template<std::size_t N, typename T=double>
-class Hypersphere
-{
-    public:
+        // Value
+        using value_type = T;
+        using reference = value_type&;
+        using const_reference = const value_type&;
+        using pointer = value_type*;
+        using const_pointer = const value_type*;
 
         ////////////////////////////////////////////////////////////
         // Constructors
         ////////////////////////////////////////////////////////////
 
-        /**
-         * Default constructor
-         */
-        Hypersphere() = default;
+        // Default constructor
+        Hypersphere();
+        // Copy constructor
+        Hypersphere(const Hypersphere<N, T>& other);
 
         /**
-         * Copy constructor
-         */
-        Hypersphere(const Hypersphere<N, T>&) = default;
-
-        /**
-         * @brief Construct an Hypersphere from a center and a radius
+         * @brief Construct an Hypersphere from a centre and a radius
          *
-         * @param center Center of the Hypersphere
+         * @param centre Centre of the Hypersphere
          * @param radius Radius of the Hypersphere
          */
-        Hypersphere(const Point<N, T>& center, T radius);
+        Hypersphere(const Point<N, T>& centre, value_type radius);
 
         /**
-         * @brief Construct an Hypersphere from a center and a radius
+         * @brief Construct an Hypersphere from a centre and a radius
          *
-         * @param center Center of the Hypersphere
+         * @param centre Centre of the Hypersphere
          * @param V Radius of the Hypersphere
          */
-        Hypersphere(const Point<N, T>& center, const Vector<N, T>& V);
+        Hypersphere(const Point<N, T>& centre, const Vector<N, T>& vec);
 
         /**
-         * @brief Construct an Hypersphere from a center and a radius
+         * @brief Construct an Hypersphere from a centre and a radius
          *
-         * @param center Center of the Hypersphere
+         * @param centre Centre of the Hypersphere
          * @param P Point at the surface of the Hypersphere
          */
-        Hypersphere(const Point<N, T>& center, const Point<N, T>& P);
-
-
-        ////////////////////////////////////////////////////////////
-        // Elements accessors
-        ////////////////////////////////////////////////////////////
-
-        /**
-         * @brief Center of the Hypersphere
-         *
-         * @return Center of the Hypersphere
-         */
-        Point<N, T> center() const;
-
-        /**
-         * @brief Radius of the Hypersphere
-         *
-         * @return Radius of the Hypersphere
-         */
-        T radius() const;
-
+        Hypersphere(const Point<N, T>& centre, const Point<N, T>& pt);
 
         ////////////////////////////////////////////////////////////
         // Operators
         ////////////////////////////////////////////////////////////
 
-        /**
-         * Copy assignement operator
-         */
-        Hypersphere<N, T>& operator=(const Hypersphere<N, T>& other);
-
+        // Copy assignment
+        auto operator=(const Hypersphere<N, T>& other)
+            -> Hypersphere&;
 
         ////////////////////////////////////////////////////////////
         // Miscellaneous functions
@@ -126,31 +107,30 @@ class Hypersphere
          * @param P Some point
          * @return True if \a P belongs to the hypersphere
          */
-        bool includes(const Point<N, T>& P) const;
+        auto includes(const Point<N, T>& pt) const
+            -> bool;
 
-    private:
+        ////////////////////////////////////////////////////////////
+        // Public member data
+        ////////////////////////////////////////////////////////////
 
-        // Member data
-        Point<N, T> _center;   /**< Center of the Hypersphere */
-        T _radius;     /**< Distance from the center to the surface */
-};
+        Point<N, T> centre; /**< Centre of the Hypersphere */
+        value_type  radius; /**< Distance from the centre to the surface */
+    };
 
-////////////////////////////////////////////////////////////
-// Outside class operators
-////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // Outside class operators
+    ////////////////////////////////////////////////////////////
 
-// Comparison
-template<std::size_t N, typename T>
-auto operator==(const Hypersphere<N, T>& lhs, const Hypersphere<N, T>& rhs)
-    -> bool;
-template<std::size_t N, typename T>
-auto operator!=(const Hypersphere<N, T>& lhs, const Hypersphere<N, T>& rhs)
-    -> bool;
+    // Comparison
+    template<std::size_t N, typename T>
+    auto operator==(const Hypersphere<N, T>& lhs, const Hypersphere<N, T>& rhs)
+        -> bool;
+    template<std::size_t N, typename T>
+    auto operator!=(const Hypersphere<N, T>& lhs, const Hypersphere<N, T>& rhs)
+        -> bool;
 
-#include "hypersphere.inl"
-
-} // namespace geometry
-} // namespace polder
-
+    #include "hypersphere.inl"
+}}
 
 #endif // _POLDER_GEOMETRY_HYPERSPHERE_H

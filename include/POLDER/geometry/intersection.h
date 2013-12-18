@@ -45,7 +45,7 @@ namespace geometry
      * @return Some object
      */
     template<std::size_t N, typename T>
-    auto intersection(const Line<N, T>& , const Hypersphere<N, T>& HS)
+    auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
         -> Object;
 
     /**
@@ -54,22 +54,7 @@ namespace geometry
      * @see intersection(const Line<N>&, const Hypersphere<N>&)
      */
     template<std::size_t N, typename T>
-    auto intersection(const Hypersphere<N, T>& HS, const Line<N, T>& L)
-        -> Object;
-
-    /**
-     * @brief Intersection between two Lines
-     *
-     * This function returns an Object.
-     * The Object main contain a Point<N>, a Line<N> or nothing
-     * It depends on what the intersection is.
-     *
-     * @param L1 First Line
-     * @param L2 Second Line
-     * @return Some object
-     */
-    template<std::size_t N, typename T>
-    auto intersection(const Line<N, T>& L1, const Line<N, T>& L2)
+    auto intersection(const Hypersphere<N, T>& hs, const Line<N, T>& line)
         -> Object;
 
     #include "intersection.inl"
