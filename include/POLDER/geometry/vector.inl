@@ -91,14 +91,14 @@ namespace details
 template<std::size_t N, typename T>
 inline Vector<N, T>::Vector(const Vector<N, T>& other)
 {
-    std::copy(other.coordinates, other.coordinates+N, coordinates);
+    std::copy(other.begin(), other.end(), begin());
 }
 
 template<std::size_t N, typename T>
 inline Vector<N, T>::Vector(std::initializer_list<T> coords)
 {
     POLDER_ASSERT(coords.size() == N);
-    std::copy(coords.begin(), coords.end(), coordinates);
+    std::copy(coords.begin(), coords.end(), begin());
 }
 
 template<std::size_t N, typename T>

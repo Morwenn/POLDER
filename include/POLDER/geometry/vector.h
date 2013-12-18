@@ -22,6 +22,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <initializer_list>
 #include <POLDER/algorithm.h>
@@ -45,6 +46,21 @@ template<std::size_t N, typename T=double>
 class Vector
 {
     public:
+
+        ////////////////////////////////////////////////////////////
+        // Types
+        ////////////////////////////////////////////////////////////
+
+        // Value
+        using value_type = T;
+        using reference = value_type&;
+        using const_reference = const value_type&;
+        using pointer = value_type*;
+        using const_pointer = const value_type*;
+
+        // Iterators
+        using iterator = typename std::array<T, N>::iterator;
+        using const_iterator = typename std::array<T, N>::const_iterator;
 
         ////////////////////////////////////////////////////////////
         // Constructors
@@ -171,9 +187,6 @@ class Vector
         // Vector iterators
         ////////////////////////////////////////////////////////////
 
-        using iterator = T*;
-        using const_iterator = const T*;
-
         iterator begin();
         iterator end();
 
@@ -193,7 +206,7 @@ class Vector
             -> void;
 
         // Coordinates
-        T coordinates[N];    /**< Coordinates */
+        std::array<T, N> coordinates;    /**< Coordinates */
 };
 
 ////////////////////////////////////////////////////////////
