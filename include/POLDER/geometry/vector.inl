@@ -239,9 +239,9 @@ Vector<N, T> Vector<N, T>::operator-() const
 template<std::size_t N, typename T>
 Vector<N, T>& Vector<N, T>::operator*=(T other)
 {
-    for (std::size_t i = 0 ; i < N ; ++i)
+    for (auto& coord: coordinates)
     {
-        coordinates *= other;
+        coord *= other;
     }
     return *this;
 }
@@ -250,9 +250,9 @@ template<std::size_t N, typename T>
 Vector<N, T>& Vector<N, T>::operator/=(T other)
 {
     POLDER_ASSERT(other != 0);
-    for (std::size_t i = 0 ; i < N ; ++i)
+    for (auto& coord: coordinates)
     {
-        coordinates /= other;
+        coord /= other;
     }
     return *this;
 }
