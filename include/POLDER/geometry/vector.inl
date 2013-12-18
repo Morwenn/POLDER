@@ -16,6 +16,10 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+////////////////////////////////////////////////////////////
+// Implementation details
+////////////////////////////////////////////////////////////
+
 namespace details
 {
     template<std::size_t N, typename T, typename Norm>
@@ -88,18 +92,21 @@ namespace details
     };
 }
 
-template<std::size_t N, typename T>
-inline Vector<N, T>::Vector(const Vector<N, T>& other)
-{
-    std::copy(other.begin(), other.end(), begin());
-}
+////////////////////////////////////////////////////////////
+// Defaulted functions
+////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
-inline Vector<N, T>::Vector(std::initializer_list<T> coords)
-{
-    POLDER_ASSERT(coords.size() == N);
-    std::copy(coords.begin(), coords.end(), begin());
-}
+Vector<N, T>::Vector()
+    = default;
+
+template<std::size_t N, typename T>
+Vector<N, T>::Vector(const Vector<N, T>&)
+    = default;
+
+////////////////////////////////////////////////////////////
+// Constructors
+////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
 template<typename... Args>
@@ -170,16 +177,6 @@ inline T& Vector<N, T>::operator[](std::size_t index)
 {
     POLDER_ASSERT(index < N);
     return coordinates[index];
-}
-
-template<std::size_t N, typename T>
-inline Vector<N, T>& Vector<N, T>::operator=(const Vector<N, T>& other)
-{
-    if (this != &other)
-    {
-        std::copy(other.begin(), other.end(), begin());
-    }
-    return *this;
 }
 
 template<std::size_t N, typename T>

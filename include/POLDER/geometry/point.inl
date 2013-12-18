@@ -16,18 +16,21 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-template<std::size_t N, typename T>
-inline Point<N, T>::Point(const Point<N, T>& other)
-{
-    std::copy(other.begin(), other.end(), begin());
-}
+////////////////////////////////////////////////////////////
+// Defaulted functions
+////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
-inline Point<N, T>::Point(std::initializer_list<T> coords)
-{
-    POLDER_ASSERT(N > 1 && coords.size() == N);
-    std::copy(coords.begin(), coords.end(), begin());
-}
+Point<N, T>::Point()
+    = default;
+
+template<std::size_t N, typename T>
+Point<N, T>::Point(const Point<N, T>&)
+    = default;
+
+////////////////////////////////////////////////////////////
+// Constructors
+////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
 template<typename... Args>
@@ -50,16 +53,6 @@ inline T Point<N, T>::operator[](std::size_t index) const
 {
     POLDER_ASSERT(index < N);
     return coordinates[index];
-}
-
-template<std::size_t N, typename T>
-inline Point<N, T>& Point<N, T>::operator=(const Point<N, T>& other)
-{
-    if (this != &other)
-    {
-        std::copy(other.begin(), other.end(), begin());
-    }
-    return *this;
 }
 
 template<std::size_t N, typename T>

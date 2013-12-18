@@ -24,7 +24,6 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <initializer_list>
 #include <POLDER/algorithm.h>
 #include <POLDER/math/norm.h>
 #include <POLDER/geometry/types.h>
@@ -66,25 +65,16 @@ class Vector
         // Constructors
         ////////////////////////////////////////////////////////////
 
-        /**
-         * @brief Default constructor
-         */
-        Vector() = default;
-
-        /**
-         * @brief Copy constructor
-         */
+        // Default constructor
+        Vector();
+        // Copy constructor
         Vector(const Vector<N, T>& other);
 
         /**
-         * @brief Initializer list constructor
+         * @brief Variadic constructor
          *
-         * @param coords List of N coordinates
-         */
-        Vector(std::initializer_list<T> coords);
-
-        /**
-         * Variadic constructor
+         * This constructor takes N parameters,
+         * and constructs the point with them.
          */
         template<typename... Args>
         Vector(Args... args);
@@ -141,9 +131,6 @@ class Vector
         // Accessors
         T operator[](std::size_t index) const;
         T& operator[](std::size_t index);
-
-        // Assignment
-        Vector<N, T>& operator=(const Vector<N, T>& other);
 
         // Vector arithmetic
         Vector<N, T>& operator+=(const Vector<N, T>& other);

@@ -23,7 +23,6 @@
 ////////////////////////////////////////////////////////////
 #include <algorithm>
 #include <array>
-#include <initializer_list>
 #include <POLDER/algorithm.h>
 #include <POLDER/geometry/types.h>
 
@@ -63,29 +62,19 @@ class Point
         // Constructors
         ////////////////////////////////////////////////////////////
 
-        /**
-         * Default constructor
-         */
-        Point() = default;
-
-        /**
-         * Copy constructor
-         */
+        // Default constructor
+        Point();
+        // Copy constructor
         Point(const Point<N, T>& other);
 
         /**
-         * @brief Initializer list constructor
+         * @brief Variadic constructor
          *
-         * @param args List of coordinates
-         */
-        Point(std::initializer_list<T> coords);
-
-        /**
-         * Variadic constructor
+         * This constructor takes N parameters,
+         * and constructs the point with them.
          */
         template<typename... Args>
         Point(Args... args);
-
 
         ////////////////////////////////////////////////////////////
         // Operators
@@ -103,11 +92,6 @@ class Point
          * @see T& operator[](std::size_t index)
          */
         T operator[](std::size_t index) const;
-
-        /**
-         * Copy assignment operator
-         */
-        Point<N, T>& operator=(const Point<N, T>& other);
 
         // Point-Vector arithmetic
         Point<N, T>& operator+=(const Vector<N, T>& V);
