@@ -84,7 +84,7 @@ class Vector
          *
          * @param P Some Point...
          */
-        Vector(const Point<N, T>& P);
+        Vector(const Point<N, T>& pt);
 
         /**
          * @brief Construct a vector from two Points
@@ -102,13 +102,75 @@ class Vector
          *
          * @param L Some Line...
          */
-        Vector(const Line<N, T>& L);
+        Vector(const Line<N, T>& line);
+
+        ////////////////////////////////////////////////////////////
+        // Operators
+        ////////////////////////////////////////////////////////////
+
+        // Accessors
+        auto operator[](std::size_t index)
+            -> reference;
+        auto operator[](std::size_t index) const
+            -> const_reference;
+
+        // Vector arithmetic
+        auto operator+=(const Vector<N, T>& val)
+            -> Vector&;
+        auto operator-=(const Vector<N, T>& val)
+            -> Vector&;
+
+        // Vector-scalar arithmetic
+        auto operator*=(value_type other)
+            -> Vector&;
+        auto operator/=(value_type other)
+            -> Vector&;
+
+        ////////////////////////////////////////////////////////////
+        // Coordinates aliases
+        ////////////////////////////////////////////////////////////
+
+        auto x()
+            -> reference;
+        auto y()
+            -> reference;
+        auto z()
+            -> reference;
+
+        auto x() const
+            -> const_reference;
+        auto y() const
+            -> const_reference;
+        auto z() const
+            -> const_reference;
+
+        ////////////////////////////////////////////////////////////
+        // Vector iterators
+        ////////////////////////////////////////////////////////////
+
+        auto begin()
+            -> iterator;
+        auto begin() const
+            -> const_iterator;
+        auto cbegin() const
+            -> const_iterator;
+        auto end()
+            -> iterator;
+        auto end() const
+            -> const_iterator;
+        auto cend() const
+            -> const_iterator;
+
+        ////////////////////////////////////////////////////////////
+        // Miscellaneous functions
+        ////////////////////////////////////////////////////////////
 
         /**
          * @brief Vector Direction
-         * @return Direction which passes through the Vector
+         * @return Direction of the Vector
          */
-        Direction<N, T> direction() const;
+        auto direction() const
+            -> Direction<N, T>;
 
         /**
          * @brief Vector norm
@@ -117,52 +179,11 @@ class Vector
          */
         template<typename Norm=math::norm::euclidean>
         auto norm() const
-            -> T;
+            -> value_type;
 
         template<typename Norm=math::norm::p>
         auto norm(unsigned p) const
-            -> T;
-
-        ////////////////////////////////////////////////////////////
-        // Operators
-        ////////////////////////////////////////////////////////////
-
-        // Accessors
-        T operator[](std::size_t index) const;
-        T& operator[](std::size_t index);
-
-        // Vector arithmetic
-        Vector<N, T>& operator+=(const Vector<N, T>& other);
-        Vector<N, T>& operator-=(const Vector<N, T>& other);
-
-        // Vector-scalar arithmetic
-        Vector<N, T>& operator*=(T other);
-        Vector<N, T>& operator/=(T other);
-
-        ////////////////////////////////////////////////////////////
-        // Coordinates aliases
-        ////////////////////////////////////////////////////////////
-
-        T& x();
-        T& y();
-        T& z();
-
-        T x() const;
-        T y() const;
-        T z() const;
-
-        ////////////////////////////////////////////////////////////
-        // Vector iterators
-        ////////////////////////////////////////////////////////////
-
-        iterator begin();
-        iterator end();
-
-        const_iterator begin() const;
-        const_iterator end() const;
-
-        const_iterator cbegin() const;
-        const_iterator cend() const;
+            -> value_type;
 
     private:
 

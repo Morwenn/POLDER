@@ -81,37 +81,51 @@ class Point
         ////////////////////////////////////////////////////////////
 
         // Accessors
-        T& operator[](std::size_t index);
-        T operator[](std::size_t index) const;
+        auto operator[](std::size_t index)
+            -> reference;
+        auto operator[](std::size_t index) const
+            -> const_reference;
 
         // Point-Vector arithmetic
-        Point<N, T>& operator+=(const Vector<N, T>& V);
-        Point<N, T>& operator-=(const Vector<N, T>& V);
+        auto operator+=(const Vector<N, T>& vec)
+            -> Point&;
+        auto operator-=(const Vector<N, T>& vec)
+            -> Point&;
 
         ////////////////////////////////////////////////////////////
         // Coordinates aliases
         ////////////////////////////////////////////////////////////
 
-        T& x();
-        T& y();
-        T& z();
+        auto x()
+            -> reference;
+        auto y()
+            -> reference;
+        auto z()
+            -> reference;
 
-        T x() const;
-        T y() const;
-        T z() const;
+        auto x() const
+            -> const_reference;
+        auto y() const
+            -> const_reference;
+        auto z() const
+            -> const_reference;
 
         ////////////////////////////////////////////////////////////
         // Point iterators
         ////////////////////////////////////////////////////////////
 
-        iterator begin();
-        iterator end();
-
-        const_iterator begin() const;
-        const_iterator end() const;
-
-        const_iterator cbegin() const;
-        const_iterator cend() const;
+        auto begin()
+            -> iterator;
+        auto begin() const
+            -> const_iterator;
+        auto cbegin() const
+            -> const_iterator;
+        auto end()
+            -> iterator;
+        auto end() const
+            -> const_iterator;
+        auto cend() const
+            -> const_iterator;
 
     private:
 

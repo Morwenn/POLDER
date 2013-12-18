@@ -41,115 +41,147 @@ Point<N, T>::Point(Args... args)
     construct(args...);
 }
 
+////////////////////////////////////////////////////////////
+// Operators
+////////////////////////////////////////////////////////////
+
 template<std::size_t N, typename T>
-inline T& Point<N, T>::operator[](std::size_t index)
+inline auto Point<N, T>::operator[](std::size_t index)
+    -> reference
 {
     POLDER_ASSERT(index < N);
     return coordinates[index];
 }
 
 template<std::size_t N, typename T>
-inline T Point<N, T>::operator[](std::size_t index) const
+inline auto Point<N, T>::operator[](std::size_t index) const
+    -> const_reference
 {
     POLDER_ASSERT(index < N);
     return coordinates[index];
 }
 
 template<std::size_t N, typename T>
-Point<N, T>& Point<N, T>::operator+=(const Vector<N, T>& V)
+auto Point<N, T>::operator+=(const Vector<N, T>& vec)
+    -> Point&
 {
     for (std::size_t i = 0 ; i < N ; ++i)
     {
-        coordinates[i] += V[i];
+        coordinates[i] += vec[i];
     }
     return *this;
 }
 
 template<std::size_t N, typename T>
-Point<N, T>& Point<N, T>::operator-=(const Vector<N, T>& V)
+auto Point<N, T>::operator-=(const Vector<N, T>& vec)
+    -> Point&
 {
     for (std::size_t i = 0 ; i < N ; ++i)
     {
-        coordinates[i] -= V[i];
+        coordinates[i] -= vec[i];
     }
     return *this;
 }
 
+////////////////////////////////////////////////////////////
+// Coordinates aliases
+////////////////////////////////////////////////////////////
+
 template<std::size_t N, typename T>
-inline T& Point<N, T>::x()
+inline auto Point<N, T>::x()
+    -> reference
 {
     return coordinates[0];
 }
 
 template<std::size_t N, typename T>
-inline T& Point<N, T>::y()
+inline auto Point<N, T>::y()
+    -> reference
 {
     POLDER_ASSERT(N > 1);
     return coordinates[1];
 }
 
 template<std::size_t N, typename T>
-inline T& Point<N, T>::z()
+inline auto Point<N, T>::z()
+    -> reference
 {
     POLDER_ASSERT(N > 2);
     return coordinates[2];
 }
 
 template<std::size_t N, typename T>
-inline T Point<N, T>::x() const
+inline auto Point<N, T>::x() const
+    -> const_reference
 {
     return coordinates[0];
 }
 
 template<std::size_t N, typename T>
-inline T Point<N, T>::y() const
+inline auto Point<N, T>::y() const
+    -> const_reference
 {
     POLDER_ASSERT(N > 1);
     return coordinates[1];
 }
 
 template<std::size_t N, typename T>
-inline T Point<N, T>::z() const
+inline auto Point<N, T>::z() const
+    -> const_reference
 {
     POLDER_ASSERT(N > 2);
     return coordinates[2];
 }
 
+////////////////////////////////////////////////////////////
+// Iterators
+////////////////////////////////////////////////////////////
+
 template<std::size_t N, typename T>
-inline typename Point<N, T>::iterator Point<N, T>::begin()
+inline auto Point<N, T>::begin()
+    -> iterator
 {
     return std::begin(coordinates);
 }
 
 template<std::size_t N, typename T>
-inline typename Point<N, T>::iterator Point<N, T>::end()
-{
-    return std::end(coordinates);
-}
-
-template<std::size_t N, typename T>
-inline typename Point<N, T>::const_iterator Point<N, T>::begin() const
-{
-    return std::begin(coordinates);;
-}
-
-template<std::size_t N, typename T>
-inline typename Point<N, T>::const_iterator Point<N, T>::end() const
-{
-    return std::end(coordinates);
-}
-
-template<std::size_t N, typename T>
-inline typename Point<N, T>::const_iterator Point<N, T>::cbegin() const
+inline auto Point<N, T>::begin() const
+    -> const_iterator
 {
     return std::begin(coordinates);
 }
 
 template<std::size_t N, typename T>
-inline typename Point<N, T>::const_iterator Point<N, T>::cend() const
+inline auto Point<N, T>::cbegin() const
+    -> const_iterator
+{
+    return std::begin(coordinates);
+}
+
+template<std::size_t N, typename T>
+inline auto Point<N, T>::end()
+    -> iterator
 {
     return std::end(coordinates);
 }
+
+template<std::size_t N, typename T>
+inline auto Point<N, T>::end() const
+    -> const_iterator
+{
+    return std::end(coordinates);
+}
+
+template<std::size_t N, typename T>
+inline auto Point<N, T>::cend() const
+    -> const_iterator
+{
+    return std::end(coordinates);
+}
+
+////////////////////////////////////////////////////////////
+// Private construction methods
+////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
 template<typename First, typename... Args>
