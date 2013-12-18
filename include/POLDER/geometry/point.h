@@ -80,29 +80,13 @@ class Point
         // Operators
         ////////////////////////////////////////////////////////////
 
-        /**
-         * @brief Element accessors
-         *
-         * @param index Index of the coordinate to access
-         * @return coordinate at \a index
-         */
+        // Accessors
         T& operator[](std::size_t index);
-
-        /**
-         * @see T& operator[](std::size_t index)
-         */
         T operator[](std::size_t index) const;
 
         // Point-Vector arithmetic
         Point<N, T>& operator+=(const Vector<N, T>& V);
-
         Point<N, T>& operator-=(const Vector<N, T>& V);
-
-        const Point<N, T> operator+(const Vector<N, T>& V);
-
-        const Point<N, T> operator-(const Vector<N, T>& V);
-
-        const Vector<N, T> operator-(const Point<N, T>& other);
 
         ////////////////////////////////////////////////////////////
         // Coordinates aliases
@@ -115,7 +99,6 @@ class Point
         T x() const;
         T y() const;
         T z() const;
-
 
         ////////////////////////////////////////////////////////////
         // Point iterators
@@ -154,6 +137,18 @@ auto operator==(const Point<N, T>& lhs, const Point<N, T>& rhs)
 template<std::size_t N, typename T>
 auto operator!=(const Point<N, T>& lhs, const Point<N, T>& rhs)
     -> bool;
+
+// Point-Vector arithmetic
+template<std::size_t N, typename T>
+auto operator+(Point<N, T> pt, const Vector<N, T>& vec)
+    -> Point<N, T>;
+template<std::size_t N, typename T>
+auto operator-(Point<N, T> pt, const Vector<N, T>& vec)
+    -> Point<N, T>;
+
+template<std::size_t N, typename T>
+auto operator-(const Point<N, T>& lhs, const Point<N, T>& rhs)
+    -> Vector<N, T>;
 
 #include "point.inl"
 

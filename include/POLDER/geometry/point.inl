@@ -76,29 +76,6 @@ Point<N, T>& Point<N, T>::operator-=(const Vector<N, T>& V)
 }
 
 template<std::size_t N, typename T>
-inline const Point<N, T> Point<N, T>::operator+(const Vector<N, T>& V)
-{
-    return Point<N, T>(*this) += V;
-}
-
-template<std::size_t N, typename T>
-inline const Point<N, T> Point<N, T>::operator-(const Vector<N, T>& V)
-{
-    return Point<N, T>(*this) -= V;
-}
-
-template<std::size_t N, typename T>
-const Vector<N, T> Point<N, T>::operator-(const Point<N, T>& other)
-{
-    Vector<N, T> res = *this;
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        res[i] -= other[i];
-    }
-    return res;
-}
-
-template<std::size_t N, typename T>
 inline T& Point<N, T>::x()
 {
     return coordinates[0];
@@ -191,6 +168,10 @@ auto Point<N, T>::construct(First first)
     coordinates[N-1] = first;
 }
 
+////////////////////////////////////////////////////////////
+// Outside class operators - Comparison
+////////////////////////////////////////////////////////////
+
 template<std::size_t N, typename T>
 auto operator==(const Point<N, T>& lhs, const Point<N, T>& rhs)
     -> bool
@@ -207,4 +188,34 @@ auto operator!=(const Point<N, T>& lhs, const Point<N, T>& rhs)
     -> bool
 {
     return !(lhs == rhs);
+}
+
+////////////////////////////////////////////////////////////
+// Outside class operators - Point-Vector arithmetic
+////////////////////////////////////////////////////////////
+
+template<std::size_t N, typename T>
+inline auto operator+(Point<N, T> pt, const Vector<N, T>& vec)
+    -> Point<N, T>
+{
+    return pt += vec;
+}
+
+template<std::size_t N, typename T>
+inline auto operator-(Point<N, T> pt, const Vector<N, T>& vec)
+    -> Point<N, T>
+{
+    return pt -= vec;
+}
+
+template<std::size_t N, typename T>
+auto operator-(const Point<N, T>& lhs, const Point<N, T>& rhs)
+    -> Vector<N, T>
+{
+    Vector<N, T> res;
+    for (std::size_t i = 0 ; i < N ; ++i)
+    {
+        res[i] -= lhs[i] - rhs[i];
+    }
+    return res;
 }

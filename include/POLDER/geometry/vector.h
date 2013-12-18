@@ -123,7 +123,6 @@ class Vector
         auto norm(unsigned p) const
             -> T;
 
-
         ////////////////////////////////////////////////////////////
         // Operators
         ////////////////////////////////////////////////////////////
@@ -134,28 +133,11 @@ class Vector
 
         // Vector arithmetic
         Vector<N, T>& operator+=(const Vector<N, T>& other);
-
         Vector<N, T>& operator-=(const Vector<N, T>& other);
 
-        Vector<N, T> operator+(const Vector<N, T>& other) const;
-
-        Vector<N, T> operator-(const Vector<N, T>& other) const;
-
-        // Scalar product
-        T operator*(const Vector<N, T>& other) const;
-
-        // Opposite of the vector
-        Vector<N, T> operator-() const;
-
-        // Vector-T arithmetic
+        // Vector-scalar arithmetic
         Vector<N, T>& operator*=(T other);
-
         Vector<N, T>& operator/=(T other);
-
-        Vector<N, T> operator*(T other) const;
-
-        Vector<N, T> operator/(T other) const;
-
 
         ////////////////////////////////////////////////////////////
         // Coordinates aliases
@@ -168,7 +150,6 @@ class Vector
         T x() const;
         T y() const;
         T z() const;
-
 
         ////////////////////////////////////////////////////////////
         // Vector iterators
@@ -207,6 +188,35 @@ auto operator==(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
 template<std::size_t N, typename T>
 auto operator!=(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
     -> bool;
+
+// Vector arithmetic
+template<std::size_t N, typename T>
+auto operator+(Vector<N, T> lhs, const Vector<N, T>& rhs)
+    -> Vector<N, T>;
+template<std::size_t N, typename T>
+auto operator-(Vector<N, T> lhs, const Vector<N, T>& rhs)
+    -> Vector<N, T>;
+
+// Scalar product
+template<std::size_t N, typename T>
+auto operator*(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
+    -> T;
+
+// Opposite of a vector
+template<std::size_t N, typename T>
+auto operator-(Vector<N, T> vec)
+    -> Vector<N, T>;
+
+// Vector-scalar arithmetic
+template<std::size_t N, typename T>
+auto operator*(Vector<N, T> vec, T val)
+    -> Vector<N, T>;
+template<std::size_t N, typename T>
+auto operator*(T val, Vector<N, T> vec)
+    -> Vector<N, T>;
+template<std::size_t N, typename T>
+auto operator/(Vector<N, T> vec, T val)
+    -> Vector<N, T>;
 
 #include "vector.inl"
 

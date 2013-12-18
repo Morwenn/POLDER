@@ -200,40 +200,6 @@ Vector<N, T>& Vector<N, T>::operator-=(const Vector<N, T>& other)
 }
 
 template<std::size_t N, typename T>
-inline Vector<N, T> Vector<N, T>::operator+(const Vector<N, T>& other) const
-{
-    return Vector<N, T>(*this) += other;
-}
-
-template<std::size_t N, typename T>
-inline Vector<N, T> Vector<N, T>::operator-(const Vector<N, T>& other) const
-{
-    return Vector<N, T>(*this) -= other;
-}
-
-template<std::size_t N, typename T>
-T Vector<N, T>::operator*(const Vector<N, T>& other) const
-{
-    T res = 0;
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        res += coordinates[i] * other.coordinates[i];
-    }
-    return res;
-}
-
-template<std::size_t N, typename T>
-Vector<N, T> Vector<N, T>::operator-() const
-{
-    Vector<N, T> V = *this;
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        V.coordinates[i] = -V.coordinates[i];
-    }
-    return V;
-}
-
-template<std::size_t N, typename T>
 Vector<N, T>& Vector<N, T>::operator*=(T other)
 {
     for (auto& coord: coordinates)
@@ -252,18 +218,6 @@ Vector<N, T>& Vector<N, T>::operator/=(T other)
         coord /= other;
     }
     return *this;
-}
-
-template<std::size_t N, typename T>
-inline Vector<N, T> Vector<N, T>::operator*(T other) const
-{
-    return Vector(*this) *= other;
-}
-
-template<std::size_t N, typename T>
-inline Vector<N, T> Vector<N, T>::operator/(T other) const
-{
-    return Vector(*this) /= other;
 }
 
 template<std::size_t N, typename T>
@@ -355,6 +309,10 @@ auto Vector<N, T>::construct(First first)
     coordinates[N-1] = first;
 }
 
+////////////////////////////////////////////////////////////
+// Outside class operators - Comparison
+////////////////////////////////////////////////////////////
+
 template<std::size_t N, typename T>
 auto operator==(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
     -> bool
@@ -371,4 +329,70 @@ auto operator!=(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
     -> bool
 {
     return !(lhs == rhs);
+}
+
+////////////////////////////////////////////////////////////
+// Outside class operators - Vector arithmetic
+////////////////////////////////////////////////////////////
+
+template<std::size_t N, typename T>
+inline auto operator+(Vector<N, T> lhs, const Vector<N, T>& rhs)
+    -> Vector<N, T>
+{
+    return lhs += rhs;
+}
+
+template<std::size_t N, typename T>
+inline auto operator-(Vector<N, T> lhs, const Vector<N, T>& rhs)
+    -> Vector<N, T>
+{
+    return lhs -= rhs;
+}
+
+template<std::size_t N, typename T>
+auto operator*(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
+    -> T
+{
+    T res{};
+    for (std::size_t i = 0 ; i < N ; ++i)
+    {
+        res += lhs[i] * rhs[i];
+    }
+    return res;
+}
+
+template<std::size_t N, typename T>
+auto operator-(Vector<N, T> vec)
+    -> Vector<N, T>
+{
+    for (auto& coord: vec)
+    {
+        coord *= -1;
+    }
+    return vec;
+}
+
+////////////////////////////////////////////////////////////
+// Outside class operators - Vector-scalar arithmetic
+////////////////////////////////////////////////////////////
+
+template<std::size_t N, typename T>
+inline auto operator*(Vector<N, T> vec, T val)
+    -> Vector<N, T>
+{
+    return vec *= val;
+}
+
+template<std::size_t N, typename T>
+inline auto operator*(T val, Vector<N, T> vec)
+    -> Vector<N, T>
+{
+    return vec *= val;
+}
+
+template<std::size_t N, typename T>
+inline auto operator/(Vector<N, T> vec, T val)
+    -> Vector<N, T>
+{
+    return vec /= val;
 }
