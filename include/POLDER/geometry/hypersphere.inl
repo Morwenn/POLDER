@@ -56,7 +56,7 @@ Hypersphere<N, T>::Hypersphere(const Point<N, T>& centre, const Point<N, T>& pt)
 {
     for (std::size_t i = 0 ; i < N ; ++i)
     {
-        const T tmp = pt[i] - centre[i];
+        value_type tmp = pt[i] - centre[i];
         radius += tmp * tmp;
     }
     radius = std::sqrt(radius);
@@ -81,8 +81,8 @@ auto Hypersphere<N, T>::includes(const Point<N, T>& pt) const
     value_type res{};
     for (std::size_t i = 0 ; i < N ; ++i)
     {
-        const T temp = pt[i] - centre[i];
-        res += temp * temp;
+        value_type tmp = pt[i] - centre[i];
+        res += tmp * tmp;
     }
     return float_equal(res, radius*radius);
 }

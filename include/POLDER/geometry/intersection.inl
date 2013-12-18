@@ -20,6 +20,7 @@ template<std::size_t N, typename T>
 auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
     -> Object
 {
+    using math::sqr;
     // Take an arbitrary point from the Line and its direction
     const auto& pt  = line.point();
     const auto& dir = line.direction();
@@ -46,17 +47,17 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
     // Use the first coordinates (considering that dx = 1.0)
     auto a = T(1.0);
     auto b = pt[0] - ctr[0];
-    auto c = std::fma(pt[0], pt[0] - 2*ctr[0], ctr[0]*ctr[0]);
+    auto c = std::fma(pt[0], pt[0] - 2*ctr[0], sqr(ctr[0]));
 
     // Use the other coordinates
     for (std::size_t i = 1 ; i < N ; ++i)
     {
         a += dir[i-1] * dir[i-1];
         b += dir[i-1] * (pt[i] - ctr[i]);
-        c += std::fma(pt[i], pt[i] - 2*ctr[i], ctr[i]*ctr[i]);
+        c += std::fma(pt[i], pt[i] - 2*ctr[i], sqr(ctr[i]));
     }
     b *= 2;
-    c -= hs.radius * hs.radius;
+    c -= sqr(hs.radius);
 
     // Compute the results of the equation to find t
     auto t = math::quadratic(a, b, c);
