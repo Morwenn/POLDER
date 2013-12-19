@@ -16,45 +16,61 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+////////////////////////////////////////////////////////////
+// Defaulted functions
+////////////////////////////////////////////////////////////
+
 template<std::size_t N, typename T>
-inline Line<N, T>::Line(const Point<N, T>& P1, const Point<N, T>& P2):
-    P(P1),
-    D(Direction<N, T>(P1, P2))
+Line<N, T>::Line()
+    = default;
+
+template<std::size_t N, typename T>
+Line<N, T>::Line(const Line<N, T>&)
+    = default;
+
+template<std::size_t N, typename T>
+auto Line<N, T>::operator=(const Line<N, T>&)
+    -> Line&
+    = default;
+
+////////////////////////////////////////////////////////////
+// Constructors
+////////////////////////////////////////////////////////////
+
+template<std::size_t N, typename T>
+Line<N, T>::Line(const Point<N, T>& pt1, const Point<N, T>& pt2):
+    _point(pt1),
+    _dir(Direction<N, T>(pt1, pt2))
 {
-    POLDER_ASSERT(P1 != P2);
+    POLDER_ASSERT(pt1 != pt2);
 }
 
 template<std::size_t N, typename T>
-inline Line<N, T>::Line(const Point<N, T>& P, const Vector<N, T>& V):
-    P(P),
-    D(Direction<N, T>(V))
+Line<N, T>::Line(const Point<N, T>& pt, const Vector<N, T>& vec):
+    _point(pt),
+    _dir(vec.direction())
 {}
 
 template<std::size_t N, typename T>
-inline Line<N, T>::Line(const Point<N, T>& P, const Direction<N, T>& D):
-    P(P),
-    D(D)
+Line<N, T>::Line(const Point<N, T>& pt, const Direction<N, T>& dir):
+    _point(pt),
+    _dir(dir)
 {}
 
 template<std::size_t N, typename T>
-inline Direction<N, T> Line<N, T>::direction() const
+inline auto Line<N, T>::direction() const
+    -> Direction<N, T>
 {
-    return D;
+    return _dir;
 }
 
-template<std::size_t N, typename T>
-inline Line<N, T>& Line<N, T>::operator=(const Line<N, T>& other)
-{
-    if (this != &other)
-    {
-        P = other.P;
-        D = other.D;
-    }
-    return *this;
-}
+////////////////////////////////////////////////////////////
+// Miscellaneous functions
+////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
-bool Line<N, T>::includes(const Point<N, T>& P) const
+auto Line<N, T>::includes(const Point<N, T>& pt) const
+    -> bool
 {
     // Line equation:
         // X = px + t * dx
@@ -67,12 +83,12 @@ bool Line<N, T>::includes(const Point<N, T>& P) const
         // t = (Z - pz) / dz
         // etc...
     // A point is included in the line if it satisfies the parametric
-    // equation for all the coordinates
+    // equation for all its coordinates
 
-    T t1 = (P.x() - this->P.x()) / D.x();
+    T t1 = (pt.x() - _point.x()) / _dir.x();
     for (std::size_t i = 1 ; i < N ; ++i)
     {
-        const T t = (P[i] - this->P[i]) / D[i];
+        const T t = (pt[i] - _point[i]) / _dir[i];
         if (not float_equal(t, t1))
         {
             return false;
@@ -82,10 +98,15 @@ bool Line<N, T>::includes(const Point<N, T>& P) const
 }
 
 template<std::size_t N, typename T>
-inline Point<N, T> Line<N, T>::point() const
+inline auto Line<N, T>::point() const
+    -> Point<N, T>
 {
-    return P;
+    return _point;
 }
+
+////////////////////////////////////////////////////////////
+// Outside class operators
+////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
 auto operator==(const Line<N, T>& lhs, const Line<N, T>& rhs)

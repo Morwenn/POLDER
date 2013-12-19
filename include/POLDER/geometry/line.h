@@ -21,7 +21,6 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <cstdlib>
 #include <POLDER/algorithm.h>
 #include <POLDER/geometry/direction.h>
 #include <POLDER/geometry/point.h>
@@ -32,125 +31,117 @@ namespace polder
 {
 namespace geometry
 {
+    /**
+     * @brief Geometric Line
+     *
+     * In euclidean geometry, a Line is often defined as a
+     * straight object passing by two given points. There are
+     * actually many ways to define a Line. This one is defined
+     * by a Point and a Direction.
+     */
+    template<std::size_t N, typename T=double>
+    class Line
+    {
+        public:
 
-/**
- * @brief Geometric Line
- *
- * In geometry a Line is often defined by a straight
- * object passing by two given points. There are many
- * ways to define a Line. In POLDER, the Lines are
- * defined by a Point and a Direction.
- */
-template<std::size_t N, typename T=double>
-class Line
-{
-    public:
+            ////////////////////////////////////////////////////////////
+            // Constructors
+            ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        // Constructors
-        ////////////////////////////////////////////////////////////
+            // Default constructor
+            Line();
+            // Copy constructor
+            Line(const Line<N, T>& other);
 
-        /**
-         * Default constructor
-         */
-        Line() = default;
+            /**
+             * @brief Construct a Line passing by two points.
+             *
+             * @param pt1 First point.
+             * @param pt2 Second point.
+             */
+            Line(const Point<N, T>& pt1, const Point<N, T>& pt2);
 
-        /**
-         * Copy constructor
-         */
-        Line(const Line<N, T>&) = default;
+            /**
+             * @brief Constructs a line with a point and a vector.
+             *
+             * @param pt Point the line passes through.
+             * @param vec Vector giving the direction of the line.
+             */
+            Line(const Point<N, T>& pt, const Vector<N, T>& vec);
 
-        /**
-         * @brief Construct a Line passing by two points
-         *
-         * @param P1 First point
-         * @param P2 Second point
-         */
-        Line(const Point<N, T>& P1, const Point<N, T>& P2);
+            /**
+             * @brief Constructs a line with a point and a direction.
+             *
+             * @param pt Point the line passes through.
+             * @param dir Direction of the line.
+             */
+            Line(const Point<N, T>& pt, const Direction<N, T>& dir);
 
-        /**
-         * @brief Constructs a line with a point and a vector
-         *
-         * @param P Point the line passes through
-         * @param V Vector giving the direction of the line
-         */
-        Line(const Point<N, T>& P, const Vector<N, T>& V);
+            ////////////////////////////////////////////////////////////
+            // Elements accessors
+            ////////////////////////////////////////////////////////////
 
-        /**
-         * @brief Constructs a line with a point and a direction
-         *
-         * @param P Point the line passes through
-         * @param D Direction of the line
-         */
-        Line(const Point<N, T>& P, const Direction<N, T>& D);
+            /**
+             * @brief Returns the direction of the line.
+             * @return Direction of the line.
+             */
+            auto direction() const
+                -> Direction<N, T>;
 
+            ////////////////////////////////////////////////////////////
+            // Operators
+            ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        // Elements accessor
-        ////////////////////////////////////////////////////////////
+            // Copy assignment
+            auto operator=(const Line<N, T>& other)
+                -> Line&;
 
-        /**
-         * @brief Returns the direction of the line
-         * @return Direction of the line
-         */
-        Direction<N, T> direction() const;
+            ////////////////////////////////////////////////////////////
+            // Miscellaneous functions
+            ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        // Operators
-        ////////////////////////////////////////////////////////////
+            /**
+             * @brief Checks whether a point belongs to the line.
+             *
+             * @param pt Some point.
+             * @return true if \a pt belongs to the line.
+             */
+            auto includes(const Point<N, T>& pt) const
+                -> bool;
 
-        /**
-         * Copy assignement operator
-         */
-        Line<N, T>& operator=(const Line<N, T>& other);
+            /**
+             * @brief Returns an arbitrary point belonging to the line.
+             *
+             * @warning For now, this function always returns the same point.
+             * However, it could be improved so that it returns different
+             * points depending on a given (optional) parameter.
+             *
+             * @return Some point belonging to the line.
+             */
+            auto point() const
+                -> Point<N, T>;
 
-        ////////////////////////////////////////////////////////////
-        // Miscellaneous functions
-        ////////////////////////////////////////////////////////////
+        private:
 
-        /**
-         * @brief Checks whether a point belongs to the line
-         *
-         * @param P Some point
-         * @return True if \a P belongs to the line
-         */
-        bool includes(const Point<N, T>& P) const;
+            // Member data
+            Point<N, T> _point;     /**< Some point contained in the line */
+            Direction<N, T> _dir;   /**< Direction of the line */
 
-        /**
-         * @brief Returns an arbitrary point belonging to the line
-         *
-         * @warning For now, this function always returns the same point.
-         * However, it could be improved so that it returns different
-         * point given a parameter.
-         *
-         * @return Some point belonging to the line
-         */
-        Point<N, T> point() const;
+    };
 
-    private:
+    ////////////////////////////////////////////////////////////
+    // Outside class operators
+    ////////////////////////////////////////////////////////////
 
-        // Member data
-        Point<N, T> P;     /**< Some point contained in the line */
-        Direction<N, T> D; /**< Direction of the line */
+    // Comparison
+    template<std::size_t N, typename T>
+    auto operator==(const Line<N, T>& lhs, const Line<N, T>& rhs)
+        -> bool;
+    template<std::size_t N, typename T>
+    auto operator!=(const Line<N, T>& lhs, const Line<N, T>& rhs)
+        -> bool;
 
-};
-
-////////////////////////////////////////////////////////////
-// Outside class operators
-////////////////////////////////////////////////////////////
-
-// Comparison
-template<std::size_t N, typename T>
-auto operator==(const Line<N, T>& lhs, const Line<N, T>& rhs)
-    -> bool;
-template<std::size_t N, typename T>
-auto operator!=(const Line<N, T>& lhs, const Line<N, T>& rhs)
-    -> bool;
-
-#include "line.inl"
-
-} // namespace geometry
-} // namespace polder
-
+    #include "line.inl"
+}}
 
 #endif // _POLDER_GEOMETRY_LINE_H
