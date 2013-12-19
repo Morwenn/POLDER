@@ -114,13 +114,16 @@ Vector<N, T>::Vector(Args... args)
 {
     static_assert(sizeof...(Args) == N,
                   "Vector constructed with wrong number of coordinates.");
-    construct(args...);
+    this->construct(args...);
 }
 
 template<std::size_t N, typename T>
 inline Vector<N, T>::Vector(const Point<N, T>& pt)
 {
-    std::copy(pt.begin(), pt.end(), begin());
+    for (std::size_t i = 0 ; i < N ; ++i)
+    {
+        coordinates[i] = pt[i];
+    }
 }
 
 template<std::size_t N, typename T>
@@ -146,22 +149,6 @@ Vector<N, T>::Vector(const Line<N, T>& line)
 ////////////////////////////////////////////////////////////
 // Operators
 ////////////////////////////////////////////////////////////
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::operator[](std::size_t index)
-    -> reference
-{
-    POLDER_ASSERT(index < N);
-    return coordinates[index];
-}
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::operator[](std::size_t index) const
-    -> const_reference
-{
-    POLDER_ASSERT(index < N);
-    return coordinates[index];
-}
 
 template<std::size_t N, typename T>
 auto Vector<N, T>::operator+=(const Vector<N, T>& other)
@@ -208,102 +195,6 @@ auto Vector<N, T>::operator/=(value_type val)
 }
 
 ////////////////////////////////////////////////////////////
-// Coordinates aliases
-////////////////////////////////////////////////////////////
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::x()
-    -> reference
-{
-    return coordinates[0];
-}
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::y()
-    -> reference
-{
-    POLDER_ASSERT(N > 1);
-    return coordinates[1];
-}
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::z()
-    -> reference
-{
-    POLDER_ASSERT(N > 2);
-    return coordinates[2];
-}
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::x() const
-    -> const_reference
-{
-    return coordinates[0];
-}
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::y() const
-    -> const_reference
-{
-    POLDER_ASSERT(N > 1);
-    return coordinates[1];
-}
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::z() const
-    -> const_reference
-{
-    POLDER_ASSERT(N > 2);
-    return coordinates[2];
-}
-
-////////////////////////////////////////////////////////////
-// Iterators
-////////////////////////////////////////////////////////////
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::begin()
-    -> iterator
-{
-    return std::begin(coordinates);
-}
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::begin() const
-    -> const_iterator
-{
-    return std::begin(coordinates);
-}
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::cbegin() const
-    -> const_iterator
-{
-    return std::begin(coordinates);
-}
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::end()
-    -> iterator
-{
-    return std::end(coordinates);
-}
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::end() const
-    -> const_iterator
-{
-    return std::end(coordinates);
-}
-
-template<std::size_t N, typename T>
-inline auto Vector<N, T>::cend() const
-    -> const_iterator
-{
-    return std::end(coordinates);
-}
-
-////////////////////////////////////////////////////////////
 // Miscellaneous functions
 ////////////////////////////////////////////////////////////
 
@@ -328,27 +219,6 @@ auto Vector<N, T>::norm(unsigned p) const
     -> value_type
 {
     return details::vecnorm_helper_t<N, T, Norm>::norm(*this, p);
-}
-
-////////////////////////////////////////////////////////////
-// Private construction methods
-////////////////////////////////////////////////////////////
-
-template<std::size_t N, typename T>
-template<typename First, typename... Args>
-auto Vector<N, T>::construct(First first, Args... args)
-    -> void
-{
-    coordinates[N-sizeof...(args)-1] = first;
-    construct(args...);
-}
-
-template<std::size_t N, typename T>
-template<typename First>
-auto Vector<N, T>::construct(First first)
-    -> void
-{
-    coordinates[N-1] = first;
 }
 
 ////////////////////////////////////////////////////////////

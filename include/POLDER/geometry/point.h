@@ -26,7 +26,7 @@
 #include <iterator>
 #include <POLDER/algorithm.h>
 #include <POLDER/geometry/types.h>
-
+#include <POLDER/geometry/details/vector_base.h>
 
 namespace polder
 {
@@ -40,7 +40,8 @@ namespace geometry
  * in a N-dimensional space.
  */
 template<std::size_t N, typename T=double>
-class Point
+class Point:
+    public MutableVectorBase<N, T>
 {
     public:
 
@@ -48,16 +49,18 @@ class Point
         // Types
         ////////////////////////////////////////////////////////////
 
+        using super = MutableVectorBase<N, T>;
+
         // Value
-        using value_type = T;
-        using reference = value_type&;
-        using const_reference = const value_type&;
-        using pointer = value_type*;
-        using const_pointer = const value_type*;
+        using typename super::value_type;
+        using typename super::reference;
+        using typename super::const_reference;
+        using typename super::pointer;
+        using typename super::const_pointer;
 
         // Iterators
-        using iterator = typename std::array<T, N>::iterator;
-        using const_iterator = typename std::array<T, N>::const_iterator;
+        using typename super::iterator;
+        using typename super::const_iterator;
 
         ////////////////////////////////////////////////////////////
         // Constructors
@@ -81,64 +84,16 @@ class Point
         // Operators
         ////////////////////////////////////////////////////////////
 
-        // Accessors
-        auto operator[](std::size_t index)
-            -> reference;
-        auto operator[](std::size_t index) const
-            -> const_reference;
-
         // Point-Vector arithmetic
         auto operator+=(const Vector<N, T>& vec)
             -> Point&;
         auto operator-=(const Vector<N, T>& vec)
             -> Point&;
 
-        ////////////////////////////////////////////////////////////
-        // Coordinates aliases
-        ////////////////////////////////////////////////////////////
-
-        auto x()
-            -> reference;
-        auto y()
-            -> reference;
-        auto z()
-            -> reference;
-
-        auto x() const
-            -> const_reference;
-        auto y() const
-            -> const_reference;
-        auto z() const
-            -> const_reference;
-
-        ////////////////////////////////////////////////////////////
-        // Point iterators
-        ////////////////////////////////////////////////////////////
-
-        auto begin()
-            -> iterator;
-        auto begin() const
-            -> const_iterator;
-        auto cbegin() const
-            -> const_iterator;
-        auto end()
-            -> iterator;
-        auto end() const
-            -> const_iterator;
-        auto cend() const
-            -> const_iterator;
-
     private:
 
-        template<typename First, typename... Args>
-        auto construct(First first, Args... args)
-            -> void;
-        template<typename First>
-        auto construct(First first)
-            -> void;
-
         // Member data
-        std::array<T, N> coordinates;    /**< Coordinates */
+        using super::coordinates;
 };
 
 ////////////////////////////////////////////////////////////

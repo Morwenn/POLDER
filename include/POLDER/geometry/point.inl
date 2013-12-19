@@ -38,28 +38,12 @@ Point<N, T>::Point(Args... args)
 {
     static_assert(sizeof...(Args) == N,
                   "Point constructed with wrong number of coordinates.");
-    construct(args...);
+    this->construct(args...);
 }
 
 ////////////////////////////////////////////////////////////
 // Operators
 ////////////////////////////////////////////////////////////
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::operator[](std::size_t index)
-    -> reference
-{
-    POLDER_ASSERT(index < N);
-    return coordinates[index];
-}
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::operator[](std::size_t index) const
-    -> const_reference
-{
-    POLDER_ASSERT(index < N);
-    return coordinates[index];
-}
 
 template<std::size_t N, typename T>
 auto Point<N, T>::operator+=(const Vector<N, T>& vec)
@@ -81,123 +65,6 @@ auto Point<N, T>::operator-=(const Vector<N, T>& vec)
         coordinates[i] -= vec[i];
     }
     return *this;
-}
-
-////////////////////////////////////////////////////////////
-// Coordinates aliases
-////////////////////////////////////////////////////////////
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::x()
-    -> reference
-{
-    return coordinates[0];
-}
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::y()
-    -> reference
-{
-    POLDER_ASSERT(N > 1);
-    return coordinates[1];
-}
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::z()
-    -> reference
-{
-    POLDER_ASSERT(N > 2);
-    return coordinates[2];
-}
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::x() const
-    -> const_reference
-{
-    return coordinates[0];
-}
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::y() const
-    -> const_reference
-{
-    POLDER_ASSERT(N > 1);
-    return coordinates[1];
-}
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::z() const
-    -> const_reference
-{
-    POLDER_ASSERT(N > 2);
-    return coordinates[2];
-}
-
-////////////////////////////////////////////////////////////
-// Iterators
-////////////////////////////////////////////////////////////
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::begin()
-    -> iterator
-{
-    return std::begin(coordinates);
-}
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::begin() const
-    -> const_iterator
-{
-    return std::begin(coordinates);
-}
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::cbegin() const
-    -> const_iterator
-{
-    return std::begin(coordinates);
-}
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::end()
-    -> iterator
-{
-    return std::end(coordinates);
-}
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::end() const
-    -> const_iterator
-{
-    return std::end(coordinates);
-}
-
-template<std::size_t N, typename T>
-inline auto Point<N, T>::cend() const
-    -> const_iterator
-{
-    return std::end(coordinates);
-}
-
-////////////////////////////////////////////////////////////
-// Private construction methods
-////////////////////////////////////////////////////////////
-
-template<std::size_t N, typename T>
-template<typename First, typename... Args>
-auto Point<N, T>::construct(First first, Args... args)
-    -> void
-{
-    coordinates[N-sizeof...(args)-1] = first;
-    construct(args...);
-}
-
-template<std::size_t N, typename T>
-template<typename First>
-auto Point<N, T>::construct(First first)
-    -> void
-{
-    coordinates[N-1] = first;
 }
 
 ////////////////////////////////////////////////////////////
