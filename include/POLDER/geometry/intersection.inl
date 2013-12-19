@@ -44,16 +44,11 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
         // b = 2 * (dx(px-xc) + dy(py-yc) + ...)
         // c = (px² - 2xc*px + xc²) + (py² - 2yc*py + yc²) + ... - R²
 
-    // Use the first coordinates (considering that dx = 1.0)
-    auto a = T(1.0);
-    auto b = pt[0] - ctr[0];
-    auto c = std::fma(pt[0], pt[0] - 2*ctr[0], sqr(ctr[0]));
-
-    // Use the other coordinates
-    for (std::size_t i = 1 ; i < N ; ++i)
+    T a{}, b{}, c{};
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
-        a += dir[i-1] * dir[i-1];
-        b += dir[i-1] * (pt[i] - ctr[i]);
+        a += sqr(dir[i]);
+        b += dir[i] * (pt[i] - ctr[i]);
         c += std::fma(pt[i], pt[i] - 2*ctr[i], sqr(ctr[i]));
     }
     b *= 2;
@@ -61,7 +56,6 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
 
     // Compute the results of the equation to find t
     auto t = math::quadratic(a, b, c);
-
     if (t.first.imag() != 0 || t.second.imag() != 0)
     {
         // There is no intersection
@@ -76,27 +70,20 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
     {
         // The solution is a unique point
         Point<N, T> res;
-
-        res.x() = pt.x() + t1;
-        for (std::size_t i = 1 ; i < N ; ++i)
+        for (std::size_t i = 0 ; i < N ; ++i)
         {
-            // res[i] = pt[i] + t1 * ctr[i-1]
-            res[i] = std::fma(t1, ctr[i-1], pt[i]);
+            res[i] = std::fma(t1, dir[i], pt[i]);
         }
         return Object(res);
     }
 
     // In the other cases, the result is two points
     Point<N, T> res1, res2;
-
-    res1.x() = pt.x() + t1;
-    res2.x() = pt.x() + t2;
-    for (std::size_t i = 1 ; i < N ; ++i)
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
-        res1[i] = std::fma(t1, ctr[i-1], pt[i]);
-        res2[i] = std::fma(t2, ctr[i-1], pt[i]);
+        res1[i] = std::fma(t1, dir[i], pt[i]);
+        res2[i] = std::fma(t2, dir[i], pt[i]);
     }
-
     return Object(std::make_pair(res1, res2));
 }
 

@@ -16,70 +16,82 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+////////////////////////////////////////////////////////////
+// Defaulted functions
+////////////////////////////////////////////////////////////
+
 template<std::size_t N, typename T>
-inline Direction<N, T>::Direction(const Direction<N, T>& other)
+Direction<N, T>::Direction()
+    = default;
+
+template<std::size_t N, typename T>
+Direction<N, T>::Direction(const Direction<N, T>&)
+    = default;
+
+////////////////////////////////////////////////////////////
+// Constructors
+////////////////////////////////////////////////////////////
+
+template<std::size_t N, typename T>
+Direction<N, T>::Direction(const Point<N, T>& pt)
 {
-    std::copy(other.coordinates, other.coordinates+N-1, coordinates);
+    for (std::size_t i = 0 ; i < N ; ++i)
+    {
+        coordinates[i] = pt[i];
+    }
+    normalize();
 }
 
 template<std::size_t N, typename T>
-Direction<N, T>::Direction(const Point<N, T>& P)
+Direction<N, T>::Direction(const Point<N, T>& pt1, const Point<N, T>& pt2):
+    Direction<N, T>(pt2-pt1)
+{}
+
+template<std::size_t N, typename T>
+Direction<N, T>::Direction(const Vector<N, T>& vec)
 {
-    for (std::size_t i = 1 ; i < N ; ++i)
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
-        coordinates[i-1] = P[i] / P[0];
+        coordinates[i] = vec[i];
+    }
+    normalize();
+}
+
+template<std::size_t N, typename T>
+inline Direction<N, T>::Direction(const Line<N, T>& line)
+{
+    *this = line.direction();
+}
+
+////////////////////////////////////////////////////////////
+// Private methods
+////////////////////////////////////////////////////////////
+
+template<std::size_t N, typename T>
+auto Direction<N, T>::normalize()
+    -> void
+{
+    value_type tmp{};
+    for (auto coord: coordinates)
+    {
+        tmp += coord*coord;
+    }
+    tmp = std::sqrt(tmp);
+    for (auto& coord:coordinates)
+    {
+        coord /= tmp;
     }
 }
 
-template<std::size_t N, typename T>
-Direction<N, T>::Direction(const Point<N, T>& P1, const Point<N, T>& P2)
-{
-    const T first = P2[0] - P1[0];
-    for (std::size_t i = 1 ; i < N ; ++i)
-    {
-        coordinates[i-1] = (P2[i] - P1[i]) / first;
-    }
-}
+////////////////////////////////////////////////////////////
+// Outside class operators - Comparison
+////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
-Direction<N, T>::Direction(const Vector<N, T>& V)
+auto operator==(const Direction<N, T>& lhs, const Direction<N, T>& rhs)
+    -> bool
 {
-    for (std::size_t i = 1 ; i < N ; ++i)
-    {
-        coordinates[i-1] = V[i] / V[0];
-    }
-}
-
-template<std::size_t N, typename T>
-inline Direction<N, T>::Direction(const Line<N, T>& L)
-{
-    *this = L.direction();
-}
-
-template<std::size_t N, typename T>
-inline T Direction<N, T>::operator[](std::size_t index) const
-{
-    if (index > N-1)
-    {
-        throw std::out_of_range("Index out of range.");
-    }
-    return coordinates[index];
-}
-
-template<std::size_t N, typename T>
-Direction<N, T>& Direction<N, T>::operator=(const Direction<N, T>& other)
-{
-    if (this != &other)
-    {
-        std::copy(other.coordinates, other.coordinates+N-1, coordinates);
-    }
-    return *this;
-}
-
-template<std::size_t N, typename T>
-inline bool Direction<N, T>::operator==(const Direction<N, T>& other) const
-{
-    return std::equal(coordinates, coordinates+N-1, other.coordinates,
+    return std::equal(lhs.begin(), lhs.end(), rhs.begin(),
                       [](T a, T b)
                       {
                           return float_equal(a, b);
@@ -87,54 +99,8 @@ inline bool Direction<N, T>::operator==(const Direction<N, T>& other) const
 }
 
 template<std::size_t N, typename T>
-inline bool Direction<N, T>::operator!=(const Direction<N, T>& other) const
+auto operator!=(const Direction<N, T>& lhs, const Direction<N, T>& rhs)
+    -> bool
 {
-    return !(*this == other);
-}
-
-template<std::size_t N, typename T>
-Direction<N, T> Direction<N, T>::operator-() const
-{
-    Direction<N, T> D(*this);
-    for (std::size_t i = 0 ; i < N-1 ; ++i)
-    {
-        D.coordinates[i] = -D.coordinates[i];
-    }
-    return D;
-}
-
-template<std::size_t N, typename T>
-inline typename Direction<N, T>::iterator Direction<N, T>::begin()
-{
-    return coordinates;
-}
-
-template<std::size_t N, typename T>
-inline typename Direction<N, T>::iterator Direction<N, T>::end()
-{
-    return coordinates + N - 1;
-}
-
-template<std::size_t N, typename T>
-inline typename Direction<N, T>::const_iterator Direction<N, T>::begin() const
-{
-    return coordinates;
-}
-
-template<std::size_t N, typename T>
-inline typename Direction<N, T>::const_iterator Direction<N, T>::end() const
-{
-    return coordinates + N - 1;
-}
-
-template<std::size_t N, typename T>
-inline typename Direction<N, T>::const_iterator Direction<N, T>::cbegin() const
-{
-    return coordinates;
-}
-
-template<std::size_t N, typename T>
-inline typename Direction<N, T>::const_iterator Direction<N, T>::cend() const
-{
-    return coordinates + N - 1;
+    return !(lhs == rhs);
 }

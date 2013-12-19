@@ -138,11 +138,10 @@ Vector<N, T>::Vector(const Point<N, T>& origin, const Point<N, T>& target)
 template<std::size_t N, typename T>
 Vector<N, T>::Vector(const Line<N, T>& line)
 {
-    coordinates[0] = 1.0;
     const Direction<N, T>& dir = line.direction();
-    for (std::size_t i = 1 ; i < N ; ++i)
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
-        coordinates[i] = dir[i-1];
+        coordinates[i] = dir[i];
     }
 }
 

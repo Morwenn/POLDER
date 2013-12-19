@@ -22,9 +22,10 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <algorithm>
-#include <stdexcept>
+#include <cmath>
 #include <POLDER/algorithm.h>
 #include <POLDER/geometry/types.h>
+#include <POLDER/geometry/details/vector_base.h>
 
 
 namespace polder
@@ -35,32 +36,37 @@ namespace geometry
 /**
  * @brief Geometric direction
  *
- * A direction can be viewed as vector whose norm does not matter.
- * Because of this, when created, all the coordinates are divided
- * by the first one.
- * So, we know that the first coordinate will always be 1.0 then
- * we do not have to store it.
- *
- * Actually, remember that a direction has N-1 coordinates in a
- * N-dimensional space when you have to use it.
+ * A direction is a normalized Vector. While it may seem to
+ * do less than a Vector, it's actually heavier since it is
+ * normalized on construction.
 */
 template<std::size_t N, typename T=double>
-class Direction
+class Direction:
+    public ImmutableVectorBase<N, T>
 {
     public:
+
+        ////////////////////////////////////////////////////////////
+        // Types
+        ////////////////////////////////////////////////////////////
+
+        using super = ImmutableVectorBase<N, T>;
+
+        // Value
+        using typename super::value_type;
+        using typename super::const_reference;
+        using typename super::const_pointer;
+
+        // Iterators
+        using typename super::const_iterator;
 
         ////////////////////////////////////////////////////////////
         // Constructors
         ////////////////////////////////////////////////////////////
 
-        /**
-         * @brief Default constructor
-         */
-        Direction() = default;
-
-        /**
-         * @brief Copy constructor
-         */
+        // Default constructor
+        Direction();
+        // Copy constructor
         Direction(const Direction<N, T>& other);
 
         /**
@@ -68,7 +74,7 @@ class Direction
          *
          * @param P Point forming a Line with the Origin
          */
-        Direction(const Point<N, T>& P);
+        Direction(const Point<N, T>& pt);
 
         /**
          * @brief Direction of a Line passing by two given points
@@ -76,123 +82,43 @@ class Direction
          * @param P1 First Point
          * @param P2 Second Point
          */
-        Direction(const Point<N, T>& P1, const Point<N, T>& P2);
+        Direction(const Point<N, T>& pt1, const Point<N, T>& pt2);
 
         /**
          * @brief Creates the Direction from a Vector
          *
          * @param V Vector whose we take the direction
          */
-        Direction(const Vector<N, T>& V);
+        Direction(const Vector<N, T>& vec);
 
         /**
          * @brief Creates the Direction from a Line
          *
          * @param L Line whose we take the direction
          */
-        Direction(const Line<N, T>& L);
-
-
-        ////////////////////////////////////////////////////////////
-        // Operators
-        ////////////////////////////////////////////////////////////
-
-        /**
-         * @brief Element access
-         *
-         * @param Index of the coordinate to get
-         * @return Coordinate at index
-         */
-        T operator[](std::size_t index) const;
-
-        /**
-         * Copy assignment operator
-         */
-        Direction<N, T>& operator=(const Direction<N, T>& other);
-
-        /**
-         * @brief Equality between two Directions
-         *
-         * Compares two directions taking the margin error in account
-         *
-         * @param other Right operand (Direction)
-         * @return True if the Directions are equal
-         */
-        bool operator==(const Direction<N, T>& other) const;
-
-        /**
-         * @brief Inequality between two Directions
-         *
-         * Compares two directions taking the margin error in account
-         *
-         * @param other Right operand (Direction)
-         * @return True if the Directions are not equal
-         */
-        bool operator!=(const Direction<N, T>& other) const;
-
-        /**
-         * @brief Opposite of the direction
-         *
-         * @return Element-wise opposite of the direction
-         */
-        Direction<N, T> operator-() const;
-
-
-        ////////////////////////////////////////////////////////////
-        // Iterators
-        ////////////////////////////////////////////////////////////
-
-        // Basic iterators and constant iterators
-        using iterator = T*;
-        using const_iterator = const T*;
-
-        /**
-         * @brief First coordinate of a Direction
-         *
-         * @return Iterator on the first coordinate of a Direction
-         */
-        iterator begin();
-
-        /**
-         * @brief Last coordinate of a Direction
-         *
-         * @return Iterator on the last coordinate of a Direction
-         */
-        iterator end();
-
-        /**
-         * @brief First coordinate of a Direction
-         *
-         * @return Constant iterator on the first coordinate of a Direction
-         */
-        const_iterator begin() const;
-
-        /**
-         * @brief Last coordinate of a Direction
-         *
-         * @return Constant iterator on the last coordinate of a Direction
-         */
-        const_iterator end() const;
-
-        /**
-         * @brief First coordinate of a Direction
-         *
-         * @return Constant iterator on the first coordinate of a Direction
-         */
-        const_iterator cbegin() const;
-
-        /**
-         * @brief Last coordinate of a Direction
-         *
-         * @return Constant iterator on the last coordinate of a Direction
-         */
-        const_iterator cend() const;
+        Direction(const Line<N, T>& line);
 
     private:
 
+        // Normalize the coordinates
+        auto normalize()
+            -> void;
+
         // Member data
-        T coordinates[N-1]; /**< Coordinates of the Direction */
+        using super::coordinates;
 };
+
+////////////////////////////////////////////////////////////
+// Outside class operators
+////////////////////////////////////////////////////////////
+
+// Comparison
+template<std::size_t N, typename T>
+auto operator==(const Direction<N, T>& lhs, const Direction<N, T>& rhs)
+    -> bool;
+template<std::size_t N, typename T>
+auto operator!=(const Direction<N, T>& lhs, const Direction<N, T>& rhs)
+    -> bool;
 
 #include "direction.inl"
 
