@@ -178,15 +178,24 @@
      * @param assertion If false, the program will crash
      * @param error_message Message to show when the program crashes
      */
-    inline void polder_assert(bool assertion, const char* error_message="")
+    inline void polder_assert(bool assertion,
+                              const char* file,
+                              int line,
+                              const char* error_message="")
     {
         if (!assertion)
         {
-            throw assertion_error(error_message);
+            std::string msg = file;
+            msg += ":";
+            msg += std::to_string(line);
+            msg += ": \n\t";
+            msg += error_message;
+            throw assertion_error(msg);
         }
     }
 
-    #define POLDER_ASSERT(assertion) polder_assert(assertion, #assertion)
+    #define POLDER_ASSERT(assertion) \
+        polder_assert(assertion, __FILE__, __LINE__, #assertion)
 
 #else
 
