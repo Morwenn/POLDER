@@ -80,6 +80,7 @@ auto Direction<N, T>::normalize()
     for (auto& coord:coordinates)
     {
         coord /= tmp;
+        coord = std::abs(coord);
     }
 }
 
