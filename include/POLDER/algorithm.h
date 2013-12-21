@@ -59,17 +59,24 @@ namespace polder
      *
      * @brief Floating point comparison
      *
-     * Compares two floting point numbers by checking whether
+     * Compares two floating point numbers by checking whether
      * the difference between the two of them is lower than a
      * given value.
      *
+     * If the types are not floating point types, a regular
+     * comparison is performed instead.
+     *
      * @param lhs First value to compare
-     * @param rhs Secon value to compare
+     * @param rhs Second value to compare
      * @return true if the values compare equal
      */
     template<typename Float>
     auto float_equal(Float lhs, Float rhs)
-        -> bool;
+        -> typename std::enable_if<std::is_floating_point<Float>::value, bool>::type;
+
+    template<typename T>
+    auto float_equal(T lhs, T rhs)
+        -> typename std::enable_if<not std::is_floating_point<T>::value, bool>::type;
 
     #include "algorithm.inl"
 
