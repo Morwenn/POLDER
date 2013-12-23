@@ -25,61 +25,62 @@
 #include <string>
 #include <typeinfo>
 
-
 namespace polder
 {
+    /**
+     * @brief Unique object class
+     *
+     * Any class derived from Singleton and passed as its
+     * T parameter will cause the program to crash if
+     * multiple instances are meant to exist at the same
+     * time.
+     */
+    template<typename T>
+    class Singleton
+    {
+        protected:
 
-
-/**
- * @brief Unique object class
- *
- * Any class derived from Singleton and passed as its
- * T parameter will cause the program to crash if
- * multiple instances are meant to exist at the same
- * time.
- */
-template<class T>
-class Singleton
-{
-    protected:
-
-        /**
-         * Default constructor
-         */
-        Singleton()
-        {
-            if (already_exists)
+            /**
+             * @brief Default constructor
+             *
+             * Throws a std::logic_error if called while
+             * an instance of class T already exists.
+             */
+            Singleton()
             {
-                throw std::logic_error("You can't declare multiple instances of a " + std::string(typeid(T).name()) + " object.");
+                if (already_exists)
+                {
+                    throw std::logic_error("declaration of several instances of " +
+                                           std::string(typeid(T).name()));
+                }
+                already_exists = true;
             }
-            already_exists = true;
-        }
 
-    public:
+        public:
 
-        /*
-         * Prevent the object from being copied
-         */
-        Singleton(const Singleton&) = delete;
-        Singleton& operator=(const Singleton&) = delete;
+            // Prevents the object from being copied
+            Singleton(const Singleton&) = delete;
+            Singleton& operator=(const Singleton&) = delete;
 
-        /**
-         * Destructor
-         */
-        ~Singleton()
-        {
-            already_exists = false;
-        }
+            /**
+             * @brief Destructor
+             *
+             * Tells that it is now possible to create a
+             * new instance of class T.
+             */
+            ~Singleton()
+            {
+                already_exists = false;
+            }
 
-    private:
+        private:
 
-        static bool already_exists; /**< True if an instance of T already exists */
-};
-template<class T> bool Singleton<T>::already_exists = false;
+            static bool already_exists; /**< true if an instance of T already exists */
+    };
 
-
-} // namespace polder
-
+    template<typename T>
+    bool Singleton<T>::already_exists = false;
+}
 
 #endif // _POLDER_SINGLETON_H
 
