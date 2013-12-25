@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <iostream>
 #include <string>
+#include <utility>
 #include <POLDER/config.h>
 
 
@@ -49,15 +50,13 @@ namespace io
  * @param first First argument to be printed
  * @param others Other arguments to be printed
  */
-template<typename First, typename... Printables>
-void print(const First& first, const Printables&... others);
+template<typename... Args>
+auto print(Args&&... args)
+    -> void;
 
-/**
- * @brief Print a single argument to the standard output
- * @param arg Argument to be printed
- */
-template<typename T>
-void print(const T& arg);
+template<typename... Args>
+auto print(std::ostream& stream, Args&&... args)
+    -> void;
 
 
 ////////////////////////////////////////////////////////////

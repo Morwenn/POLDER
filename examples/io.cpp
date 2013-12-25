@@ -50,7 +50,7 @@ int main()
 
     ////////////////////////////////////////////////////////////
     {
-        cout << endl << "print example" << endl;
+        cout << endl << "print examples" << endl;
 
         int a = 5;
         double b = 6.3;
@@ -60,6 +60,10 @@ int main()
         // You can pass any type that can be added to an ostream by
         // the << operator.
         print(a, b, c, "World!");
+
+        // The results can be forwarded to the given output stream
+        // instead of always being fed to std::cout.
+        print(cerr, 5.3, 2, "Hey!");
     }
 
     ////////////////////////////////////////////////////////////

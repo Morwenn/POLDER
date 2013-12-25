@@ -16,15 +16,38 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-template<typename First, typename... Printables>
-void print(const First& first, const Printables&... others)
+namespace details
 {
-    std::cout << first << " ";
-    print(others...);
+    template<typename T>
+    auto print_impl(std::ostream&, const T&)
+        -> void;
+
+    template<typename First, typename... Args>
+    auto print_impl(std::ostream& stream, const First& first, const Args&... others)
+        -> void
+    {
+        stream << first << " ";
+        print_impl(stream, others...);
+    }
+
+    template<typename T>
+    auto print_impl(std::ostream& stream, const T& arg)
+        -> void
+    {
+        stream << arg << std::endl;
+    }
 }
 
-template<typename T>
-void print(const T& arg)
+template<typename... Args>
+auto print(Args&&... args)
+    -> void
 {
-    std::cout << arg << std::endl;
+    details::print_impl(std::cout, std::forward<Args>(args)...);
+}
+
+template<typename... Args>
+auto print(std::ostream& stream, Args&&... args)
+    -> void
+{
+    details::print_impl(stream, std::forward<Args>(args)...);
 }
