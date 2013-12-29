@@ -17,34 +17,26 @@
  */
 #include <cctype>
 #include <cmath>
-#include <cstdlib>
-#include <cstring>
 #include <sstream>
 #include <stack>
 #include <vector>
 #include <POLDER/evaluate.h>
-#include <POLDER/string.h>
-#include <POLDER/stype.h>
 #include <POLDER/math/factorial.h>
 
 
 namespace polder
 {
-
 namespace
 {
-
     ////////////////////////////////////////////////////////////
     // Constants
     ////////////////////////////////////////////////////////////
 
-    // Supported operators
+    // Handled operators
     enum op_t: int
     {
-        ERROR = -1,
-
-        // Supported binary operators
-        EQ = 0,     // ==
+        // Handled binary operators
+        EQ = 0,     // =
         NE,         // !=, <>
         GE,         // >=
         LE,         // <=
@@ -66,23 +58,51 @@ namespace
         LT,         // <
         BXOR,       // ^^
         IDIV,       // //
-        ASSIGN,     // =
         NB_BINARY_OPERATORS,
 
-        // Supported prefix unary operators
+        // Handled prefix unary operators
         USUB,       // - (Unary minus)
         NOT,        // ! (Logical NOT)
         BNOT,       // ~ (Bitwise NOT)
 
-        // Supported postfix unary operators
+        // Handled postfix unary operators
         FAC         // ! (Factorial)
+    };
+
+    constexpr const char* op_str[] = {
+        "=",
+        "!=",
+        ">=",
+        "<=",
+        "&&",
+        "||",
+        "^^",
+        "**",
+        "<=>",
+        "<<",
+        ">>",
+        "+",
+        "-",
+        "*",
+        "/",
+        "%",
+        "&",
+        "|",
+        ">",
+        "<",
+        "^",
+        "//",
+        "-",
+        "!",
+        "~",
+        "!"
     };
 
     // Binary operators priority
     // The priority of unary operators is
     // determined by their position
-    constexpr unsigned int _priority[NB_BINARY_OPERATORS] = {
-        7,   // ==
+    constexpr unsigned int _priority[] = {
+        7,   // =
         7,   // !=, <>
         8,   // >=
         8,   // <=
@@ -104,14 +124,11 @@ namespace
         8,   // <
         5,   // ^^
         11,  // //
-        0,   // =
     };
-
 
     // Element types
     enum struct elem_t
     {
-        NONE,
         OPERAND,
         OPERATOR,
         PREFIX,
@@ -119,516 +136,444 @@ namespace
         PARENTHESIS
     };
 
-    // Element structure
     struct Token
     {
-        // The element can be
+        elem_t type;
         union
         {
-            char par;       // A parenthesis
-            op_t op;        // A binary operator
-            double data;    // A real value
+            char par;       // parenthesis
+            op_t op;        // operator
+            double data;    // real value
         };
-        elem_t type;
+
+        Token():
+            type(elem_t::OPERAND),
+            data(0.0)
+        {}
+
+        Token(char p):
+            type(elem_t::PARENTHESIS),
+            par(p)
+        {}
+
+        Token(double d):
+            type(elem_t::OPERAND),
+            data(d)
+        {}
+
+        Token(op_t o):
+            type(elem_t::OPERATOR),
+            op(o)
+        {
+            if (o == op_t::USUB
+                || o == op_t::NOT
+                || o == op_t::BNOT)
+            {
+                type = elem_t::PREFIX;
+            }
+            else if (o == op_t::FAC)
+            {
+                type = elem_t::POSTFIX;
+            }
+        }
     };
 }
 
+// Error codes
+enum struct eval_error_code
+{
+    UNKNOWN_OPERATOR,
+    UNEXPECTED_CHARACTER,
+    NOT_ENOUGH_OPERANDS
+};
 
-// Expression handling
-static void expr_norm(char* str);
-static std::vector<Token> tokenize(const char* expr);
-static std::stack<Token> postfix(const std::vector<Token>& vec);
-static double eval_postfix(std::stack<Token>&& S);
+// Lexer and parser
+auto tokenize(const std::string& expr)
+    -> std::vector<Token>;
+auto postfix(const std::vector<Token>& vec)
+    -> std::stack<Token>;
+auto eval_postfix(std::stack<Token>&& S)
+    -> double;
 
 // Miscellaneous
-static Token op_value(const char* op);
-static Token operation(double a, op_t op);
-static Token operation(double a, double b, op_t op);
-static int priority(const Token& E);
+auto operation(double a, op_t op)
+    -> Token;
+auto operation(double a, double b, op_t op)
+    -> Token;
+auto priority(const Token& token)
+    -> int;
 
 // Type checking
-static bool is_operand(const Token& E);
-static bool is_operator(const Token& E);
-static bool is_prefix(const Token& E);
-static bool is_postfix(const Token& E);
-
-
-using namespace std;
+auto is_operand(const Token& token)
+    -> bool;
+auto is_operator(const Token& token)
+    -> bool;
+auto is_prefix(const Token& token)
+    -> bool;
+auto is_postfix(const Token& token)
+    -> bool;
 
 ////////////////////////////////////////////////////////////
 // Evaluation function
 ////////////////////////////////////////////////////////////
 
-double evaluate(const char* expr)
+auto evaluate(const std::string& expr)
+    -> double
 {
-    char* expr_copy = new char[2*strlen(expr)+1];
-    strcpy(expr_copy, expr);
-    expr_norm(expr_copy);
-    const vector<Token> vec = tokenize(expr_copy); // Split the string into elements
-    delete[] expr_copy;
-    return eval_postfix(postfix(vec));            // Order the elements and evaluate the expression
+    auto tokens = tokenize(expr);
+    return eval_postfix(postfix(tokens));
 }
 
-
 ////////////////////////////////////////////////////////////
-// Expression handling functions
+// Lexer and Parser
 ////////////////////////////////////////////////////////////
 
-/* Add/remove spaces in the expression so that it will be easier to split it
-   Also returns an error when reading an unexpected character. */
-void expr_norm(char* str)
+auto tokenize(const std::string& expr)
+    -> std::vector<Token>
 {
-    char* new_str = new char[2*strlen(str)+1];
+    std::vector<Token> res;
 
     // Number of parenthesis
     int nmb_parenthesis = 0;
 
-    std::size_t count = 0;
-    for (std::size_t i = 0 ; str[i] ; ++i)
+    for (auto it = expr.cbegin() ; it != expr.cend() ; ++it)
     {
-        switch (str[i])
+        // Skip all kinds of spaces
+        while (std::isspace(*it))
         {
-            // Characters always used alone
-            case ')':
+            ++it;
+        }
+        if (*it == '\0')
+        {
+            break;
+        }
+
+        if (std::isdigit(*it))
+        {
+            // Found a number
+            auto tmp = it;
+            bool has_dot = false;
+            while (std::isdigit(*it) || *it == '.')
             {
+                if (*it == '.')
+                {
+                    if (has_dot)
+                    {
+                        // Two dots in the same number: error
+                        throw evaluation_error(eval_error_code::UNEXPECTED_CHARACTER, '.');
+                    }
+                    else
+                    {
+                        // We just confirmed we found a real number
+                        has_dot = true;
+                    }
+                }
+                ++it;
+            }
+            auto tmp_str = std::string(tmp, it);
+            res.emplace_back(std::stod(tmp_str));
+            --it; // Iteration is pushed one step too far
+            continue;
+        }
+
+        switch (*it)
+        {
+            case ')':
                 if (nmb_parenthesis == 0)
                 {
                     throw evaluation_error("trying to close a non-opened parenthesis");
                 }
-                // Substract 2 so that it compenses that addition done after
-                nmb_parenthesis -= 2;
-            }
-            case '(': ++nmb_parenthesis;
-            case '%':
-            case '~':
-            {
-                if (!isspace(new_str[count-1]) && count > 0)
-                {
-                    new_str[count++] = ' ';
-                }
-                new_str[count++] = str[i];
-                new_str[count++] = ' ';
+                --nmb_parenthesis;
+                res.emplace_back(')');
                 break;
-            }
-            // Characters used alone or with an equivalent
-            case '*': // "*" or "**"
-            case '&': // "&" or "&&"
-            case '|': // "|" or "||"
-            case '^': // "^" or "^^"
-            case '/': // "/" or "//"
-            {
-                if (!isspace(new_str[count-1]) && new_str[count-1] != str[i])
-                {
-                    new_str[count++] = ' ';
-                }
-                new_str[count++] = str[i];
-                if (str[i+1] != str[i])
-                {
-                    new_str[count++] = ' ';
-                }
-                break;
-            }
-            case '+': // Can be unary or binary
-            {
-                // Check whether the '+' is unary or not
-                int j = count;
-                while (--j >= 0 && isspace(new_str[j])); // Previous character
-                if (j >= 0 && (isdigit(new_str[j]) || new_str[j] == '.' || new_str[j] == '!' || new_str[j] == ')'))
-                {
-                    // If '+' is not unary
-                    if (!isspace(new_str[count-1]) && count > 0)
-                    {
-                        new_str[count++] = ' ';
-                    }
-                    new_str[count++] = '+';
-                    new_str[count++] = ' ';
-                }
-                // else it is ignored
-                break;
-            }
-            case '-': // Can be unary or not
-            {
-                if (!isspace(new_str[count-1]) && i > 0)
-                {
-                    new_str[count++] = ' ';
-                }
 
-                // Check whether the '-' is unary or not
-                int j = i; int k = i;
-                while (--j >= 0 && isspace(str[j])); // Previous character
-                if (j < 0 || str[j] == '(')
+            case '(':
+                ++nmb_parenthesis;
+                res.emplace_back('(');
+                break;
+
+            case '+':
+                res.emplace_back(op_t::ADD);
+                break;
+            case '%':
+                res.emplace_back(op_t::MOD);
+                break;
+            case '~':
+                res.emplace_back(op_t::BNOT);
+                break;
+            case '=':
+                res.emplace_back(op_t::EQ);
+                break;
+
+            case '*': // * or **
+                if (it[1] == '*')
                 {
-                    // This '-' is unary
-                    while (isspace(str[++k])); // Following character
-                    if (str[k] == '(')
-                    {
-                        // We add '$' before the symbol to tell it is an unary symbol
-                        new_str[count++] = '$';
-                        new_str[count++] = '-';
-                        new_str[count++] = ' ';
-                    }
-                    else if (!isdigit(str[k]) && str[k] != '.')
-                    {
-                        throw evaluation_error();
-                    }
-                    else
-                    {
-                        new_str[count++] = '-';
-                    }
+                    res.emplace_back(op_t::POW);
+                    ++it;
                 }
                 else
                 {
-                    new_str[count++] = '-';
-                    new_str[count++] = ' ';
+                    res.emplace_back(op_t::MUL);
                 }
                 break;
-            }
-            case '=': // Used in "==", "!=", ">=", "<=" and "<=>"
-            {
-                if (!isspace(new_str[count-1]) && str[i+1] == '=')
+
+            case '&': // & or &&
+                if (it[1] == '&')
                 {
-                    new_str[count++] = ' ';
+                    res.emplace_back(op_t::AND);
+                    ++it;
                 }
-                new_str[count++] = '=';
-                if (str[i+1] != '>' && str[i+1] != '=')
+                else
                 {
-                    new_str[count++] = ' ';
-                }
-                break;
-            }
-            case '<': // Used alone and in "<=", "<=>", "<<" and "<>"
-            {
-                if (!isspace(new_str[count-1]) && new_str[count-1] != '<')
-                {
-                    new_str[count++] = ' ';
-                }
-                new_str[count++] = '<';
-                if (str[i+1] != '<' && str[i+1] != '>' && str[i+1] != '=')
-                {
-                    new_str[count++] = ' ';
+                    res.emplace_back(op_t::BAND);
                 }
                 break;
-            }
-            case '>': // Used alone and in ">=", "<=>", ">>" and "<>"
-            {
-                if (!isspace(new_str[count-1]) && new_str[count-1] != '<' && new_str[count-1] != '>' && new_str[count-1] != '=')
+
+            case '|': // | or ||
+                if (it[1] == '*')
                 {
-                    new_str[count++] = ' ';
+                    res.emplace_back(op_t::OR);
+                    ++it;
                 }
-                new_str[count++] = '>';
-                if (str[i+1] != '=' && str[i+1] != '>')
+                else
                 {
-                    new_str[count++] = ' ';
+                    res.emplace_back(op_t::BOR);
                 }
                 break;
-            }
-            case '!': // Used alone (as prefix or postfix) and in "!="
-            {
-                if (!isspace(new_str[count-1]) && count > 0)
+
+            case '^': // ^ or ^^
+                if (it[1] == '^')
                 {
-                    new_str[count++] = ' ';
+                    res.emplace_back(op_t::XOR);
+                    ++it;
                 }
-                int j = i;
-                while (--j >= 0 && (isspace(str[j]) || str[j] == '!')); // Previous character
-                if ((isdigit(str[j]) || str[j] == '.' || str[j] == ')') && count > 0)
+                else
                 {
-                    // Can be "!=" or factorial
-                    if (str[i+1] == '=' && str[i+2] != '=')
+                    res.emplace_back(op_t::BXOR);
+                }
+                break;
+
+            case '/': // / or //
+                if (it[1] == '/')
+                {
+                    res.emplace_back(op_t::IDIV);
+                    ++it;
+                }
+                else
+                {
+                    res.emplace_back(op_t::DIV);
+                }
+                break;
+
+            case '-': // - (unary or binary)
+                if (res.empty())
+                {
+                    res.emplace_back(op_t::USUB);
+                    break;
+                }
+                else
+                {
+                    const Token& t = res.back();
+                    if (is_operand(t)
+                        || is_postfix(t)
+                        || (t.type == elem_t::PARENTHESIS && t.par == ')'))
                     {
-                        // "!=" symbol
-                        new_str[count++] = '!';
+                        res.emplace_back(op_t::SUB);
                     }
-                    else // Factorial, represented by "$!"
+                    else
                     {
-                        new_str[count++] = '$';
-                        new_str[count++] = '!';
-                        new_str[count++] = ' ';
+                        res.emplace_back(op_t::USUB);
                     }
+                    break;
                 }
-                else // Can just be the logical NOT
+
+            case '<': // <, <=, <=>, << and <>
+                if (it[1] == '<')
                 {
-                    new_str[count++] = '!';
-                    new_str[count++] = ' ';
+                    res.emplace_back(op_t::LSHIFT);
+                    ++it;
+                    break;
                 }
+                else if (it[1] == '>')
+                {
+                    res.emplace_back(op_t::NE);
+                    ++it;
+                    break;
+                }
+                else if (it[1] == '=')
+                {
+                    if (it[2] == '>')
+                    {
+                        res.emplace_back(op_t::SPACE);
+                        it += 2;
+                        break;
+                    }
+                    res.emplace_back(op_t::LE);
+                    ++it;
+                    break;
+                }
+                res.emplace_back(op_t::LT);
                 break;
-            }
-            case '.':
-            {
-                if (!isdigit(new_str[count-1]) && !isspace(new_str[count-1]))
+
+            case '>': // >, >= and >>
+                if (it[1] == '>')
                 {
-                    new_str[count++] = ' ';
+                    res.emplace_back(op_t::RSHIFT);
+                    ++it;
+                    break;
                 }
-                new_str[count++] = '.';
-                if (!isdigit(str[i+1]))
+                else if (it[1] == '=')
                 {
-                    new_str[count++] = ' ';
+                    res.emplace_back(op_t::GE);
+                    ++it;
+                    break;
                 }
+                res.emplace_back(op_t::GT);
                 break;
-            }
+
+            case '!': // ! (prefix or postfix) and !=
+                if (it[1] == '=' && it[1] != '=')
+                {
+                    res.emplace_back(op_t::NE);
+                    break;
+                }
+                else
+                {
+                    const Token& t = res.back();
+                    if (is_operand(t)
+                        || is_postfix(t)
+                        || (t.type == elem_t::PARENTHESIS && t.par == ')'))
+                    {
+                        res.emplace_back(op_t::FAC);
+                        break;
+                    }
+                    res.emplace_back(op_t::NOT);
+                    break;
+                }
+
             default:
-            {
-                if (isdigit(str[i]))
-                {
-                    new_str[count++] = str[i];
-                }
-                else if (!isspace(str[i]))
-                {
-                    throw evaluation_error(_eval_error::UNEXPECTED_CHARACTER, str[i]);
-                }
-            }
+                throw evaluation_error(eval_error_code::UNKNOWN_OPERATOR, *it);
         }
     }
 
-    // Add the ending character
-    if (isspace(new_str[count-1]))
-    {
-        new_str[--count] = '\0';
-    }
-    else
-    {
-        new_str[count] = '\0';
-    }
-
-    // Check for errors
-    if (!isdigit(new_str[--count]) && new_str[count] != '.' && new_str[count] != ')' && new_str[count] != '!')
-    {
-        throw evaluation_error(_eval_error::LAST_CHARACTER, new_str[count]);
-    }
-
-    // Check whether all the parenthesis are closed
     if (nmb_parenthesis)
     {
-        throw evaluation_error("there are unclosed parenthesis in the expression");
+        throw evaluation_error("mismatched parenthesis in the expression");
     }
 
-    strcpy(str, new_str);
-    delete[] new_str;
+    return res;
 }
 
-// Create a vector of elements with the expression
-vector<Token> tokenize(const char* expr)
+auto postfix(const std::vector<Token>& vec)
+    -> std::stack<Token>
 {
-    vector<Token> vec;
-    char* word = new char[128];
-    Token e;
+    std::stack<Token> r, p;
 
-    strcpy(word, string::read_word_first(expr));
-    while (word[0])
+    for (const Token& token: vec)
     {
-        if (word[0] == '(' || word[0] == ')')
+        if (is_operand(token))
         {
-            e.type = elem_t::PARENTHESIS;
-            e.par = word[0];
-        }
-        else if (isdigit(word[0]) || word[0] == '.'
-            || (word[0] == '-' && (isdigit(word[1]) || word[1] == '.')))
-        {
-            e.type = elem_t::OPERAND;
-            if (stype::is_unumber(word))
+            r.push(token);
+            while (not p.empty() && is_prefix(p.top()))
             {
-                e.data = std::atof(word);
-            }
-            else
-            {
-                throw evaluation_error(_eval_error::INVALID_NUMBER, word);
+                r.push(p.top());
+                p.pop();
             }
         }
-        else
+        else if (is_postfix(token))
         {
-            e = op_value(word);
+            r.push(token);
         }
-        vec.push_back(e);
-        strcpy(word, string::read_word_next());
+        else if (is_operator(token))
+        {
+            while (not p.empty() && is_operator(p.top())
+                  && (priority(token) <= priority(p.top())))
+            {
+                r.push(p.top());
+                p.pop();
+            }
+            p.push(token);
+        }
+        else if (is_prefix(token) || token.par == '(')
+        {
+            p.push(token);
+        }
+        else // if token.par == ')'
+        {
+            while (not p.empty() && p.top().par != '(')
+            {
+                r.push(p.top());
+                p.pop();
+            }
+            p.pop();
+            while (not p.empty() && is_prefix(p.top()))
+            {
+                r.push(p.top());
+                p.pop();
+            }
+        }
     }
-    delete[] word;
-    return vec;
+
+    while (not r.empty())
+    {
+        p.push(r.top());
+        r.pop();
+    }
+    return p;
 }
 
-// Create the postfix expression from a vector of elements
-stack<Token> postfix(const vector<Token>& vec)
-{
-    stack<Token> R, P;
-
-    for (const Token& e: vec)
-    {
-        if (is_operand(e))
-        {
-            R.push(e);
-            while (!P.empty() && is_prefix(P.top()))
-            {
-                R.push(P.top());
-                P.pop();
-            }
-        }
-        else if (is_postfix(e))
-        {
-            R.push(e);
-        }
-        else if (is_operator(e))
-        {
-            while(!P.empty() && is_operator(P.top()) && (priority(e) <= priority(P.top())))
-            {
-                R.push(P.top());
-                P.pop();
-            }
-            P.push(e);
-        }
-        else if (e.par == '(' || is_prefix(e))
-        {
-            P.push(e);
-        }
-        else // if e.par == ')'
-        {
-            while (!P.empty() && P.top().par != '(')
-            {
-                R.push(P.top());
-                P.pop();
-            }
-            P.pop();
-            while (!P.empty() && is_prefix(P.top()))
-            {
-                R.push(P.top());
-                P.pop();
-            }
-        }
-    }
-
-    while(!R.empty())
-    {
-        P.push(R.top());
-        R.pop();
-    }
-    return P;
-}
-
-// Evaluate the result with the postfix expression
-double eval_postfix(stack<Token>&& S)
+auto eval_postfix(std::stack<Token>&& st)
+    -> double
 {
     Token x, y, e;
-    stack<Token> R;
+    std::stack<Token> operands;
 
-    while (!S.empty())
+    while (not st.empty())
     {
-        e = S.top();
-        S.pop();
+        e = st.top();
+        st.pop();
         if (is_operand(e))
         {
-            R.push(e);
+            operands.push(e);
         }
         else if (is_operator(e))
         {
-            x = R.top();
-            R.pop();
-            y = R.top();
-            R.pop();
-            R.push(operation(y.data, x.data, e.op));
+            if (operands.size() < 2)
+            {
+                throw evaluation_error(eval_error_code::NOT_ENOUGH_OPERANDS, op_str[e.op]);
+            }
+            x = operands.top();
+            operands.pop();
+            y = operands.top();
+            operands.pop();
+            operands.push(operation(y.data, x.data, e.op));
         }
-        else // if (is_prefix(e) || is_postfix(e))
+        else // if (is_prefix(token) || is_postfix(token))
         {
-            x = R.top();
-            R.pop();
-            R.push(operation(x.data, e.op));
+            if (operands.empty())
+            {
+                throw evaluation_error(eval_error_code::NOT_ENOUGH_OPERANDS, op_str[e.op]);
+            }
+            x = operands.top();
+            operands.pop();
+            operands.push(operation(x.data, e.op));
         }
     }
-    return R.top().data;
+    return operands.top().data;
 }
-
 
 ////////////////////////////////////////////////////////////
 // Miscellaneous functions
 ////////////////////////////////////////////////////////////
 
-// Returns the value corresponding to an operator
-Token op_value(const char* op)
+auto priority(const Token& token)
+    -> int
 {
-    Token res;
-
-    if (op[1] == '\0')
-    {
-        switch (op[0])
-        {
-            case '+': res.op = op_t::ADD; break;
-            case '-': res.op = op_t::SUB; break;
-            case '*': res.op = op_t::MUL; break;
-            case '<': res.op = op_t::LT; break;
-            case '>': res.op = op_t::GT; break;
-            case '/': res.op = op_t::DIV; break;
-            case '%': res.op = op_t::MOD; break;
-            case '&': res.op = op_t::BAND; break;
-            case '^': res.op = op_t::BXOR; break;
-            case '|': res.op = op_t::BOR; break;
-            case '!':
-                res.op = op_t::NOT;
-                res.type = elem_t::PREFIX;
-                return res;
-            case '~':
-                res.op = op_t::BNOT;
-                res.type = elem_t::PREFIX;
-                return res;
-            default: throw evaluation_error(_eval_error::UNKNOWN_OPERATOR, op);
-        }
-    }
-    else // If op has several characters
-    {
-        if (!strcmp(op, "=="))
-            res.op = op_t::EQ;
-        else if (!strcmp(op, "!=") || !strcmp(op, "<>"))
-            res.op = op_t::NE;
-        else if (!strcmp(op, ">="))
-            res.op = op_t::GE;
-        else if (!strcmp(op, "<="))
-            res.op = op_t::LE;
-        else if (!strcmp(op, "&&"))
-            res.op = op_t::AND;
-        else if (!strcmp(op, "||"))
-            res.op = op_t::OR;
-        else if (!strcmp(op, "**"))
-            res.op = op_t::POW;
-        else if (!strcmp(op, "//"))
-            res.op = op_t::IDIV;
-        else if (!strcmp(op, "<=>"))
-            res.op = op_t::SPACE;
-        else if (!strcmp(op, "<<"))
-            res.op = op_t::LSHIFT;
-        else if (!strcmp(op, ">>"))
-            res.op = op_t::RSHIFT;
-        else if (!strcmp(op, "^^"))
-            res.op = op_t::XOR;
-        else if (!strcmp(op, "$-"))
-        {
-            res.op = op_t::USUB;
-            res.type = elem_t::PREFIX;
-            return res;
-        }
-        else if (!strcmp(op, "$!"))
-        {
-            res.op = op_t::FAC;
-            res.type = elem_t::POSTFIX;
-            return res;
-        }
-        else
-            throw evaluation_error(_eval_error::UNKNOWN_OPERATOR, op);
-    }
-
-    // Executed if an element is a binary operator
-    res.type = elem_t::OPERATOR;
-    return res;
+    return _priority[token.op];
 }
 
-// Returns the priority of an operator
-int priority(const Token& E)
-{
-    if (E.op >= 0 && E.op < op_t::NB_BINARY_OPERATORS)
-    {
-        return _priority[E.op];
-    }
-
-    // Should never be executed
-    return -1;
-}
-
-// Does the operation between two operands
-Token operation(double a, double b, op_t op)
+auto operation(double a, double b, op_t op)
+    -> Token
 {
     Token res;
     res.type = elem_t::OPERAND;
@@ -658,16 +603,15 @@ Token operation(double a, double b, op_t op)
         case op_t::LSHIFT: res.data = (int) a << (int) b; break;     // <<
         case op_t::RSHIFT: res.data = (int) a >> (int) b; break;     // >>
 
-        // Shoulf never happen
-        default: throw evaluation_error();
+        // Should never happen
+        default:
+            throw evaluation_error();
     }
-
-    // Returns an operand corresponding to the result of the operation
     return res;
 }
 
-// Does an unary operation
-Token operation(double a, op_t op)
+auto operation(double a, op_t op)
+    -> Token
 {
     Token res;
     res.type = elem_t::OPERAND;
@@ -680,70 +624,65 @@ Token operation(double a, op_t op)
         case op_t::FAC: res.data = math::factorial((unsigned int) a); break;    // ! (postfix)
 
         // Should never happen
-        default: throw evaluation_error();
+        default:
+            throw evaluation_error();
     }
-
-    // Returns an operand corresponding to the result of the operation
     return res;
 }
-
 
 ////////////////////////////////////////////////////////////
 // Type checking functions
 ////////////////////////////////////////////////////////////
 
-bool is_operand(const Token& E)
+auto is_operand(const Token& token)
+    -> bool
 {
-    return E.type == elem_t::OPERAND;
+    return token.type == elem_t::OPERAND;
 }
 
-bool is_operator(const Token& E)
+auto is_operator(const Token& token)
+    -> bool
 {
-    return E.type == elem_t::OPERATOR;
+    return token.type == elem_t::OPERATOR;
 }
 
-bool is_prefix(const Token& E)
+auto is_prefix(const Token& token)
+    -> bool
 {
-    return E.type == elem_t::PREFIX;
+    return token.type == elem_t::PREFIX;
 }
 
-bool is_postfix(const Token& E)
+auto is_postfix(const Token& token)
+    -> bool
 {
-    return E.type == elem_t::POSTFIX;
+    return token.type == elem_t::POSTFIX;
 }
-
 
 ////////////////////////////////////////////////////////////
 // Exceptions handling
 ////////////////////////////////////////////////////////////
 
-// Create a new exception
 evaluation_error::evaluation_error():
     msg("polder::evaluation_error: undocumented error")
 {}
 
-// Create a new exception
 evaluation_error::evaluation_error(const std::string& arg):
     msg(std::string("polder::evaluation_error: ") + arg)
 {}
 
-// Create a new exception
-evaluation_error::evaluation_error(_eval_error e, char c)
+evaluation_error::evaluation_error(eval_error_code e, char c)
 {
-    ostringstream oss;
+    std::ostringstream oss;
     oss << "polder::evaluation_error: ";
 
     switch (e)
     {
-        case _eval_error::UNEXPECTED_CHARACTER:
+        case eval_error_code::UNKNOWN_OPERATOR:
+            oss << "unknown operator '" << c << "' in the expression";
+            break;
+        case eval_error_code::UNEXPECTED_CHARACTER:
             oss << "unexpected character '" << c <<"' in the expression";
             break;
-        case _eval_error::EXPECTED_CHARACTER:
-            oss << "expected character '" << c <<"' in the expression";
-            break;
-        case _eval_error::LAST_CHARACTER:
-            oss << "unexpected character '" << c <<"' at the end of the expression";
-            break;
         default:
             oss << "unknown error in the expression";
             break;
@@ -752,20 +691,18 @@ evaluation_error::evaluation_error(_eval_error e, char c)
     msg = oss.str();
 }
 
-// Creation a new exception
-evaluation_error::evaluation_error(_eval_error e, const std::string& arg)
+evaluation_error::evaluation_error(eval_error_code e, const std::string& arg)
 {
-    ostringstream oss;
+    std::ostringstream oss;
     oss << "polder::evaluation_error: ";
 
     switch (e)
     {
-        case _eval_error::UNKNOWN_OPERATOR:
+        case eval_error_code::UNKNOWN_OPERATOR:
             oss << "unknown operator '" << arg << "' in the expression";
             break;
-
-        case _eval_error::INVALID_NUMBER:
-            oss << "'" << arg << "' is not valid number";
+        case eval_error_code::NOT_ENOUGH_OPERANDS:
+            oss << "not enough operands for operator '" << arg << "'.";
             break;
         default:
             oss << "unknown error in the expression";
@@ -775,14 +712,12 @@ evaluation_error::evaluation_error(_eval_error e, const std::string& arg)
     msg = oss.str();
 }
 
-// Destructor, does nothing
 evaluation_error::~evaluation_error() noexcept {}
 
-// Returns what the error is
-const char* evaluation_error::what() const noexcept
+auto evaluation_error::what() const noexcept
+    -> const char*
 {
     return msg.c_str();
 }
-
 
 } // namespace polder

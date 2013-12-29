@@ -27,58 +27,46 @@
 
 namespace polder
 {
+    ////////////////////////////////////////////////////////////
+    // Functions
+    ////////////////////////////////////////////////////////////
 
+    /**
+     * @brief Evaluates a mathematical/logical expression
+     *
+     * @param expr Expression to evaluate
+     * @return Result of the expression
+     */
+    POLDER_API
+    auto evaluate(const std::string& expr)
+        -> double;
 
-////////////////////////////////////////////////////////////
-// Errors/Exceptions handling
-////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
+    // Errors/Exceptions handling
+    ////////////////////////////////////////////////////////////
 
-/**
- * Error types (internal, not to be used)
- */
-enum struct _eval_error
-{
-    UNKNOWN_OPERATOR,       /**< An unknown string has been considered as an operator. */
-    UNEXPECTED_CHARACTER,   /**< Character not to be used in a mathematical/logical expression. */
-    EXPECTED_CHARACTER,     /**< Some open parenthesis has not been closed. */
-    LAST_CHARACTER,         /**< The last character can not be the one found. */
-    INVALID_NUMBER          /**< The given operand is not a number (syntax error, etc...). */
-};
+    // Evaluation error codes
+    enum struct eval_error_code;
 
+    /**
+     * Exceptions raised when a syntax error is
+     * found in the expression to evaluate.
+     */
+    class POLDER_API evaluation_error:
+        public std::exception
+    {
+        public:
+            explicit evaluation_error();
+            explicit evaluation_error(const std::string& arg);
+            explicit evaluation_error(eval_error_code e, char c);
+            explicit evaluation_error(eval_error_code e, const std::string& arg);
+            virtual ~evaluation_error() noexcept;
+            virtual auto what() const noexcept
+                -> const char*;
 
-/**
- * Exceptions raised when a syntax error is found in the expression to evaluate.
- */
-class POLDER_API evaluation_error:
-    public std::exception
-{
-    public:
-        explicit evaluation_error();
-        explicit evaluation_error(const std::string& arg);
-        explicit evaluation_error(_eval_error e, char c);
-        explicit evaluation_error(_eval_error e, const std::string& arg);
-        virtual ~evaluation_error() noexcept;
-        virtual const char* what() const noexcept;
-
-    private:
-        std::string msg; /**< Error message */
-};
-
-
-////////////////////////////////////////////////////////////
-// Functions
-////////////////////////////////////////////////////////////
-
-/**
- * @brief Evaluates a mathematical/logical expression
- *
- * @param expr Expression to evaluate
- * @return Resultat of the expression
- */
-POLDER_API double evaluate(const char* expr);
-
-
-} // namespace polder
-
+        private:
+            std::string msg; /**< Error message */
+    };
+}
 
 #endif // _POLDER_EVALUATE_H
