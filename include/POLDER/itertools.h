@@ -97,11 +97,11 @@ constexpr auto range(int begin, int end, unsigned int step=1) noexcept
  * iteration.
  */
 template<typename T>
-auto rbegin(T& iter)
-    -> decltype(iter.rbegin());
+auto rbegin(T& iterable)
+    -> decltype(iterable.rbegin());
 template<typename T>
-auto rbegin(const T& iter)
-    -> decltype(iter.crbegin());
+auto rbegin(const T& iterable)
+    -> decltype(iterable.crbegin());
 template<typename T, std::size_t N>
 auto rbegin(T (&array)[N])
     -> std::reverse_iterator<T*>;
@@ -114,11 +114,11 @@ auto rbegin(T (&array)[N])
  * iteration.
  */
 template<typename T>
-auto rend(T& iter)
-    -> decltype(iter.rend());
+auto rend(T& iterable)
+    -> decltype(iterable.rend());
 template<typename T>
-auto rend(const T& iter)
-    -> decltype(iter.crend());
+auto rend(const T& iterable)
+    -> decltype(iterable.crend());
 template<typename T, std::size_t N>
 auto rend(T (&array)[N])
     -> std::reverse_iterator<T*>;
@@ -130,11 +130,11 @@ auto rend(T (&array)[N])
  * use the rbegin and rend functions to operate
  * reverse iteration in a foreach loop.
  *
- * @param iter Iterable
+ * @param iterable Iterable
  * @return Generator
  */
 template<typename BidirectionalIterable>
-auto reversed(BidirectionalIterable&& iter)
+auto reversed(BidirectionalIterable&& iterable)
     -> ReversedObject<BidirectionalIterable>;
 
 /**
@@ -144,47 +144,47 @@ auto reversed(BidirectionalIterable&& iter)
  * use the fbegin and fend functions to operate
  * flat iteration in a foreach loop.
  *
- * @param iter Iterable
+ * @param iterable Iterable
  * @return Generator
  */
 template<typename FlatIterable>
-auto flat(FlatIterable&& iter)
+auto flat(FlatIterable&& iterable)
     -> FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>;
 
 /**
  * @brief Apply function to iterable
  *
  * Generates a MapObject. It's a generator that
- * yields the values of \a iter one by one after
- * \a function has been applied to them.
+ * yields the values of \a iterable one by one
+ * after \a function has been applied to them.
  *
  * @param function Function to apply
- * @param iter Iterable
+ * @param iterable Iterable
  * @return Generator
  */
 template<typename T, typename Iterable>
-auto map(T (*function)(const T&) , Iterable&& iter)
+auto map(T (*function)(const T&) , Iterable&& iterable)
     -> MapObject<T, Iterable, is_reverse_iterable<Iterable>::value>;
 
 /**
  * @brief Filter elements from an iterable
  *
  * Generates a FilterObject. It's a generator that
- * yields the values of \a iter one by one if
+ * yields the values of \a iterable one by one if
  * \a function returns true.
  *
  * @param function Filter function to apply
- * @param iter Iterable
+ * @param iterable Iterable
  * @return Generator
  */
 template<typename T, typename Iterable>
-auto filter(bool (*function)(const T&) , Iterable&& iter)
+auto filter(bool (*function)(const T&) , Iterable&& iterable)
     -> FilterObject<T, Iterable>;
 
 /**
  * @brief Iter through many containers
  *
- * Acts like a wrapper that would allow to iter through
+ * Acts like a wrapper that would allow to iterate through
  * many containers as if there was just one of them
  * containing all of their values.
  *
@@ -193,7 +193,7 @@ auto filter(bool (*function)(const T&) , Iterable&& iter)
  * type. Otherwise, it will crash at compile time.
  */
 template<typename... Iterables>
-auto chain(Iterables&&... iters)
+auto chain(Iterables&&... iterables)
     -> ChainObject<Iterables...>;
 
 /**
@@ -205,7 +205,7 @@ auto chain(Iterables&&... iters)
  * std::tuple<int, float>.
  */
 template<typename... Iterables>
-auto zip(Iterables&&... iters)
+auto zip(Iterables&&... iterables)
     -> ZipObject<Iterables...>;
 
 /**
@@ -216,21 +216,28 @@ auto zip(Iterables&&... iters)
  * given iterator. It allows to create iterators
  * to traverse keys of a std::map-like object
  * for example.
- * Useful to iter through some specific std::pair
+ * Useful to iterate through some specific std::pair
  * or std::tuple elements.
  */
 template<std::size_t N, typename Iterator>
-class get_iterator
+class get_iterator:
+    public std::iterator<
+        typename std::iterator_traits<Iterator>::iterator_category,
+        typename std::iterator_traits<Iterator>::value_type,
+        typename std::iterator_traits<Iterator>::difference_type,
+        typename std::iterator_traits<Iterator>::pointer,
+        typename std::iterator_traits<Iterator>::reference>
 {
     private:
 
         Iterator _current;
 
-        using value_type =  typename std::decay<decltype(std::get<N>(*_current))>::type;
-        using pointer =     value_type*;
-        using reference =   value_type&;
-
     public:
+
+        using iterator_type     = Iterator;
+        using difference_type   = typename std::iterator_traits<Iterator>::difference_type;
+        using pointer           = typename std::iterator_traits<Iterator>::pointer;
+        using reference         = typename std::iterator_traits<Iterator>::reference;
 
         get_iterator();
         explicit get_iterator(Iterator it);
