@@ -56,7 +56,7 @@ template<typename T>
 Matrix<T>::Matrix(std::initializer_list<T> values):
     _height(1),
     _width(values.size()),
-    _data(values.begin(), values.end()),
+    _data(std::begin(values), std::end(values)),
     _rows()
 {
     _rows.emplace_back(_width, data());
@@ -65,7 +65,7 @@ Matrix<T>::Matrix(std::initializer_list<T> values):
 template<typename T>
 Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> values):
     _height(values.size()),
-    _width((*(values.begin())).size()),
+    _width(std::begin(values)->size()),
     _data(_height*_width), // reserve memory
     _rows()
 {
@@ -78,7 +78,7 @@ Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> values):
         }
         T* target = _data.data() + _count * _width;
         _rows.emplace_back(_width, target);
-        std::copy(row.begin(), row.end(), target);
+        std::copy(std::begin(row), std::end(row), target);
         ++_count;
     }
 }
@@ -363,38 +363,38 @@ template<typename T>
 auto Matrix<T>::begin()
     -> iterator
 {
-    return _rows.begin();
+    return std::begin(_rows);
 }
 template<typename T>
 auto Matrix<T>::begin() const
     -> const_iterator
 {
-    return _rows.begin();
+    return std::begin(_rows);
 }
 template<typename T>
 auto Matrix<T>::cbegin() const
     -> const_iterator
 {
-    return _rows.cbegin();
+    return std::begin(_rows);
 }
 
 template<typename T>
 auto Matrix<T>::end()
     -> iterator
 {
-    return _rows.end();
+    return std::end(_rows);
 }
 template<typename T>
 auto Matrix<T>::end() const
     -> const_iterator
 {
-    return _rows.end();
+    return std::end(_rows);
 }
 template<typename T>
 auto Matrix<T>::cend() const
     -> const_iterator
 {
-    return _rows.cend();
+    return std::end(_rows);
 }
 
 template<typename T>
@@ -440,7 +440,7 @@ template<typename T>
 auto Matrix<T>::fill(value_type value)
     -> void
 {
-    std::fill(_data.begin(), _data.end(), value);
+    std::fill(std::begin(_data), std::end(_data), value);
 }
 
 template<typename T>
@@ -645,38 +645,38 @@ template<typename T>
 auto Matrix<T>::fbegin()
     -> flat_iterator
 {
-    return _data.begin();
+    return std::begin(_data);
 }
 template<typename T>
 auto Matrix<T>::fbegin() const
     -> const_flat_iterator
 {
-    return _data.begin();
+    return std::begin(_data);
 }
 template<typename T>
 auto Matrix<T>::cfbegin() const
     -> const_flat_iterator
 {
-    return _data.cbegin();
+    return std::begin(_data);
 }
 
 template<typename T>
 auto Matrix<T>::fend()
     -> flat_iterator
 {
-    return _data.end();
+    return std::end(_data);
 }
 template<typename T>
 auto Matrix<T>::fend() const
     -> const_flat_iterator
 {
-    return _data.end();
+    return std::end(_data);
 }
 template<typename T>
 auto Matrix<T>::cfend() const
     -> const_flat_iterator
 {
-    return _data.cend();
+    return std::end(_data);
 }
 
 template<typename T>

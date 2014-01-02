@@ -25,7 +25,7 @@ inline auto RecursionArray<Derived>::operator()(std::size_t n)
 
 template<typename Derived>
 constexpr RecursionArray<Derived>::RecursionArray(std::initializer_list<value_type> vals):
-    _values(vals.begin(), vals.end())
+    _values(std::begin(vals), std::end(vals))
 {}
 
 template<typename Derived>
