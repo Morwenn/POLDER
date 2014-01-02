@@ -102,17 +102,17 @@ constexpr auto range(int begin, int end, unsigned int step) noexcept
 
 ////////////////////////////////////////////////////////////
 template<typename T>
-auto rbegin(T& iter)
-    -> decltype(iter.rbegin())
+auto rbegin(T& iterable)
+    -> decltype(iterable.rbegin())
 {
-    return iter.rbegin();
+    return iterable.rbegin();
 }
 
 template<typename T>
-auto rbegin(const T& iter)
-    -> decltype(iter.crbegin())
+auto rbegin(const T& iterable)
+    -> decltype(iterable.crbegin())
 {
-    return iter.crbegin();
+    return iterable.crbegin();
 }
 
 template<typename T, std::size_t N>
@@ -123,17 +123,17 @@ auto rbegin(T (&array)[N])
 }
 
 template<typename T>
-auto rend(T& iter)
-    -> decltype(iter.rend())
+auto rend(T& iterable)
+    -> decltype(iterable.rend())
 {
-    return iter.rend();
+    return iterable.rend();
 }
 
 template<typename T>
-auto rend(const T& iter)
-    -> decltype(iter.crend())
+auto rend(const T& iterable)
+    -> decltype(iterable.crend())
 {
-    return iter.crend();
+    return iterable.crend();
 }
 
 template<typename T, std::size_t N>
@@ -152,8 +152,8 @@ class ReversedObject
 
         BidirectionalIterable& _iter;
 
-        ReversedObject(BidirectionalIterable&& iter):
-            _iter(iter)
+        ReversedObject(BidirectionalIterable&& iterable):
+            _iter(iterable)
         {}
 
     public:
@@ -200,10 +200,10 @@ class ReversedObject
 };
 
 template<typename BidirectionalIterable>
-inline auto reversed(BidirectionalIterable&& iter)
+inline auto reversed(BidirectionalIterable&& iterable)
     -> ReversedObject<BidirectionalIterable>
 {
-    return { std::forward<BidirectionalIterable>(iter) };
+    return { std::forward<BidirectionalIterable>(iterable) };
 }
 
 
@@ -215,8 +215,8 @@ class FlatObject<FlatIterable, false>
 
         FlatIterable& _iter;
 
-        FlatObject(FlatIterable&& iter):
-            _iter(iter)
+        FlatObject(FlatIterable&& iterable):
+            _iter(iterable)
         {}
 
     public:
@@ -255,8 +255,8 @@ class FlatObject<FlatIterable, true>:
         using super = FlatObject<FlatIterable, false>;
         using super::_iter;
 
-        FlatObject(FlatIterable&& iter):
-            FlatObject<FlatIterable, false>(iter)
+        FlatObject(FlatIterable&& iterable):
+            FlatObject<FlatIterable, false>(iterable)
         {}
 
     public:
@@ -289,10 +289,10 @@ class FlatObject<FlatIterable, true>:
 };
 
 template<typename FlatIterable>
-inline auto flat(FlatIterable&& iter)
+inline auto flat(FlatIterable&& iterable)
     -> FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>
 {
-    return { std::forward<FlatIterable>(iter) };
+    return { std::forward<FlatIterable>(iterable) };
 }
 
 
@@ -307,8 +307,8 @@ class MapObject<T, Iterable, false>
         decltype(std::begin(_iter)) _begin;
         const decltype(std::end(_iter)) _end;
 
-        MapObject(T (*function)(const T&), Iterable&& iter):
-            _iter(iter),
+        MapObject(T (*function)(const T&), Iterable&& iterable):
+            _iter(iterable),
             _func(function),
             _begin(std::begin(_iter)),
             _end(std::end(_iter))
@@ -354,7 +354,7 @@ class MapObject<T, Iterable, false>
             return _func(*_begin);
         }
 
-    friend auto map<>(T (*)(const T&) , Iterable&&)
+    friend auto map<>(T (*)(const T&), Iterable&&)
         -> MapObject<T, Iterable, is_reverse_iterable<Iterable>::value>;
 };
 
@@ -374,8 +374,8 @@ class MapObject<T, Iterable, true>:
         decltype(itertools::rbegin(_iter)) _rbegin;
         const decltype(itertools::rend(_iter)) _rend;
 
-        MapObject(T (*function)(const T&), Iterable&& iter):
-            super(function, iter),
+        MapObject(T (*function)(const T&), Iterable&& iterable):
+            super(function, iterable),
             _rbegin(itertools::rbegin(_iter)),
             _rend(itertools::rend(_iter))
         {}
@@ -430,15 +430,15 @@ class MapObject<T, Iterable, true>:
             return _forward ? _func(*_begin) : _func(*_rbegin);
         }
 
-    friend auto map<>(T (*)(const T&) , Iterable&&)
+    friend auto map<>(T (*)(const T&), Iterable&&)
         -> MapObject<T, Iterable, is_reverse_iterable<Iterable>::value>;
 };
 
 template<typename T, typename Iterable>
-inline auto map(T (*function)(const T&) , Iterable&& iter)
+inline auto map(T (*function)(const T&) , Iterable&& iterable)
     -> MapObject<T, Iterable, is_reverse_iterable<Iterable>::value>
 {
-    return { function, std::forward<Iterable>(iter) };
+    return { function, std::forward<Iterable>(iterable) };
 }
 
 
@@ -453,8 +453,8 @@ class FilterObject
         decltype(std::begin(_iter)) _begin;
         const decltype(std::end(_iter)) _end;
 
-        FilterObject(bool (*function)(const T&), Iterable&& iter):
-            _iter(iter),
+        FilterObject(bool (*function)(const T&), Iterable&& iterable):
+            _iter(iterable),
             _func(function),
             _begin(std::begin(_iter)),
             _end(std::end(_iter))
@@ -504,15 +504,15 @@ class FilterObject
             return *_begin;
         }
 
-    friend auto filter<>(bool (*)(const T&) , Iterable&&)
+    friend auto filter<>(bool (*)(const T&), Iterable&&)
         -> FilterObject;
 };
 
 template<typename T, typename Iterable>
-inline auto filter(bool (*function)(const T&) , Iterable&& iter)
+inline auto filter(bool (*function)(const T&) , Iterable&& iterable)
     -> FilterObject<T, Iterable>
 {
-    return { function, std::forward<Iterable>(iter) };
+    return { function, std::forward<Iterable>(iterable) };
 }
 
 
@@ -537,8 +537,8 @@ class ChainObject:
         using const_iterator    = const iterator;
         using typename super::iterator_category;
 
-        ChainObject(First&& first, Iterables&&... iters):
-            super(std::forward<Iterables>(iters)...),
+        ChainObject(First&& first, Iterables&&... iterables):
+            super(std::forward<Iterables>(iterables)...),
             _first(first),
             _iter(std::begin(first))
         {}
@@ -641,13 +641,13 @@ class ChainObject<First>
 };
 
 template<typename... Iterables>
-inline auto chain(Iterables&&... iters)
+inline auto chain(Iterables&&... iterables)
     -> ChainObject<Iterables...>
 {
     static_assert(is_same<typename std::decay<Iterables>::type::value_type...>::value,
                   "different value_type for arguments passed to chain");
 
-    return { std::forward<Iterables>(iters)... };
+    return { std::forward<Iterables>(iterables)... };
 }
 
 
@@ -682,8 +682,8 @@ class ZipObject:
             _first(First())
         {}
 
-        ZipObject(First&& first, Iterables&&... iters):
-            super(std::forward<typename std::decay<Iterables>::type>(iters)...),
+        ZipObject(First&& first, Iterables&&... iterables):
+            super(std::forward<typename std::decay<Iterables>::type>(iterables)...),
             _first(first),
             _iter(std::begin(first))
         {}
@@ -783,10 +783,10 @@ class ZipObject<First>
 };
 
 template<typename... Iterables>
-inline auto zip(Iterables&&... iters)
+inline auto zip(Iterables&&... iterables)
     -> ZipObject<Iterables...>
 {
-    return { std::forward<Iterables>(iters)... };
+    return { std::forward<Iterables>(iterables)... };
 }
 
 ////////////////////////////////////////////////////////////
