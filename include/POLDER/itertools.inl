@@ -501,7 +501,7 @@ class FilterObject
             while (_func(*_begin) == false && _begin != _end);
         }
 
-        auto operator*()
+        auto operator*() const
             -> value_type
         {
             return *_begin;
@@ -578,7 +578,7 @@ class ChainObject:
             }
         }
 
-        auto operator*()
+        auto operator*() const
             -> reference
         {
             if (_iter != std::end(_first))
@@ -636,7 +636,7 @@ class ChainObject<First>
             ++_iter;
         }
 
-        auto operator*()
+        auto operator*() const
             -> reference
         {
             return *_iter;
@@ -717,7 +717,7 @@ class ZipObject:
             super::operator++();
         }
 
-        auto operator*()
+        auto operator*() const
             -> value_type
         {
             return std::tuple_cat(
@@ -778,7 +778,7 @@ class ZipObject<First>
             ++_iter;
         }
 
-        auto operator*()
+        auto operator*() const
             -> value_type
         {
             return std::make_tuple(*_iter);
