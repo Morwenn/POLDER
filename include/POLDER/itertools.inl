@@ -320,21 +320,23 @@ class MapObject<T, Iterable, false>
         using difference_type   = std::ptrdiff_t;
         using reference         = value_type&;
         using pointer           = value_type*;
-        using iterator          = decltype(std::begin(_iterable));
-        using const_iterator    = decltype(std::begin(_iterable));
+        using iterator          = MapObject&;
+        using const_iterator    = const iterator;
         using iterator_category = std::forward_iterator_tag;
 
-        auto begin() const
-            -> const MapObject&
-        {
-            return *this;
-        }
-
-        auto end() const
-            -> const MapObject&
-        {
-            return *this;
-        }
+        // Iterator functions
+        auto begin() -> iterator
+            { return *this; }
+        auto begin() const -> const_iterator
+            { return *this; }
+        auto cbegin() const -> const_iterator
+            { return *this; }
+        auto end() -> iterator
+            { return *this; }
+        auto end() const -> const_iterator
+            { return *this; }
+        auto cend() const -> const_iterator
+            { return *this; }
 
         auto operator!=(const MapObject&) const
             -> bool
@@ -386,24 +388,25 @@ class MapObject<T, Iterable, true>:
         using typename super::difference_type;
         using typename super::reference;
         using typename super::pointer;
-        using typename super::iterator;
-        using typename super::const_iterator;
-        using reverse_iterator          = decltype(itertools::rbegin(_iterable));
-        using const_reverse_iterator    = decltype(itertools::rbegin(_iterable));
+        using iterator                  = MapObject&;
+        using const_iterator            = const iterator;
+        using reverse_iterator          = iterator;
+        using const_reverse_iterator    = const_iterator;
         using iterator_category         = std::bidirectional_iterator_tag;
 
-        auto rbegin() const
-            -> const MapObject&
-        {
-            _forward = false;
-            return *this;
-        }
-
-        auto rend() const
-            -> const MapObject&
-        {
-            return *this;
-        }
+        // Reverse iterator functions
+        auto rbegin() -> reverse_iterator
+            { return *this; }
+        auto rbegin() const -> const_reverse_iterator
+            { return *this; }
+        auto crbegin() const -> const_reverse_iterator
+            { return *this; }
+        auto rend() -> reverse_iterator
+            { return *this; }
+        auto rend() const -> const_reverse_iterator
+            { return *this; }
+        auto crend() const -> const_reverse_iterator
+            { return *this; }
 
         auto operator!=(const MapObject&) const
             -> bool
