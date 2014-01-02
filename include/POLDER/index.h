@@ -49,9 +49,9 @@ namespace polder
             index(Indices... indices);
 
             auto operator=(const index<N>& other)
-                -> index<N>&;
+                -> index&;
             auto operator=(index<N>&& other)
-                -> index<N>&;
+                -> index&;
 
             auto operator[](std::size_t ind) const
                 -> std::size_t;
@@ -59,9 +59,9 @@ namespace polder
         private:
 
             template<typename... Args>
-            auto _build(std::size_t head, Args... tail)
+            auto construct(std::size_t head, Args... tail)
                 -> void;
-            auto _build(std::size_t head)
+            auto construct(std::size_t head)
                 -> void;
 
             // Member indices

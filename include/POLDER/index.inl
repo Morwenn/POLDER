@@ -34,17 +34,17 @@ index<N>::index(Indices... indices)
 {
     static_assert(sizeof...(Indices) == N,
                   "Wrong number of arguments to construct the index.");
-    _build(indices...);
+    construct(indices...);
 }
 
 template<std::size_t N>
 auto index<N>::operator=(const index<N>& other)
-    -> index<N>&
+    -> index&
     = default;
 
 template<std::size_t N>
 auto index<N>::operator=(index<N>&& other)
-    -> index<N>&
+    -> index&
     = default;
 
 template<std::size_t N>
@@ -56,15 +56,15 @@ auto index<N>::operator[](std::size_t ind) const
 
 template<std::size_t N>
 template<typename... Args>
-auto index<N>::_build(std::size_t head, Args... tail)
+auto index<N>::construct(std::size_t head, Args... tail)
     -> void
 {
     _indices[N-sizeof...(Args)-1] = head;
-    _build(tail...);
+    construct(tail...);
 }
 
 template<std::size_t N>
-auto index<N>::_build(std::size_t head)
+auto index<N>::construct(std::size_t head)
     -> void
 {
     _indices[N-1] = head;
