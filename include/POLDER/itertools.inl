@@ -150,50 +150,50 @@ class ReversedObject
 {
     private:
 
-        BidirectionalIterable& _iter;
+        BidirectionalIterable& _iterable;
 
         ReversedObject(BidirectionalIterable&& iterable):
-            _iter(iterable)
+            _iterable(iterable)
         {}
 
     public:
 
-        using value_type                = typename std::decay<decltype(*std::begin(_iter))>::type;
+        using value_type                = typename std::decay<decltype(*std::begin(_iterable))>::type;
         using reference                 = value_type&;
         using pointer                   = value_type*;
-        using iterator                  = typename std::remove_reference<decltype(itertools::rbegin(_iter))>::type;
-        using const_iterator            = typename std::remove_reference<decltype(itertools::rbegin(_iter))>::type;
-        using reverse_iterator          = decltype(std::begin(_iter));
-        using const_reverse_iterator    = decltype(std::begin(_iter));
+        using iterator                  = typename std::remove_reference<decltype(itertools::rbegin(_iterable))>::type;
+        using const_iterator            = typename std::remove_reference<decltype(itertools::rbegin(_iterable))>::type;
+        using reverse_iterator          = decltype(std::begin(_iterable));
+        using const_reverse_iterator    = decltype(std::begin(_iterable));
         using iterator_category         = typename std::iterator_traits<iterator>::iterator_category;
 
         // Iterator functions
         auto begin() -> iterator
-            { return itertools::rbegin(_iter); }
+            { return itertools::rbegin(_iterable); }
         auto begin() const -> const_iterator
-            { return itertools::rbegin(_iter); }
+            { return itertools::rbegin(_iterable); }
         auto cbegin() const -> const_iterator
-            { return itertools::rbegin(_iter); }
+            { return itertools::rbegin(_iterable); }
         auto end() -> iterator
-            { return itertools::rend(_iter); }
+            { return itertools::rend(_iterable); }
         auto end() const -> const_iterator
-            { return itertools::rend(_iter); }
+            { return itertools::rend(_iterable); }
         auto cend() const -> const_iterator
-            { return itertools::rend(_iter); }
+            { return itertools::rend(_iterable); }
 
         // Reverse iterator functions
         auto rbegin() -> reverse_iterator
-            { return std::begin(_iter); }
+            { return std::begin(_iterable); }
         auto rbegin() const -> const_reverse_iterator
-            { return std::begin(_iter); }
+            { return std::begin(_iterable); }
         auto crbegin() const -> const_reverse_iterator
-            { return std::begin(_iter); }
+            { return std::begin(_iterable); }
         auto rend() -> reverse_iterator
-            { return std::end(_iter); }
+            { return std::end(_iterable); }
         auto rend() const -> const_reverse_iterator
-            { return std::end(_iter); }
+            { return std::end(_iterable); }
         auto crend() const -> const_reverse_iterator
-            { return std::end(_iter); }
+            { return std::end(_iterable); }
 
     friend auto reversed<>(BidirectionalIterable&&)
         -> ReversedObject;
@@ -213,34 +213,34 @@ class FlatObject<FlatIterable, false>
 {
     protected:
 
-        FlatIterable& _iter;
+        FlatIterable& _iterable;
 
         FlatObject(FlatIterable&& iterable):
-            _iter(iterable)
+            _iterable(iterable)
         {}
 
     public:
 
-        using value_type        = typename std::decay<decltype(*_iter.fbegin())>::type;
+        using value_type        = typename std::decay<decltype(*_iterable.fbegin())>::type;
         using reference         = value_type&;
         using pointer           = value_type*;
-        using iterator          = decltype(_iter.fbegin());
-        using const_iterator    = decltype(_iter.cfbegin());
+        using iterator          = decltype(_iterable.fbegin());
+        using const_iterator    = decltype(_iterable.cfbegin());
         using iterator_category = typename std::iterator_traits<iterator>::iterator_category;
 
         // Iterator functions
         auto begin() -> iterator
-            { return _iter.fbegin(); }
+            { return _iterable.fbegin(); }
         auto begin() const -> const_iterator
-            { return _iter.cfbegin(); }
+            { return _iterable.cfbegin(); }
         auto cbegin() const -> const_iterator
-            { return _iter.cfbegin(); }
+            { return _iterable.cfbegin(); }
         auto end() -> iterator
-            { return _iter.fend(); }
+            { return _iterable.fend(); }
         auto end() const -> const_iterator
-            { return _iter.cfend(); }
+            { return _iterable.cfend(); }
         auto cend() const -> const_iterator
-            { return _iter.cfend(); }
+            { return _iterable.cfend(); }
 
     friend auto flat<>(FlatIterable&&)
         -> FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>;
@@ -253,7 +253,7 @@ class FlatObject<FlatIterable, true>:
     private:
 
         using super = FlatObject<FlatIterable, false>;
-        using super::_iter;
+        using super::_iterable;
 
         FlatObject(FlatIterable&& iterable):
             FlatObject<FlatIterable, false>(iterable)
@@ -266,23 +266,23 @@ class FlatObject<FlatIterable, true>:
         using typename super::pointer;
         using typename super::iterator;
         using typename super::const_iterator;
-        using reverse_iterator          = decltype(_iter.rfbegin());
-        using const_reverse_iterator    = decltype(_iter.crfbegin());
+        using reverse_iterator          = decltype(_iterable.rfbegin());
+        using const_reverse_iterator    = decltype(_iterable.crfbegin());
         using typename super::iterator_category;
 
         // Reverse iterator functions
         auto rbegin() -> reverse_iterator
-            { return _iter.rfbegin(); }
+            { return _iterable.rfbegin(); }
         auto rbegin() const -> const_reverse_iterator
-            { return _iter.crfbegin(); }
+            { return _iterable.crfbegin(); }
         auto crbegin() const -> const_reverse_iterator
-            { return _iter.crfbegin(); }
+            { return _iterable.crfbegin(); }
         auto rend() -> reverse_iterator
-            { return _iter.rfend(); }
+            { return _iterable.rfend(); }
         auto rend() const -> const_reverse_iterator
-            { return _iter.crfend(); }
+            { return _iterable.crfend(); }
         auto crend() const -> const_reverse_iterator
-            { return _iter.crfend(); }
+            { return _iterable.crfend(); }
 
     friend auto flat<>(FlatIterable&&)
         -> FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>;
@@ -302,26 +302,26 @@ class MapObject<T, Iterable, false>
 {
     protected:
 
-        const Iterable& _iter;
+        const Iterable& _iterable;
         T (*_func)(const T&);
-        decltype(std::begin(_iter)) _begin;
-        const decltype(std::end(_iter)) _end;
+        decltype(std::begin(_iterable)) _begin;
+        const decltype(std::end(_iterable)) _end;
 
         MapObject(T (*function)(const T&), Iterable&& iterable):
-            _iter(iterable),
+            _iterable(iterable),
             _func(function),
-            _begin(std::begin(_iter)),
-            _end(std::end(_iter))
+            _begin(std::begin(_iterable)),
+            _end(std::end(_iterable))
         {}
 
     public:
 
-        using value_type        = typename std::decay<decltype(*std::begin(_iter))>::type;
+        using value_type        = typename std::decay<decltype(*std::begin(_iterable))>::type;
         using difference_type   = std::ptrdiff_t;
         using reference         = value_type&;
         using pointer           = value_type*;
-        using iterator          = decltype(std::begin(_iter));
-        using const_iterator    = decltype(std::begin(_iter));
+        using iterator          = decltype(std::begin(_iterable));
+        using const_iterator    = decltype(std::begin(_iterable));
         using iterator_category = std::forward_iterator_tag;
 
         auto begin() const
@@ -365,19 +365,19 @@ class MapObject<T, Iterable, true>:
     private:
 
         using super = MapObject<T, Iterable, false>;
-        using super::_iter;
+        using super::_iterable;
         using super::_func;
         using super::_begin;
         using super::_end;
 
         mutable bool _forward = true;
-        decltype(itertools::rbegin(_iter)) _rbegin;
-        const decltype(itertools::rend(_iter)) _rend;
+        decltype(itertools::rbegin(_iterable)) _rbegin;
+        const decltype(itertools::rend(_iterable)) _rend;
 
         MapObject(T (*function)(const T&), Iterable&& iterable):
             super(function, iterable),
-            _rbegin(itertools::rbegin(_iter)),
-            _rend(itertools::rend(_iter))
+            _rbegin(itertools::rbegin(_iterable)),
+            _rend(itertools::rend(_iterable))
         {}
 
     public:
@@ -388,8 +388,8 @@ class MapObject<T, Iterable, true>:
         using typename super::pointer;
         using typename super::iterator;
         using typename super::const_iterator;
-        using reverse_iterator          = decltype(itertools::rbegin(_iter));
-        using const_reverse_iterator    = decltype(itertools::rbegin(_iter));
+        using reverse_iterator          = decltype(itertools::rbegin(_iterable));
+        using const_reverse_iterator    = decltype(itertools::rbegin(_iterable));
         using iterator_category         = std::bidirectional_iterator_tag;
 
         auto rbegin() const
@@ -448,21 +448,21 @@ class FilterObject
 {
     private:
 
-        const Iterable& _iter;
+        const Iterable& _iterable;
         bool (*_func)(const T&);
-        decltype(std::begin(_iter)) _begin;
-        const decltype(std::end(_iter)) _end;
+        decltype(std::begin(_iterable)) _begin;
+        const decltype(std::end(_iterable)) _end;
 
         FilterObject(bool (*function)(const T&), Iterable&& iterable):
-            _iter(iterable),
+            _iterable(iterable),
             _func(function),
-            _begin(std::begin(_iter)),
-            _end(std::end(_iter))
+            _begin(std::begin(_iterable)),
+            _end(std::end(_iterable))
         {}
 
     public:
 
-        using value_type        = typename std::decay<decltype(*std::begin(_iter))>::type;
+        using value_type        = typename std::decay<decltype(*std::begin(_iterable))>::type;
         using reference         = value_type&;
         using pointer           = value_type*;
         using iterator          = FilterObject&;
@@ -658,7 +658,7 @@ class ZipObject:
 {
     private:
 
-        First& _first;
+        const First& _first;
         decltype(std::begin(_first)) _iter;
 
         using super = ZipObject<typename std::decay<Iterables>::type...>;
@@ -729,7 +729,7 @@ class ZipObject<First>
 {
     private:
 
-        First& _first;
+        const First& _first;
         decltype(std::begin(_first)) _iter;
 
     public:
