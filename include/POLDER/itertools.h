@@ -223,10 +223,8 @@ template<std::size_t N, typename Iterator>
 class get_iterator:
     public std::iterator<
         typename std::iterator_traits<Iterator>::iterator_category,
-        typename std::iterator_traits<Iterator>::value_type,
-        typename std::iterator_traits<Iterator>::difference_type,
-        typename std::iterator_traits<Iterator>::pointer,
-        typename std::iterator_traits<Iterator>::reference>
+        typename std::remove_reference<decltype(std::get<N>(*Iterator{}))>::type,
+        typename std::iterator_traits<Iterator>::difference_type>
 {
     private:
 
@@ -235,9 +233,9 @@ class get_iterator:
     public:
 
         using iterator_type     = Iterator;
-        using difference_type   = typename std::iterator_traits<Iterator>::difference_type;
-        using pointer           = typename std::iterator_traits<Iterator>::pointer;
-        using reference         = typename std::iterator_traits<Iterator>::reference;
+        using value_type        = typename std::remove_reference<decltype(std::get<N>(*_current))>::type;
+        using pointer           = value_type*;
+        using reference         = value_type&;
 
         get_iterator();
         explicit get_iterator(Iterator it);
