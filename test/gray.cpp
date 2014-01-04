@@ -48,12 +48,20 @@ int main()
     // TEST: operator=
     {
         GrayCode<unsigned> gr1, gr2;
+
         gr1 = gray(58u);
         gr2 = gray(22u);
         POLDER_ASSERT(gr1 == gray(58u));
         POLDER_ASSERT(gr2 == gray(22u));
         POLDER_ASSERT(gr1 == 58u);
         POLDER_ASSERT(gr2 == 22u);
+
+        gr1 = 73u;
+        gr2 = 194u;
+        POLDER_ASSERT(gr1 == gray(73u));
+        POLDER_ASSERT(gr2 == gray(194u));
+        POLDER_ASSERT(gr1 == 73u);
+        POLDER_ASSERT(gr2 == 194u);
     }
 
     // TEST: comparison operators

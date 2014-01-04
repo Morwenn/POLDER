@@ -59,10 +59,8 @@ template<typename Unsigned>
 auto GrayCode<Unsigned>::operator=(value_type other)
     -> GrayCode&
 {
-    if (&other != this)
-    {
-        value = (other >> 1) ^ other;
-    }
+    value = (other >> 1) ^ other;
+    return *this;
 }
 
 template<typename Unsigned>
