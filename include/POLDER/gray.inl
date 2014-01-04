@@ -46,12 +46,12 @@ GrayCode<Unsigned>::GrayCode(value_type value):
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator=(const GrayCode<Unsigned>& other)
+auto GrayCode<Unsigned>::operator=(const GrayCode<Unsigned>&)
     -> GrayCode&
     = default;
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator=(GrayCode<Unsigned>&& other)
+auto GrayCode<Unsigned>::operator=(GrayCode<Unsigned>&&)
     -> GrayCode&
     = default;
 
@@ -61,7 +61,7 @@ auto GrayCode<Unsigned>::operator=(value_type other)
 {
     if (&other != this)
     {
-        other = (value >> 1) ^ other;
+        value = (other >> 1) ^ other;
     }
 }
 

@@ -45,6 +45,17 @@ int main()
         POLDER_ASSERT(max_gr == max_uint);
     }
 
+    // TEST: operator=
+    {
+        GrayCode<unsigned> gr1, gr2;
+        gr1 = gray(58u);
+        gr2 = gray(22u);
+        POLDER_ASSERT(gr1 == gray(58u));
+        POLDER_ASSERT(gr2 == gray(22u));
+        POLDER_ASSERT(gr1 == 58u);
+        POLDER_ASSERT(gr2 == 22u);
+    }
+
     // TEST: bitwise operations
     {
         auto gr1 = gray(42u);
