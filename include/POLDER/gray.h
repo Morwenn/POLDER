@@ -112,16 +112,12 @@ namespace polder
 
         auto operator&=(const GrayCode<Unsigned>& other)
             -> GrayCode&;
-
         auto operator|=(const GrayCode<Unsigned>& other)
             -> GrayCode&;
-
         auto operator^=(const GrayCode<Unsigned>& other)
             -> GrayCode&;
-
         auto operator>>=(const GrayCode<Unsigned>& other)
             -> GrayCode&;
-
         auto operator<<=(const GrayCode<Unsigned>& other)
             -> GrayCode&;
     };
@@ -166,11 +162,11 @@ namespace polder
     namespace math
     {
         template<typename Unsigned>
-        auto is_even(GrayCode<Unsigned> code)
+        auto is_even(const GrayCode<Unsigned>& code)
             -> bool;
 
         template<typename Unsigned>
-        auto is_odd(GrayCode<Unsigned> code)
+        auto is_odd(const GrayCode<Unsigned>& code)
             -> bool;
     }
 

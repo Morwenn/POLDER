@@ -233,14 +233,14 @@ auto operator<<(GrayCode<Unsigned> lhs, const GrayCode<Unsigned>& rhs)
 namespace math
 {
     template<typename Unsigned>
-    auto is_even(GrayCode<Unsigned> code)
+    auto is_even(const GrayCode<Unsigned>& code)
         -> bool
     {
         return not is_odd(code);
     }
 
     template<typename Unsigned>
-    auto is_odd(GrayCode<Unsigned> code)
+    auto is_odd(const GrayCode<Unsigned>& code)
         -> bool
     {
         // A gray code is odd when the number
@@ -254,7 +254,6 @@ namespace math
             // clear the least significant bit set
             val &= val - 1;
         }
-        //std::cout << nb_bits << std::endl;
         return bool(nb_bits % 2);
     }
 }
