@@ -84,10 +84,8 @@ template<typename Unsigned>
 auto GrayCode<Unsigned>::operator++()
     -> GrayCode&
 {
-    // TODO
     if (math::is_odd(*this))
     {
-        // If value is odd
         auto y = value & -value;
         value ^= (y << 1);
     }
@@ -105,6 +103,32 @@ auto GrayCode<Unsigned>::operator++(int)
 {
     auto res = *this;
     operator++();
+    return res;
+}
+
+template<typename Unsigned>
+auto GrayCode<Unsigned>::operator--()
+    -> GrayCode&
+{
+    if (math::is_odd(*this))
+    {
+        // Flip rightmost bit
+        value ^= 1;
+    }
+    else
+    {
+        auto y = value & -value;
+        value ^= (y << 1);
+    }
+    return *this;
+}
+
+template<typename Unsigned>
+auto GrayCode<Unsigned>::operator--(int)
+    -> GrayCode&
+{
+    auto res = *this;
+    operator--();
     return res;
 }
 

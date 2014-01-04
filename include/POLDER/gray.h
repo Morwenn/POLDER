@@ -101,6 +101,11 @@ namespace polder
         auto operator++(int)
             -> GrayCode&;
 
+        auto operator--()
+            -> GrayCode&;
+        auto operator--(int)
+            -> GrayCode&;
+
         ////////////////////////////////////////////////////////////
         // Bitwise operations
         ////////////////////////////////////////////////////////////

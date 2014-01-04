@@ -15,7 +15,6 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include <iostream>
 #include <limits>
 #include <type_traits>
 #include <POLDER/gray.h>
@@ -80,6 +79,15 @@ int main()
     {
         unsigned i = 0u;
         for (auto val = gray(0u) ; val < 10u ; ++val, ++i)
+        {
+            POLDER_ASSERT(val == i);
+        }
+    }
+
+    // TEST: decrement operator
+    {
+        unsigned i = 35u;
+        for (auto val = gray(35u) ; val > 23u ; --val, --i)
         {
             POLDER_ASSERT(val == i);
         }
