@@ -66,7 +66,7 @@ namespace polder
          *
          * @param value Unsigned integer to convert
          */
-        GrayCode(value_type value);
+        explicit GrayCode(value_type value);
 
         ////////////////////////////////////////////////////////////
         // Operators
@@ -130,6 +130,31 @@ namespace polder
     template<typename Unsigned>
     auto gray(Unsigned value)
         -> GrayCode<Unsigned>;
+
+    ////////////////////////////////////////////////////////////
+    // Comparison operators
+    ////////////////////////////////////////////////////////////
+
+    template<typename Unsigned>
+    auto operator==(GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
+        -> bool;
+    template<typename Unsigned>
+    auto operator!=(GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
+        -> bool;
+
+    template<typename Unsigned>
+    auto operator==(GrayCode<Unsigned>& lhs, Unsigned rhs)
+        -> bool;
+    template<typename Unsigned>
+    auto operator!=(GrayCode<Unsigned>& lhs, Unsigned rhs)
+        -> bool;
+
+    template<typename Unsigned>
+    auto operator==(Unsigned lhs, const GrayCode<Unsigned>& rhs)
+        -> bool;
+    template<typename Unsigned>
+    auto operator!=(Unsigned lhs, const GrayCode<Unsigned>& rhs)
+        -> bool;
 
     ////////////////////////////////////////////////////////////
     // Bitwise operations

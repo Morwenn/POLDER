@@ -188,6 +188,54 @@ auto gray(Unsigned value)
 }
 
 ////////////////////////////////////////////////////////////
+// Comparison operators
+////////////////////////////////////////////////////////////
+
+template<typename Unsigned>
+auto operator==(GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
+    -> bool
+{
+    return lhs.value == rhs.value;
+}
+
+template<typename Unsigned>
+auto operator!=(GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
+    -> bool
+{
+    return !(lhs == rhs);
+}
+
+template<typename Unsigned>
+auto operator==(GrayCode<Unsigned>& lhs, Unsigned rhs)
+    -> bool
+{
+    rhs ^= (rhs >> 1);
+    return rhs == lhs.value;
+}
+
+template<typename Unsigned>
+auto operator!=(GrayCode<Unsigned>& lhs, Unsigned rhs)
+    -> bool
+{
+    return !(lhs == rhs);
+}
+
+template<typename Unsigned>
+auto operator==(Unsigned lhs, const GrayCode<Unsigned>& rhs)
+    -> bool
+{
+    lhs ^= (lhs >> 1);
+    return lhs == rhs.value;
+}
+
+template<typename Unsigned>
+auto operator!=(Unsigned lhs, const GrayCode<Unsigned>& rhs)
+    -> bool
+{
+    return !(lhs == rhs);
+}
+
+////////////////////////////////////////////////////////////
 // Bitwise operations
 ////////////////////////////////////////////////////////////
 

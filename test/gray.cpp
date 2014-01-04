@@ -56,6 +56,17 @@ int main()
         POLDER_ASSERT(gr2 == 22u);
     }
 
+    // TEST: comparison operators
+    {
+        auto gr = gray(52u);
+        POLDER_ASSERT(gr == gray(52u));
+        POLDER_ASSERT(gr == 52u);
+        POLDER_ASSERT(52u == gr);
+        POLDER_ASSERT(gr != 56u);
+        POLDER_ASSERT(54u != gr);
+        POLDER_ASSERT(gr != gray(89u));
+    }
+
     // TEST: bitwise operations
     {
         auto gr1 = gray(42u);
