@@ -67,9 +67,9 @@ template<typename Unsigned>
 GrayCode<Unsigned>::operator value_type() const
 {
     value_type res = value;
-    for (value_type mask = res >> 1 ; mask != 0 ; mask >>= 1)
+    for (value_type mask = sizeof(value_type)*4 ; mask ; mask >>= 1)
     {
-        res ^= mask;
+        res ^= res >> mask;
     }
     return res;
 }
@@ -294,8 +294,8 @@ namespace math
         // is odd
 
         auto val = code.value;
-        unsigned nb_bits;
-        for (nb_bits = 0 ; val ; ++nb_bits)
+        unsigned nb_bits{};
+        for (; val ; ++nb_bits)
         {
             // clear the least significant bit set
             val &= val - 1;
