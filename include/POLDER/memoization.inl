@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -40,6 +40,13 @@ auto MemoizedFunction<Ret, Args...>::operator()(Args&&... args)
                         ).first;
     }
     return it->second;
+}
+
+template<typename Ret, typename... Args>
+auto MemoizedFunction<Ret, Args...>::clear() noexcept
+    -> void
+{
+    _cache.clear();
 }
 
 template<typename Ret, typename... Args>

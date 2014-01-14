@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -53,7 +53,7 @@ namespace polder
             MemoizedFunction(const std::function<Ret(Args...)>& func);
 
             /**
-             * @brief Get the result
+             * @brief Gets the result
              *
              * Returns the result if it is already known.
              * If not, it computes and stores it beforehand.
@@ -63,6 +63,16 @@ namespace polder
              */
             auto operator()(Args&&... args)
                 -> Ret;
+
+            /**
+             * @brief Clears the cache
+             *
+             * This function clears all the data in the
+             * cache. It does not clear the function
+             * pointer.
+             */
+            auto clear() noexcept
+                -> void;
 
         private:
 
