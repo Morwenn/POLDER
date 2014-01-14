@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -21,7 +21,6 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <cstdint>
 #include <type_traits>
 #include <POLDER/config.h>
 #include <POLDER/type_list.h>
@@ -100,16 +99,22 @@ namespace polder
     template<typename T>
     struct is_iterable<T>
     {
-        using yes   = uint8_t;
-        using no    = uint16_t;
+        struct yes {};
+        struct no {};
 
         template<typename U>
-        static yes& test(typename U::iterator*);
+        static auto test(typename U::iterator*)
+            -> yes;
 
         template<typename>
-        static no& test(...);
+        static auto test(...)
+            -> no;
 
-        static constexpr bool value = sizeof(test<typename std::decay<T>::type>(0)) == sizeof(yes);
+        static constexpr bool value =
+            std::is_same<
+                yes,
+                decltype(test<typename std::decay<T>::type>(nullptr))
+            >::value;
     };
 
     template<typename T, std::size_t N>
@@ -132,16 +137,22 @@ namespace polder
     template<typename T>
     struct is_reverse_iterable<T>
     {
-        using yes   = uint8_t;
-        using no    = uint16_t;
+        struct yes {};
+        struct no {};
 
         template<typename U>
-        static yes& test(typename U::reverse_iterator*);
+        static auto test(typename U::reverse_iterator*)
+            -> yes;
 
         template<typename>
-        static no& test(...);
+        static auto test(...)
+            -> no;
 
-        static constexpr bool value = sizeof(test<typename std::decay<T>::type>(0)) == sizeof(yes);
+        static constexpr bool value =
+            std::is_same<
+                yes,
+                decltype(test<typename std::decay<T>::type>(nullptr))
+            >::value;
     };
 
     template<typename T, std::size_t N>
