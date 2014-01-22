@@ -142,17 +142,17 @@ namespace polder
         -> bool;
 
     template<typename Unsigned>
-    auto operator==(const GrayCode<Unsigned>& lhs, Unsigned rhs)
+    constexpr auto operator==(const GrayCode<Unsigned>& lhs, Unsigned rhs)
         -> bool;
     template<typename Unsigned>
-    auto operator!=(const GrayCode<Unsigned>& lhs, Unsigned rhs)
+    constexpr auto operator!=(const GrayCode<Unsigned>& lhs, Unsigned rhs)
         -> bool;
 
     template<typename Unsigned>
-    auto operator==(Unsigned lhs, const GrayCode<Unsigned>& rhs)
+    constexpr auto operator==(Unsigned lhs, const GrayCode<Unsigned>& rhs)
         -> bool;
     template<typename Unsigned>
-    auto operator!=(Unsigned lhs, const GrayCode<Unsigned>& rhs)
+    constexpr auto operator!=(Unsigned lhs, const GrayCode<Unsigned>& rhs)
         -> bool;
 
     ////////////////////////////////////////////////////////////

@@ -200,30 +200,28 @@ constexpr auto operator!=(const GrayCode<Unsigned>& lhs, const GrayCode<Unsigned
 }
 
 template<typename Unsigned>
-auto operator==(const GrayCode<Unsigned>& lhs, Unsigned rhs)
+constexpr auto operator==(const GrayCode<Unsigned>& lhs, Unsigned rhs)
     -> bool
 {
-    rhs ^= (rhs >> 1);
-    return rhs == lhs.value;
+    return (rhs ^ (rhs >> 1)) == lhs.value;
 }
 
 template<typename Unsigned>
-auto operator!=(const GrayCode<Unsigned>& lhs, Unsigned rhs)
+constexpr auto operator!=(const GrayCode<Unsigned>& lhs, Unsigned rhs)
     -> bool
 {
     return !(lhs == rhs);
 }
 
 template<typename Unsigned>
-auto operator==(Unsigned lhs, const GrayCode<Unsigned>& rhs)
+constexpr auto operator==(Unsigned lhs, const GrayCode<Unsigned>& rhs)
     -> bool
 {
-    lhs ^= (lhs >> 1);
-    return lhs == rhs.value;
+    return (lhs ^ (lhs >> 1)) == rhs.value;
 }
 
 template<typename Unsigned>
-auto operator!=(Unsigned lhs, const GrayCode<Unsigned>& rhs)
+constexpr auto operator!=(Unsigned lhs, const GrayCode<Unsigned>& rhs)
     -> bool
 {
     return !(lhs == rhs);

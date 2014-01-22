@@ -27,14 +27,14 @@ int main()
     // TEST: check for zero
     {
         constexpr auto zero = gray(0u);
-        POLDER_ASSERT(zero == 0u);
+        static_assert(zero == 0u, "");
         static_assert(zero.value == 0u, "");
     }
 
     // TEST: check a random number
     {
         constexpr auto gr = gray(5u);
-        POLDER_ASSERT(gr == 5u);
+        static_assert(gr == 5u, "");
         static_assert(gr.value == 7u, "");
     }
 
@@ -42,7 +42,7 @@ int main()
     {
         constexpr auto max_uint = std::numeric_limits<unsigned>::max();
         constexpr auto max_gr = gray(max_uint);
-        POLDER_ASSERT(max_gr == max_uint);
+        static_assert(max_gr == max_uint, "");
     }
 
     // TEST: operator=
@@ -68,10 +68,10 @@ int main()
     {
         constexpr auto gr = gray(52u);
         static_assert(gr == gray(52u), "");
-        POLDER_ASSERT(gr == 52u);
-        POLDER_ASSERT(52u == gr);
-        POLDER_ASSERT(gr != 56u);
-        POLDER_ASSERT(54u != gr);
+        static_assert(gr == 52u, "");
+        static_assert(52u == gr, "");
+        static_assert(gr != 56u, "");
+        static_assert(54u != gr, "");
         static_assert(gr != gray(89u), "");
     }
 
