@@ -26,22 +26,22 @@ int main()
 
     // TEST: check for zero
     {
-        auto zero = gray(0u);
+        constexpr auto zero = gray(0u);
         POLDER_ASSERT(zero == 0u);
-        POLDER_ASSERT(zero.value == 0u);
+        static_assert(zero.value == 0u, "");
     }
 
     // TEST: check a random number
     {
-        auto gr = gray(5u);
+        constexpr auto gr = gray(5u);
         POLDER_ASSERT(gr == 5u);
-        POLDER_ASSERT(gr.value == 7u);
+        static_assert(gr.value == 7u, "");
     }
 
     // TEST: max value of a type
     {
-        auto max_uint = std::numeric_limits<unsigned>::max();
-        auto max_gr = gray(max_uint);
+        constexpr auto max_uint = std::numeric_limits<unsigned>::max();
+        constexpr auto max_gr = gray(max_uint);
         POLDER_ASSERT(max_gr == max_uint);
     }
 
@@ -66,13 +66,13 @@ int main()
 
     // TEST: comparison operators
     {
-        auto gr = gray(52u);
-        POLDER_ASSERT(gr == gray(52u));
+        constexpr auto gr = gray(52u);
+        static_assert(gr == gray(52u), "");
         POLDER_ASSERT(gr == 52u);
         POLDER_ASSERT(52u == gr);
         POLDER_ASSERT(gr != 56u);
         POLDER_ASSERT(54u != gr);
-        POLDER_ASSERT(gr != gray(89u));
+        static_assert(gr != gray(89u), "");
     }
 
     // TEST: bitwise operations
@@ -90,8 +90,7 @@ int main()
     {
         auto llgr = gray(8ull);
         using value_type = typename decltype(llgr)::value_type;
-        bool check = std::is_same<value_type, unsigned long long>::value;
-        POLDER_ASSERT(check);
+        static_assert(std::is_same<value_type, unsigned long long>::value, "");
     }
 
     // TEST: math operations

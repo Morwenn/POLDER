@@ -21,23 +21,19 @@
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
-GrayCode<Unsigned>::GrayCode()
+constexpr GrayCode<Unsigned>::GrayCode()
     = default;
 
 template<typename Unsigned>
-GrayCode<Unsigned>::GrayCode(const GrayCode&)
+constexpr GrayCode<Unsigned>::GrayCode(const GrayCode&)
     = default;
 
 template<typename Unsigned>
-GrayCode<Unsigned>::GrayCode(GrayCode&&)
+constexpr GrayCode<Unsigned>::GrayCode(GrayCode&&)
     = default;
 
 template<typename Unsigned>
-GrayCode<Unsigned>::~GrayCode()
-    = default;
-
-template<typename Unsigned>
-GrayCode<Unsigned>::GrayCode(value_type value):
+constexpr GrayCode<Unsigned>::GrayCode(value_type value):
     value( (value >> 1) ^ value )
 {}
 
@@ -179,7 +175,7 @@ auto GrayCode<Unsigned>::operator<<=(const GrayCode<Unsigned>& other)
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
-auto gray(Unsigned value)
+constexpr auto gray(Unsigned value)
     -> GrayCode<Unsigned>
 {
     return GrayCode<Unsigned>(value);
@@ -190,21 +186,21 @@ auto gray(Unsigned value)
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
-auto operator==(GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
+constexpr auto operator==(const GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
     -> bool
 {
     return lhs.value == rhs.value;
 }
 
 template<typename Unsigned>
-auto operator!=(GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
+constexpr auto operator!=(const GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
     -> bool
 {
     return !(lhs == rhs);
 }
 
 template<typename Unsigned>
-auto operator==(GrayCode<Unsigned>& lhs, Unsigned rhs)
+auto operator==(const GrayCode<Unsigned>& lhs, Unsigned rhs)
     -> bool
 {
     rhs ^= (rhs >> 1);
@@ -212,7 +208,7 @@ auto operator==(GrayCode<Unsigned>& lhs, Unsigned rhs)
 }
 
 template<typename Unsigned>
-auto operator!=(GrayCode<Unsigned>& lhs, Unsigned rhs)
+auto operator!=(const GrayCode<Unsigned>& lhs, Unsigned rhs)
     -> bool
 {
     return !(lhs == rhs);

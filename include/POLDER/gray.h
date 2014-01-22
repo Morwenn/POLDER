@@ -53,10 +53,9 @@ namespace polder
         ////////////////////////////////////////////////////////////
 
         // Standard Constructors/destructor
-        GrayCode();
-        GrayCode(const GrayCode&);
-        GrayCode(GrayCode&&);
-        ~GrayCode();
+        constexpr GrayCode();
+        constexpr GrayCode(const GrayCode&);
+        constexpr GrayCode(GrayCode&&);
 
         /**
          * @brief Construction from an unsigned integer
@@ -66,7 +65,7 @@ namespace polder
          *
          * @param value Unsigned integer to convert
          */
-        explicit GrayCode(value_type value);
+        constexpr explicit GrayCode(value_type value);
 
         ////////////////////////////////////////////////////////////
         // Operators
@@ -128,7 +127,7 @@ namespace polder
      * @param value Unsigned integer to convert to gay code
      */
     template<typename Unsigned>
-    auto gray(Unsigned value)
+    constexpr auto gray(Unsigned value)
         -> GrayCode<Unsigned>;
 
     ////////////////////////////////////////////////////////////
@@ -136,17 +135,17 @@ namespace polder
     ////////////////////////////////////////////////////////////
 
     template<typename Unsigned>
-    auto operator==(GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
+    constexpr auto operator==(const GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
         -> bool;
     template<typename Unsigned>
-    auto operator!=(GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
+    constexpr auto operator!=(const GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
         -> bool;
 
     template<typename Unsigned>
-    auto operator==(GrayCode<Unsigned>& lhs, Unsigned rhs)
+    auto operator==(const GrayCode<Unsigned>& lhs, Unsigned rhs)
         -> bool;
     template<typename Unsigned>
-    auto operator!=(GrayCode<Unsigned>& lhs, Unsigned rhs)
+    auto operator!=(const GrayCode<Unsigned>& lhs, Unsigned rhs)
         -> bool;
 
     template<typename Unsigned>
