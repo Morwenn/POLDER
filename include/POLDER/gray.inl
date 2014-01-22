@@ -17,7 +17,7 @@
  */
 
 ////////////////////////////////////////////////////////////
-// Constructors/destructor
+// Constructors
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
@@ -29,7 +29,7 @@ constexpr GrayCode<Unsigned>::GrayCode(const GrayCode&)
     = default;
 
 template<typename Unsigned>
-constexpr GrayCode<Unsigned>::GrayCode(GrayCode&&)
+constexpr GrayCode<Unsigned>::GrayCode(GrayCode&&) noexcept
     = default;
 
 template<typename Unsigned>
@@ -47,7 +47,7 @@ auto GrayCode<Unsigned>::operator=(const GrayCode<Unsigned>&)
     = default;
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator=(GrayCode<Unsigned>&&)
+auto GrayCode<Unsigned>::operator=(GrayCode<Unsigned>&&) noexcept
     -> GrayCode&
     = default;
 
