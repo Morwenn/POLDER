@@ -109,15 +109,15 @@ namespace polder
         // Bitwise operations
         ////////////////////////////////////////////////////////////
 
-        auto operator&=(const GrayCode<Unsigned>& other)
+        auto operator&=(GrayCode<Unsigned> other)
             -> GrayCode&;
-        auto operator|=(const GrayCode<Unsigned>& other)
+        auto operator|=(GrayCode<Unsigned> other)
             -> GrayCode&;
-        auto operator^=(const GrayCode<Unsigned>& other)
+        auto operator^=(GrayCode<Unsigned> other)
             -> GrayCode&;
-        auto operator>>=(const GrayCode<Unsigned>& other)
+        auto operator>>=(GrayCode<Unsigned> other)
             -> GrayCode&;
-        auto operator<<=(const GrayCode<Unsigned>& other)
+        auto operator<<=(GrayCode<Unsigned> other)
             -> GrayCode&;
     };
 
@@ -135,24 +135,24 @@ namespace polder
     ////////////////////////////////////////////////////////////
 
     template<typename Unsigned>
-    constexpr auto operator==(const GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
+    constexpr auto operator==(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
         -> bool;
     template<typename Unsigned>
-    constexpr auto operator!=(const GrayCode<Unsigned>& lhs, const GrayCode<Unsigned>& rhs)
-        -> bool;
-
-    template<typename Unsigned>
-    constexpr auto operator==(const GrayCode<Unsigned>& lhs, Unsigned rhs)
-        -> bool;
-    template<typename Unsigned>
-    constexpr auto operator!=(const GrayCode<Unsigned>& lhs, Unsigned rhs)
+    constexpr auto operator!=(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
         -> bool;
 
     template<typename Unsigned>
-    constexpr auto operator==(Unsigned lhs, const GrayCode<Unsigned>& rhs)
+    constexpr auto operator==(GrayCode<Unsigned> lhs, Unsigned rhs)
         -> bool;
     template<typename Unsigned>
-    constexpr auto operator!=(Unsigned lhs, const GrayCode<Unsigned>& rhs)
+    constexpr auto operator!=(GrayCode<Unsigned> lhs, Unsigned rhs)
+        -> bool;
+
+    template<typename Unsigned>
+    constexpr auto operator==(Unsigned lhs, GrayCode<Unsigned> rhs)
+        -> bool;
+    template<typename Unsigned>
+    constexpr auto operator!=(Unsigned lhs, GrayCode<Unsigned> rhs)
         -> bool;
 
     ////////////////////////////////////////////////////////////
@@ -160,23 +160,23 @@ namespace polder
     ////////////////////////////////////////////////////////////
 
     template<typename Unsigned>
-    auto operator&(GrayCode<Unsigned> lhs, const GrayCode<Unsigned>& rhs)
+    auto operator&(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
         -> GrayCode<Unsigned>;
 
     template<typename Unsigned>
-    auto operator|(GrayCode<Unsigned> lhs, const GrayCode<Unsigned>& rhs)
+    auto operator|(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
         -> GrayCode<Unsigned>;
 
     template<typename Unsigned>
-    auto operator^(GrayCode<Unsigned> lhs, const GrayCode<Unsigned>& rhs)
+    auto operator^(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
         -> GrayCode<Unsigned>;
 
     template<typename Unsigned>
-    auto operator>>(GrayCode<Unsigned> lhs, const GrayCode<Unsigned>& rhs)
+    auto operator>>(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
         -> GrayCode<Unsigned>;
 
     template<typename Unsigned>
-    auto operator<<(GrayCode<Unsigned> lhs, const GrayCode<Unsigned>& rhs)
+    auto operator<<(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
         -> GrayCode<Unsigned>;
 
     ////////////////////////////////////////////////////////////
@@ -186,11 +186,11 @@ namespace polder
     namespace math
     {
         template<typename Unsigned>
-        auto is_even(const GrayCode<Unsigned>& code)
+        auto is_even(GrayCode<Unsigned> code)
             -> bool;
 
         template<typename Unsigned>
-        auto is_odd(const GrayCode<Unsigned>& code)
+        auto is_odd(GrayCode<Unsigned> code)
             -> bool;
     }
 
