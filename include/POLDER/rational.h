@@ -208,22 +208,28 @@ namespace polder
         -> rational<typename std::common_type<T, U>::type>;
 
     template<typename T, typename U>
+    constexpr
     auto operator==(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
     template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    constexpr
     auto operator==(const rational<T>& lhs, const U& rhs)
         -> bool;
     template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    constexpr
     auto operator==(const U& lhs, const rational<T>& rhs)
         -> bool;
 
     template<typename T, typename U>
+    constexpr
     auto operator!=(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
     template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    constexpr
     auto operator!=(const rational<T>& lhs, const U& rhs)
         -> bool;
     template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    constexpr
     auto operator!=(const U& lhs, const rational<T>& rhs)
         -> bool;
 
@@ -294,50 +300,6 @@ namespace polder
         -> rational<T>;
 
     #include "rational.inl"
-
 }
-
-////////////////////////////////////////////////////////////
-// Global operators
-////////////////////////////////////////////////////////////
-
-// Overloads for standard math functions
-namespace std
-{
-    /**
-     * @brief Absolute value of a number
-     * @see std::abs(double)
-     */
-    template<typename T>
-    auto abs(const polder::rational<T>& r)
-        -> polder::rational<T>
-    {
-        return polder::rational<T>(abs(r.numerator()),
-                                   abs(r.denominator()));
-    }
-
-    /**
-     * @brief Power of a number
-     * @see std::pow(double, double)
-     */
-    template<typename T, typename Integral,
-             typename = typename std::enable_if<std::is_integral<Integral>::value, void>::type>
-    auto pow(const polder::rational<T>& rat, int n)
-        -> polder::rational<T>
-    {
-        if (n >= 0)
-        {
-            return polder::rational<T>(pow(rat.denominator(), n),
-                                       pow(rat.numerator(), n));
-        }
-        else
-        {
-            n = -n;
-            return polder::rational<T>(pow(rat.denominator(), n),
-                                       pow(rat.numerator(), n));
-        }
-    }
-}
-
 
 #endif // _POLDER_RATIONAL_H

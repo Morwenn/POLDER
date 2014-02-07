@@ -42,7 +42,7 @@ constexpr rational<T>::rational():
 template<typename T>
 constexpr rational<T>::rational(const T& numerator, const T& denominator):
     _numerator(numerator * math::meta::sign(denominator)),
-    _denominator(std::abs(denominator))
+    _denominator(denominator >= 0 ? denominator : -denominator)
 {}
 
 template<typename T>
@@ -318,6 +318,7 @@ auto operator/(const U& lhs, const rational<T>& rhs)
 }
 
 template<typename T, typename U>
+constexpr
 auto operator==(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
@@ -326,6 +327,7 @@ auto operator==(const rational<T>& lhs, const rational<U>& rhs)
 }
 
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+constexpr
 auto operator==(const rational<T>& lhs, const U& rhs)
     -> bool
 {
@@ -333,6 +335,7 @@ auto operator==(const rational<T>& lhs, const U& rhs)
 }
 
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+constexpr
 auto operator==(const U& lhs, const rational<T>& rhs)
     -> bool
 {
@@ -340,6 +343,7 @@ auto operator==(const U& lhs, const rational<T>& rhs)
 }
 
 template<typename T, typename U>
+constexpr
 auto operator!=(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
@@ -347,6 +351,7 @@ auto operator!=(const rational<T>& lhs, const rational<U>& rhs)
 }
 
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+constexpr
 auto operator!=(const rational<T>& lhs, const U& rhs)
     -> bool
 {
@@ -354,6 +359,7 @@ auto operator!=(const rational<T>& lhs, const U& rhs)
 }
 
 template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+constexpr
 auto operator!=(const U& lhs, const rational<T>& rhs)
     -> bool
 {
