@@ -234,42 +234,54 @@ namespace polder
         -> bool;
 
     template<typename T, typename U>
+    constexpr
     auto operator<(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
     template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    constexpr
     auto operator<(const rational<T>& lhs, const U& rhs)
         -> bool;
     template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    constexpr
     auto operator<(const U& lhs, const rational<T>& rhs)
         -> bool;
 
     template<typename T, typename U>
+    constexpr
     auto operator>(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
     template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    constexpr
     auto operator>(const rational<T>& lhs, const U& rhs)
         -> bool;
     template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    constexpr
     auto operator>(const U& lhs, const rational<T>& rhs)
         -> bool;
 
     template<typename T, typename U>
+    constexpr
     auto operator<=(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
     template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    constexpr
     auto operator<=(const rational<T>& lhs, const U& rhs)
         -> bool;
     template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    constexpr
     auto operator<=(const U& lhs, const rational<T>& rhs)
         -> bool;
 
     template<typename T, typename U>
+    constexpr
     auto operator>=(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
     template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    constexpr
     auto operator>=(const rational<T>& lhs, const U& rhs)
         -> bool;
     template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    constexpr
     auto operator>=(const U& lhs, const rational<T>& rhs)
         -> bool;
 
