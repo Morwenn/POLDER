@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -26,7 +26,7 @@ constexpr rational<T>::rational(const rational&)
 
 template<typename T>
 auto rational<T>::operator=(const rational<T>&)
-    -> rational<T>&
+    -> rational&
     = default;
 
 ////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ auto rational<T>::denominator() const noexcept
 
 template<typename T>
 auto rational<T>::operator=(const T& other)
-    -> rational<T>&
+    -> rational&
 {
     _numerator = other;
     _denominator = 1;
@@ -86,7 +86,7 @@ auto rational<T>::operator=(const T& other)
 
 template<typename T>
 auto rational<T>::operator+=(const rational<T>& other)
-    -> rational<T>&
+    -> rational&
 {
     _numerator *= other._denominator;
     _numerator += other._numerator * _denominator;
@@ -96,7 +96,7 @@ auto rational<T>::operator+=(const rational<T>& other)
 
 template<typename T>
 auto rational<T>::operator+=(const value_type& other)
-    -> rational<T>&
+    -> rational&
 {
     _numerator += other * _denominator;
     return *this;
@@ -104,7 +104,7 @@ auto rational<T>::operator+=(const value_type& other)
 
 template<typename T>
 auto rational<T>::operator-=(const rational<T>& other)
-    -> rational<T>&
+    -> rational&
 {
     _numerator *= other._denominator;
     _numerator -= other._numerator * _denominator;
@@ -114,7 +114,7 @@ auto rational<T>::operator-=(const rational<T>& other)
 
 template<typename T>
 auto rational<T>::operator-=(const value_type& other)
-    -> rational<T>&
+    -> rational&
 {
     _numerator -= other * _denominator;
     return *this;
@@ -122,7 +122,7 @@ auto rational<T>::operator-=(const value_type& other)
 
 template<typename T>
 auto rational<T>::operator*=(const rational<T>& other)
-    -> rational<T>&
+    -> rational&
 {
     _numerator *= other._numerator;
     _denominator *= other._denominator;
@@ -131,7 +131,7 @@ auto rational<T>::operator*=(const rational<T>& other)
 
 template<typename T>
 auto rational<T>::operator*=(const value_type& other)
-    -> rational<T>&
+    -> rational&
 {
     _numerator *= other;
     return *this;
@@ -139,7 +139,7 @@ auto rational<T>::operator*=(const value_type& other)
 
 template<typename T>
 auto rational<T>::operator/=(const rational<T>& other)
-    -> rational<T>&
+    -> rational&
 {
     if (other._numerator == 0)
     {
@@ -152,7 +152,7 @@ auto rational<T>::operator/=(const rational<T>& other)
 
 template<typename T>
 auto rational<T>::operator/=(const value_type& val)
-    -> rational<T>&
+    -> rational&
 {
     if (val == 0)
     {

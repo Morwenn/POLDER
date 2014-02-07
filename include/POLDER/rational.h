@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -110,29 +110,29 @@ namespace polder
 
             // Assignment
             auto operator=(const rational<T>& other)
-                -> rational<T>&;
+                -> rational&;
             auto operator=(const value_type& other)
-                -> rational<T>&;
+                -> rational&;
 
             auto operator+=(const rational<T>& other)
-                -> rational<T>&;
+                -> rational&;
             auto operator+=(const value_type& other)
-                -> rational<T>&;
+                -> rational&;
 
             auto operator-=(const rational<T>& other)
-                -> rational<T>&;
+                -> rational&;
             auto operator-=(const value_type& other)
-                -> rational<T>&;
+                -> rational&;
 
             auto operator*=(const rational<T>& other)
-                -> rational<T>&;
+                -> rational&;
             auto operator*=(const value_type& other)
-                -> rational<T>&;
+                -> rational&;
 
             auto operator/=(const rational<T>& other)
-                -> rational<T>&;
+                -> rational&;
             auto operator/=(const value_type& val)
-                -> rational<T>&;
+                -> rational&;
 
             explicit constexpr operator float() const;
             explicit constexpr operator double() const;
