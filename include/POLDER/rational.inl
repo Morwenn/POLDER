@@ -21,11 +21,7 @@
 ////////////////////////////////////////////////////////////
 
 template<typename T>
-rational<T>::rational(const rational&)
-    = default;
-
-template<typename T>
-rational<T>::~rational()
+constexpr rational<T>::rational(const rational&)
     = default;
 
 template<typename T>
@@ -38,21 +34,16 @@ auto rational<T>::operator=(const rational<T>&)
 ////////////////////////////////////////////////////////////
 
 template<typename T>
-rational<T>::rational():
+constexpr rational<T>::rational():
     _numerator(0),
     _denominator(1)
 {}
 
 template<typename T>
-rational<T>::rational(const T& numerator, const T& denominator):
+constexpr rational<T>::rational(const T& numerator, const T& denominator):
     _numerator(numerator),
     _denominator(denominator)
-{
-    if (denominator == 0)
-    {
-        throw division_by_zero();
-    }
-}
+{}
 
 template<typename T>
 constexpr rational<T>::rational(const T& numerator) noexcept:
@@ -65,6 +56,7 @@ constexpr rational<T>::rational(const T& numerator) noexcept:
 ////////////////////////////////////////////////////////////
 
 template<typename T>
+constexpr
 auto rational<T>::numerator() const noexcept
     -> value_type
 {
@@ -72,6 +64,7 @@ auto rational<T>::numerator() const noexcept
 }
 
 template<typename T>
+constexpr
 auto rational<T>::denominator() const noexcept
     -> value_type
 {
@@ -170,18 +163,21 @@ auto rational<T>::operator/=(const value_type& val)
 }
 
 template<typename T>
+constexpr
 rational<T>::operator float() const
 {
     return float(_numerator) / float(_denominator);
 }
 
 template<typename T>
+constexpr
 rational<T>::operator double() const
 {
     return double(_numerator) / double(_denominator);
 }
 
 template<typename T>
+constexpr
 rational<T>::operator long double() const
 {
     return (long double) _numerator / (long double) _denominator;
@@ -204,7 +200,7 @@ auto rational<T>::simplify()
     // Value simplification
     if (_numerator != 1 && _denominator != 1)
     {
-        const T& _gcd = math::gcd(_numerator, _denominator);
+        auto _gcd = math::gcd(_numerator, _denominator);
         if (_gcd != 1)
         {
             _numerator /= _gcd;
@@ -218,7 +214,7 @@ auto rational<T>::simplify()
 ////////////////////////////////////////////////////////////
 
 template<typename T>
-auto operator+(rational<T> rat)
+constexpr auto operator+(rational<T> rat)
     -> rational<T>
 {
     return rat;

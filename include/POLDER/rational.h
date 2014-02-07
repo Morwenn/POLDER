@@ -58,15 +58,10 @@ struct rational
         // Constructors
         ////////////////////////////////////////////////////////////
 
-        /**
-         * Default constructor
-         */
-        rational();
-
-        /**
-         * Copy constructor
-         */
-        rational(const rational<T>& other);
+        // Default constructor
+        constexpr rational();
+        // Copy constructor
+        constexpr rational(const rational<T>& other);
 
         /**
          * @brief Initialization constructor
@@ -78,7 +73,7 @@ struct rational
          * @param numerator Numerator of the fraction
          * @param denominator Denominator of the fraction
          */
-        rational(const value_type& numerator, const value_type& denominator);
+        constexpr rational(const value_type& numerator, const value_type& denominator);
 
         /**
          * @brief Initialization constructor
@@ -92,12 +87,6 @@ struct rational
          */
         constexpr rational(const value_type& numerator) noexcept;
 
-        /**
-         * Destructor
-         */
-        ~rational();
-
-
         ////////////////////////////////////////////////////////////
         // Getters
         ////////////////////////////////////////////////////////////
@@ -106,6 +95,7 @@ struct rational
          * @brief Returns the numerator of a rational number
          * @return Numerator
          */
+        constexpr
         auto numerator() const noexcept
             -> value_type;
 
@@ -113,6 +103,7 @@ struct rational
          * @brief Returns the denominator of a rational number
          * @return Denominator
          */
+        constexpr
         auto denominator() const noexcept
             -> value_type;
 
@@ -147,9 +138,9 @@ struct rational
         auto operator/=(const value_type& val)
             -> rational<T>&;
 
-        explicit operator float() const;
-        explicit operator double() const;
-        explicit operator long double() const;
+        explicit constexpr operator float() const;
+        explicit constexpr operator double() const;
+        explicit constexpr operator long double() const;
 
 
         /**
@@ -176,7 +167,7 @@ struct rational
 ////////////////////////////////////////////////////////////
 
 template<typename T>
-auto operator+(rational<T> rat)
+constexpr auto operator+(rational<T> rat)
     -> rational<T>;
 template<typename T>
 auto operator-(rational<T> rat)
