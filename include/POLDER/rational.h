@@ -26,287 +26,276 @@
 #include <POLDER/exceptions.h>
 #include <POLDER/math/formula.h>
 
-
 namespace polder
 {
+    /**
+     * @brief Rational numbers
+     *
+     * Ensembles: B < N < Z < Q < R < C.
+     *
+     * All of those ensembles already exist in the C++ standard
+     * library or in the language itself except the rational
+     * numbers (Q), represented by "fractions": an integer
+     * numerator and denominator.
+     *
+     * @warning Only integral types should be used as a template parameter
+     * @warning The denominator should not be 0
+     */
+    template<typename T>
+    struct rational
+    {
+        static_assert(std::is_integral<T>::value,
+                      "A rational can only be made of integral values.");
+
+        public:
+
+            using value_type = T;
+
+            ////////////////////////////////////////////////////////////
+            // Constructors
+            ////////////////////////////////////////////////////////////
+
+            // Default constructor
+            constexpr rational();
+            // Copy constructor
+            constexpr rational(const rational<T>& other);
+
+            /**
+             * @brief Initialization constructor
+             *
+             * Constructs a new rational number with their numerator
+             * and denominator. Throws a division_by_zero exception if
+             * denominator == 0.
+             *
+             * @param numerator Numerator of the fraction
+             * @param denominator Denominator of the fraction
+             */
+            constexpr rational(const value_type& numerator, const value_type& denominator);
+
+            /**
+             * @brief Initialization constructor
+             *
+             * Same as the complete initialization constructor
+             * except that this one does not need to check the
+             * denominator since it is always 1.
+             *
+             * @param numerator Numerator of the fraction
+             * @see rational(const value_type& numerator, const value_type& denominator)
+             */
+            constexpr rational(const value_type& numerator) noexcept;
+
+            ////////////////////////////////////////////////////////////
+            // Getters
+            ////////////////////////////////////////////////////////////
+
+            /**
+             * @brief Returns the numerator of a rational number
+             * @return Numerator
+             */
+            constexpr
+            auto numerator() const noexcept
+                -> value_type;
+
+            /**
+             * @brief Returns the denominator of a rational number
+             * @return Denominator
+             */
+            constexpr
+            auto denominator() const noexcept
+                -> value_type;
+
+            ////////////////////////////////////////////////////////////
+            // Operators
+            ////////////////////////////////////////////////////////////
+
+            // Assignment
+            auto operator=(const rational<T>& other)
+                -> rational<T>&;
+            auto operator=(const value_type& other)
+                -> rational<T>&;
+
+            auto operator+=(const rational<T>& other)
+                -> rational<T>&;
+            auto operator+=(const value_type& other)
+                -> rational<T>&;
+
+            auto operator-=(const rational<T>& other)
+                -> rational<T>&;
+            auto operator-=(const value_type& other)
+                -> rational<T>&;
+
+            auto operator*=(const rational<T>& other)
+                -> rational<T>&;
+            auto operator*=(const value_type& other)
+                -> rational<T>&;
+
+            auto operator/=(const rational<T>& other)
+                -> rational<T>&;
+            auto operator/=(const value_type& val)
+                -> rational<T>&;
+
+            explicit constexpr operator float() const;
+            explicit constexpr operator double() const;
+            explicit constexpr operator long double() const;
+
+            /**
+             * @brief Simplify the fraction
+             *
+             * Divides _numerator and _denominator by their
+             * greatest common divisor if needed. Also does a
+             * sign simplification if necessary.
+             */
+            auto simplify()
+                -> void;
+
+        private:
+
+            // Member data
+            value_type _numerator;      /**< Numerator */
+            value_type _denominator;    /**< Denominator */
+    };
 
 
-/**
- * @brief Rational numbers
- *
- * Ensembles: B < N < Z < Q < R < C.
- *
- * All of those ensembles already exist in the C++ standard
- * library or in the language itself except the rational
- * numbers (Q), represented by "fractions": an integer
- * numerator and denominator.
- *
- * @warning Only integral types should be used as a template parameter
- * @warning The denominator should not be 0
- */
-template<typename T>
-struct rational
-{
-    static_assert(std::is_integral<T>::value,
-                  "A rational can only be made of integral values.");
+    ////////////////////////////////////////////////////////////
+    // Global operators
+    ////////////////////////////////////////////////////////////
 
-    public:
+    template<typename T>
+    constexpr auto operator+(rational<T> rat)
+        -> rational<T>;
+    template<typename T>
+    auto operator-(rational<T> rat)
+        -> rational<T>;
 
-        using value_type = T;
+    template<typename T, typename U>
+    auto operator+(const rational<T>& lhs, const rational<U>& rhs)
+        -> rational<typename std::common_type<T, U>::type>;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator+(const rational<T>& lhs, const U& rhs)
+        -> rational<typename std::common_type<T, U>::type>;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator+(const U& lhs, const rational<T>& rhs)
+        -> rational<typename std::common_type<T, U>::type>;
 
-        ////////////////////////////////////////////////////////////
-        // Constructors
-        ////////////////////////////////////////////////////////////
+    template<typename T, typename U>
+    auto operator-(const rational<T>& lhs, const rational<U>& rhs)
+        -> rational<typename std::common_type<T, U>::type>;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator-(const rational<T>& lhs, const U& rhs)
+        -> rational<typename std::common_type<T, U>::type>;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator-(const U& lhs, const rational<T>& rhs)
+        -> rational<typename std::common_type<T, U>::type>;
 
-        // Default constructor
-        constexpr rational();
-        // Copy constructor
-        constexpr rational(const rational<T>& other);
+    template<typename T, typename U>
+    auto operator*(const rational<T>& lhs, const rational<U>& rhs)
+        -> rational<typename std::common_type<T, U>::type>;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator*(const rational<T>& lhs, const U& rhs)
+        -> rational<typename std::common_type<T, U>::type>;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator*(const U& lhs, const rational<T>& rhs)
+        -> rational<typename std::common_type<T, U>::type>;
 
-        /**
-         * @brief Initialization constructor
-         *
-         * Constructs a new rational number with their numerator
-         * and denominator. Throws a division_by_zero exception if
-         * denominator == 0.
-         *
-         * @param numerator Numerator of the fraction
-         * @param denominator Denominator of the fraction
-         */
-        constexpr rational(const value_type& numerator, const value_type& denominator);
+    template<typename T, typename U>
+    auto operator/(const rational<T>& lhs, const rational<U>& rhs)
+        -> rational<typename std::common_type<T, U>::type>;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator/(const rational<T>& lhs, const U& rhs)
+        -> rational<typename std::common_type<T, U>::type>;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator/(const U& lhs, const rational<T>& rhs)
+        -> rational<typename std::common_type<T, U>::type>;
 
-        /**
-         * @brief Initialization constructor
-         *
-         * Same as the complete initialization constructor
-         * except that this one does not need to check the
-         * denominator since it is always 1.
-         *
-         * @param numerator Numerator of the fraction
-         * @see rational(const value_type& numerator, const value_type& denominator)
-         */
-        constexpr rational(const value_type& numerator) noexcept;
+    template<typename T, typename U>
+    auto operator==(const rational<T>& lhs, const rational<U>& rhs)
+        -> bool;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator==(const rational<T>& lhs, const U& rhs)
+        -> bool;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator==(const U& lhs, const rational<T>& rhs)
+        -> bool;
 
-        ////////////////////////////////////////////////////////////
-        // Getters
-        ////////////////////////////////////////////////////////////
+    template<typename T, typename U>
+    auto operator!=(const rational<T>& lhs, const rational<U>& rhs)
+        -> bool;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator!=(const rational<T>& lhs, const U& rhs)
+        -> bool;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator!=(const U& lhs, const rational<T>& rhs)
+        -> bool;
 
-        /**
-         * @brief Returns the numerator of a rational number
-         * @return Numerator
-         */
-        constexpr
-        auto numerator() const noexcept
-            -> value_type;
+    template<typename T, typename U>
+    auto operator<(const rational<T>& lhs, const rational<U>& rhs)
+        -> bool;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator<(const rational<T>& lhs, const U& rhs)
+        -> bool;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator<(const U& lhs, const rational<T>& rhs)
+        -> bool;
 
-        /**
-         * @brief Returns the denominator of a rational number
-         * @return Denominator
-         */
-        constexpr
-        auto denominator() const noexcept
-            -> value_type;
+    template<typename T, typename U>
+    auto operator>(const rational<T>& lhs, const rational<U>& rhs)
+        -> bool;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator>(const rational<T>& lhs, const U& rhs)
+        -> bool;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator>(const U& lhs, const rational<T>& rhs)
+        -> bool;
 
+    template<typename T, typename U>
+    auto operator<=(const rational<T>& lhs, const rational<U>& rhs)
+        -> bool;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator<=(const rational<T>& lhs, const U& rhs)
+        -> bool;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator<=(const U& lhs, const rational<T>& rhs)
+        -> bool;
 
-        ////////////////////////////////////////////////////////////
-        // Operators
-        ////////////////////////////////////////////////////////////
+    template<typename T, typename U>
+    auto operator>=(const rational<T>& lhs, const rational<U>& rhs)
+        -> bool;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator>=(const rational<T>& lhs, const U& rhs)
+        -> bool;
+    template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
+    auto operator>=(const U& lhs, const rational<T>& rhs)
+        -> bool;
 
-        // Assignment
-        auto operator=(const rational<T>& other)
-            -> rational<T>&;
-        auto operator=(const value_type& other)
-            -> rational<T>&;
+    /**
+     * @brief Output stream operator overload
+     *
+     * @param stream Output stream
+     * @param r Rational number to display
+     * @return Modified \a stream
+     */
+    template<typename T>
+    auto operator<<(std::ostream& stream, const rational<T>& rat)
+        -> std::ostream&;
 
-        auto operator+=(const rational<T>& other)
-            -> rational<T>&;
-        auto operator+=(const value_type& other)
-            -> rational<T>&;
+    /**
+     * @brief Rational numbers creation handler
+     *
+     * Function helping to construct rational numbers without
+     * having to fill the template parameters since they will
+     * be deduced from the parameters.
+     *
+     * @param numerator Numerator of a fraction
+     * @param denominator Denominator of the fraction
+     * @return New rational number
+     */
+    template<typename T>
+    constexpr auto make_rational(T numerator, T denominator=1)
+        -> rational<T>;
 
-        auto operator-=(const rational<T>& other)
-            -> rational<T>&;
-        auto operator-=(const value_type& other)
-            -> rational<T>&;
+    #include "rational.inl"
 
-        auto operator*=(const rational<T>& other)
-            -> rational<T>&;
-        auto operator*=(const value_type& other)
-            -> rational<T>&;
-
-        auto operator/=(const rational<T>& other)
-            -> rational<T>&;
-        auto operator/=(const value_type& val)
-            -> rational<T>&;
-
-        explicit constexpr operator float() const;
-        explicit constexpr operator double() const;
-        explicit constexpr operator long double() const;
-
-
-        /**
-         * @brief Simplify the fraction
-         *
-         * Divides _numerator and _denominator by their
-         * greatest common divisor if needed. Also does a
-         * sign simplification if necessary.
-         */
-        auto simplify()
-            -> void;
-
-
-    private:
-
-        // Member data
-        value_type _numerator;      /**< Numerator */
-        value_type _denominator;    /**< Denominator */
-};
-
-
-////////////////////////////////////////////////////////////
-// Global operators
-////////////////////////////////////////////////////////////
-
-template<typename T>
-constexpr auto operator+(rational<T> rat)
-    -> rational<T>;
-template<typename T>
-auto operator-(rational<T> rat)
-    -> rational<T>;
-
-template<typename T, typename U>
-auto operator+(const rational<T>& lhs, const rational<U>& rhs)
-    -> rational<typename std::common_type<T, U>::type>;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator+(const rational<T>& lhs, const U& rhs)
-    -> rational<typename std::common_type<T, U>::type>;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator+(const U& lhs, const rational<T>& rhs)
-    -> rational<typename std::common_type<T, U>::type>;
-
-template<typename T, typename U>
-auto operator-(const rational<T>& lhs, const rational<U>& rhs)
-    -> rational<typename std::common_type<T, U>::type>;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator-(const rational<T>& lhs, const U& rhs)
-    -> rational<typename std::common_type<T, U>::type>;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator-(const U& lhs, const rational<T>& rhs)
-    -> rational<typename std::common_type<T, U>::type>;
-
-template<typename T, typename U>
-auto operator*(const rational<T>& lhs, const rational<U>& rhs)
-    -> rational<typename std::common_type<T, U>::type>;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator*(const rational<T>& lhs, const U& rhs)
-    -> rational<typename std::common_type<T, U>::type>;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator*(const U& lhs, const rational<T>& rhs)
-    -> rational<typename std::common_type<T, U>::type>;
-
-template<typename T, typename U>
-auto operator/(const rational<T>& lhs, const rational<U>& rhs)
-    -> rational<typename std::common_type<T, U>::type>;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator/(const rational<T>& lhs, const U& rhs)
-    -> rational<typename std::common_type<T, U>::type>;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator/(const U& lhs, const rational<T>& rhs)
-    -> rational<typename std::common_type<T, U>::type>;
-
-template<typename T, typename U>
-auto operator==(const rational<T>& lhs, const rational<U>& rhs)
-    -> bool;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator==(const rational<T>& lhs, const U& rhs)
-    -> bool;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator==(const U& lhs, const rational<T>& rhs)
-    -> bool;
-
-template<typename T, typename U>
-auto operator!=(const rational<T>& lhs, const rational<U>& rhs)
-    -> bool;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator!=(const rational<T>& lhs, const U& rhs)
-    -> bool;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator!=(const U& lhs, const rational<T>& rhs)
-    -> bool;
-
-template<typename T, typename U>
-auto operator<(const rational<T>& lhs, const rational<U>& rhs)
-    -> bool;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator<(const rational<T>& lhs, const U& rhs)
-    -> bool;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator<(const U& lhs, const rational<T>& rhs)
-    -> bool;
-
-template<typename T, typename U>
-auto operator>(const rational<T>& lhs, const rational<U>& rhs)
-    -> bool;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator>(const rational<T>& lhs, const U& rhs)
-    -> bool;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator>(const U& lhs, const rational<T>& rhs)
-    -> bool;
-
-template<typename T, typename U>
-auto operator<=(const rational<T>& lhs, const rational<U>& rhs)
-    -> bool;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator<=(const rational<T>& lhs, const U& rhs)
-    -> bool;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator<=(const U& lhs, const rational<T>& rhs)
-    -> bool;
-
-template<typename T, typename U>
-auto operator>=(const rational<T>& lhs, const rational<U>& rhs)
-    -> bool;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator>=(const rational<T>& lhs, const U& rhs)
-    -> bool;
-template<typename T, typename U, typename = typename std::enable_if<std::is_integral<U>::value, void>::type>
-auto operator>=(const U& lhs, const rational<T>& rhs)
-    -> bool;
-
-
-/**
- * @brief Output stream operator overload
- *
- * @param stream Output stream
- * @param r Rational number to display
- * @return Modified \a stream
- */
-template<typename T>
-auto operator<<(std::ostream& stream, const rational<T>& rat)
-    -> std::ostream&;
-
-
-/**
- * @brief Rational numbers creation handler
- *
- * Function helping to construct rational numbers without
- * having to fill the template parameters since they will
- * be deduced from the parameters.
- *
- * @param numerator Numerator of a fraction
- * @param denominator Denominator of the fraction
- * @return New rational number
- */
-template<typename T>
-auto make_rational(T numerator, T denominator=1)
-    -> rational<T>;
-
-#include "rational.inl"
-
-
-} // namespace polder
-
-
+}
 
 ////////////////////////////////////////////////////////////
 // Global operators
@@ -331,7 +320,8 @@ namespace std
      * @brief Power of a number
      * @see std::pow(double, double)
      */
-    template<typename T>
+    template<typename T, typename Integral,
+             typename = typename std::enable_if<std::is_integral<Integral>::value, void>::type>
     auto pow(const polder::rational<T>& rat, int n)
         -> polder::rational<T>
     {

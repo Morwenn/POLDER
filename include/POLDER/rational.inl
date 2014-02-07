@@ -41,8 +41,8 @@ constexpr rational<T>::rational():
 
 template<typename T>
 constexpr rational<T>::rational(const T& numerator, const T& denominator):
-    _numerator(numerator),
-    _denominator(denominator)
+    _numerator(numerator * math::meta::sign(denominator)),
+    _denominator(std::abs(denominator))
 {}
 
 template<typename T>
@@ -266,7 +266,10 @@ template<typename T, typename U, typename = typename std::enable_if<std::is_inte
 auto operator-(const U& lhs, const rational<T>& rhs)
     -> rational<typename std::common_type<T, U>::type>
 {
-    return rational<typename std::common_type<T, U>::type>(rhs) -= lhs;
+    return rational<typename std::common_type<T, U>::type>(
+        lhs * rhs.denominator() - rhs.numerator(),
+        rhs.denominator()
+    );
 }
 
 template<typename T, typename U>
@@ -308,7 +311,10 @@ template<typename T, typename U, typename = typename std::enable_if<std::is_inte
 auto operator/(const U& lhs, const rational<T>& rhs)
     -> rational<typename std::common_type<T, U>::type>
 {
-    return rational<typename std::common_type<T, U>::type>(rhs) /= lhs;
+    return rational<typename std::common_type<T, U>::type>(
+        lhs * rhs.denominator(),
+        rhs.numerator()
+    );
 }
 
 template<typename T, typename U>
@@ -417,7 +423,7 @@ template<typename T, typename U, typename = typename std::enable_if<std::is_inte
 auto operator<=(const U& lhs, const rational<T>& rhs)
     -> bool
 {
-    return rhs.numerator() > rhs.denominator() * lhs;
+    return lhs * rhs.denominator() <= rhs.numerator();
 }
 
 template<typename T, typename U>
@@ -455,7 +461,7 @@ auto operator<<(std::ostream& stream, const rational<T>& rat)
 ////////////////////////////////////////////////////////////
 
 template<typename T>
-auto make_rational(T numerator, T denominator)
+constexpr auto make_rational(T numerator, T denominator)
     -> rational<T>
 {
     return rational<T>(numerator, denominator);
