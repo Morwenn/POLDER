@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_GEOMETRY_DETAILS_VECTOR_BASE_H
-#define _POLDER_GEOMETRY_DETAILS_VECTOR_BASE_H
+#ifndef _POLDER_GEOMETRY_VECTOR_BASE_H
+#define _POLDER_GEOMETRY_VECTOR_BASE_H
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -27,7 +27,7 @@
 #include <iterator>
 #include <POLDER/algorithm.h>
 #include <POLDER/math/norm.h>
-#include <POLDER/geometry/types.h>
+#include <POLDER/geometry/details/types.h>
 
 
 namespace polder
@@ -159,7 +159,4 @@ namespace geometry
     #include "vector_base.inl"
 }}
 
-
-#endif // _POLDER_GEOMETRY_DETAILS_VECTOR_BASE_H
-
-
+#endif // _POLDER_GEOMETRY_VECTOR_BASE_H

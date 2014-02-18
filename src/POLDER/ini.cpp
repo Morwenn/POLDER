@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -39,8 +39,8 @@ using namespace string;
 namespace
 {
     /**
-     * Return a string without comments
-     */
+* Return a string without comments
+*/
     char* strnorm(const char* str, Dialect dialect)
     {
         char* new_str = new char[strlen(str)];
@@ -120,8 +120,8 @@ Element::operator long double() const
 }
 
 /**
- * Return whether the given section exists or not
- */
+* Return whether the given section exists or not
+*/
 auto section_exists(const std::string& fname, const std::string& section, Dialect dialect)
     -> bool
 {
@@ -153,8 +153,8 @@ auto section_exists(const std::string& fname, const std::string& section, Dialec
 
 
 /**
- * Return whether the given key exists or not
- */
+* Return whether the given key exists or not
+*/
 auto key_exists(const std::string& fname, const std::string& section, const std::string& key, Dialect dialect)
     -> bool
 {
@@ -215,8 +215,8 @@ auto key_exists(const std::string& fname, const std::string& section, const std:
 
 
 /**
- * Read the string value corresponding to the given key
- */
+* Read the string value corresponding to the given key
+*/
 auto read(const std::string& fname, const std::string& section, const std::string& key, const std::string& default_value, Dialect dialect)
     -> Element
 {
@@ -280,8 +280,8 @@ auto read(const std::string& fname, const std::string& section, const std::strin
 
 
 /**
- * Deletes the given section of an INI file
- */
+* Deletes the given section of an INI file
+*/
 auto section_delete(const char* fname, const char* section, Dialect dialect)
     -> void
 {
@@ -349,8 +349,8 @@ auto section_delete(const char* fname, const char* section, Dialect dialect)
 
 
 /**
- * Deletes the given key of an INI file
- */
+* Deletes the given key of an INI file
+*/
 auto key_delete(const char* fname, const char* section, const char* key, Dialect dialect)
     -> void
 {
@@ -447,8 +447,8 @@ auto key_delete(const char* fname, const char* section, const char* key, Dialect
 
 
 /**
- * Write a string in an INI file
- */
+* Write a string in an INI file
+*/
 auto write(const char* fname, const char* section, const char* key, const char* value, Dialect dialect)
     -> void
 {
@@ -582,8 +582,8 @@ auto write(const char* fname, const char* section, const char* key, const char* 
 
 
 /**
- * Write a real in an INI file
- */
+* Write a real in an INI file
+*/
 auto write(const char* fname, const char* section, const char* key, double value, Dialect dialect)
     -> void
 {
@@ -717,8 +717,8 @@ auto write(const char* fname, const char* section, const char* key, double value
 }
 
 /**
- * Renames the given section of an INI file
- */
+* Renames the given section of an INI file
+*/
 auto section_rename(const char* fname, const char* section, const char* new_section, Dialect dialect)
     -> void
 {
@@ -791,8 +791,8 @@ auto section_rename(const char* fname, const char* section, const char* new_sect
 }
 
 /**
- * Renames the given key of an INI file
- */
+* Renames the given key of an INI file
+*/
 auto key_rename(const char* fname, const char* section, const char* key, const char* new_key, Dialect dialect)
     -> void
 {
@@ -895,8 +895,8 @@ auto key_rename(const char* fname, const char* section, const char* key, const c
 
 
 /**
- * Exceptions handling
- */
+* Exceptions handling
+*/
 
 // Create a new exception
 Error::Error()

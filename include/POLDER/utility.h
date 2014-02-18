@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -22,7 +22,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <tuple>
-#include <POLDER/config.h>
+#include <POLDER/details/config.h>
 
 namespace polder
 {
@@ -103,7 +103,7 @@ namespace polder
 
 namespace std
 {
-    // Hash function for tuples
+    // Hash function for std::tuple
     template<typename... Args>
     struct hash<std::tuple<Args...>>
     {

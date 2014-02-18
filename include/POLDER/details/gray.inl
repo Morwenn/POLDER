@@ -155,18 +155,18 @@ auto GrayCode<Unsigned>::operator^=(GrayCode<Unsigned> other)
 }
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator>>=(GrayCode<Unsigned> other)
+auto GrayCode<Unsigned>::operator>>=(Unsigned other)
     -> GrayCode&
 {
-    value >>= other.value;
+    value >>= other;
     return *this;
 }
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator<<=(GrayCode<Unsigned> other)
+auto GrayCode<Unsigned>::operator<<=(Unsigned other)
     -> GrayCode&
 {
-    value <<= other.value;
+    value <<= other;
     return *this;
 }
 
@@ -253,14 +253,14 @@ auto operator^(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
 }
 
 template<typename Unsigned>
-auto operator>>(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
+auto operator>>(GrayCode<Unsigned> lhs, Unsigned rhs)
     -> GrayCode<Unsigned>
 {
     return lhs >>= rhs;
 }
 
 template<typename Unsigned>
-auto operator<<(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
+auto operator<<(GrayCode<Unsigned> lhs, Unsigned rhs)
     -> GrayCode<Unsigned>
 {
     return lhs <<= rhs;

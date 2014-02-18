@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -23,7 +23,7 @@
 ////////////////////////////////////////////////////////////
 #include <initializer_list>
 #include <vector>
-#include <POLDER/config.h>
+#include <POLDER/details/config.h>
 #include <POLDER/utility.h>
 
 namespace polder
@@ -105,7 +105,7 @@ namespace polder
             std::vector<value_type> _values;  /**< Computed results of "function" */
     };
 
-    #include "recursion_array.inl"
+    #include "details/recursion_array.inl"
 }
 
 #endif // _POLDER_RECURSION_ARRAY_H

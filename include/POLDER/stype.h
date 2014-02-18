@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -21,8 +21,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <POLDER/config.h>
-
+#include <POLDER/details/config.h>
 
 namespace polder
 {
@@ -37,21 +36,16 @@ namespace polder
  * a real number. The representations of those number are
  * those defined by the C++ standard.
  */
+
 namespace stype
 {
-
-
-POLDER_API bool is_bool(const char* str);
-POLDER_API bool is_uint(const char* str);
-POLDER_API bool is_int(const char* str);
-POLDER_API bool is_ufloat(const char* str);
-POLDER_API bool is_float(const char* str);
-POLDER_API bool is_unumber(const char* str);
-POLDER_API bool is_number(const char* str);
-
-
-} // namespace stype
-} // namespace polder
-
+    POLDER_API bool is_bool(const char* str);
+    POLDER_API bool is_uint(const char* str);
+    POLDER_API bool is_int(const char* str);
+    POLDER_API bool is_ufloat(const char* str);
+    POLDER_API bool is_float(const char* str);
+    POLDER_API bool is_unumber(const char* str);
+    POLDER_API bool is_number(const char* str);
+}}
 
 #endif // _POLDER_STYPE_H

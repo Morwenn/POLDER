@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -24,107 +24,101 @@
 #include <algorithm>
 #include <cmath>
 #include <POLDER/algorithm.h>
-#include <POLDER/geometry/types.h>
+#include <POLDER/geometry/details/types.h>
 #include <POLDER/geometry/details/vector_base.h>
-
 
 namespace polder
 {
 namespace geometry
 {
+    /**
+     * @brief Geometric direction
+     *
+     * A direction is a normalized Vector. While it may seem to
+     * do less than a Vector, it's actually heavier since it is
+     * normalized on construction.
+    */
+    template<std::size_t N, typename T=double>
+    class Direction:
+        public ImmutableVectorBase<N, T>
+    {
+        public:
 
-/**
- * @brief Geometric direction
- *
- * A direction is a normalized Vector. While it may seem to
- * do less than a Vector, it's actually heavier since it is
- * normalized on construction.
-*/
-template<std::size_t N, typename T=double>
-class Direction:
-    public ImmutableVectorBase<N, T>
-{
-    public:
+            ////////////////////////////////////////////////////////////
+            // Types
+            ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        // Types
-        ////////////////////////////////////////////////////////////
+            using super = ImmutableVectorBase<N, T>;
 
-        using super = ImmutableVectorBase<N, T>;
+            // Value
+            using typename super::value_type;
+            using typename super::const_reference;
+            using typename super::const_pointer;
 
-        // Value
-        using typename super::value_type;
-        using typename super::const_reference;
-        using typename super::const_pointer;
+            // Iterators
+            using typename super::const_iterator;
 
-        // Iterators
-        using typename super::const_iterator;
+            ////////////////////////////////////////////////////////////
+            // Constructors
+            ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        // Constructors
-        ////////////////////////////////////////////////////////////
+            // Default constructor
+            Direction();
+            // Copy constructor
+            Direction(const Direction<N, T>& other);
 
-        // Default constructor
-        Direction();
-        // Copy constructor
-        Direction(const Direction<N, T>& other);
+            /**
+             * @brief Direction of a Line passing by the origin and a given point
+             *
+             * @param P Point forming a Line with the Origin
+             */
+            Direction(const Point<N, T>& pt);
 
-        /**
-         * @brief Direction of a Line passing by the origin and a given point
-         *
-         * @param P Point forming a Line with the Origin
-         */
-        Direction(const Point<N, T>& pt);
+            /**
+             * @brief Direction of a Line passing by two given points
+             *
+             * @param P1 First Point
+             * @param P2 Second Point
+             */
+            Direction(const Point<N, T>& pt1, const Point<N, T>& pt2);
 
-        /**
-         * @brief Direction of a Line passing by two given points
-         *
-         * @param P1 First Point
-         * @param P2 Second Point
-         */
-        Direction(const Point<N, T>& pt1, const Point<N, T>& pt2);
+            /**
+             * @brief Creates the Direction from a Vector
+             *
+             * @param V Vector whose we take the direction
+             */
+            Direction(const Vector<N, T>& vec);
 
-        /**
-         * @brief Creates the Direction from a Vector
-         *
-         * @param V Vector whose we take the direction
-         */
-        Direction(const Vector<N, T>& vec);
+            /**
+             * @brief Creates the Direction from a Line
+             *
+             * @param L Line whose we take the direction
+             */
+            Direction(const Line<N, T>& line);
 
-        /**
-         * @brief Creates the Direction from a Line
-         *
-         * @param L Line whose we take the direction
-         */
-        Direction(const Line<N, T>& line);
+        private:
 
-    private:
+            // Normalize the coordinates
+            auto normalize()
+                -> void;
 
-        // Normalize the coordinates
-        auto normalize()
-            -> void;
+            // Member data
+            using super::coordinates;
+    };
 
-        // Member data
-        using super::coordinates;
-};
+    ////////////////////////////////////////////////////////////
+    // Outside class operators
+    ////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////
-// Outside class operators
-////////////////////////////////////////////////////////////
+    // Comparison
+    template<std::size_t N, typename T>
+    auto operator==(const Direction<N, T>& lhs, const Direction<N, T>& rhs)
+        -> bool;
+    template<std::size_t N, typename T>
+    auto operator!=(const Direction<N, T>& lhs, const Direction<N, T>& rhs)
+        -> bool;
 
-// Comparison
-template<std::size_t N, typename T>
-auto operator==(const Direction<N, T>& lhs, const Direction<N, T>& rhs)
-    -> bool;
-template<std::size_t N, typename T>
-auto operator!=(const Direction<N, T>& lhs, const Direction<N, T>& rhs)
-    -> bool;
-
-#include "direction.inl"
-
-} // namespace geometry
-} // namespace polder
-
+    #include "details/direction.inl"
+}}
 
 #endif // _POLDER_GEOMETRY_DIRECTION_H
-

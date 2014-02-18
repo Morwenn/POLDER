@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -27,180 +27,174 @@
 #include <iterator>
 #include <POLDER/algorithm.h>
 #include <POLDER/math/norm.h>
-#include <POLDER/geometry/types.h>
+#include <POLDER/geometry/details/types.h>
 #include <POLDER/geometry/details/vector_base.h>
-
 
 namespace polder
 {
 namespace geometry
 {
+    /**
+     * @brief Geometric vector
+     *
+     * A Vector is a geometric object that has a length
+     * and a direction. As a Point, it can be defined
+     * by N coordinates in a N-dimensional space.
+     */
+    template<std::size_t N, typename T=double>
+    class Vector:
+        public MutableVectorBase<N, T>
+    {
+        public:
 
-/**
- * @brief Geometric vector
- *
- * A Vector is a geometric object that has a length
- * and a direction. As a Point, it can be defined
- * by N coordinates in a N-dimensional space.
- */
-template<std::size_t N, typename T=double>
-class Vector:
-    public MutableVectorBase<N, T>
-{
-    public:
+            ////////////////////////////////////////////////////////////
+            // Types
+            ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        // Types
-        ////////////////////////////////////////////////////////////
+            using super = MutableVectorBase<N, T>;
 
-        using super = MutableVectorBase<N, T>;
+            // Value
+            using typename super::value_type;
+            using typename super::reference;
+            using typename super::const_reference;
+            using typename super::pointer;
+            using typename super::const_pointer;
 
-        // Value
-        using typename super::value_type;
-        using typename super::reference;
-        using typename super::const_reference;
-        using typename super::pointer;
-        using typename super::const_pointer;
+            // Iterators
+            using typename super::iterator;
+            using typename super::const_iterator;
 
-        // Iterators
-        using typename super::iterator;
-        using typename super::const_iterator;
+            ////////////////////////////////////////////////////////////
+            // Constructors
+            ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        // Constructors
-        ////////////////////////////////////////////////////////////
+            // Default constructor
+            Vector();
+            // Copy constructor
+            Vector(const Vector<N, T>& other);
 
-        // Default constructor
-        Vector();
-        // Copy constructor
-        Vector(const Vector<N, T>& other);
+            /**
+             * @brief Variadic constructor
+             *
+             * This constructor takes N parameters,
+             * and constructs the point with them.
+             */
+            template<typename... Args>
+            Vector(Args... args);
 
-        /**
-         * @brief Variadic constructor
-         *
-         * This constructor takes N parameters,
-         * and constructs the point with them.
-         */
-        template<typename... Args>
-        Vector(Args... args);
+            /**
+             * @brief Constructs the Vector from the origin to a Point
+             *
+             * @param P Some Point...
+             */
+            Vector(const Point<N, T>& pt);
 
-        /**
-         * @brief Constructs the Vector from the origin to a Point
-         *
-         * @param P Some Point...
-         */
-        Vector(const Point<N, T>& pt);
+            /**
+             * @brief Construct a vector from two Points
+             *
+             * @param origin Origin Point
+             * @param target Target Point
+             */
+            Vector(const Point<N, T>& origin, const Point<N, T>& target);
 
-        /**
-         * @brief Construct a vector from two Points
-         *
-         * @param origin Origin Point
-         * @param target Target Point
-         */
-        Vector(const Point<N, T>& origin, const Point<N, T>& target);
+            /**
+             * @brief Construct a vector from a Line
+             *
+             * Since a Line has no length, the length of
+             * the resulting Vector is quite arbitrary.
+             *
+             * @param L Some Line...
+             */
+            Vector(const Line<N, T>& line);
 
-        /**
-         * @brief Construct a vector from a Line
-         *
-         * Since a Line has no length, the length of
-         * the resulting Vector is quite arbitrary.
-         *
-         * @param L Some Line...
-         */
-        Vector(const Line<N, T>& line);
+            ////////////////////////////////////////////////////////////
+            // Operators
+            ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        // Operators
-        ////////////////////////////////////////////////////////////
+            // Vector arithmetic
+            auto operator+=(const Vector<N, T>& val)
+                -> Vector&;
+            auto operator-=(const Vector<N, T>& val)
+                -> Vector&;
 
-        // Vector arithmetic
-        auto operator+=(const Vector<N, T>& val)
-            -> Vector&;
-        auto operator-=(const Vector<N, T>& val)
-            -> Vector&;
+            // Vector-scalar arithmetic
+            auto operator*=(value_type other)
+                -> Vector&;
+            auto operator/=(value_type other)
+                -> Vector&;
 
-        // Vector-scalar arithmetic
-        auto operator*=(value_type other)
-            -> Vector&;
-        auto operator/=(value_type other)
-            -> Vector&;
+            ////////////////////////////////////////////////////////////
+            // Miscellaneous functions
+            ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        // Miscellaneous functions
-        ////////////////////////////////////////////////////////////
+            /**
+             * @brief Vector Direction
+             * @return Direction of the Vector
+             */
+            auto direction() const
+                -> Direction<N, T>;
 
-        /**
-         * @brief Vector Direction
-         * @return Direction of the Vector
-         */
-        auto direction() const
-            -> Direction<N, T>;
+            /**
+             * @brief Vector norm
+             *
+             * @return Selected topological norm.
+             */
+            template<typename Norm=math::norm::euclidean>
+            auto norm() const
+                -> value_type;
 
-        /**
-         * @brief Vector norm
-         *
-         * @return Selected topological norm.
-         */
-        template<typename Norm=math::norm::euclidean>
-        auto norm() const
-            -> value_type;
+            template<typename Norm=math::norm::p>
+            auto norm(unsigned p) const
+                -> value_type;
 
-        template<typename Norm=math::norm::p>
-        auto norm(unsigned p) const
-            -> value_type;
+        private:
 
-    private:
+            // Member data
+            using super::coordinates;
+    };
 
-        // Member data
-        using super::coordinates;
-};
+    ////////////////////////////////////////////////////////////
+    // Outside class operators
+    ////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////
-// Outside class operators
-////////////////////////////////////////////////////////////
+    // Comparison
+    template<std::size_t N, typename T>
+    auto operator==(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
+        -> bool;
+    template<std::size_t N, typename T>
+    auto operator!=(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
+        -> bool;
 
-// Comparison
-template<std::size_t N, typename T>
-auto operator==(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
-    -> bool;
-template<std::size_t N, typename T>
-auto operator!=(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
-    -> bool;
+    // Vector arithmetic
+    template<std::size_t N, typename T>
+    auto operator+(Vector<N, T> lhs, const Vector<N, T>& rhs)
+        -> Vector<N, T>;
+    template<std::size_t N, typename T>
+    auto operator-(Vector<N, T> lhs, const Vector<N, T>& rhs)
+        -> Vector<N, T>;
 
-// Vector arithmetic
-template<std::size_t N, typename T>
-auto operator+(Vector<N, T> lhs, const Vector<N, T>& rhs)
-    -> Vector<N, T>;
-template<std::size_t N, typename T>
-auto operator-(Vector<N, T> lhs, const Vector<N, T>& rhs)
-    -> Vector<N, T>;
+    // Scalar product
+    template<std::size_t N, typename T>
+    auto operator*(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
+        -> T;
 
-// Scalar product
-template<std::size_t N, typename T>
-auto operator*(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
-    -> T;
+    // Opposite of a vector
+    template<std::size_t N, typename T>
+    auto operator-(Vector<N, T> vec)
+        -> Vector<N, T>;
 
-// Opposite of a vector
-template<std::size_t N, typename T>
-auto operator-(Vector<N, T> vec)
-    -> Vector<N, T>;
+    // Vector-scalar arithmetic
+    template<std::size_t N, typename T>
+    auto operator*(Vector<N, T> vec, T val)
+        -> Vector<N, T>;
+    template<std::size_t N, typename T>
+    auto operator*(T val, Vector<N, T> vec)
+        -> Vector<N, T>;
+    template<std::size_t N, typename T>
+    auto operator/(Vector<N, T> vec, T val)
+        -> Vector<N, T>;
 
-// Vector-scalar arithmetic
-template<std::size_t N, typename T>
-auto operator*(Vector<N, T> vec, T val)
-    -> Vector<N, T>;
-template<std::size_t N, typename T>
-auto operator*(T val, Vector<N, T> vec)
-    -> Vector<N, T>;
-template<std::size_t N, typename T>
-auto operator/(Vector<N, T> vec, T val)
-    -> Vector<N, T>;
-
-#include "vector.inl"
-
-} // namespace geometry
-} // namespace polder
-
+    #include "details/vector.inl"
+}}
 
 #endif // _POLDER_GEOMETRY_VECTOR_H
-

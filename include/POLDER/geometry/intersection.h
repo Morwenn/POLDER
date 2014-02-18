@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -57,7 +57,7 @@ namespace geometry
     auto intersection(const Hypersphere<N, T>& hs, const Line<N, T>& line)
         -> Object;
 
-    #include "intersection.inl"
+    #include "details/intersection.inl"
 }}
 
 #endif // _POLDER_GEOMETRY_INTERSECTION_H

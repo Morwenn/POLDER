@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -28,9 +28,9 @@
 #include <ostream>
 #include <vector>
 #include <POLDER/algorithm.h>
-#include <POLDER/config.h>
+#include <POLDER/details/config.h>
 #include <POLDER/functional.h>
-#include <POLDER/matrix/base.h>
+#include <POLDER/matrix/details/base.h>
 
 namespace polder
 {
@@ -514,7 +514,7 @@ namespace polder
     auto transpose(const Matrix<T>& mat)
         -> Matrix<T>;
 
-    #include "matrix.inl"
+    #include "details/matrix.inl"
 }
 
 #endif // _POLDER_MATRIX_H

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -22,59 +22,51 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <cmath>
-#include <POLDER/config.h>
+#include <POLDER/details/config.h>
 #include <POLDER/math/constants.h>
-
 
 namespace polder
 {
 namespace math
 {
+    inline namespace standard
+    {
+        /**
+         * @brief Iterative factorial function
+         * @param n Some integer
+         * @return Factorial of n
+         */
+        template<typename Unsigned>
+        auto factorial(Unsigned n)
+            -> Unsigned;
 
+        /**
+         * @brief Double factorial function
+         * @param n Some integer
+         * @return Double factorial of n
+         */
+        template<typename Unsigned>
+        auto double_factorial(Unsigned n)
+            -> Unsigned;
 
-inline namespace standard
-{
-    /**
-     * @brief Iterative factorial function
-     * @param n Some integer
-     * @return Factorial of n
-     */
-    template<typename Unsigned>
-    auto factorial(Unsigned n)
-        -> Unsigned;
+        /**
+         * @brief Stirling formula
+         * @param n Some integer
+         * @return Approximation of the factorial of n
+         */
+        template<typename Unsigned>
+        auto stirling(Unsigned n)
+            -> Unsigned;
+    }
 
-    /**
-     * @brief Double factorial function
-     * @param n Some integer
-     * @return Double factorial of n
-     */
-    template<typename Unsigned>
-    auto double_factorial(Unsigned n)
-        -> Unsigned;
+    namespace meta
+    {
+        template<typename Unsigned>
+        constexpr auto factorial(Unsigned n)
+            -> Unsigned;
+    }
 
-    /**
-     * @brief Stirling formula
-     * @param n Some integer
-     * @return Approximation of the factorial of n
-     */
-    template<typename Unsigned>
-    auto stirling(Unsigned n)
-        -> Unsigned;
-}
-
-
-namespace meta
-{
-    template<typename Unsigned>
-    constexpr auto factorial(Unsigned n)
-        -> Unsigned;
-}
-
-#include "factorial.inl"
-
-
-} // namespace math
-} // namespace polder
-
+    #include "details/factorial.inl"
+}}
 
 #endif // _POLDER_MATH_FACTORIAL_H

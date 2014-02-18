@@ -26,7 +26,7 @@
 #include <type_traits>
 #include <unordered_map>
 #include <utility>
-#include <POLDER/config.h>
+#include <POLDER/details/config.h>
 #include <POLDER/type_traits.h>
 #include <POLDER/utility.h>
 
@@ -102,7 +102,7 @@ namespace polder
     auto memoized(Function&& func)
         -> decltype(memoized_impl(std::forward<Function>(func), Indices()));
 
-    #include "memoization.inl"
+    #include "details/memoization.inl"
 }
 
 #endif // _POLDER_MEMOIZATION_H

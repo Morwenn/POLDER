@@ -15,33 +15,10 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_MATH_NORM_H
-#define _POLDER_MATH_NORM_H
 
-////////////////////////////////////////////////////////////
-// Headers
-////////////////////////////////////////////////////////////
-#include <POLDER/details/config.h>
-
-namespace polder
+template<typename... Strings>
+auto make_path(const std::string& base, const Strings&... others)
+    -> std::string
 {
-namespace math
-{
-    /**
-     * @brief Mathematical norms
-     *
-     * Norms are frequently used to compute distances.
-     * These "norms" can be used in distance functions
-     * or norm functions (vector, matrix...).
-     */
-    namespace norm
-    {
-        struct manhattan {};
-        struct euclidean {};
-        struct maximum {};
-        struct p {};
-        struct canberra {};
-    }
-}}
-
-#endif // _POLDER_MATH_NORM_H
+    return base + OS_SEP_STR + make_path(others...);
+}

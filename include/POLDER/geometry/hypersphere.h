@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -23,8 +23,7 @@
 ////////////////////////////////////////////////////////////
 #include <cmath>
 #include <POLDER/geometry/point.h>
-#include <POLDER/geometry/types.h>
-
+#include <POLDER/geometry/details/types.h>
 
 namespace polder
 {
@@ -129,7 +128,7 @@ namespace geometry
     auto operator!=(const Hypersphere<N, T>& lhs, const Hypersphere<N, T>& rhs)
         -> bool;
 
-    #include "hypersphere.inl"
+    #include "details/hypersphere.inl"
 }}
 
 #endif // _POLDER_GEOMETRY_HYPERSPHERE_H

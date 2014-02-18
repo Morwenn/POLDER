@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -42,7 +42,6 @@ namespace geometry
     class Point;
     template<std::size_t N, typename T>
     class Vector;
-}
-}
+}}
 
 #endif // _POLDER_GEOMETRY_TYPES_H

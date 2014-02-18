@@ -82,8 +82,8 @@ int main()
         POLDER_ASSERT((gr1 & gr2).value == (gr1.value & gr2.value));
         POLDER_ASSERT((gr1 | gr2).value == (gr1.value | gr2.value));
         POLDER_ASSERT((gr1 ^ gr2).value == (gr1.value ^ gr2.value));
-        POLDER_ASSERT((gr1 << gr2).value == (gr1.value << gr2.value));
-        POLDER_ASSERT((gr1 >> gr2).value == (gr1.value >> gr2.value));
+        POLDER_ASSERT((gr1 << 3u).value == (gr1.value << 3u));
+        POLDER_ASSERT((gr1 >> 2u).value == (gr1.value >> 2u));
     }
 
     // TEST: type inference

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -25,7 +25,7 @@
 #include <iostream>
 #include <string>
 #include <utility>
-#include <POLDER/config.h>
+#include <POLDER/details/config.h>
 
 
 namespace polder
@@ -40,107 +40,99 @@ namespace polder
  */
 namespace io
 {
+    ////////////////////////////////////////////////////////////
+    // Print function
 
+    /**
+     * @brief Print an arbitrary number of arguments to the standard output
+     * @param first First argument to be printed
+     * @param others Other arguments to be printed
+     */
+    template<typename... Args>
+    auto print(Args&&... args)
+        -> void;
 
-////////////////////////////////////////////////////////////
-// Print function
+    template<typename... Args>
+    auto print(std::ostream& stream, Args&&... args)
+        -> void;
 
-/**
- * @brief Print an arbitrary number of arguments to the standard output
- * @param first First argument to be printed
- * @param others Other arguments to be printed
- */
-template<typename... Args>
-auto print(Args&&... args)
-    -> void;
+    ////////////////////////////////////////////////////////////
+    // File reader
 
-template<typename... Args>
-auto print(std::ostream& stream, Args&&... args)
-    -> void;
+    /**
+     * @brief Read a line from a text file
+     *
+     * @param line Variable where to put the line
+     * @param f File where to read the line
+     * @return true if it is not the end of file
+     */
+    POLDER_API bool fgetl(char*& line, FILE* f);
 
+    ////////////////////////////////////////////////////////////
+    // File class and related functions
 
-////////////////////////////////////////////////////////////
-// File reader
+    /**
+     * @brief Seek positions
+     *
+     * Proxys for SEEK_CUR, SEEK_SET and SEEK_END.
+     * Using an enum struct ensures a compile-time
+     * check on the used constants.
+     */
+    enum struct seek_t: int
+    {
+        CUR = SEEK_CUR, /**< Current position */
+        SET = SEEK_SET, /**< Beginning of the file */
+        END = SEEK_END  /**< End of the file */
+    };
 
-/**
- * @brief Read a line from a text file
- *
- * @param line Variable where to put the line
- * @param f File where to read the line
- * @return true if it is not the end of file
- */
-POLDER_API bool fgetl(char*& line, FILE* f);
+    /**
+     * @brief File class
+     */
+    class POLDER_API File
+    {
+        public:
 
+            /**
+             * @brief Destructor
+             * Close the file if the file has not been closed yet.
+             */
+            ~File();
 
-////////////////////////////////////////////////////////////
-// File class and related functions
+            // C functions proxy
+            void close();
+            int flush();
+            char getc();
+            void putc(char c);
+            void puts(const std::string& str);
+            void seek(long offset, seek_t origin);
+            long tell();
 
-/**
- * @brief Seek positions
- *
- * Proxys for SEEK_CUR, SEEK_SET and SEEK_END.
- * Using an enum struct ensures a compile-time
- * check on the used constants.
- */
-enum struct seek_t: int
-{
-    CUR = SEEK_CUR, /**< Current position */
-    SET = SEEK_SET, /**< Beginning of the file */
-    END = SEEK_END  /**< End of the file */
-};
+            // Read file line by line in a for loop
+            const File& begin() const;
+            const File& end() const;
+            bool operator!=(const File&) const;
+            void operator++();
+            std::string operator*() const;
 
-/**
- * @brief File class
- */
-class POLDER_API File
-{
-    public:
+        private:
 
-        /**
-         * @brief Destructor
-         * Close the file if the file has not been closed yet.
-         */
-        ~File();
+            File(std::string&& fname, std::string&& mode);
 
-        // C functions proxy
-        void close();
-        int flush();
-        char getc();
-        void putc(char c);
-        void puts(const std::string& str);
-        void seek(long offset, seek_t origin);
-        long tell();
+            FILE* _file;    /**< Enclosed file */
+            bool _closed;   /**< true if the file is closed */
 
-        // Read file line by line in a for loop
-        const File& begin() const;
-        const File& end() const;
-        bool operator!=(const File&) const;
-        void operator++();
-        std::string operator*() const;
+        friend auto open(std::string&&, std::string&&)
+            -> File;
+    };
 
-    private:
-
-        File(std::string&& fname, std::string&& mode);
-
-        FILE* _file;    /**< Enclosed file */
-        bool _closed;   /**< true if the file is closed */
-
-    friend auto open(std::string&&, std::string&&)
+    /**
+     * @brief Wrapper for the File constructor
+     */
+    POLDER_API
+    auto open(std::string&& fname, std::string&& mode="r")
         -> File;
-};
 
-/**
- * @brief Wrapper for the File constructor
- */
-POLDER_API
-auto open(std::string&& fname, std::string&& mode="r")
-    -> File;
-
-
-#include"io.inl"
-
-} // namespace io
-} // namespace polder
-
+    #include "details/io.inl"
+}}
 
 #endif // _POLDER_IO_H

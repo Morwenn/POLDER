@@ -311,7 +311,7 @@ namespace polder
     constexpr auto make_rational(T numerator, T denominator=1)
         -> rational<T>;
 
-    #include "rational.inl"
+    #include "details/rational.inl"
 }
 
 #endif // _POLDER_RATIONAL_H

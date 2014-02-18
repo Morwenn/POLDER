@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -16,9 +16,12 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-template<typename... Strings>
-auto make_path(const std::string& base, const Strings&... others)
-    -> std::string
-{
-    return base + OS_SEP_STR + make_path(others...);
-}
+X(int, stoi)
+X(long, stol)
+X(long long, stoll)
+X(unsigned, stoi)
+X(unsigned long, stoul)
+X(unsigned long long, stoull)
+X(float, stof)
+X(double, stod)
+X(long double, stold)

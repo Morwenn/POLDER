@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -24,8 +24,7 @@
 #include <POLDER/algorithm.h>
 #include <POLDER/geometry/direction.h>
 #include <POLDER/geometry/point.h>
-#include <POLDER/geometry/types.h>
-
+#include <POLDER/geometry/details/types.h>
 
 namespace polder
 {
@@ -141,7 +140,7 @@ namespace geometry
     auto operator!=(const Line<N, T>& lhs, const Line<N, T>& rhs)
         -> bool;
 
-    #include "line.inl"
+    #include "details/line.inl"
 }}
 
 #endif // _POLDER_GEOMETRY_LINE_H

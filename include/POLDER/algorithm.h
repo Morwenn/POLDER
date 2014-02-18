@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -78,9 +78,7 @@ namespace polder
     auto float_equal(T lhs, T rhs)
         -> typename std::enable_if<not std::is_floating_point<T>::value, bool>::type;
 
-    #include "algorithm.inl"
-
-} // namespace polder
-
+    #include "details/algorithm.inl"
+}
 
 #endif // _POLDER_ALGORITHM_H

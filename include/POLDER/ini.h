@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -24,41 +24,41 @@
 #include <exception>
 #include <fstream>
 #include <string>
-#include <POLDER/config.h>
+#include <POLDER/details/config.h>
 
 
 namespace polder
 {
 
 /**
- * @namespace polder::ini
- * @brief INI-related functions
- *
- * All the functions placed under this namespace are
- * meant to use simply some regular INI files. You can
- * find some more information on Morwenn wiki about the
- * INI syntax understood by these functions (since there
- * is not any norm to define it).
- */
+* @namespace polder::ini
+* @brief INI-related functions
+*
+* All the functions placed under this namespace are
+* meant to use simply some regular INI files. You can
+* find some more information on Morwenn wiki about the
+* INI syntax understood by these functions (since there
+* is not any norm to define it).
+*/
 namespace ini
 {
 
     /**
-     * @brief Dialect for parsing an INI file.
-     */
+* @brief Dialect for parsing an INI file.
+*/
     struct Dialect
     {
-        char delimiter      = '=';
-        char commentchar    = ';';
-        char escapechar     = '\\';
+        char delimiter = '=';
+        char commentchar = ';';
+        char escapechar = '\\';
         char lineterminator = '\n';
-        char quotechar      = '"';
-        bool doublequote    = false;
+        char quotechar = '"';
+        bool doublequote = false;
     };
 
     /**
-     * @brief Element read by the ini::read function.
-     */
+* @brief Element read by the ini::read function.
+*/
     struct Element
     {
         Element();
@@ -90,9 +90,9 @@ namespace ini
 ////////////////////////////////////////////////////////////
 
 /**
- * Exceptions that can be raised during the manipulation
- * of an INI file.
- */
+* Exceptions that can be raised during the manipulation
+* of an INI file.
+*/
 class POLDER_API Error:
     public std::exception
 {
@@ -112,117 +112,117 @@ class POLDER_API Error:
 ////////////////////////////////////////////////////////////
 
 /**
- * @brief Return whether the given section exists or not
- *
- * @param fname INI file to read
- * @param section Section whose existence is checked
- * @param dialect Dialect used to parse the file
- *
- * @return True is the section exists
- */
+* @brief Return whether the given section exists or not
+*
+* @param fname INI file to read
+* @param section Section whose existence is checked
+* @param dialect Dialect used to parse the file
+*
+* @return True is the section exists
+*/
 POLDER_API
 auto section_exists(const std::string& fname, const std::string& section, Dialect dialect={})
     -> bool;
 
 /**
- * @brief Return whether the given key exists or not
- *
- * @param fname INI file to read
- * @param section Section whose existence is checked
- * @param key Key whose existence is checked
- * @param dialect Dialect used to parse the file
- *
- * @return True if the key exists
- */
+* @brief Return whether the given key exists or not
+*
+* @param fname INI file to read
+* @param section Section whose existence is checked
+* @param key Key whose existence is checked
+* @param dialect Dialect used to parse the file
+*
+* @return True if the key exists
+*/
 POLDER_API
 auto key_exists(const std::string& fname, const std::string& section, const std::string& key, Dialect dialect={})
     -> bool;
 
 /**
- * @brief Read the string value corresponding to the given key
- *
- * @param fname INI file to read
- * @param section Section to read
- * @param key Key to read
- * @param default_value Value to return if the key does not exist
- * @param dialect Dialect used to parse the file
- *
- * @return Read value or default value
- */
+* @brief Read the string value corresponding to the given key
+*
+* @param fname INI file to read
+* @param section Section to read
+* @param key Key to read
+* @param default_value Value to return if the key does not exist
+* @param dialect Dialect used to parse the file
+*
+* @return Read value or default value
+*/
 POLDER_API
 auto read(const std::string& fname, const std::string& section, const std::string& key, const std::string& default_value, Dialect dialect={})
     -> Element;
 
 /**
- * @brief Deletes the given section of an INI file
- *
- * @param fname INI file to read
- * @param section Section to delete
- * @param dialect Dialect used to parse the file
- */
+* @brief Deletes the given section of an INI file
+*
+* @param fname INI file to read
+* @param section Section to delete
+* @param dialect Dialect used to parse the file
+*/
 POLDER_API
 auto section_delete(const char* fname, const char* section, Dialect dialect={})
     -> void;
 
 /**
- * @brief Deletes the given key of an INI file
- *
- * @param fname INI file to read
- * @param section Section where is located the key to delete
- * @param key Key to delete
- * @param dialect Dialect used to parse the file
- */
+* @brief Deletes the given key of an INI file
+*
+* @param fname INI file to read
+* @param section Section where is located the key to delete
+* @param key Key to delete
+* @param dialect Dialect used to parse the file
+*/
 POLDER_API
 auto key_delete(const char* fname, const char* section, const char* key, Dialect dialect={})
     -> void;
 
 /**
- * @brief Write a string in an INI file
- *
- * @param fname INI file to read
- * @param section Section where to write the string
- * @param key Key where to write the string
- * @param value String to write
- * @param dialect Dialect used to parse the file
- */
+* @brief Write a string in an INI file
+*
+* @param fname INI file to read
+* @param section Section where to write the string
+* @param key Key where to write the string
+* @param value String to write
+* @param dialect Dialect used to parse the file
+*/
 POLDER_API
 auto write(const char* fname, const char* section, const char* key, const char* value, Dialect dialect={})
     -> void;
 
 /**
- * @brief Write a real in an INI file
- *
- * @param fname INI file to read
- * @param section Section where to write the real
- * @param key Key where to write the real
- * @param value Real to write
- * @param dialect Dialect used to parse the file
- */
+* @brief Write a real in an INI file
+*
+* @param fname INI file to read
+* @param section Section where to write the real
+* @param key Key where to write the real
+* @param value Real to write
+* @param dialect Dialect used to parse the file
+*/
 POLDER_API
 auto write(const char* fname, const char* section, const char* key, double value, Dialect dialect={})
     -> void;
 
 /**
- * @brief Renames the given section of an INI file
- *
- * @param fname INI file to read
- * @param section Section to rename
- * @param new_section New name of the section
- * @param dialect Dialect used to parse the file
- */
+* @brief Renames the given section of an INI file
+*
+* @param fname INI file to read
+* @param section Section to rename
+* @param new_section New name of the section
+* @param dialect Dialect used to parse the file
+*/
 POLDER_API
 auto section_rename(const char* fname, const char* section, const char* new_section, Dialect dialect={})
     -> void;
 
 /**
- * @brief Renames the given key of an INI file
- *
- * @param fname INI file to read
- * @param section Section where is located the key to delete
- * @param key Key to rename
- * @param new_key New name of the key
- * @param dialect Dialect used to parse the file
- */
+* @brief Renames the given key of an INI file
+*
+* @param fname INI file to read
+* @param section Section where is located the key to delete
+* @param key Key to rename
+* @param new_key New name of the key
+* @param dialect Dialect used to parse the file
+*/
 POLDER_API
 auto key_rename(const char* fname, const char* section, const char* key, const char* new_key, Dialect dialect={})
     -> void;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -25,105 +25,101 @@
 #include <array>
 #include <iterator>
 #include <POLDER/algorithm.h>
-#include <POLDER/geometry/types.h>
+#include <POLDER/geometry/details/types.h>
 #include <POLDER/geometry/details/vector_base.h>
 
 namespace polder
 {
 namespace geometry
 {
+    /**
+     * @brief Geometric point
+     *
+     * A point is simply defined by N coordinates
+     * in a N-dimensional space.
+     */
+    template<std::size_t N, typename T=double>
+    class Point:
+        public MutableVectorBase<N, T>
+    {
+        public:
 
-/**
- * @brief Geometric point
- *
- * A point is simply defined by N coordinates
- * in a N-dimensional space.
- */
-template<std::size_t N, typename T=double>
-class Point:
-    public MutableVectorBase<N, T>
-{
-    public:
+            ////////////////////////////////////////////////////////////
+            // Types
+            ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        // Types
-        ////////////////////////////////////////////////////////////
+            using super = MutableVectorBase<N, T>;
 
-        using super = MutableVectorBase<N, T>;
+            // Value
+            using typename super::value_type;
+            using typename super::reference;
+            using typename super::const_reference;
+            using typename super::pointer;
+            using typename super::const_pointer;
 
-        // Value
-        using typename super::value_type;
-        using typename super::reference;
-        using typename super::const_reference;
-        using typename super::pointer;
-        using typename super::const_pointer;
+            // Iterators
+            using typename super::iterator;
+            using typename super::const_iterator;
 
-        // Iterators
-        using typename super::iterator;
-        using typename super::const_iterator;
+            ////////////////////////////////////////////////////////////
+            // Constructors
+            ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        // Constructors
-        ////////////////////////////////////////////////////////////
+            // Default constructor
+            Point();
+            // Copy constructor
+            Point(const Point<N, T>& other);
 
-        // Default constructor
-        Point();
-        // Copy constructor
-        Point(const Point<N, T>& other);
+            /**
+             * @brief Variadic constructor
+             *
+             * This constructor takes N parameters,
+             * and constructs the point with them.
+             */
+            template<typename... Args>
+            Point(Args... args);
 
-        /**
-         * @brief Variadic constructor
-         *
-         * This constructor takes N parameters,
-         * and constructs the point with them.
-         */
-        template<typename... Args>
-        Point(Args... args);
+            ////////////////////////////////////////////////////////////
+            // Operators
+            ////////////////////////////////////////////////////////////
 
-        ////////////////////////////////////////////////////////////
-        // Operators
-        ////////////////////////////////////////////////////////////
+            // Point-Vector arithmetic
+            auto operator+=(const Vector<N, T>& vec)
+                -> Point&;
+            auto operator-=(const Vector<N, T>& vec)
+                -> Point&;
 
-        // Point-Vector arithmetic
-        auto operator+=(const Vector<N, T>& vec)
-            -> Point&;
-        auto operator-=(const Vector<N, T>& vec)
-            -> Point&;
+        private:
 
-    private:
+            // Member data
+            using super::coordinates;
+    };
 
-        // Member data
-        using super::coordinates;
-};
+    ////////////////////////////////////////////////////////////
+    // Outside class operators
+    ////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////
-// Outside class operators
-////////////////////////////////////////////////////////////
+    // Comparison
+    template<std::size_t N, typename T>
+    auto operator==(const Point<N, T>& lhs, const Point<N, T>& rhs)
+        -> bool;
+    template<std::size_t N, typename T>
+    auto operator!=(const Point<N, T>& lhs, const Point<N, T>& rhs)
+        -> bool;
 
-// Comparison
-template<std::size_t N, typename T>
-auto operator==(const Point<N, T>& lhs, const Point<N, T>& rhs)
-    -> bool;
-template<std::size_t N, typename T>
-auto operator!=(const Point<N, T>& lhs, const Point<N, T>& rhs)
-    -> bool;
+    // Point-Vector arithmetic
+    template<std::size_t N, typename T>
+    auto operator+(Point<N, T> pt, const Vector<N, T>& vec)
+        -> Point<N, T>;
+    template<std::size_t N, typename T>
+    auto operator-(Point<N, T> pt, const Vector<N, T>& vec)
+        -> Point<N, T>;
 
-// Point-Vector arithmetic
-template<std::size_t N, typename T>
-auto operator+(Point<N, T> pt, const Vector<N, T>& vec)
-    -> Point<N, T>;
-template<std::size_t N, typename T>
-auto operator-(Point<N, T> pt, const Vector<N, T>& vec)
-    -> Point<N, T>;
+    template<std::size_t N, typename T>
+    auto operator-(const Point<N, T>& lhs, const Point<N, T>& rhs)
+        -> Vector<N, T>;
 
-template<std::size_t N, typename T>
-auto operator-(const Point<N, T>& lhs, const Point<N, T>& rhs)
-    -> Vector<N, T>;
-
-#include "point.inl"
-
-} // namespace geometry
-} // namespace polder
-
+    #include "details/point.inl"
+}}
 
 #endif // _POLDER_GEOMETRY_POINT_H

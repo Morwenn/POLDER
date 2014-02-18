@@ -22,9 +22,8 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <type_traits>
-#include <POLDER/config.h>
+#include <POLDER/details/config.h>
 #include <POLDER/type_list.h>
-
 
 namespace polder
 {
@@ -168,9 +167,6 @@ namespace polder
             std::false_type
         >::type
     {};
-
-} // namespace polder
-
+}
 
 #endif // _POLDER_TYPE_TRAITS_H
-

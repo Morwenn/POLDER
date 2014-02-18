@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -22,12 +22,10 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <string>
-#include <POLDER/config.h>
-
+#include <POLDER/details/config.h>
 
 namespace polder
 {
-
 
 /**
  * @namespace polder::path
@@ -38,133 +36,128 @@ namespace polder
  * contains path-related functions that adapt themselves
  * to the operating system.
  */
+
 namespace path
 {
+    ////////////////////////////////////////////////////////////
+    // Constants
+    ////////////////////////////////////////////////////////////
 
+    #ifdef POLDER_OS_WINDOWS
 
-////////////////////////////////////////////////////////////
-// Constants
-////////////////////////////////////////////////////////////
+        /**
+         * Standard separator character
+         */
+        constexpr char OS_SEP = '\\';
 
-#ifdef POLDER_OS_WINDOWS
+        /**
+         * Standard separator character as string
+         */
+        constexpr char OS_SEP_STR[2] = "\\";
+
+    #else
+
+        /**
+         * Standard separator character
+         */
+        constexpr char OS_SEP = '/';
+
+        /**
+         * Standard separator character as string
+         */
+        constexpr char OS_SEP_STR[2] = "/";
+
+    #endif
+
+    ////////////////////////////////////////////////////////////
+    // Functions
+    ////////////////////////////////////////////////////////////
 
     /**
-     * Standard separator character
+     * @brief Create a path
+     *
+     * This function creates a path by separating the different
+     * given elements by a correct separator.
+     * It stops when finding an empty string argument
+     *
+     * @param base First element of the path
+     * @return Complete portable path
      */
-    constexpr char OS_SEP = '\\';
+    template<typename... Strings>
+    std::string make_path(const std::string& base, const Strings&... others);
+    std::string make_path(const std::string& base);
 
     /**
-     * Standard separator character as string
-     */
-    constexpr char OS_SEP_STR[2] = "\\";
-
-#else
-
-    /**
-     * Standard separator character
-     */
-    constexpr char OS_SEP = '/';
-
-    /**
-     * Standard separator character as string
-     */
-    constexpr char OS_SEP_STR[2] = "/";
-
-#endif
-
-
-////////////////////////////////////////////////////////////
-// Functions
-////////////////////////////////////////////////////////////
-
-/**
- * @brief Create a path
- *
- * This function creates a path by separating the different
- * given elements by a correct separator.
- * It stops when finding an empty string argument
- *
- * @param base First element of the path
- * @return Complete portable path
- */
-template<typename... Strings>
-std::string make_path(const std::string& base, const Strings&... others);
-std::string make_path(const std::string& base);
-
-/**
- * @brief Get the extension of a path
- *
- * The extension of a given path is returned,
- * including its dot.
- *
- * @param path Path to "split"
- * @return Extension of the path
- */
-POLDER_API char* get_ext(const char* path);
-
-/**
- * @brief Get the name of a path
- *
- * The name returned includes the repertory
- * and not the extension nor the dot.
- *
- * @param path Path to "split"
- * @return Name of the path
- */
-POLDER_API char* get_name(const char* path);
-
-/**
- * @brief Get the directory of a path
- *
- * @param path Path to "split"
- * @return Directory of the path
- */
-POLDER_API char* get_dir(const char* path);
-
-#ifdef POLDER_OS_WINDOWS
-
-    /**
-     * @brief Drive letter of a path
+     * @brief Get the extension of a path
+     *
+     * The extension of a given path is returned,
+     * including its dot.
      *
      * @param path Path to "split"
-     * @return Drive of the path
+     * @return Extension of the path
      */
-    POLDER_API char* get_drive(const char* path);
+    POLDER_API char* get_ext(const char* path);
 
-#endif
+    /**
+     * @brief Get the name of a path
+     *
+     * The name returned includes the repertory
+     * and not the extension nor the dot.
+     *
+     * @param path Path to "split"
+     * @return Name of the path
+     */
+    POLDER_API char* get_name(const char* path);
 
-/**
- * @brief Check whether a path is obsolute
- *
- * @param path Path to analyze
- * @return True if the path is absolute
- */
-POLDER_API bool is_absolute(const char* path);
+    /**
+     * @brief Get the directory of a path
+     *
+     * @param path Path to "split"
+     * @return Directory of the path
+     */
+    POLDER_API char* get_dir(const char* path);
 
-/**
- * @brief Normalize a path
- *
- * This functions tries to get rid of the . and ..
- * directories in the given path to make an absolute
- * path out of it
- *
- * @param path Path to normalize
- */
-POLDER_API void normalize(char* path);
+    #ifdef POLDER_OS_WINDOWS
 
-/**
- * @brief Normalize a path
- * @see is_absolute()
- *
- * @param path Path to normalize
- * @return Normalized path
- */
-POLDER_API char* normalized(const char* path);
+        /**
+         * @brief Drive letter of a path
+         *
+         * @param path Path to "split"
+         * @return Drive of the path
+         */
+        POLDER_API char* get_drive(const char* path);
 
-#include "path.inl"
+    #endif
 
-} // namespace path
-} // namespace polder
+    /**
+     * @brief Check whether a path is obsolute
+     *
+     * @param path Path to analyze
+     * @return True if the path is absolute
+     */
+    POLDER_API bool is_absolute(const char* path);
 
+    /**
+     * @brief Normalize a path
+     *
+     * This functions tries to get rid of the . and ..
+     * directories in the given path to make an absolute
+     * path out of it
+     *
+     * @param path Path to normalize
+     */
+    POLDER_API void normalize(char* path);
+
+    /**
+     * @brief Normalize a path
+     * @see is_absolute()
+     *
+     * @param path Path to normalize
+     * @return Normalized path
+     */
+    POLDER_API char* normalized(const char* path);
+
+    #include "details/path.inl"
+}}
 
 #endif // _POLDER_PATH_H

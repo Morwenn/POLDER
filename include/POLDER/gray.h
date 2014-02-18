@@ -22,7 +22,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <type_traits>
-#include <POLDER/config.h>
+#include <POLDER/details/config.h>
 
 namespace polder
 {
@@ -115,9 +115,9 @@ namespace polder
             -> GrayCode&;
         auto operator^=(GrayCode<Unsigned> other)
             -> GrayCode&;
-        auto operator>>=(GrayCode<Unsigned> other)
+        auto operator>>=(Unsigned other)
             -> GrayCode&;
-        auto operator<<=(GrayCode<Unsigned> other)
+        auto operator<<=(Unsigned other)
             -> GrayCode&;
     };
 
@@ -172,11 +172,11 @@ namespace polder
         -> GrayCode<Unsigned>;
 
     template<typename Unsigned>
-    auto operator>>(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
+    auto operator>>(GrayCode<Unsigned> lhs, Unsigned rhs)
         -> GrayCode<Unsigned>;
 
     template<typename Unsigned>
-    auto operator<<(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
+    auto operator<<(GrayCode<Unsigned> lhs, Unsigned rhs)
         -> GrayCode<Unsigned>;
 
     ////////////////////////////////////////////////////////////
@@ -194,7 +194,7 @@ namespace polder
             -> bool;
     }
 
-    #include "gray.inl"
+    #include "details/gray.inl"
 }
 
 #endif // _POLDER_GRAY_H

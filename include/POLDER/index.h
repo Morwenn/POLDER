@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -21,7 +21,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <POLDER/config.h>
+#include <POLDER/details/config.h>
 
 namespace polder
 {
@@ -75,7 +75,7 @@ namespace polder
     auto operator!=(const index<N>& lhs, const index<N>& rhs)
         -> bool;
 
-    #include "index.inl"
+    #include "details/index.inl"
 }
 
 #endif // _POLDER_INDEX_H

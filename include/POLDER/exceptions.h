@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -23,83 +23,77 @@
 ////////////////////////////////////////////////////////////
 #include <exception>
 #include <string>
-#include <POLDER/config.h>
-
+#include <POLDER/details/config.h>
 
 namespace polder
 {
+    /**
+     * @brief Division by zero
+     *
+     * This exception is returned by some classes when
+     * an operation is somehow asked to perform a
+     * division by 0.
+     */
+    class POLDER_API division_by_zero:
+        public std::exception
+    {
+        public:
+
+            /**
+             * @brief Creates a new exception
+             * @param msg Error message to be displayed
+             */
+            explicit division_by_zero(const std::string& msg="Division by zero.");
+
+            /**
+             * @brief Destructor
+             */
+            virtual ~division_by_zero() noexcept;
+
+            /**
+             * @brief Returns the error message
+             * @return Error message
+             */
+            virtual const char* what() const noexcept;
+
+        protected:
+
+            std::string _msg;   /**< Error message */
+    };
 
 
-/**
- * @brief Division by zero
- *
- * This exception is returned by some classes when
- * an operation is somehow asked to perform a
- * division by 0.
- */
-class POLDER_API division_by_zero:
-    public std::exception
-{
-    public:
+    /**
+     * @brief Function not implemented
+     *
+     * Could be seen as an explicit TODO in the code.
+     * Essentially for development purposes.
+     */
+    class POLDER_API not_implemented:
+        public std::exception
+    {
+        public:
 
-        /**
-         * @brief Creates a new exception
-         * @param msg Error message to be displayed
-         */
-        explicit division_by_zero(const std::string& msg="Division by zero.");
+            /**
+             * @brief Creates a new exception
+             * @param msg Error message to be displayed
+             */
+            explicit not_implemented(const std::string& msg="Not implemented.");
 
-        /**
-         * @brief Destructor
-         */
-        virtual ~division_by_zero() noexcept;
+            /**
+             * @brief Destructor
+             */
+            virtual ~not_implemented() noexcept;
 
-        /**
-         * @brief Returns the error message
-         * @return Error message
-         */
-        virtual const char* what() const noexcept;
+            /**
+             * @brief Returns the error message
+             * @return Error message
+             */
+            virtual const char* what() const noexcept;
 
-    protected:
+        protected:
 
-        std::string _msg;   /**< Error message */
-};
-
-
-/**
- * @brief Function not implemented
- *
- * Could be seen as an explicit TODO in the code.
- * Essentially for development purposes.
- */
-class POLDER_API not_implemented:
-    public std::exception
-{
-    public:
-
-        /**
-         * @brief Creates a new exception
-         * @param msg Error message to be displayed
-         */
-        explicit not_implemented(const std::string& msg="Not implemented.");
-
-        /**
-         * @brief Destructor
-         */
-        virtual ~not_implemented() noexcept;
-
-        /**
-         * @brief Returns the error message
-         * @return Error message
-         */
-        virtual const char* what() const noexcept;
-
-    protected:
-
-        std::string _msg;   /**< Error message */
-};
-
-
-} // namespace polder
-
+            std::string _msg;   /**< Error message */
+    };
+}
 
 #endif // _POLDER_EXCEPTIONS_H
