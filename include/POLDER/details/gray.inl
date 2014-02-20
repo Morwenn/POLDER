@@ -287,13 +287,22 @@ namespace math
         // of bits set in its representation
         // is odd
 
-        auto val = code.value;
-        unsigned nb_bits{};
-        for (; val ; ++nb_bits)
-        {
-            // clear the least significant bit set
-            val &= val - 1;
-        }
-        return bool(nb_bits % 2);
+        #ifndef __GNUC__
+
+            unsigned nb_bits{};
+            for (; code.value ; ++nb_bits)
+            {
+                // clear the least significant bit set
+                code.value &= code.value - 1;
+            }
+            return bool(nb_bits % 2);
+
+        #else
+
+            // Compiler intrinsics can be
+            // insanely faster
+            return bool(__builtin_parity(code.value));
+
+        #endif
     }
 }
