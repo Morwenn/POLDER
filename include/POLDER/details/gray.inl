@@ -63,7 +63,8 @@ template<typename Unsigned>
 GrayCode<Unsigned>::operator value_type() const
 {
     value_type res = value;
-    for (value_type mask = sizeof(value_type)*4 ; mask ; mask >>= 1)
+    for (value_type mask = std::numeric_limits<value_type>::digits / 2
+         ; mask ; mask >>= 1)
     {
         res ^= res >> mask;
     }
