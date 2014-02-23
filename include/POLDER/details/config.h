@@ -155,6 +155,7 @@
              */
             virtual auto what() const noexcept
                 -> const char*
+                override
             {
                 return _msg.c_str();
             }

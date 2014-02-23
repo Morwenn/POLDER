@@ -712,7 +712,8 @@ evaluation_error::evaluation_error(eval_error_code e, const std::string& arg)
     msg = oss.str();
 }
 
-evaluation_error::~evaluation_error() noexcept {}
+evaluation_error::~evaluation_error() noexcept
+    = default;
 
 auto evaluation_error::what() const noexcept
     -> const char*

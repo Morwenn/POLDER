@@ -60,9 +60,10 @@ namespace polder
             explicit evaluation_error(const std::string& arg);
             explicit evaluation_error(eval_error_code e, char c);
             explicit evaluation_error(eval_error_code e, const std::string& arg);
-            virtual ~evaluation_error() noexcept;
+            virtual ~evaluation_error() noexcept override;
             virtual auto what() const noexcept
-                -> const char*;
+                -> const char*
+                override;
 
         private:
             std::string msg; /**< Error message */

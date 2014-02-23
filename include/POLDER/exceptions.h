@@ -54,7 +54,9 @@ namespace polder
              * @brief Returns the error message
              * @return Error message
              */
-            virtual const char* what() const noexcept;
+            virtual auto what() const noexcept
+                -> const char*
+                override;
 
         protected:
 
@@ -88,7 +90,9 @@ namespace polder
              * @brief Returns the error message
              * @return Error message
              */
-            virtual const char* what() const noexcept;
+            virtual auto what() const noexcept
+                -> const char*
+                override;
 
         protected:
 

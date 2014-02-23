@@ -26,9 +26,11 @@ division_by_zero::division_by_zero(const std::string& msg):
     _msg(msg)
 {}
 
-division_by_zero::~division_by_zero() noexcept {}
+division_by_zero::~division_by_zero() noexcept
+    = default;
 
-const char* division_by_zero::what() const noexcept
+auto division_by_zero::what() const noexcept
+    -> const char*
 {
     return _msg.c_str();
 }
@@ -38,9 +40,11 @@ not_implemented::not_implemented(const std::string& msg):
     _msg(msg)
 {}
 
-not_implemented::~not_implemented() noexcept {}
+not_implemented::~not_implemented() noexcept
+    = default;
 
-const char* not_implemented::what() const noexcept
+auto not_implemented::what() const noexcept
+    -> const char*
 {
     return _msg.c_str();
 }

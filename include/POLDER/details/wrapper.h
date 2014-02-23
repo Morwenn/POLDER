@@ -86,7 +86,7 @@ class Wrapper:
         /**
          * @brief Destructor
          */
-        ~Wrapper()
+        virtual ~Wrapper()
             = default;
 
     private:
