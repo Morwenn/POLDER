@@ -215,11 +215,7 @@ namespace itertools
      * or std::tuple elements.
      */
     template<std::size_t N, typename Iterator>
-    class get_iterator:
-        public std::iterator<
-            typename std::iterator_traits<Iterator>::iterator_category,
-            typename std::remove_reference<decltype(std::get<N>(*Iterator{}))>::type,
-            typename std::iterator_traits<Iterator>::difference_type>
+    class get_iterator
     {
         private:
 
@@ -227,8 +223,10 @@ namespace itertools
 
         public:
 
+            using iterator_category = typename std::iterator_traits<Iterator>::iterator_category;
             using iterator_type     = Iterator;
             using value_type        = typename std::remove_reference<decltype(std::get<N>(*_current))>::type;
+            using difference_type   = typename std::iterator_traits<Iterator>::difference_type;
             using pointer           = value_type*;
             using reference         = value_type&;
 
