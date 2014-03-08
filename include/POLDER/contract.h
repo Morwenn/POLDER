@@ -43,14 +43,14 @@ namespace polder
      * One of the main purposes is to separate the contract from
      * the class main body in order not to pollute it.
      */
-    template<typename T>
+    template<typename T, typename U>
     struct make_contract;
 
     template<typename T>
     struct contract:
         std::conditional<
             POLDER_DEBUG,
-            make_contract<T>,
+            make_contract<T, T>,
             T
         >::type
     {
@@ -58,7 +58,7 @@ namespace polder
         contract(Args&&... args):
             std::conditional<
                 POLDER_DEBUG,
-                make_contract<T>,
+                make_contract<T, T>,
                 T
             >::type(std::forward<Args>(args)...)
         {}
@@ -71,8 +71,8 @@ namespace polder
      * the preconditions and postconditions.
      */
     #define POLDER_CONTRACT(type) \
-        template<> \
-        struct make_contract<type>: \
+        template<typename super> \
+        struct make_contract<type, super>: \
             type
 
     #if POLDER_DEBUG == 1

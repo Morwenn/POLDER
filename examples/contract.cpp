@@ -46,7 +46,7 @@ namespace polder
             -> unsigned int
         {
             // precondition: none
-            auto res = Foo::sum(a, b);
+            auto res = super::sum(a, b);
             // postcondition:
             POLDER_ASSERT(res >= a+b);
             return res;
@@ -57,7 +57,7 @@ namespace polder
         {
             // precondition:
             POLDER_ASSERT(a >= 0.0);
-            auto res = Foo::sqrt(a);
+            auto res = super::sqrt(a);
             // postcondition: none
             return res;
         }
