@@ -69,7 +69,7 @@ struct MemoizedFibonacci:
      * @return nth Fibonacci number
      */
     auto function(std::size_t n)
-        -> unsigned int
+        -> types_t<MemoizedFibonacci>::value_type
     {
         return self(n-1) + self(n-2);
     }
