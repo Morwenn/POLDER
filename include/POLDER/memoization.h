@@ -82,22 +82,18 @@ namespace polder
             std::unordered_map<std::tuple<Args...>, Ret> _cache;
     };
 
-    /**
-     * @brief Create a memoized function
-     *
-     * @param func Function to memoize.
-     * @return Memoized function corresponding to \a func
-     */
-    template<typename Ret, typename... Args>
-    auto memoized(Ret (&func)(Args...))
-        -> MemoizedFunction<Ret, Args...>;
-
     template<typename Function, std::size_t... Ind>
     auto memoized_impl(Function&& func, indices<Ind...>)
         -> MemoizedFunction<
             typename function_traits<typename std::remove_reference<Function>::type>::result_type,
             typename function_traits<typename std::remove_reference<Function>::type>::template arg<Ind>...>;
 
+    /**
+     * @brief Create a memoized function
+     *
+     * @param func Function to memoize.
+     * @return Memoized function corresponding to \a func
+     */
     template<typename Function, typename Indices=make_indices<function_traits<typename std::remove_reference<Function>::type>::arity>>
     auto memoized(Function&& func)
         -> decltype(memoized_impl(std::forward<Function>(func), Indices()));

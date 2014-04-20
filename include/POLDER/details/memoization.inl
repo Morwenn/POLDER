@@ -16,11 +16,6 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-namespace detail
-{
-
-}
-
 template<typename Ret, typename... Args>
 MemoizedFunction<Ret, Args...>::MemoizedFunction(const std::function<Ret(Args...)>& func):
     _func(func)
@@ -47,13 +42,6 @@ auto MemoizedFunction<Ret, Args...>::clear() noexcept
     -> void
 {
     _cache.clear();
-}
-
-template<typename Ret, typename... Args>
-auto memoized(Ret (&func)(Args...))
-    -> MemoizedFunction<Ret, Args...>
-{
-    return { std::function<Ret(Args...)>(func) };
 }
 
 template<typename Function, std::size_t... Ind>
