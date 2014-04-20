@@ -16,6 +16,10 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+////////////////////////////////////////////////////////////
+// memoized
+////////////////////////////////////////////////////////////
+
 template<typename Ret, typename... Args>
 MemoizedFunction<Ret, Args...>::MemoizedFunction(const std::function<Ret(Args...)>& func):
     _func(func)

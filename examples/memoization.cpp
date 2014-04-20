@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -17,7 +17,7 @@
  */
 #include <functional>
 #include <iostream>
-#include <POLDER/memoization.h>
+#include <POLDER/functional.h>
 
 using namespace polder;
 
@@ -35,20 +35,20 @@ int main()
 {
     auto memo_foo = memoized(foo);
 
-    std::cout << foo("bar", 42) << '\n';
-    std::cout << memo_foo("bar", 42) << '\n';
-    std::cout << memo_foo("bar", 43) << '\n';
-    std::cout << memo_foo("bar", 44) << '\n';
-    std::cout << memo_foo("bar", 42) << '\n';
+    std::cout << foo("bar", 42) << '\n'
+              << memo_foo("bar", 42) << '\n'
+              << memo_foo("bar", 43) << '\n'
+              << memo_foo("bar", 44) << '\n'
+              << memo_foo("bar", 42) << '\n';
 
     std::function<int(const char*, unsigned)> ffoo = foo;
     auto memo_ffoo = memoized(ffoo);
 
-    std::cout << ffoo("bar", 42) << '\n';
-    std::cout << memo_ffoo("bar", 42) << '\n';
-    std::cout << memo_ffoo("bar", 43) << '\n';
-    std::cout << memo_ffoo("bar", 44) << '\n';
-    std::cout << memo_ffoo("bar", 42) << '\n';
+    std::cout << ffoo("bar", 42) << '\n'
+              << memo_ffoo("bar", 42) << '\n'
+              << memo_ffoo("bar", 43) << '\n'
+              << memo_ffoo("bar", 44) << '\n'
+              << memo_ffoo("bar", 42) << '\n';
 
     auto lambda = [](const char* a, unsigned b)
     {
@@ -56,9 +56,9 @@ int main()
     };
     auto memo_lambda = memoized(lambda);
 
-    std::cout << lambda("bar", 42) << '\n';
-    std::cout << memo_lambda("bar", 42) << '\n';
-    std::cout << memo_lambda("bar", 43) << '\n';
-    std::cout << memo_lambda("bar", 44) << '\n';
-    std::cout << memo_lambda("bar", 42) << '\n';
+    std::cout << lambda("bar", 42) << '\n'
+              << memo_lambda("bar", 42) << '\n'
+              << memo_lambda("bar", 43) << '\n'
+              << memo_lambda("bar", 44) << '\n'
+              << memo_lambda("bar", 42) << '\n';
 }
