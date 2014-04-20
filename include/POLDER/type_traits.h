@@ -32,6 +32,11 @@ namespace polder
         function_traits<decltype(&T::operator())>
     {};
 
+    template<typename Ret, typename... Args>
+    struct function_traits<Ret(*)(Args...)>:
+        function_traits<Ret(Args...)>
+    {};
+
     template<typename C, typename Ret, typename... Args>
     struct function_traits<Ret(C::*)(Args...) const>:
         function_traits<Ret(Args...)>
