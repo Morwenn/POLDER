@@ -29,8 +29,15 @@ namespace polder
     ////////////////////////////////////////////////////////////
     // Integer sequences
 
-    template<std::size_t...>
-    struct indices {};
+    template<std::size_t... Indices>
+    struct indices
+    {
+        static constexpr auto size() noexcept
+            -> std::size_t
+        {
+            return sizeof...(Indices);
+        }
+    };
 
     template<std::size_t N, std::size_t... Indices>
     struct make_indices:
@@ -49,6 +56,42 @@ namespace polder
                 typename std::decay<T>::type
             >::value
         >;
+
+    ////////////////////////////////////////////////////////////
+    // Integer ranges
+
+    template<std::size_t C, std::size_t P, std::size_t... N>
+    struct increasing_indices_range:
+        increasing_indices_range<C-1, P+1, N..., P>
+    {};
+
+    template<std::size_t C, std::size_t P, std::size_t... N>
+    struct decreasing_indices_range:
+        decreasing_indices_range<C+1, P-1, N..., P>
+    {};
+
+    template<std::size_t P, std::size_t... N>
+    struct increasing_indices_range<0, P, N...>:
+        indices<N...>
+    {};
+
+    template<std::size_t P, std::size_t... N>
+    struct decreasing_indices_range<0, P, N...>:
+        indices<N...>
+    {};
+
+    template<std::size_t S, std::size_t E, bool Increasing=(S<E)>
+    struct indices_range;
+
+    template<std::size_t S, std::size_t E>
+    struct indices_range<S, E, true>:
+        increasing_indices_range<E-S, S>
+    {};
+
+    template<std::size_t S, std::size_t E>
+    struct indices_range<S, E, false>:
+        decreasing_indices_range<E-S, S>
+    {};
 
     ////////////////////////////////////////////////////////////
     // Call function with tuple members as arguments
@@ -99,6 +142,26 @@ namespace polder
      */
     template<typename T>
     struct types_t;
+
+    ////////////////////////////////////////////////////////////
+    // Development tool
+
+    /**
+     * @brief Ignores its parameters
+     *
+     * Can be used as a drop-in replacement for
+     * (void) arg. Function to be used whenever
+     * an expansion pack has to be extended for
+     * a function that returns no value:
+     *
+     * ignore( (func<Args>(params), 0)... );
+     */
+    template<typename... Args>
+    auto ignore(Args&&...)
+        -> void
+    {
+        // Do exactly nothing
+    }
 }
 
 namespace std
