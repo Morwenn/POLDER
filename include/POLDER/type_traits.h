@@ -148,11 +148,7 @@ namespace polder
 
     template<typename T, typename U>
     struct is_same<T, U>:
-        std::conditional<
-            std::is_same<T, U>::value,
-            std::true_type,
-            std::false_type
-        >::type
+        std::is_same<T, U>
     {};
 
     template<typename T, typename U, typename... Args>
