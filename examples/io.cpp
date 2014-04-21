@@ -2,7 +2,6 @@
  * Headers
  */
 #include <cstdio>
-#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <POLDER/io.h>
@@ -81,6 +80,4 @@ int main()
         // Close the file
         f.close();
     }
-
-    return EXIT_SUCCESS;
 }

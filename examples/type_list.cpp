@@ -70,6 +70,4 @@ int main()
     using new_4 = types::pop_front;
     static_assert(std::is_same<new_3::back, double>::value, "");
     static_assert(std::is_same<new_4::front, long>::value, "");
-
-    return 0;
 }

@@ -89,6 +89,4 @@ int main()
     std::cout << c << std::endl;
     std::cout << d << std::endl;
     std::cout << e << std::endl;
-
-    return 0;
 }

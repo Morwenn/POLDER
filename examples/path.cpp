@@ -1,7 +1,6 @@
 /*
  * Headers
  */
-#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <POLDER/path.h>
@@ -16,6 +15,4 @@ int main()
 {
     string path = make_path("trololo", "lala", "lulu");
     cout << path << endl;
-
-    return EXIT_SUCCESS;
 }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <utility>
 #include <POLDER/geometry.h>
+#include <POLDER/utility.h>
 
 using namespace polder;
 using namespace geometry;
@@ -29,6 +30,8 @@ int main()
 
         Hypersphere<3> HS(P1, 5.0);
         Hypersphere<3> HF = HS;
+
+        ignore(V2, V3, D1, D2, HF);
     }
 
 
@@ -55,7 +58,19 @@ int main()
 
         cout << res.first.x() << " " << res.first.y() << endl;    //  1, 1
         cout << res.second.x() << " " << res.second.y() << endl;  // -1, 1
+
+        ignore(D);
     }
 
-    return EXIT_SUCCESS;
+    ////////////////////////////////////////////////////////////
+    // Distance
+    {
+        Point<2> a = { 4.5, 6.3 };
+        Point<2> b = { 8.9, 25.3 };
+        std::cout << distance(a, b) << std::endl;
+
+        POLDER_ASSERT(distance(a, b) == distance(b, a));
+        POLDER_ASSERT(distance(a, a) == distance(b, b));
+        POLDER_ASSERT(distance(a, a) == 0.0);
+    }
 }
