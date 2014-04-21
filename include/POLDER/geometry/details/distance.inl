@@ -45,7 +45,7 @@ namespace details
             T res{};
             for (std::size_t i = 0 ; i < N ; ++i)
             {
-                auto tmp = std::abs(p1[i] - p2[i]);
+                auto tmp = p1[i] - p2[i];
                 res += tmp * tmp;
             }
             return std::sqrt(res);
@@ -106,7 +106,7 @@ namespace details
                 auto tmp = std::abs(p1[i] - p2[i]);
                 res += std::pow(tmp, p);
             }
-            return std::pow(res, 1.0/p);
+            return std::pow(res, T{1}/p);
         }
     };
 }
@@ -115,7 +115,7 @@ template<typename Norm, std::size_t N, typename T>
 auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
     -> T
 {
-   return details::distance_helper_t<N, T, Norm>::distance(p1, p2);
+    return details::distance_helper_t<N, T, Norm>::distance(p1, p2);
 }
 
 template<typename Norm, std::size_t N, typename T>
