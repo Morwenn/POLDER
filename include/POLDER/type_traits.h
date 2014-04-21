@@ -27,19 +27,13 @@
 
 namespace polder
 {
+    ////////////////////////////////////////////////////////////
+    // Function traits
+    ////////////////////////////////////////////////////////////
+
     template<typename T>
     struct function_traits:
         function_traits<decltype(&T::operator())>
-    {};
-
-    template<typename Ret, typename... Args>
-    struct function_traits<Ret(*)(Args...)>:
-        function_traits<Ret(Args...)>
-    {};
-
-    template<typename C, typename Ret, typename... Args>
-    struct function_traits<Ret(C::*)(Args...) const>:
-        function_traits<Ret(Args...)>
     {};
 
     template<typename Ret, typename... Args>
@@ -59,8 +53,77 @@ namespace polder
          * Type of the Nth argument of the function.
          */
         template<std::size_t N>
-        using arg = typename type_list<Args...>::template at<N>;
+        using argument_type = typename type_list<Args...>::template at<N>;
     };
+
+    template<typename Ret, typename... Args>
+    struct function_traits<Ret(*)(Args...)>:
+        function_traits<Ret(Args...)>
+    {};
+
+    template<typename C, typename Ret, typename... Args>
+    struct function_traits<Ret(C::*)(Args...)>:
+        function_traits<Ret(Args...)>
+    {};
+
+    template<typename C, typename Ret, typename... Args>
+    struct function_traits<Ret(C::*)(Args...) const>:
+        function_traits<Ret(Args...)>
+    {};
+
+    template<typename C, typename Ret, typename... Args>
+    struct function_traits<Ret(C::*)(Args...) volatile>:
+        function_traits<Ret(Args...)>
+    {};
+
+    template<typename C, typename Ret, typename... Args>
+    struct function_traits<Ret(C::*)(Args...) const volatile>:
+        function_traits<Ret(Args...)>
+    {};
+
+    template<typename T>
+    struct function_traits<T&>:
+        function_traits<T>
+    {};
+
+    template<typename T>
+    struct function_traits<const T&>:
+        function_traits<T>
+    {};
+
+    template<typename T>
+    struct function_traits<volatile T&>:
+        function_traits<T>
+    {};
+
+    template<typename T>
+    struct function_traits<const volatile T&>:
+        function_traits<T>
+    {};
+
+    template<typename T>
+    struct function_traits<T&&>:
+        function_traits<T>
+    {};
+
+    template<typename T>
+    struct function_traits<const T&&>:
+        function_traits<T>
+    {};
+
+    template<typename T>
+    struct function_traits<volatile T&&>:
+        function_traits<T>
+    {};
+
+    template<typename T>
+    struct function_traits<const volatile T&&>:
+        function_traits<T>
+    {};
+
+    ////////////////////////////////////////////////////////////
+    // Size traits
+    ////////////////////////////////////////////////////////////
 
     template<typename T, typename U>
     using greater_of = std::conditional<
@@ -75,6 +138,10 @@ namespace polder
         T,
         U
     >;
+
+    ////////////////////////////////////////////////////////////
+    // Variadic is_same trait
+    ////////////////////////////////////////////////////////////
 
     template<typename T, typename...>
     struct is_same;
@@ -96,6 +163,10 @@ namespace polder
             std::false_type
         >::type
     {};
+
+    ////////////////////////////////////////////////////////////
+    // Iterable/traversable traits
+    ////////////////////////////////////////////////////////////
 
     template<typename...>
     struct is_iterable;

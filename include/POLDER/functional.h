@@ -170,38 +170,37 @@ namespace polder
     template<typename Function, std::size_t... Ind>
     auto memoized_impl(Function&& func, indices<Ind...>)
         -> MemoizedFunction<
-            typename function_traits<typename std::remove_reference<Function>::type>::result_type,
-            typename function_traits<typename std::remove_reference<Function>::type>::template arg<Ind>...>;
+            typename function_traits<Function>::result_type,
+            typename function_traits<Function>::template argument_type<Ind>...>;
 
     /**
      * @brief Creates a memoized function
      *
-     * @param func Function to memoize.
+     * @param func Function to memoize
      * @return Memoized function corresponding to \a func
      */
-    template<typename Function, typename Indices=make_indices<function_traits<typename std::remove_reference<Function>::type>::arity>>
+    template<typename Function, typename Indices=make_indices<function_traits<Function>::arity>>
     auto memoized(Function&& func)
         -> decltype(memoized_impl(std::forward<Function>(func), Indices()));
 
     ////////////////////////////////////////////////////////////
     // curried
 
-    template<typename Function, typename First, std::size_t... Ind,
-             typename BareFunction=typename std::remove_reference<Function>::type>
+    template<typename Function, typename First, std::size_t... Ind>
     auto curried_impl(Function&& func, First&& first, indices<Ind...>)
         -> std::function<
-            typename function_traits<BareFunction>::result_type(
-            typename function_traits<BareFunction>::template arg<Ind>...)>;
+            typename function_traits<Function>::result_type(
+            typename function_traits<Function>::template argument_type<Ind>...)>;
 
     /**
      * @brief Ties the first argument of a function to a value
      *
-     * @param func Function to curry.
-     * @param first Value to tie to \a func.
-     * @return \a func curried with \a first.
+     * @param func Function to curry
+     * @param first Value to tie to \a func
+     * @return \a func curried with \a first
      */
     template<typename Function, typename First,
-             typename Indices=indices_range<1u, function_traits<typename std::remove_reference<Function>::type>::arity>>
+             typename Indices=indices_range<1u, function_traits<Function>::arity>>
     auto curried(Function&& func, First first)
         -> decltype(curried_impl(std::forward<Function>(func), std::forward<First>(first), Indices()));
 

@@ -51,14 +51,14 @@ auto MemoizedFunction<Ret, Args...>::clear() noexcept
 template<typename Function, std::size_t... Ind>
 auto memoized_impl(Function&& func, indices<Ind...>)
     -> MemoizedFunction<
-        typename function_traits<typename std::remove_reference<Function>::type>::result_type,
-        typename function_traits<typename std::remove_reference<Function>::type>::template arg<Ind>...>
+        typename function_traits<Function>::result_type,
+        typename function_traits<Function>::template argument_type<Ind>...>
 {
-    using Ret = typename function_traits<typename std::remove_reference<Function>::type>::result_type;
-    return { std::function<Ret(typename function_traits<typename std::remove_reference<Function>::type>::template arg<Ind>...)>(func) };
+    using Ret = typename function_traits<Function>::result_type;
+    return { std::function<Ret(typename function_traits<Function>::template argument_type<Ind>...)>(func) };
 }
 
-template<typename Function, typename Indices=make_indices<function_traits<typename std::remove_reference<Function>::type>::arity>>
+template<typename Function, typename Indices=make_indices<function_traits<Function>::arity>>
 auto memoized(Function&& func)
     -> decltype(memoized_impl(std::forward<Function>(func), Indices()))
 {
@@ -69,28 +69,27 @@ auto memoized(Function&& func)
 // curried
 ////////////////////////////////////////////////////////////
 
-template<typename Function, typename First, std::size_t... Ind,
-         typename BareFunction=typename std::remove_reference<Function>::type>
+template<typename Function, typename First, std::size_t... Ind>
 auto curried_impl(Function&& func, First&& first, indices<Ind...>)
     -> std::function<
-        typename function_traits<BareFunction>::result_type(
-        typename function_traits<BareFunction>::template arg<Ind>...)>
+        typename function_traits<Function>::result_type(
+        typename function_traits<Function>::template argument_type<Ind>...)>
 {
-    return [&](typename function_traits<BareFunction>::template arg<Ind>&&... args)
+    return [&](typename function_traits<Function>::template argument_type<Ind>&&... args)
     {
         return func(
             std::forward<First>(first),
-            std::forward<typename function_traits<BareFunction>::template arg<Ind>>(args)...
+            std::forward<typename function_traits<Function>::template argument_type<Ind>>(args)...
         );
     };
 }
 
 template<typename Function, typename First,
-         typename Indices=indices_range<1u, function_traits<typename std::remove_reference<Function>::type>::arity>>
+         typename Indices=indices_range<1u, function_traits<Function>::arity>>
 auto curried(Function&& func, First first)
     -> decltype(curried_impl(std::forward<Function>(func), std::forward<First>(first), Indices()))
 {
-    using FirstArg = typename function_traits<typename std::remove_reference<Function>::type>::template arg<0u>;
+    using FirstArg = typename function_traits<Function>::template argument_type<0u>;
     static_assert(std::is_convertible<First, FirstArg>::value,
                   "the value to be tied should be convertible to the type of the function's first parameter");
     return curried_impl(std::forward<Function>(func), std::forward<First>(first), Indices());
