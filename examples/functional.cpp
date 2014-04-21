@@ -61,4 +61,9 @@ int main()
               << memo_lambda("bar", 43) << '\n'
               << memo_lambda("bar", 44) << '\n'
               << memo_lambda("bar", 42) << '\n';
+
+    auto curry_foo = curried(lambda, "dream");
+    std::cout << curry_foo(8) << '\n';
+    auto curry2 = curried(curry_foo, 5);
+    std::cout << curry2() << '\n';
 }
