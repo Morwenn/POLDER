@@ -25,45 +25,53 @@ using namespace polder;
 /**
  * @brief Test function to be memoized.
  */
-inline int foo(const char* a, unsigned b)
+inline double foo(double a, unsigned b)
 {
-    return int(a[0]) + unsigned(b);
+    return a + b;
 }
-
 
 int main()
 {
-    auto memo_foo = memoized(foo);
-
-    std::cout << foo("bar", 42) << '\n'
-              << memo_foo("bar", 42) << '\n'
-              << memo_foo("bar", 43) << '\n'
-              << memo_foo("bar", 44) << '\n'
-              << memo_foo("bar", 42) << '\n';
-
-    std::function<int(const char*, unsigned)> ffoo = foo;
-    auto memo_ffoo = memoized(ffoo);
-
-    std::cout << ffoo("bar", 42) << '\n'
-              << memo_ffoo("bar", 42) << '\n'
-              << memo_ffoo("bar", 43) << '\n'
-              << memo_ffoo("bar", 44) << '\n'
-              << memo_ffoo("bar", 42) << '\n';
-
-    auto lambda = [](const char* a, unsigned b)
+    ////////////////////////////////////////////////////////////
+    // memoized
     {
-        return int(a[0]) + unsigned(b);
-    };
-    auto memo_lambda = memoized(lambda);
+        auto memo_foo = memoized(foo);
 
-    std::cout << lambda("bar", 42) << '\n'
-              << memo_lambda("bar", 42) << '\n'
-              << memo_lambda("bar", 43) << '\n'
-              << memo_lambda("bar", 44) << '\n'
-              << memo_lambda("bar", 42) << '\n';
+        std::cout << foo(8.5, 42) << '\n'
+                  << memo_foo(8.5, 42) << '\n'
+                  << memo_foo(8.5, 43) << '\n'
+                  << memo_foo(8.5, 44) << '\n'
+                  << memo_foo(8.5, 42) << '\n';
 
-    auto curry_foo = curried(lambda, "dream");
-    std::cout << curry_foo(8) << '\n';
-    auto curry2 = curried(curry_foo, 5);
-    std::cout << curry2() << '\n';
+        std::function<double(double, unsigned)> ffoo = foo;
+        auto memo_ffoo = memoized(ffoo);
+
+        std::cout << ffoo(8.5, 42) << '\n'
+                  << memo_ffoo(8.5, 42) << '\n'
+                  << memo_ffoo(8.5, 43) << '\n'
+                  << memo_ffoo(8.5, 44) << '\n'
+                  << memo_ffoo(8.5, 42) << '\n';
+
+        auto lambda = [](double a, unsigned b)
+        {
+            return a + b;
+        };
+        auto memo_lambda = memoized(lambda);
+
+        std::cout << lambda(8.5, 42) << '\n'
+                  << memo_lambda(8.5, 42) << '\n'
+                  << memo_lambda(8.5, 43) << '\n'
+                  << memo_lambda(8.5, 44) << '\n'
+                  << memo_lambda(8.5, 42) << '\n';
+    }
+
+    ////////////////////////////////////////////////////////////
+    // curried
+    {
+        auto curry_foo = curried(foo, 10.8);
+        std::cout << curry_foo(8) << '\n';
+
+        auto curry2 = curried(curry_foo, 5);
+        std::cout << curry2() << '\n';
+    }
 }
