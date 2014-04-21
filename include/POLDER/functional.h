@@ -174,7 +174,7 @@ namespace polder
             typename function_traits<typename std::remove_reference<Function>::type>::template arg<Ind>...>;
 
     /**
-     * @brief Create a memoized function
+     * @brief Creates a memoized function
      *
      * @param func Function to memoize.
      * @return Memoized function corresponding to \a func
@@ -182,6 +182,28 @@ namespace polder
     template<typename Function, typename Indices=make_indices<function_traits<typename std::remove_reference<Function>::type>::arity>>
     auto memoized(Function&& func)
         -> decltype(memoized_impl(std::forward<Function>(func), Indices()));
+
+    ////////////////////////////////////////////////////////////
+    // curried
+
+    template<typename Function, typename First, std::size_t... Ind,
+             typename BareFunction=typename std::remove_reference<Function>::type>
+    auto curried_impl(Function&& func, First&& first, indices<Ind...>)
+        -> std::function<
+            typename function_traits<BareFunction>::result_type(
+            typename function_traits<BareFunction>::template arg<Ind>...)>;
+
+    /**
+     * @brief Ties the first argument of a function to a value
+     *
+     * @param func Function to curry.
+     * @param first Value to tie to \a func.
+     * @return \a func curried with \a first.
+     */
+    template<typename Function, typename First,
+             typename Indices=indices_range<1u, function_traits<typename std::remove_reference<Function>::type>::arity>>
+    auto curried(Function&& func, First first)
+        -> decltype(curried_impl(std::forward<Function>(func), std::forward<First>(first), Indices()));
 
     #include "details/functional.inl"
 }

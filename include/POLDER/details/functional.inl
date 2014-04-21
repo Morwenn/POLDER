@@ -64,3 +64,34 @@ auto memoized(Function&& func)
 {
     return memoized_impl(std::forward<Function>(func), Indices());
 }
+
+////////////////////////////////////////////////////////////
+// curried
+////////////////////////////////////////////////////////////
+
+template<typename Function, typename First, std::size_t... Ind,
+         typename BareFunction=typename std::remove_reference<Function>::type>
+auto curried_impl(Function&& func, First&& first, indices<Ind...>)
+    -> std::function<
+        typename function_traits<BareFunction>::result_type(
+        typename function_traits<BareFunction>::template arg<Ind>...)>
+{
+    return [&](typename function_traits<BareFunction>::template arg<Ind>&&... args)
+    {
+        return func(
+            std::forward<First>(first),
+            std::forward<typename function_traits<BareFunction>::template arg<Ind>>(args)...
+        );
+    };
+}
+
+template<typename Function, typename First,
+         typename Indices=indices_range<1u, function_traits<typename std::remove_reference<Function>::type>::arity>>
+auto curried(Function&& func, First first)
+    -> decltype(curried_impl(std::forward<Function>(func), std::forward<First>(first), Indices()))
+{
+    using FirstArg = typename function_traits<typename std::remove_reference<Function>::type>::template arg<0u>;
+    static_assert(std::is_convertible<First, FirstArg>::value,
+                  "the value to be tied should be convertible to the type of the function's first parameter");
+    return curried_impl(std::forward<Function>(func), std::forward<First>(first), Indices());
+}
