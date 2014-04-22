@@ -74,4 +74,17 @@ int main()
         auto curry2 = curried(curry_foo, 5);
         std::cout << curry2() << '\n';
     }
+
+    ////////////////////////////////////////////////////////////
+    // compose
+    {
+        auto add = [](int a, int b)
+        {
+            return a + b;
+        };
+        auto add5 = curried(add, 5);
+
+        auto composed = compose(add5, add);
+        std::cout << composed(5, 15) << std::endl;
+    }
 }
