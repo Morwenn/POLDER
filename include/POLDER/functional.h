@@ -28,6 +28,7 @@
 #include <POLDER/details/config.h>
 #include <POLDER/type_traits.h>
 #include <POLDER/utility.h>
+#include <POLDER/io.h>
 
 namespace polder
 {
@@ -168,7 +169,7 @@ namespace polder
     };
 
     template<typename Function, std::size_t... Ind>
-    auto memoized_impl(Function&& func, indices<Ind...>)
+    auto memoized_impl(Function&& func, std::index_sequence<Ind...>)
         -> MemoizedFunction<
             typename function_traits<Function>::result_type,
             typename function_traits<Function>::template argument_type<Ind>...>;
@@ -179,7 +180,8 @@ namespace polder
      * @param func Function to memoize
      * @return Memoized function corresponding to \a func
      */
-    template<typename Function, typename Indices=make_indices<function_traits<Function>::arity>>
+    template<typename Function,
+             typename Indices=std::make_index_sequence<function_traits<Function>::arity>>
     auto memoized(Function&& func)
         -> decltype(memoized_impl(std::forward<Function>(func), Indices()));
 
@@ -187,7 +189,7 @@ namespace polder
     // curried
 
     template<typename Function, typename First, std::size_t... Ind>
-    auto curried_impl(Function&& func, First&& first, indices<Ind...>)
+    auto curried_impl(const Function& func, First&& first, std::index_sequence<Ind...>)
         -> std::function<
             typename function_traits<Function>::result_type(
             typename function_traits<Function>::template argument_type<Ind>...)>;
@@ -200,12 +202,11 @@ namespace polder
      * @return \a func curried with \a first
      */
     template<typename Function, typename First,
-             typename Indices=indices_range<1u, function_traits<Function>::arity>>
+             typename Indices=index_range<1u, function_traits<Function>::arity>>
     auto curried(Function&& func, First first)
         -> decltype(curried_impl(std::forward<Function>(func), std::forward<First>(first), Indices()));
 
     #include "details/functional.inl"
 }
-
 
 #endif // POLDER_FUNCTIONAL_H_

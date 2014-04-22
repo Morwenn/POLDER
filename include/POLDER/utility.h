@@ -15,99 +15,57 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_UTILITY_H
-#define _POLDER_UTILITY_H
+#ifndef POLDER_UTILITY_H_
+#define POLDER_UTILITY_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <tuple>
+#include <type_traits>
+#include <utility>
 #include <POLDER/details/config.h>
 
 namespace polder
 {
+    #include "details/utility.inl"
+
     ////////////////////////////////////////////////////////////
-    // Integer sequences
+    // std::integer_sequence tools
 
-    template<std::size_t... Indices>
-    struct indices
-    {
-        static constexpr auto size() noexcept
-            -> std::size_t
-        {
-            return sizeof...(Indices);
-        }
-    };
+    template<typename Int, Int S, Int E,  bool Increasing=(S<E)>
+    struct integer_range;
 
-    template<std::size_t N, std::size_t... Indices>
-    struct make_indices:
-        make_indices<N-1, N-1, Indices...>
+    template<typename Int, Int S, Int E>
+    struct integer_range<Int, S, E, true>:
+        details::increasing_integer_range<Int, std::integral_constant<Int, E-S>, S>
     {};
 
-    template<std::size_t... Indices>
-    struct make_indices<0, Indices...>:
-        indices<Indices...>
+    template<typename Int, Int S, Int E>
+    struct integer_range<Int, S, E, false>:
+        details::decreasing_integer_range<Int, std::integral_constant<Int, E-S>, S>
     {};
+
+    template<std::size_t S, std::size_t E>
+    using index_range = integer_range<std::size_t, S, E>;
 
     template<typename T>
-    using to_indices =
-        make_indices<
+    using to_index_sequence =
+        std::make_index_sequence<
             std::tuple_size<
                 typename std::decay<T>::type
             >::value
         >;
 
     ////////////////////////////////////////////////////////////
-    // Integer ranges
-
-    template<std::size_t C, std::size_t P, std::size_t... N>
-    struct increasing_indices_range:
-        increasing_indices_range<C-1, P+1, N..., P>
-    {};
-
-    template<std::size_t C, std::size_t P, std::size_t... N>
-    struct decreasing_indices_range:
-        decreasing_indices_range<C+1, P-1, N..., P>
-    {};
-
-    template<std::size_t P, std::size_t... N>
-    struct increasing_indices_range<0, P, N...>:
-        indices<N...>
-    {};
-
-    template<std::size_t P, std::size_t... N>
-    struct decreasing_indices_range<0, P, N...>:
-        indices<N...>
-    {};
-
-    template<std::size_t S, std::size_t E, bool Increasing=(S<E)>
-    struct indices_range;
-
-    template<std::size_t S, std::size_t E>
-    struct indices_range<S, E, true>:
-        increasing_indices_range<E-S, S>
-    {};
-
-    template<std::size_t S, std::size_t E>
-    struct indices_range<S, E, false>:
-        decreasing_indices_range<E-S, S>
-    {};
-
-    ////////////////////////////////////////////////////////////
     // Call function with tuple members as arguments
 
-    template<typename F, typename Tuple, std::size_t... I>
-    auto apply_(F&& f, Tuple&& args, indices<I...>)
-        -> decltype(std::forward<F>(f)(std::get<I>(std::forward<Tuple>(args))...))
-    {
-        return std::forward<F>(f)(std::get<I>(std::forward<Tuple>(args))...);
-    }
-
-    template<typename F, typename Tuple, typename Indices=to_indices<Tuple>>
+    template<typename F, typename Tuple,
+             typename Indices=to_index_sequence<Tuple>>
     auto apply(F&& f, Tuple&& args)
-        -> decltype(apply_(std::forward<F>(f), std::forward<Tuple>(args), Indices()))
+        -> decltype(details::apply_impl(std::forward<F>(f), std::forward<Tuple>(args), Indices()))
     {
-        return apply_(std::forward<F>(f), std::forward<Tuple>(args), Indices());
+        return details::apply_impl(std::forward<F>(f), std::forward<Tuple>(args), Indices());
     }
 
     ////////////////////////////////////////////////////////////
@@ -178,4 +136,4 @@ namespace std
     };
 }
 
-#endif // _POLDER_UTILITY_H
+#endif // POLDER_UTILITY_H_
