@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_TYPE_TRAITS_H
-#define _POLDER_TYPE_TRAITS_H
+#ifndef POLDER_TYPE_TRAITS_H_
+#define POLDER_TYPE_TRAITS_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -153,11 +153,11 @@ namespace polder
 
     template<typename T, typename U, typename... Args>
     struct is_same<T, U, Args...>:
-        std::conditional<
+        std::conditional_t<
             is_same<T, U>::value,
             is_same<U, Args...>,
             std::false_type
-        >::type
+        >
     {};
 
     ////////////////////////////////////////////////////////////
@@ -184,7 +184,7 @@ namespace polder
         static constexpr bool value =
             std::is_same<
                 yes,
-                decltype(test<typename std::decay<T>::type>(nullptr))
+                decltype(test<std::decay_t<T>>(nullptr))
             >::value;
     };
 
@@ -195,11 +195,11 @@ namespace polder
 
     template<typename T, typename U, typename... Args>
     struct is_iterable<T, U, Args...>:
-        std::conditional<
+        std::conditional_t<
             is_iterable<T>::value,
             is_iterable<U, Args...>,
             std::false_type
-        >::type
+        >
     {};
 
     template<typename...>
@@ -222,7 +222,7 @@ namespace polder
         static constexpr bool value =
             std::is_same<
                 yes,
-                decltype(test<typename std::decay<T>::type>(nullptr))
+                decltype(test<std::decay_t<T>>(nullptr))
             >::value;
     };
 
@@ -233,12 +233,12 @@ namespace polder
 
     template<typename T, typename U, typename... Args>
     struct is_reverse_iterable<T, U, Args...>:
-        std::conditional<
+        std::conditional_t<
             is_reverse_iterable<T>::value,
             is_reverse_iterable<U, Args...>,
             std::false_type
-        >::type
+        >
     {};
 }
 
-#endif // _POLDER_TYPE_TRAITS_H
+#endif // POLDER_TYPE_TRAITS_H_

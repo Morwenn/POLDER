@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_CONTRACT_H
-#define _POLDER_CONTRACT_H
+#ifndef POLDER_CONTRACT_H_
+#define POLDER_CONTRACT_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -48,19 +48,19 @@ namespace polder
 
     template<typename T>
     struct contract:
-        std::conditional<
+        std::conditional_t<
             POLDER_DEBUG,
             make_contract<T, T>,
             T
-        >::type
+        >
     {
         template<typename... Args>
         contract(Args&&... args):
-            std::conditional<
+            std::conditional_t<
                 POLDER_DEBUG,
                 make_contract<T, T>,
                 T
-            >::type(std::forward<Args>(args)...)
+            >(std::forward<Args>(args)...)
         {}
     };
 
@@ -83,15 +83,13 @@ namespace polder
          * Macro encapsulating all the boilerplate used
          * to check invariants thanks to RAII with a
          * check structure.
-         *
-         * @warning Crash if a parent class hass a member called check
          */
         #define POLDER_INVARIANTS(invariants) \
-            struct check \
+            struct invariants_guard \
             { \
-                check() { _check(); } \
-                ~check() { _check(); } \
-                void _check() \
+                invariants_guard() { check(); } \
+                ~invariants_guard() { check(); } \
+                void check() \
                 { \
                     invariants \
                 } \
@@ -100,9 +98,9 @@ namespace polder
     #else
 
         #define POLDER_INVARIANTS(...) \
-            struct check \
+            struct invariants_guard \
             { \
-                check() { void(); } \
+                invariants_guard() { void(); } \
             }
 
     #endif
@@ -133,4 +131,4 @@ namespace polder
 }
 
 
-#endif // _POLDER_CONTRACT_H
+#endif // POLDER_CONTRACT_H_

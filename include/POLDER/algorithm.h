@@ -72,11 +72,11 @@ namespace polder
      */
     template<typename Float>
     auto float_equal(Float lhs, Float rhs)
-        -> typename std::enable_if<std::is_floating_point<Float>::value, bool>::type;
+        -> std::enable_if_t<std::is_floating_point<Float>{}, bool>;
 
     template<typename T>
     auto float_equal(T lhs, T rhs)
-        -> typename std::enable_if<not std::is_floating_point<T>::value, bool>::type;
+        -> std::enable_if_t<not std::is_floating_point<T>{}, bool>;
 
     #include "details/algorithm.inl"
 }

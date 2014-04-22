@@ -158,11 +158,11 @@ class ReversedObject
 
     public:
 
-        using value_type                = typename std::decay<decltype(*std::begin(_iterable))>::type;
+        using value_type                = std::decay_t<decltype(*std::begin(_iterable))>;
         using reference                 = value_type&;
         using pointer                   = value_type*;
-        using iterator                  = typename std::remove_reference<decltype(itertools::rbegin(_iterable))>::type;
-        using const_iterator            = typename std::remove_reference<decltype(itertools::rbegin(_iterable))>::type;
+        using iterator                  = std::remove_reference_t<decltype(itertools::rbegin(_iterable))>;
+        using const_iterator            = std::remove_reference_t<decltype(itertools::rbegin(_iterable))>;
         using reverse_iterator          = decltype(std::begin(_iterable));
         using const_reverse_iterator    = decltype(std::begin(_iterable));
         using iterator_category         = typename std::iterator_traits<iterator>::iterator_category;
@@ -221,7 +221,7 @@ class FlatObject<FlatIterable, false>
 
     public:
 
-        using value_type        = typename std::decay<decltype(*_iterable.fbegin())>::type;
+        using value_type        = std::decay_t<decltype(*_iterable.fbegin())>;
         using reference         = value_type&;
         using pointer           = value_type*;
         using iterator          = decltype(_iterable.fbegin());
@@ -316,7 +316,7 @@ class MapObject<T, Iterable, false>
 
     public:
 
-        using value_type        = typename std::decay<decltype(*std::begin(_iterable))>::type;
+        using value_type        = std::decay_t<decltype(*std::begin(_iterable))>;
         using difference_type   = std::ptrdiff_t;
         using reference         = value_type&;
         using pointer           = value_type*;
@@ -465,7 +465,7 @@ class FilterObject
 
     public:
 
-        using value_type        = typename std::decay<decltype(*std::begin(_iterable))>::type;
+        using value_type        = std::decay_t<decltype(*std::begin(_iterable))>;
         using reference         = value_type&;
         using pointer           = value_type*;
         using iterator          = FilterObject&;
@@ -599,7 +599,7 @@ class ChainObject<First>
 
     public:
 
-        using value_type        = typename std::decay<decltype(*_iter)>::type;
+        using value_type        = std::decay_t<decltype(*_iter)>;
         using reference         = value_type&;
         using pointer           = value_type*;
         using iterator          = ChainObject&;
@@ -647,7 +647,7 @@ template<typename... Iterables>
 inline auto chain(Iterables&&... iterables)
     -> ChainObject<Iterables...>
 {
-    static_assert(is_same<typename std::decay<Iterables>::type::value_type...>::value,
+    static_assert(is_same<typename std::decay_t<Iterables>::value_type...>{},
                   "different value_type for arguments passed to chain");
 
     return { std::forward<Iterables>(iterables)... };
@@ -657,14 +657,14 @@ inline auto chain(Iterables&&... iterables)
 ////////////////////////////////////////////////////////////
 template<typename First, typename... Iterables>
 class ZipObject:
-    public ZipObject<typename std::decay<Iterables>::type...>
+    public ZipObject<std::decay_t<Iterables>...>
 {
     private:
 
         const First& _first;
         decltype(std::begin(_first)) _iter;
 
-        using super = ZipObject<typename std::decay<Iterables>::type...>;
+        using super = ZipObject<std::decay_t<Iterables>...>;
 
     public:
 
@@ -674,19 +674,19 @@ class ZipObject:
                 super().operator*()
             )
         );
-        using reference = value_type&;
-        using pointer   = value_type*;
+        using reference         = value_type&;
+        using pointer           = value_type*;
         using iterator          = ZipObject&;
         using const_iterator    = const iterator;
         using iterator_category = std::forward_iterator_tag;
 
         ZipObject():
-            super(std::forward<typename std::decay<Iterables>::type>(Iterables())...),
+            super(std::forward<std::decay_t<Iterables>>(Iterables())...),
             _first(First())
         {}
 
         ZipObject(First&& first, Iterables&&... iterables):
-            super(std::forward<typename std::decay<Iterables>::type>(iterables)...),
+            super(std::forward<std::decay_t<Iterables>>(iterables)...),
             _first(first),
             _iter(std::begin(first))
         {}
@@ -737,9 +737,9 @@ class ZipObject<First>
 
     public:
 
-        using value_type    = decltype(std::make_tuple(*_iter));
-        using reference     = value_type&;
-        using pointer       = value_type*;
+        using value_type        = decltype(std::make_tuple(*_iter));
+        using reference         = value_type&;
+        using pointer           = value_type*;
         using iterator          = ZipObject&;
         using const_iterator    = const iterator;
         using iterator_category = std::forward_iterator_tag;

@@ -37,7 +37,7 @@ auto range_map(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation
 
 template<typename Float>
 auto float_equal(Float lhs, Float rhs)
-    -> typename std::enable_if<std::is_floating_point<Float>::value, bool>::type
+    -> std::enable_if_t<std::is_floating_point<Float>{}, bool>
 {
     return std::abs(lhs-rhs) <=
         std::numeric_limits<Float>::epsilon() *
@@ -46,7 +46,7 @@ auto float_equal(Float lhs, Float rhs)
 
 template<typename T>
 auto float_equal(T lhs, T rhs)
-    -> typename std::enable_if<not std::is_floating_point<T>::value, bool>::type
+    -> std::enable_if_t<not std::is_floating_point<T>{}, bool>
 {
     return lhs == rhs;
 }

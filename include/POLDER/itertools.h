@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_ITERTOOLS_H
-#define _POLDER_ITERTOOLS_H
+#ifndef POLDER_ITERTOOLS_H_
+#define POLDER_ITERTOOLS_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -225,7 +225,7 @@ namespace itertools
 
             using iterator_category = typename std::iterator_traits<Iterator>::iterator_category;
             using iterator_type     = Iterator;
-            using value_type        = typename std::remove_reference<decltype(std::get<N>(*_current))>::type;
+            using value_type        = std::remove_reference_t<decltype(std::get<N>(*_current))>;
             using difference_type   = typename std::iterator_traits<Iterator>::difference_type;
             using pointer           = value_type*;
             using reference         = value_type&;
@@ -285,4 +285,4 @@ namespace itertools
     #include "details/itertools.inl"
 }}
 
-#endif // _POLDER_ITERTOOLS_H
+#endif // POLDER_ITERTOOLS_H_

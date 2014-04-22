@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_TYPE_LIST_H
-#define _POLDER_TYPE_LIST_H
+#ifndef POLDER_TYPE_LIST_H_
+#define POLDER_TYPE_LIST_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -41,11 +41,11 @@ namespace polder
         static constexpr bool is_empty = false;
 
         template<size_type N>
-        using at = typename std::conditional<
+        using at = std::conditional_t<
             N == 0,
             Head,
             typename type_list<Tail...>::template at<N-1>
-        >::type;
+        >;
 
         using front = Head;
         using back  = at<size-1>;
@@ -72,11 +72,11 @@ namespace polder
         static constexpr bool is_empty = false;
 
         template<size_type N>
-        using at = typename std::conditional<
+        using at = std::conditional_t<
             N == 0,
             Head,
             void
-        >::type;
+        >;
 
         using front = Head;
         using back  = Head;
@@ -153,4 +153,4 @@ namespace polder
     };
 }
 
-#endif // _POLDER_TYPE_LIST_H
+#endif // POLDER_TYPE_LIST_H_

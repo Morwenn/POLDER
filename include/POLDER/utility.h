@@ -52,9 +52,7 @@ namespace polder
     template<typename T>
     using to_index_sequence =
         std::make_index_sequence<
-            std::tuple_size<
-                typename std::decay<T>::type
-            >::value
+            std::tuple_size<std::decay_t<T>>::value
         >;
 
     ////////////////////////////////////////////////////////////
