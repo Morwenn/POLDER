@@ -18,9 +18,16 @@
 
 namespace details
 {
+    inline auto print_impl(std::ostream&)
+        -> void
+    {}
+
     template<typename T>
-    auto print_impl(std::ostream&, const T&)
-        -> void;
+    auto print_impl(std::ostream& stream, const T& arg)
+        -> void
+    {
+        stream << arg << std::endl;
+    }
 
     template<typename First, typename... Args>
     auto print_impl(std::ostream& stream, const First& first, const Args&... others)
@@ -28,13 +35,6 @@ namespace details
     {
         stream << first << " ";
         print_impl(stream, others...);
-    }
-
-    template<typename T>
-    auto print_impl(std::ostream& stream, const T& arg)
-        -> void
-    {
-        stream << arg << std::endl;
     }
 }
 
