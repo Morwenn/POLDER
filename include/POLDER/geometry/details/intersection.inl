@@ -18,7 +18,9 @@
 
 template<std::size_t N, typename T>
 auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
-    -> Object
+    -> std::experimental::optional<
+        std::pair<Point<N, T>, Point<N, T>>
+    >
 {
     using math::sqr;
     // Take an arbitrary point from the Line and its direction
@@ -59,8 +61,7 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
     if (t.first.imag() != 0 || t.second.imag() != 0)
     {
         // There is no intersection
-        // Return an empty object
-        return Object();
+        return { std::experimental::nullopt };
     }
 
     auto t1 = t.first.real();
@@ -68,28 +69,30 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
 
     if (float_equal(t1, t2))
     {
-        // The solution is a unique point
+        // The solution is a single point
         Point<N, T> res;
         for (std::size_t i = 0 ; i < N ; ++i)
         {
             res[i] = std::fma(t1, dir[i], pt[i]);
         }
-        return Object(res);
+        throw res;
     }
 
-    // In the other cases, the result is two points
+    // Common case: the solution is two points
     Point<N, T> res1, res2;
     for (std::size_t i = 0 ; i < N ; ++i)
     {
         res1[i] = std::fma(t1, dir[i], pt[i]);
         res2[i] = std::fma(t2, dir[i], pt[i]);
     }
-    return Object(std::make_pair(res1, res2));
+    return { std::make_pair(res1, res2) };
 }
 
 template<std::size_t N, typename T>
 inline auto intersection(const Hypersphere<N, T>& hs, const Line<N, T>& line)
-    -> Object
+    -> std::experimental::optional<
+        std::pair<Point<N, T>, Point<N, T>>
+    >
 {
     return intersection(line, hs);
 }
