@@ -38,12 +38,12 @@ namespace polder
 
     template<typename Int, Int S, Int E>
     struct integer_range<Int, S, E, true>:
-        details::increasing_integer_range<Int, std::integral_constant<Int, E-S>, S>
+        details::increasing_integer_range<Int, std::make_integer_sequence<Int, E-S>, S>
     {};
 
     template<typename Int, Int S, Int E>
     struct integer_range<Int, S, E, false>:
-        details::decreasing_integer_range<Int, std::integral_constant<Int, E-S>, S>
+        details::decreasing_integer_range<Int, std::make_integer_sequence<Int, S-E>, S>
     {};
 
     template<std::size_t S, std::size_t E>

@@ -19,49 +19,22 @@
 namespace details
 {
     ////////////////////////////////////////////////////////////
-    // Hack
-
-    template<typename T>
-    struct minus_helper;
-    template<typename T, T val>
-    struct minus_helper<std::integral_constant<T, val>>
-    {
-        using type = std::integral_constant<T, val-1>;
-    };
-    template<typename T>
-    using minus = typename minus_helper<T>::type;
-
-    template<typename T>
-    struct plus_helper;
-    template<typename T, T val>
-    struct plus_helper<std::integral_constant<T, val>>
-    {
-        using type = std::integral_constant<T, val+1>;
-    };
-    template<typename T>
-    using plus = typename plus_helper<T>::type;
-
-    ////////////////////////////////////////////////////////////
     // std::integer_sequence tools
 
-    template<typename Int, typename C, Int P, Int... N>
-    struct increasing_integer_range:
-        increasing_integer_range<Int, minus<C>, P+1, N..., P>
+    template<typename Int, typename, Int S>
+    struct increasing_integer_range;
+
+    template<typename Int, Int... N, Int S>
+    struct increasing_integer_range<Int, std::integer_sequence<Int, N...>, S>:
+        std::integer_sequence<Int, N+S...>
     {};
 
-    template<typename Int, typename C, Int P, Int... N>
-    struct decreasing_integer_range:
-        decreasing_integer_range<Int, plus<C>, P-1, N..., P>
-    {};
+    template<typename Int, typename, Int S>
+    struct decreasing_integer_range;
 
-    template<typename Int, Int P, Int... N>
-    struct increasing_integer_range<Int, std::integral_constant<Int, 0>, P, N...>:
-        std::integer_sequence<Int, N...>
-    {};
-
-    template<typename Int, Int P, Int... N>
-    struct decreasing_integer_range<Int, std::integral_constant<Int, 0>, P, N...>:
-        std::integer_sequence<Int, N...>
+    template<typename Int, Int... N, Int S>
+    struct decreasing_integer_range<Int, std::integer_sequence<Int, N...>, S>:
+        std::integer_sequence<Int, S-N...>
     {};
 
     ////////////////////////////////////////////////////////////
