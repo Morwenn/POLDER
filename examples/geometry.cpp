@@ -1,5 +1,4 @@
 // Headers
-#include <cstdlib>
 #include <iostream>
 #include <utility>
 #include <POLDER/geometry.h>
@@ -7,59 +6,82 @@
 
 using namespace polder;
 using namespace geometry;
-using std::cout;
-using std::endl;
-
 
 int main()
 {
     ////////////////////////////////////////////////////////////
     // Construction of simple objects
     {
-        Point<3> P1(2.0, 2.5, 5.2);
-        Point<3> P2 = { 0.1, 2.9, 9.000001 };
+        Point<3> p1(2.0, 2.5, 5.2);
+        Point<3> p2 = { 0.1, 2.9, 9.000001 };
 
-        Vector<3> V1(2.0, 2.1, 2.2);
-        Vector<3> V2 = { 2.5, 8.3, 6. };
-        Vector<3> V3 = { P1, P2 };
+        Vector<3> v1(2.0, 2.1, 2.2);
+        Vector<3> v2 = { 2.5, 8.3, 6. };
+        Vector<3> v3 = { p1, p2 };
 
-        Line<3> L1 = { P1, P2 };
+        Line<3> li = { p1, p2 };
 
-        Direction<3> D1 = V1.direction();
-        Direction<3> D2 = L1.direction();
+        Direction<3> d1 = v1.direction();
+        Direction<3> d2 = li.direction();
 
-        Hypersphere<3> HS(P1, 5.0);
-        Hypersphere<3> HF = HS;
+        Hypersphere<3> hs1(p1, 5.0);
+        Hypersphere<3> hs2 = hs1;
 
-        ignore(V2, V3, D1, D2, HF);
+        ignore(v2, v3, d1, d2, hs2);
     }
 
 
     ////////////////////////////////////////////////////////////
     // Intersection
     {
-        Line<2> L = {
+        Line<2> li = {
             Point<2>(15.0, 1.0),
             Point<2>(23.7, 1.0)
         };
 
-        Hypersphere<2> C = {
-            Point<2>(0.0, 1.0), // Center
-            1.0                 // Radius
+        Hypersphere<2> hs1 = {
+            Point<2>(0.0, 1.0), // centre
+            1.0                 // radius
         };
 
-        const Direction<2>& D = L.direction();
+        Hypersphere<2> hs2 = {
+            Point<2>(0.0, 3.0), // centre
+            1.0                 // radius
+        };
 
-        Object O = intersection(L, C);
+        Hypersphere<2> hs3 = {
+            Point<2>(0.0, 1.0), // centre
+            0.0                 // radius
+        };
 
-        std::pair<Point<2>, Point<2>> res;
+        try
+        {
+            // Change to hs1, hs2 or hs3 in order
+            // to see the different behaviours
+            if (auto res = intersection(li, hs1))
+            {
+                // hs1
+                std::cout << "intersection: two points" << '\n'
+                          << std::get<0>(*res).x() << " "
+                          << std::get<0>(*res).y() << '\n'   //  1, 1
+                          << std::get<1>(*res).x() << " "
+                          << std::get<1>(*res).y() << '\n';  // -1, 1
+            }
+            else
+            {
+                // hs2
+                std::cout << "no intersection" << '\n';
+            }
+        }
+        catch (const Point<2>& point)
+        {
+            // hs3
+            std::cout << "intersection: one point" << '\n'
+                      << point.x() << " "
+                      << point.y() << '\n';
+        }
 
-        cout << O.assign(res) << endl;
-
-        cout << res.first.x() << " " << res.first.y() << endl;    //  1, 1
-        cout << res.second.x() << " " << res.second.y() << endl;  // -1, 1
-
-        ignore(D);
+        ignore(hs1, hs2, hs3);
     }
 
     ////////////////////////////////////////////////////////////
