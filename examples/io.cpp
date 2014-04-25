@@ -1,20 +1,27 @@
 /*
- * Headers
+ * Copyright (C) 2011-2014 Morwenn
+ *
+ * POLDER is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * POLDER is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program. If not,
+ * see <http://www.gnu.org/licenses/>.
  */
 #include <cstdio>
 #include <iostream>
 #include <string>
 #include <POLDER/io.h>
 
-using std::cerr;
-using std::cout;
-using std::endl;
-using std::string;
-using polder::io::fgetl;
-using polder::io::open;
-using polder::io::print;
-using polder::io::File;
-
+using namespace polder;
+using namespace io;
 
 /**
  * @brief Entry point of application
@@ -25,13 +32,13 @@ int main()
 {
     ////////////////////////////////////////////////////////////
     {
-        cout << "fgetl example" << endl;
+        std::cout << "fgetl example\n";
 
         // Open a file
-        FILE* f = fopen("io_example.txt", "r");
+        FILE* f = std::fopen("io_example.txt", "r");
         if (f == nullptr)
         {
-            cerr << "Can't open the file.'" << endl;
+            std::cerr << "Can't open the file.\n";
             exit(1);
         }
 
@@ -43,17 +50,17 @@ int main()
         // However, it can read a line, no matter its size.
         while (fgetl(line, f))
         {
-            cout << line;
+            std::cout << line;
         }
     }
 
     ////////////////////////////////////////////////////////////
     {
-        cout << endl << "print examples" << endl;
+        std::cout << "\nprint examples\n";
 
         int a = 5;
         double b = 6.3;
-        string c = "Hello";
+        std::string c = "Hello";
 
         // This function is some kind of wrapper around std::ostream.
         // You can pass any type that can be added to an ostream by
@@ -62,20 +69,20 @@ int main()
 
         // The results can be forwarded to the given output stream
         // instead of always being fed to std::cout.
-        print(cerr, 5.3, 2, "Hey!");
+        print(std::cerr, 5.3, 2, "Hey!");
     }
 
     ////////////////////////////////////////////////////////////
     {
-        cout << endl << "File/open example" << endl;
+        std::cout << "\nFile and io::open example\n";
 
         // Open a file
         File f = open("io_example.txt", "r");
 
         // Read and display all the lines
-        for (const string& line: f)
+        for (const std::string& line: f)
         {
-            cout << line;
+            std::cout << line;
         }
         // Close the file
         f.close();

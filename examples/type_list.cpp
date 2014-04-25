@@ -1,5 +1,19 @@
 /*
- * Headers
+ * Copyright (C) 2011-2014 Morwenn
+ *
+ * POLDER is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * POLDER is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program. If not,
+ * see <http://www.gnu.org/licenses/>.
  */
 #include <iostream>
 #include <type_traits>
@@ -20,7 +34,7 @@ int main()
     using types = type_list<int, long, float, double, char>;
 
     // Number of types in the list
-    std::cout << types::size << std::endl;
+    std::cout << types::size << '\n';
 
     // Type at position 3 in the list
     using type_3        = types::at<3>;
@@ -36,7 +50,7 @@ int main()
     type_front b    = 4;
     type_back c     = a + b;
 
-    std::cout << int(c) << std::endl;
+    std::cout << int(c) << '\n';
 
     // NOTE: If a type at a position greater
     // than the actual type_list size is asked
@@ -56,7 +70,7 @@ int main()
     static_assert(cat::size == types::size+2, "");
 
     cat::at<2> d = 1l;
-    std::cout << d << std::endl;
+    std::cout << d << '\n';
 
     // push functions
     struct dummy {};

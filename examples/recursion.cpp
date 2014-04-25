@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 Morwenn
+ * Copyright (C) 2011-2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -21,7 +21,9 @@
 using namespace polder;
 
 
-class MemoizedFibonacci;
+// Forward declaration
+struct MemoizedFibonacci;
+
 namespace polder
 {
     /*
@@ -84,8 +86,8 @@ int main()
 
     // The Fibonacci numbers up to the nth are computed
     // and stored into the RecursionArray
-    std::cout << fibonacci(12) << std::endl;    // 144
-    std::cout << fibonacci(0) << std::endl;     // 0
-    std::cout << fibonacci(1) << std::endl;     // 1
-    std::cout << fibonacci(25) << std::endl;    // 75025
+    std::cout << fibonacci(12)  << '\n';    // 144
+    std::cout << fibonacci(0)   << '\n';    // 0
+    std::cout << fibonacci(1)   << '\n';    // 1
+    std::cout << fibonacci(25)  << '\n';    // 75025
 }
