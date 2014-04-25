@@ -168,31 +168,17 @@ namespace polder
             std::unordered_map<std::tuple<Args...>, Ret> _cache;
     };
 
-    template<typename Function, std::size_t... Ind>
-    auto memoized_impl(Function&& func, std::index_sequence<Ind...>)
-        -> MemoizedFunction<
-            typename function_traits<Function>::result_type,
-            typename function_traits<Function>::template argument_type<Ind>...>;
-
     /**
      * @brief Creates a memoized function
      *
      * @param func Function to memoize
      * @return Memoized function corresponding to \a func
      */
-    template<typename Function,
-             typename Indices=std::make_index_sequence<function_traits<Function>::arity>>
-    auto memoized(Function&& func)
-        -> decltype(memoized_impl(std::forward<Function>(func), Indices()));
+    template<typename Function>
+    auto memoized(Function&& func);
 
     ////////////////////////////////////////////////////////////
     // curried
-
-    template<typename Function, typename First, std::size_t... Ind>
-    auto curried_impl(const Function& func, First&& first, std::index_sequence<Ind...>)
-        -> std::function<
-            typename function_traits<Function>::result_type(
-            typename function_traits<Function>::template argument_type<Ind>...)>;
 
     /**
      * @brief Ties the first argument of a function to a value
@@ -201,10 +187,8 @@ namespace polder
      * @param first Value to tie to \a func
      * @return \a func curried with \a first
      */
-    template<typename Function, typename First,
-             typename Indices=index_range<1u, function_traits<Function>::arity>>
-    auto curried(Function&& func, First first)
-        -> decltype(curried_impl(std::forward<Function>(func), std::forward<First>(first), Indices()));
+    template<typename Function, typename First>
+    auto curried(Function&& func, First first);
 
     #include "details/functional.inl"
 }

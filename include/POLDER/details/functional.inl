@@ -51,19 +51,18 @@ auto MemoizedFunction<Ret, Args...>::clear() noexcept
 template<typename Function, std::size_t... Ind>
 auto memoized_impl(Function&& func, std::index_sequence<Ind...>)
     -> MemoizedFunction<
-        typename function_traits<Function>::result_type,
-        typename function_traits<Function>::template argument_type<Ind>...>
+        result_type<Function>,
+        argument_type<Function, Ind>...>
 {
-    using Ret = typename function_traits<Function>::result_type;
-    return { std::function<Ret(typename function_traits<Function>::template argument_type<Ind>...)>(func) };
+    using Ret = result_type<Function>;
+    return { std::function<Ret(argument_type<Function, Ind>...)>(func) };
 }
 
-template<typename Function,
-         typename Indices=std::make_index_sequence<function_traits<Function>::arity>>
+template<typename Function>
 auto memoized(Function&& func)
-    -> decltype(memoized_impl(std::forward<Function>(func), Indices()))
 {
-    return memoized_impl(std::forward<Function>(func), Indices());
+    using Indices = std::make_index_sequence<function_traits<Function>::arity>;
+    return memoized_impl(std::forward<Function>(func), Indices{});
 }
 
 ////////////////////////////////////////////////////////////
@@ -72,28 +71,25 @@ auto memoized(Function&& func)
 
 template<typename Function, typename First, std::size_t... Ind>
 auto curried_impl(const Function& func, First&& first, std::index_sequence<Ind...>)
-    -> std::function<
-        typename function_traits<Function>::result_type(
-        typename function_traits<Function>::template argument_type<Ind>...)>
 {
-    return [&func, first](typename function_traits<Function>::template argument_type<Ind>&&... args)
+    return [&func, first](argument_type<Function, Ind>&&... args)
     {
         return func(
             first,
-            std::forward<typename function_traits<Function>::template argument_type<Ind>>(args)...
+            std::forward<argument_type<Function, Ind>>(args)...
         );
     };
 }
 
-template<typename Function, typename First,
-         typename Indices=index_range<1, function_traits<Function>::arity>>
+template<typename Function, typename First>
 auto curried(Function&& func, First first)
-    -> decltype(curried_impl(std::forward<Function>(func), std::forward<First>(first), Indices()))
 {
-    using FirstArg = typename function_traits<Function>::template argument_type<0>;
+    using FirstArg = argument_type<Function, 0>;
     static_assert(std::is_convertible<First, FirstArg>::value,
                   "the value to be tied should be convertible to the type of the function's first parameter");
-    return curried_impl(std::forward<Function>(func), std::forward<First>(first), Indices());
+
+    using Indices = index_range<1, function_traits<Function>::arity>;
+    return curried_impl(std::forward<Function>(func), std::forward<First>(first), Indices{});
 }
 
 ////////////////////////////////////////////////////////////
@@ -102,30 +98,26 @@ auto curried(Function&& func, First first)
 
 template<typename First, typename Second, std::size_t... Ind>
 auto compose_impl(const First& first, const Second& second, std::index_sequence<Ind...>)
-    -> std::function<
-        typename function_traits<First>::result_type(
-        typename function_traits<Second>::template argument_type<Ind>...)>
 {
-    return [&](typename function_traits<Second>::template argument_type<Ind>&&... args)
+    return [&](argument_type<Second, Ind>&&... args)
     {
         return first(second(
-            std::forward<typename function_traits<Second>::template argument_type<Ind>>(args)...
+            std::forward<argument_type<Second, Ind>>(args)...
         ));
     };
 }
 
-template<typename First, typename Second,
-         typename Indices=std::make_index_sequence<function_traits<Second>::arity>>
+template<typename First, typename Second>
 auto compose(First&& first, Second&& second)
-    -> decltype(compose_impl(std::forward<First>(first), std::forward<Second>(second), Indices()))
 {
     static_assert(function_traits<First>::arity == 1u,
                   "all the functions passed to compose, except the last one, must take exactly one parameter");
 
-    using Ret = typename function_traits<Second>::result_type;
-    using FirstArg = typename function_traits<First>::template argument_type<0>;
+    using Ret       = result_type<Second>;
+    using FirstArg  = argument_type<First, 0>;
     static_assert(std::is_convertible<Ret, FirstArg>::value,
                   "incompatible return types in compose");
 
-    return compose_impl(std::forward<First>(first), std::forward<Second>(second), Indices());
+    using Indices = std::make_index_sequence<function_traits<Second>::arity>;
+    return compose_impl(std::forward<First>(first), std::forward<Second>(second), Indices{});
 }
