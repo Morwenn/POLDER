@@ -197,7 +197,7 @@ template<typename Unsigned>
 constexpr auto operator!=(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
     -> bool
 {
-    return !(lhs == rhs);
+    return lhs.value != rhs.value;
 }
 
 template<typename Unsigned>
@@ -211,7 +211,7 @@ template<typename Unsigned>
 constexpr auto operator!=(GrayCode<Unsigned> lhs, Unsigned rhs)
     -> bool
 {
-    return !(lhs == rhs);
+    return (rhs ^ (rhs >> 1)) != lhs.value;
 }
 
 template<typename Unsigned>
@@ -225,7 +225,7 @@ template<typename Unsigned>
 constexpr auto operator!=(Unsigned lhs, GrayCode<Unsigned> rhs)
     -> bool
 {
-    return !(lhs == rhs);
+    return (lhs ^ (lhs >> 1)) != rhs.value;
 }
 
 ////////////////////////////////////////////////////////////

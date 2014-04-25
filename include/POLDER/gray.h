@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_GRAY_H
-#define _POLDER_GRAY_H
+#ifndef POLDER_GRAY_H_
+#define POLDER_GRAY_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -198,4 +198,4 @@ namespace polder
     #include "details/gray.inl"
 }
 
-#endif // _POLDER_GRAY_H
+#endif // POLDER_GRAY_H_
