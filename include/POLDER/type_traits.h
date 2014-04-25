@@ -121,6 +121,12 @@ namespace polder
         function_traits<T>
     {};
 
+    template<typename T>
+    using result_type = typename function_traits<T>::result_type;
+
+    template<typename T, std::size_t N>
+    using argument_type = typename function_traits<T>::template argument_type<N>;
+
     ////////////////////////////////////////////////////////////
     // Size traits
     ////////////////////////////////////////////////////////////
