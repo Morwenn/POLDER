@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_ALGORITHM_H
-#define _POLDER_ALGORITHM_H
+#ifndef POLDER_ALGORITHM_H_
+#define POLDER_ALGORITHM_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <type_traits>
 
 namespace polder
 {
@@ -70,15 +71,11 @@ namespace polder
      * @param rhs Second value to compare
      * @return true if the values compare equal
      */
-    template<typename Float>
-    auto float_equal(Float lhs, Float rhs)
-        -> std::enable_if_t<std::is_floating_point<Float>{}, bool>;
-
     template<typename T>
     auto float_equal(T lhs, T rhs)
-        -> std::enable_if_t<not std::is_floating_point<T>{}, bool>;
+        -> bool;
 
     #include "details/algorithm.inl"
 }
 
-#endif // _POLDER_ALGORITHM_H
+#endif // POLDER_ALGORITHM_H_
