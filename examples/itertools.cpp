@@ -1,4 +1,19 @@
-// Headers
+/*
+ * Copyright (C) 2011-2014 Morwenn
+ *
+ * POLDER is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * POLDER is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 #include <cmath>
 #include <cstdlib>
 #include <deque>
@@ -8,28 +23,8 @@
 #include <vector>
 #include <POLDER/itertools.h>
 
-using std::deque;
-using std::list;
-using std::vector;
-using std::string;
-using std::cout;
-using std::endl;
-using std::get;
-using polder::itertools::range;
-using polder::itertools::reversed;
-using polder::itertools::map;
-using polder::itertools::filter;
-using polder::itertools::chain;
-using polder::itertools::zip;
-
-
-/**
- * @def in
- * Python's "in" keyword. Macros are evil.
- * Anyway, that one is funny/ugly.
- */
-#define in :
-
+using namespace polder;
+using namespace itertools;
 
 /**
  * @brief Simple wrapper around std::abs
@@ -58,12 +53,12 @@ int main()
 {
     ////////////////////////////////////////////////////////////
     {
-        cout << "Range Example" << endl;
+        std::cout << "Range Example\n";
 
         // Range of integers
-        for (int i in range(20, -35, 5))
+        for (int i: range(20, -35, 5))
         {
-            cout << i << " ";
+            std::cout << i << " ";
             if (i < -10)
             {
                 // Range is a generator.
@@ -76,135 +71,136 @@ int main()
 
     ////////////////////////////////////////////////////////////
     {
-        cout << endl << endl << "Reversed Example" << endl;
+        std::cout << "\n\nReversed Example\n";
 
-        vector<int> vec = { 1, 2, 3, 4, 5, 6, 7 };
-        for (int& i in reversed(vec))
+        std::vector<int> vec = { 1, 2, 3, 4, 5, 6, 7 };
+        for (int& i: reversed(vec))
         {
             i *= 2;
             // Will print all the elements of vec
             // in the reversed order.
-            cout << i << " ";
+            std::cout << i << " ";
         }
 
-        cout << endl;
+        std::cout << '\n';
         int tab[] = { 8, 9, 10, 11, 12 };
-        for (int& i in reversed(tab))
+        for (int& i: reversed(tab))
         {
             // Will print all the elements of vec
             // in the reversed order.
-            cout << i << " ";
+            std::cout << i << " ";
         }
     }
 
 
     ////////////////////////////////////////////////////////////
     {
-        cout << endl << endl << "Map Example" << endl;
+        std::cout << "\n\nMap Example\n";
 
-        list<int> li = { 1, -2, 3, 4, -5, -6, 7 };
-        for (int i in map(&abs, li))
+        std::list<int> li = { 1, -2, 3, 4, -5, -6, 7 };
+        for (int i: map(&abs, li))
         {
-            cout << i << " ";
+            std::cout << i << " ";
         }
 
-        cout << endl;
+        std::cout << '\n';
         double tab[] = { 0.0, -0.5, 3.14, -1.1 };
-        for (double i in map(&sin, tab))
+        for (double i: map(&sin, tab))
         {
-            cout << i << " ";
+            std::cout << i << " ";
         }
     }
 
     ////////////////////////////////////////////////////////////
     {
-        cout << endl << endl << "Filter Example" << endl;
+        std::cout << "\n\nFilter Example\n";
 
-        list<int> li = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        for (int i in filter(&even_filter, li))
+        std::list<int> li = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        for (int i: filter(&even_filter, li))
         {
-            cout << i << " ";
+            std::cout << i << " ";
         }
 
-        cout << endl;
+        std::cout << '\n';
         double tab[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
-        for (int i in filter(&even_filter, tab))
+        for (int i: filter(&even_filter, tab))
         {
-            cout << i << " ";
+            std::cout << i << " ";
         }
     }
 
     ////////////////////////////////////////////////////////////
     {
-        cout << endl << endl << "Chain Example" << endl;
+        std::cout << "\n\nChain Example\n";
 
-        vector<int> vec = { 1, 2, 3, 4, 5 };
-        list<int>    li = { 6, 7, 8, 9, 10 };
-        deque<int>  deq = { 11, 12, 13, 14, 15 };
-        for (int& i in chain(vec, li, deq))
+        std::vector<int> vec = { 1, 2, 3, 4, 5 };
+        std::list<int>    li = { 6, 7, 8, 9, 10 };
+        std::deque<int>  deq = { 11, 12, 13, 14, 15 };
+        for (int& i: chain(vec, li, deq))
         {
             // You can edit a range of iterables
             // as if there was only one of them.
             i *= 5;
 
-            cout << i << " ";
+            std::cout << i << " ";
         }
     }
 
     ////////////////////////////////////////////////////////////
     {
-        cout << endl << endl << "Nested Chain Example" << endl;
+        std::cout << "\n\nNested Chain Example\n";
 
-        vector<int> vec = { 1, 2, 3, 4, 5 };
-        list<int>    li = { 6, 7, 8, 9, 10 };
-        deque<int>  deq = { 11, 12, 13, 14, 15 };
-        for (int& i in chain(vec, chain(li, deq)))
+        std::vector<int> vec = { 1, 2, 3, 4, 5 };
+        std::list<int>    li = { 6, 7, 8, 9, 10 };
+        std::deque<int>  deq = { 11, 12, 13, 14, 15 };
+        for (int& i: chain(vec, chain(li, deq)))
         {
-            cout << i << " ";
+            std::cout << i << " ";
         }
 
-        cout << endl;
-        for (int& i in chain(chain(vec, li), deq))
+        std::cout << '\n';
+        for (int& i: chain(chain(vec, li), deq))
         {
-            cout << i << " ";
-        }
-    }
-
-
-    ////////////////////////////////////////////////////////////
-    {
-        cout << endl << endl << "Zip Example" << endl;
-
-        list<int> integers          = { 0, 1, 2 };
-        list<const char*> strings   = { "one", "two", "three" };
-        for (const auto& i in zip(integers, strings))
-        {
-            cout << get<0>(i) << " " << get<1>(i) << endl;
+            std::cout << i << " ";
         }
     }
 
 
     ////////////////////////////////////////////////////////////
     {
-        cout << endl << "Mixed Tools Example" << endl;
+        std::cout << "\n\nZip Example\n";
 
-        vector<int> vec = { 1, 2, 3, 4, 5 };
-        list<int>   li  = { 6, 7, 8, 9, 10 };
-        for (int& i in chain(vec, reversed(li)))
+        std::list<int> integers         = { 0, 1, 2 };
+        std::list<const char*> strings  = { "one", "two", "three" };
+        for (const auto& i: zip(integers, strings))
+        {
+            std::cout << std::get<0>(i) << " "
+                      << std::get<1>(i) << '\n';
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////
+    {
+        std::cout << "\nMixed Tools Example\n";
+
+        std::vector<int> vec = { 1, 2, 3, 4, 5 };
+        std::list<int>   li  = { 6, 7, 8, 9, 10 };
+        for (int& i: chain(vec, reversed(li)))
         {
             // Some of the tools can be used
             // altogether in order to make the
             // manipulation of them easier.
             i -= 2;
 
-            cout << i << " ";
+            std::cout << i << " ";
         }
 
-        cout << endl;
-        deque<int>  deq = { -11, 12, -13, -14, 15 };
-        for (int i in reversed(map(&abs, deq)))
+        std::cout << '\n';
+        std::deque<int> deq = { -11, 12, -13, -14, 15 };
+        for (int i: reversed(map(&abs, deq)))
         {
-            cout << i << " ";
+            std::cout << i << " ";
         }
     }
 }
