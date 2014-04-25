@@ -164,11 +164,8 @@ namespace polder
     // Iterable/traversable traits
     ////////////////////////////////////////////////////////////
 
-    template<typename...>
-    struct is_iterable;
-
     template<typename T>
-    struct is_iterable<T>
+    struct is_iterable_impl
     {
         struct yes {};
         struct no {};
@@ -188,6 +185,17 @@ namespace polder
             >::value;
     };
 
+    template<typename...>
+    struct is_iterable;
+
+    template<typename T>
+    struct is_iterable<T>:
+        std::integral_constant<
+            bool,
+            is_iterable_impl<T>::value
+        >
+    {};
+
     template<typename T, std::size_t N>
     struct is_iterable<T (&)[N]>:
         std::true_type
@@ -202,11 +210,8 @@ namespace polder
         >
     {};
 
-    template<typename...>
-    struct is_reverse_iterable;
-
     template<typename T>
-    struct is_reverse_iterable<T>
+    struct is_reverse_iterable_impl
     {
         struct yes {};
         struct no {};
@@ -225,6 +230,17 @@ namespace polder
                 decltype(test<std::decay_t<T>>(nullptr))
             >::value;
     };
+
+    template<typename...>
+    struct is_reverse_iterable;
+
+    template<typename T>
+    struct is_reverse_iterable<T>:
+        std::integral_constant<
+            bool,
+            is_reverse_iterable_impl<T>::value
+        >
+    {};
 
     template<typename T, std::size_t N>
     struct is_reverse_iterable<T (&)[N]>:
