@@ -15,36 +15,54 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-
-/**
- * @file POLDER/ini.h
- * @brief This header includes the whole ini module.
- */
-
-#ifndef POLDER_INI_H_
-#define POLDER_INI_H_
+#ifndef POLDER_INI_TOKEN_H_
+#define POLDER_INI_TOKEN_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <vector>
+#include <POLDER/details/config.h>
 #include <POLDER/ini/dialect.h>
-#include <POLDER/ini/element.h>
-#include <POLDER/ini/error.h>
-#include <POLDER/ini/parser.h>
 
-////////////////////////////////////////////////////////////
-// Documentation
-////////////////////////////////////////////////////////////
+namespace polder
+{
+namespace ini
+{
+    /**
+     * Types of tokens that can be read.
+     */
+    enum struct token_t
+    {
+        BRACE_CLOSE,
+        BRACE_OPEN,
+        DELIMITER,
+        FLOATING_POINT,
+        IDENTIFIER,
+        INTEGER,
+        STRING
+    };
 
-/**
- * @namespace polder::ini
- * @brief Functions and classes to read and write INI files
- *
- * While going under the name "ini", this module provides
- * tools to read and write INI-like configuration files.
- * The class \a ini::Dialect can be passed to the parser
- * to read and write configuration files with different
- * syntaxes.
- */
+    /**
+     * @brief Token used in ini parsing.
+     */
+    struct POLDER_API Token
+    {
+        Token(token_t type, std::string data="");
 
-#endif // POLDER_INI_H_
+        token_t type;
+        std::string data;
+    };
+
+    /**
+     * @brief Tokenizes a string.
+     *
+     * \param str String to tokenize.
+     * \param dialect Dialect used to parse \a str.
+     */
+    POLDER_API
+    auto tokenize(std::string str, Dialect dialect)
+        -> std::vector<Token>;
+}}
+
+#endif // POLDER_INI_TOKEN_H_
