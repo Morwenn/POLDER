@@ -38,6 +38,11 @@ namespace ini
                     res += dialect.escapechar;
                 }
             }
+            else if (c == dialect.escapechar
+                     && not dialect.doublequote)
+            {
+                res += dialect.escapechar;
+            }
             res += c;
         }
         return dialect.quotechar
