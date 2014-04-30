@@ -16,7 +16,6 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include <algorithm>
-#include <iostream>
 #include <POLDER/ini/details/token.h>
 #include <POLDER/ini/error.h>
 #include <POLDER/string.h>
