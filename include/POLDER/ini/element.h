@@ -39,22 +39,15 @@ namespace ini
      */
     struct POLDER_API Element
     {
+        // Default constructor
         Element();
-        Element(const Element& other);
-        Element(Element&& other);
-        ~Element();
-
-        auto operator=(const Element& other)
-            -> Element&;
-        auto operator=(Element&& other)
-            -> Element&;
 
         Element(const std::string& str);
         Element(const char* str);
         operator std::string() const;
 
         // Generate the constructors
-        // from standard types
+        // for standard types
         #define X(type, func) \
             Element(type value);
         #include "details/ini.def"

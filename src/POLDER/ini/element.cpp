@@ -22,16 +22,7 @@ namespace polder
 {
 namespace ini
 {
-    Element::Element() = default;
-    Element::Element(const Element&) = default;
-    Element::Element(Element&&) = default;
-    Element::~Element() = default;
-
-    auto Element::operator=(const Element&)
-        -> Element&
-        = default;
-    auto Element::operator=(Element&&)
-        -> Element&
+    Element::Element()
         = default;
 
     Element::Element(const std::string& str):
