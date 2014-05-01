@@ -188,7 +188,7 @@ namespace polder
      * @return \a func curried with \a first
      */
     template<typename Function, typename First>
-    auto curried(Function&& func, First first);
+    auto curried(Function&& func, First&& first);
 
     #include "details/functional.inl"
 }

@@ -70,21 +70,18 @@ auto memoized(Function&& func)
 ////////////////////////////////////////////////////////////
 
 template<typename Function, typename First, std::size_t... Ind>
-auto curried_impl(const Function& func, First&& first, std::index_sequence<Ind...>)
+auto curried_impl(Function func, const First& first, std::index_sequence<Ind...>)
 {
-    return [&func, first](argument_type<Function, Ind>&&... args)
+    return [=](argument_type<Function, Ind>... args)
     {
-        return func(
-            first,
-            std::forward<argument_type<Function, Ind>>(args)...
-        );
+        return func(first, args...);
     };
 }
 
 template<typename Function, typename First>
-auto curried(Function&& func, First first)
+auto curried(Function&& func, First&& first)
 {
-    using FirstArg = argument_type<Function, 0>;
+    using FirstArg = argument_type<Function, 0u>;
     static_assert(std::is_convertible<First, FirstArg>::value,
                   "the value to be tied should be convertible to the type of the function's first parameter");
 
@@ -97,13 +94,11 @@ auto curried(Function&& func, First first)
 ////////////////////////////////////////////////////////////
 
 template<typename First, typename Second, std::size_t... Ind>
-auto compose_impl(const First& first, const Second& second, std::index_sequence<Ind...>)
+auto compose_impl(First first, Second second, std::index_sequence<Ind...>)
 {
-    return [&](argument_type<Second, Ind>&&... args)
+    return [=](argument_type<Second, Ind>... args)
     {
-        return first(second(
-            std::forward<argument_type<Second, Ind>>(args)...
-        ));
+        return first(second(args...));
     };
 }
 
@@ -114,7 +109,7 @@ auto compose(First&& first, Second&& second)
                   "all the functions passed to compose, except the last one, must take exactly one parameter");
 
     using Ret       = result_type<Second>;
-    using FirstArg  = argument_type<First, 0>;
+    using FirstArg  = argument_type<First, 0u>;
     static_assert(std::is_convertible<Ret, FirstArg>::value,
                   "incompatible return types in compose");
 

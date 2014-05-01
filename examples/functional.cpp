@@ -84,7 +84,7 @@ int main()
         };
         auto add5 = curried(add, 5);
 
-        auto composed = compose(add5, add);
-        std::cout << composed(5, 15) << std::endl;
+        auto composed = compose(add5, foo);
+        std::cout << composed(15, 5) << '\n';
     }
 }
