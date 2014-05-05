@@ -72,7 +72,7 @@ auto rational<T>::operator=(const T& other)
 }
 
 template<typename T>
-auto rational<T>::operator+=(const rational<T>& other)
+auto rational<T>::operator+=(const rational& other)
     -> rational&
 {
     _numerator *= other._denominator;
@@ -90,7 +90,7 @@ auto rational<T>::operator+=(const value_type& other)
 }
 
 template<typename T>
-auto rational<T>::operator-=(const rational<T>& other)
+auto rational<T>::operator-=(const rational& other)
     -> rational&
 {
     _numerator *= other._denominator;
@@ -108,7 +108,7 @@ auto rational<T>::operator-=(const value_type& other)
 }
 
 template<typename T>
-auto rational<T>::operator*=(const rational<T>& other)
+auto rational<T>::operator*=(const rational& other)
     -> rational&
 {
     _numerator *= other._numerator;
@@ -125,7 +125,7 @@ auto rational<T>::operator*=(const value_type& other)
 }
 
 template<typename T>
-auto rational<T>::operator/=(const rational<T>& other)
+auto rational<T>::operator/=(const rational& other)
     -> rational&
 {
     if (other._numerator == 0)

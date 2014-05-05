@@ -114,7 +114,7 @@ auto GrayCode<Unsigned>::operator--(int)
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator&=(GrayCode<Unsigned> other)
+auto GrayCode<Unsigned>::operator&=(GrayCode other)
     -> GrayCode&
 {
     value &= other.value;
@@ -122,7 +122,7 @@ auto GrayCode<Unsigned>::operator&=(GrayCode<Unsigned> other)
 }
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator|=(GrayCode<Unsigned> other)
+auto GrayCode<Unsigned>::operator|=(GrayCode other)
     -> GrayCode&
 {
     value |= other.value;
@@ -130,7 +130,7 @@ auto GrayCode<Unsigned>::operator|=(GrayCode<Unsigned> other)
 }
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator^=(GrayCode<Unsigned> other)
+auto GrayCode<Unsigned>::operator^=(GrayCode other)
     -> GrayCode&
 {
     value ^= other.value;

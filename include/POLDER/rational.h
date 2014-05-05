@@ -110,22 +110,22 @@ namespace polder
             auto operator=(const value_type& other)
                 -> rational&;
 
-            auto operator+=(const rational<T>& other)
+            auto operator+=(const rational& other)
                 -> rational&;
             auto operator+=(const value_type& other)
                 -> rational&;
 
-            auto operator-=(const rational<T>& other)
+            auto operator-=(const rational& other)
                 -> rational&;
             auto operator-=(const value_type& other)
                 -> rational&;
 
-            auto operator*=(const rational<T>& other)
+            auto operator*=(const rational& other)
                 -> rational&;
             auto operator*=(const value_type& other)
                 -> rational&;
 
-            auto operator/=(const rational<T>& other)
+            auto operator/=(const rational& other)
                 -> rational&;
             auto operator/=(const value_type& val)
                 -> rational&;

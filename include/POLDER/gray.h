@@ -102,11 +102,11 @@ namespace polder
         // Bitwise operations
         ////////////////////////////////////////////////////////////
 
-        auto operator&=(GrayCode<Unsigned> other)
+        auto operator&=(GrayCode other)
             -> GrayCode&;
-        auto operator|=(GrayCode<Unsigned> other)
+        auto operator|=(GrayCode other)
             -> GrayCode&;
-        auto operator^=(GrayCode<Unsigned> other)
+        auto operator^=(GrayCode other)
             -> GrayCode&;
         auto operator>>=(Unsigned other)
             -> GrayCode&;
