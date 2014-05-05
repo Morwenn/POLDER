@@ -21,17 +21,13 @@
  * @brief This header includes the 3d geometry module.
  */
 
-#ifndef _POLDER_GEO3D_H
-#define _POLDER_GEO3D_H
+#ifndef POLDER_GEO3D_H_
+#define POLDER_GEO3D_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <POLDER/geometry.h>
-
-////////////////////////////////////////////////////////////
-// Documentation
-////////////////////////////////////////////////////////////
 
 namespace polder
 {
@@ -48,15 +44,15 @@ namespace polder
     {
         // Aliases for types
         template<typename T=double>
-        using Direction = geometry::Direction<3, T>;
+        using Direction = geometry::Direction<3u, T>;
         template<typename T=double>
-        using Sphere = geometry::Hypersphere<3, T>;
+        using Sphere = geometry::Hypersphere<3u, T>;
         template<typename T=double>
-        using Line = geometry::Line<3, T>;
+        using Line = geometry::Line<3u, T>;
         template<typename T=double>
-        using Point = geometry::Point<3, T>;
+        using Point = geometry::Point<3u, T>;
         template<typename T=double>
-        using Vector = geometry::Vector<3, T>;
+        using Vector = geometry::Vector<3u, T>;
 
         // Aliases for function
         using geometry::distance;
@@ -64,5 +60,4 @@ namespace polder
     }
 }
 
-#endif // _POLDER_GEO3D_H
-
+#endif // POLDER_GEO3D_H_
