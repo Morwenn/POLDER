@@ -17,16 +17,19 @@
 #include <iostream>
 #include <utility>
 #include <POLDER/geometry.h>
+#include <POLDER/geo2d.h>
+#include <POLDER/geo3d.h>
 #include <POLDER/utility.h>
 
 using namespace polder;
-using namespace geometry;
 
 int main()
 {
     ////////////////////////////////////////////////////////////
     // Construction of simple objects
     {
+        using namespace geometry;
+
         Point<3> p1(2.0, 2.5, 5.2);
         Point<3> p2 = { 0.1, 2.9, 9.000001 };
 
@@ -42,6 +45,8 @@ int main()
         Hypersphere<3> hs1(p1, 5.0);
         Hypersphere<3> hs2 = hs1;
 
+        // Ignore warnings about
+        // variables not used
         ignore(v2, v3, d1, d2, hs2);
     }
 
@@ -49,33 +54,35 @@ int main()
     ////////////////////////////////////////////////////////////
     // Intersection
     {
-        Line<2> li = {
-            Point<2>(15.0, 1.0),
-            Point<2>(23.7, 1.0)
+        using namespace geo2d;
+
+        Line<> li = {
+            Point<>(15.0, 1.0),
+            Point<>(23.7, 1.0)
         };
 
-        Hypersphere<2> hs1 = {
-            Point<2>(0.0, 1.0), // centre
+        Circle<> c1 = {
+            Point<>(0.0, 1.0),  // centre
             1.0                 // radius
         };
 
-        Hypersphere<2> hs2 = {
-            Point<2>(0.0, 3.0), // centre
+        Circle<> c2 = {
+            Point<>(0.0, 3.0),  // centre
             1.0                 // radius
         };
 
-        Hypersphere<2> hs3 = {
-            Point<2>(0.0, 1.0), // centre
+        Circle<> c3 = {
+            Point<>(0.0, 1.0),  // centre
             0.0                 // radius
         };
 
         try
         {
-            // Change to hs1, hs2 or hs3 in order
+            // Change to c1, c2 or c3 in order
             // to see the different behaviours
-            if (auto res = intersection(li, hs1))
+            if (auto res = intersection(li, c1))
             {
-                // hs1
+                // c1
                 std::cout << "intersection: two points" << '\n'
                           << std::get<0>(*res).x() << " "
                           << std::get<0>(*res).y() << '\n'   //  1, 1
@@ -84,26 +91,28 @@ int main()
             }
             else
             {
-                // hs2
+                // c2
                 std::cout << "no intersection" << '\n';
             }
         }
-        catch (const Point<2>& point)
+        catch (const Point<>& point)
         {
-            // hs3
+            // c3
             std::cout << "intersection: one point" << '\n'
                       << point.x() << " "
                       << point.y() << '\n';
         }
 
-        ignore(hs1, hs2, hs3);
+        ignore(c1, c2, c3);
     }
 
     ////////////////////////////////////////////////////////////
     // Distance
     {
-        Point<2> a = { 4.5, 6.3 };
-        Point<2> b = { 8.9, 25.3 };
+        using namespace geo3d;
+
+        Point<> a = { 4.5, 6.3, 15.23 };
+        Point<> b = { 8.9, 25.3, 7.65 };
         std::cout << distance(a, b) << std::endl;
 
         POLDER_ASSERT(distance(a, b) == distance(b, a));
