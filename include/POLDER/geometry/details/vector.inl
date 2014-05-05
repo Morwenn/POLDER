@@ -93,16 +93,12 @@ namespace details
 }
 
 ////////////////////////////////////////////////////////////
-// Defaulted functions
+// Constructors
 ////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
 Vector<N, T>::Vector()
     = default;
-
-////////////////////////////////////////////////////////////
-// Constructors
-////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
 template<typename... Args>
@@ -146,7 +142,7 @@ Vector<N, T>::Vector(const Line<N, T>& line)
 ////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
-auto Vector<N, T>::operator+=(const Vector<N, T>& other)
+auto Vector<N, T>::operator+=(const Vector& other)
     -> Vector&
 {
     for (std::size_t i = 0 ; i < N ; ++i)
@@ -157,7 +153,7 @@ auto Vector<N, T>::operator+=(const Vector<N, T>& other)
 }
 
 template<std::size_t N, typename T>
-auto Vector<N, T>::operator-=(const Vector<N, T>& other)
+auto Vector<N, T>::operator-=(const Vector& other)
     -> Vector&
 {
     for (std::size_t i = 0 ; i < N ; ++i)

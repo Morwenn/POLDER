@@ -110,9 +110,9 @@ namespace geometry
             ////////////////////////////////////////////////////////////
 
             // Vector arithmetic
-            auto operator+=(const Vector<N, T>& val)
+            auto operator+=(const Vector& val)
                 -> Vector&;
-            auto operator-=(const Vector<N, T>& val)
+            auto operator-=(const Vector& val)
                 -> Vector&;
 
             // Vector-scalar arithmetic
