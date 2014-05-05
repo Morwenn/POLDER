@@ -57,8 +57,6 @@ namespace polder
 
             // Default constructor
             constexpr rational();
-            // Copy constructor
-            constexpr rational(const rational<T>& other);
 
             /**
              * @brief Initialization constructor
@@ -109,8 +107,6 @@ namespace polder
             ////////////////////////////////////////////////////////////
 
             // Assignment
-            auto operator=(const rational<T>& other)
-                -> rational&;
             auto operator=(const value_type& other)
                 -> rational&;
 

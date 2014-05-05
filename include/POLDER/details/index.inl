@@ -21,14 +21,6 @@ index<N>::index()
     = default;
 
 template<std::size_t N>
-index<N>::index(const index<N>& other)
-    = default;
-
-template<std::size_t N>
-index<N>::index(index<N>&& other)
-    = default;
-
-template<std::size_t N>
 template<typename... Indices>
 index<N>::index(Indices... indices)
 {
@@ -36,16 +28,6 @@ index<N>::index(Indices... indices)
                   "Wrong number of arguments to construct the index.");
     construct(indices...);
 }
-
-template<std::size_t N>
-auto index<N>::operator=(const index<N>& other)
-    -> index&
-    = default;
-
-template<std::size_t N>
-auto index<N>::operator=(index<N>&& other)
-    -> index&
-    = default;
 
 template<std::size_t N>
 auto index<N>::operator[](std::size_t ind) const

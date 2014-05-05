@@ -25,14 +25,6 @@ constexpr GrayCode<Unsigned>::GrayCode()
     = default;
 
 template<typename Unsigned>
-constexpr GrayCode<Unsigned>::GrayCode(const GrayCode&)
-    = default;
-
-template<typename Unsigned>
-constexpr GrayCode<Unsigned>::GrayCode(GrayCode&&) noexcept
-    = default;
-
-template<typename Unsigned>
 constexpr GrayCode<Unsigned>::GrayCode(value_type value):
     value( (value >> 1) ^ value )
 {}
@@ -40,16 +32,6 @@ constexpr GrayCode<Unsigned>::GrayCode(value_type value):
 ////////////////////////////////////////////////////////////
 // Operators
 ////////////////////////////////////////////////////////////
-
-template<typename Unsigned>
-auto GrayCode<Unsigned>::operator=(const GrayCode<Unsigned>&)
-    -> GrayCode&
-    = default;
-
-template<typename Unsigned>
-auto GrayCode<Unsigned>::operator=(GrayCode<Unsigned>&&) noexcept
-    -> GrayCode&
-    = default;
 
 template<typename Unsigned>
 auto GrayCode<Unsigned>::operator=(value_type other)

@@ -15,12 +15,13 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_INDEX_H
-#define _POLDER_INDEX_H
+#ifndef POLDER_INDEX_H_
+#define POLDER_INDEX_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <array>
 #include <POLDER/details/config.h>
 
 namespace polder
@@ -41,17 +42,11 @@ namespace polder
     {
         public:
 
+            // Default constructor
             index();
-            index(const index<N>& other);
-            index(index<N>&& other);
 
             template<typename... Indices>
             index(Indices... indices);
-
-            auto operator=(const index<N>& other)
-                -> index&;
-            auto operator=(index<N>&& other)
-                -> index&;
 
             auto operator[](std::size_t ind) const
                 -> std::size_t;
@@ -65,7 +60,7 @@ namespace polder
                 -> void;
 
             // Member indices
-            std::size_t _indices[N];
+            std::array<std::size_t, N> _indices;
     };
 
     template<std::size_t N>
@@ -78,4 +73,4 @@ namespace polder
     #include "details/index.inl"
 }
 
-#endif // _POLDER_INDEX_H
+#endif // POLDER_INDEX_H_

@@ -53,10 +53,8 @@ namespace polder
         // Constructors/destructor
         ////////////////////////////////////////////////////////////
 
-        // Standard Constructors
+        // Default constructor
         constexpr GrayCode();
-        constexpr GrayCode(const GrayCode& other);
-        constexpr GrayCode(GrayCode&& other) noexcept;
 
         /**
          * @brief Construction from an unsigned integer
@@ -71,12 +69,6 @@ namespace polder
         ////////////////////////////////////////////////////////////
         // Operators
         ////////////////////////////////////////////////////////////
-
-        // Assignment operators
-        auto operator=(const GrayCode<Unsigned>& other)
-            -> GrayCode&;
-        auto operator=(GrayCode<Unsigned>&& other) noexcept
-            -> GrayCode&;
 
         /**
          * @brief Assigns an unsigned integer
