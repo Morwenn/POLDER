@@ -24,15 +24,6 @@ template<std::size_t N, typename T>
 Hypersphere<N, T>::Hypersphere()
     = default;
 
-template<std::size_t N, typename T>
-Hypersphere<N, T>::Hypersphere(const Hypersphere<N, T>&)
-    = default;
-
-template<std::size_t N, typename T>
-auto Hypersphere<N, T>::operator=(const Hypersphere<N, T>& other)
-    -> Hypersphere&
-    = default;
-
 ////////////////////////////////////////////////////////////
 // Constructors
 ////////////////////////////////////////////////////////////

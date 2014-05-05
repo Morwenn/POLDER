@@ -100,10 +100,6 @@ template<std::size_t N, typename T>
 Vector<N, T>::Vector()
     = default;
 
-template<std::size_t N, typename T>
-Vector<N, T>::Vector(const Vector<N, T>&)
-    = default;
-
 ////////////////////////////////////////////////////////////
 // Constructors
 ////////////////////////////////////////////////////////////

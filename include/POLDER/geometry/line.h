@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_GEOMETRY_LINE_H
-#define _POLDER_GEOMETRY_LINE_H
+#ifndef POLDER_GEOMETRY_LINE_H_
+#define POLDER_GEOMETRY_LINE_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -49,8 +49,6 @@ namespace geometry
 
             // Default constructor
             Line();
-            // Copy constructor
-            Line(const Line<N, T>& other);
 
             /**
              * @brief Construct a Line passing by two points.
@@ -86,14 +84,6 @@ namespace geometry
              */
             auto direction() const
                 -> Direction<N, T>;
-
-            ////////////////////////////////////////////////////////////
-            // Operators
-            ////////////////////////////////////////////////////////////
-
-            // Copy assignment
-            auto operator=(const Line<N, T>& other)
-                -> Line&;
 
             ////////////////////////////////////////////////////////////
             // Miscellaneous functions
@@ -143,4 +133,4 @@ namespace geometry
     #include "details/line.inl"
 }}
 
-#endif // _POLDER_GEOMETRY_LINE_H
+#endif // POLDER_GEOMETRY_LINE_H_

@@ -24,10 +24,6 @@ template<std::size_t N, typename T>
 Point<N, T>::Point()
     = default;
 
-template<std::size_t N, typename T>
-Point<N, T>::Point(const Point<N, T>&)
-    = default;
-
 ////////////////////////////////////////////////////////////
 // Constructors
 ////////////////////////////////////////////////////////////

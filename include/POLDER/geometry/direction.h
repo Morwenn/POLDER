@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_GEOMETRY_DIRECTION_H
-#define _POLDER_GEOMETRY_DIRECTION_H
+#ifndef POLDER_GEOMETRY_DIRECTION_H_
+#define POLDER_GEOMETRY_DIRECTION_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -64,8 +64,6 @@ namespace geometry
 
             // Default constructor
             Direction();
-            // Copy constructor
-            Direction(const Direction<N, T>& other);
 
             /**
              * @brief Direction of a Line passing by the origin and a given point
@@ -121,4 +119,4 @@ namespace geometry
     #include "details/direction.inl"
 }}
 
-#endif // _POLDER_GEOMETRY_DIRECTION_H
+#endif // POLDER_GEOMETRY_DIRECTION_H_

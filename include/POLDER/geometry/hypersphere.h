@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_GEOMETRY_HYPERSPHERE_H
-#define _POLDER_GEOMETRY_HYPERSPHERE_H
+#ifndef POLDER_GEOMETRY_HYPERSPHERE_H_
+#define POLDER_GEOMETRY_HYPERSPHERE_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -60,8 +60,6 @@ namespace geometry
 
         // Default constructor
         Hypersphere();
-        // Copy constructor
-        Hypersphere(const Hypersphere<N, T>& other);
 
         /**
          * @brief Construct an Hypersphere from a centre and a radius
@@ -86,14 +84,6 @@ namespace geometry
          * @param P Point at the surface of the Hypersphere
          */
         Hypersphere(const Point<N, T>& centre, const Point<N, T>& pt);
-
-        ////////////////////////////////////////////////////////////
-        // Operators
-        ////////////////////////////////////////////////////////////
-
-        // Copy assignment
-        auto operator=(const Hypersphere<N, T>& other)
-            -> Hypersphere&;
 
         ////////////////////////////////////////////////////////////
         // Miscellaneous functions
@@ -131,4 +121,4 @@ namespace geometry
     #include "details/hypersphere.inl"
 }}
 
-#endif // _POLDER_GEOMETRY_HYPERSPHERE_H
+#endif // POLDER_GEOMETRY_HYPERSPHERE_H_

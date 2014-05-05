@@ -24,15 +24,6 @@ template<std::size_t N, typename T>
 Line<N, T>::Line()
     = default;
 
-template<std::size_t N, typename T>
-Line<N, T>::Line(const Line<N, T>&)
-    = default;
-
-template<std::size_t N, typename T>
-auto Line<N, T>::operator=(const Line<N, T>&)
-    -> Line&
-    = default;
-
 ////////////////////////////////////////////////////////////
 // Constructors
 ////////////////////////////////////////////////////////////

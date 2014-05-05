@@ -24,10 +24,6 @@ template<std::size_t N, typename T>
 Direction<N, T>::Direction()
     = default;
 
-template<std::size_t N, typename T>
-Direction<N, T>::Direction(const Direction<N, T>&)
-    = default;
-
 ////////////////////////////////////////////////////////////
 // Constructors
 ////////////////////////////////////////////////////////////

@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_GEOMETRY_POINT_H
-#define _POLDER_GEOMETRY_POINT_H
+#ifndef POLDER_GEOMETRY_POINT_H_
+#define POLDER_GEOMETRY_POINT_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -67,8 +67,6 @@ namespace geometry
 
             // Default constructor
             Point();
-            // Copy constructor
-            Point(const Point<N, T>& other);
 
             /**
              * @brief Variadic constructor
@@ -122,4 +120,4 @@ namespace geometry
     #include "details/point.inl"
 }}
 
-#endif // _POLDER_GEOMETRY_POINT_H
+#endif // POLDER_GEOMETRY_POINT_H_

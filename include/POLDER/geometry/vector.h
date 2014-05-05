@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_GEOMETRY_VECTOR_H
-#define _POLDER_GEOMETRY_VECTOR_H
+#ifndef POLDER_GEOMETRY_VECTOR_H_
+#define POLDER_GEOMETRY_VECTOR_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -70,8 +70,6 @@ namespace geometry
 
             // Default constructor
             Vector();
-            // Copy constructor
-            Vector(const Vector<N, T>& other);
 
             /**
              * @brief Variadic constructor
@@ -197,4 +195,4 @@ namespace geometry
     #include "details/vector.inl"
 }}
 
-#endif // _POLDER_GEOMETRY_VECTOR_H
+#endif // POLDER_GEOMETRY_VECTOR_H_
