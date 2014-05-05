@@ -29,8 +29,8 @@
  * function (and if an overload is provided).
  */
 
-#ifndef _POLDER_GEOMETRY_DISTANCE_H
-#define _POLDER_GEOMETRY_DISTANCE_H
+#ifndef POLDER_GEOMETRY_DISTANCE_H_
+#define POLDER_GEOMETRY_DISTANCE_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -76,4 +76,4 @@ namespace geometry
     #include "details/distance.inl"
 }}
 
-#endif // _POLDER_GEOMETRY_DISTANCE_H
+#endif // POLDER_GEOMETRY_DISTANCE_H_
