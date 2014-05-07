@@ -45,10 +45,12 @@ template<std::size_t N, typename T>
 auto Point<N, T>::operator+=(const Vector<N, T>& vec)
     -> Point&
 {
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        coordinates[i] += vec[i];
-    }
+    range_map(
+        std::begin(coordinates),
+        std::end(coordinates),
+        std::begin(vec),
+        plus_assign()
+    );
     return *this;
 }
 
@@ -56,10 +58,12 @@ template<std::size_t N, typename T>
 auto Point<N, T>::operator-=(const Vector<N, T>& vec)
     -> Point&
 {
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        coordinates[i] -= vec[i];
-    }
+    range_map(
+        std::begin(coordinates),
+        std::end(coordinates),
+        std::begin(vec),
+        minus_assign()
+    );
     return *this;
 }
 
@@ -71,7 +75,7 @@ template<std::size_t N, typename T>
 auto operator==(const Point<N, T>& lhs, const Point<N, T>& rhs)
     -> bool
 {
-    return std::equal(lhs.begin(), lhs.end(), rhs.begin(),
+    return std::equal(std::begin(lhs), std::end(lhs), std::begin(rhs),
                       [](T a, T b)
                       {
                           return float_equal(a, b);

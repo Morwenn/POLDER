@@ -136,10 +136,12 @@ template<std::size_t N, typename T>
 auto Vector<N, T>::operator+=(const Vector& other)
     -> Vector&
 {
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        coordinates[i] += other.coordinates[i];
-    }
+    range_map(
+        std::begin(coordinates),
+        std::end(coordinates),
+        std::begin(other.coordinates),
+        plus_assign()
+    );
     return *this;
 }
 
@@ -147,10 +149,12 @@ template<std::size_t N, typename T>
 auto Vector<N, T>::operator-=(const Vector& other)
     -> Vector&
 {
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        coordinates[i] -= other.coordinates[i];
-    }
+    range_map(
+        std::begin(coordinates),
+        std::end(coordinates),
+        std::begin(other.coordinates),
+        minus_assign()
+    );
     return *this;
 }
 
@@ -211,7 +215,7 @@ template<std::size_t N, typename T>
 auto operator==(const Vector<N, T>& lhs, const Vector<N, T>& rhs)
     -> bool
 {
-    return std::equal(lhs.begin(), lhs.end(), rhs.begin(),
+    return std::equal(std::begin(lhs), std::end(lhs), std::begin(rhs),
                       [](T a, T b)
                       {
                           return float_equal(a, b);

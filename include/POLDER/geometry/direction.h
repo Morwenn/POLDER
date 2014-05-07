@@ -23,6 +23,7 @@
 ////////////////////////////////////////////////////////////
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <POLDER/algorithm.h>
 #include <POLDER/geometry/details/types.h>
 #include <POLDER/geometry/details/vector_base.h>

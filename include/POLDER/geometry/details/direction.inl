@@ -60,13 +60,16 @@ template<std::size_t N, typename T>
 auto Direction<N, T>::normalize()
     -> void
 {
+    // Compute the norm
     value_type tmp{};
     for (auto coord: coordinates)
     {
         tmp += coord*coord;
     }
     tmp = std::sqrt(tmp);
-    for (auto& coord:coordinates)
+
+    // Divide by the norm
+    for (auto& coord: coordinates)
     {
         coord /= tmp;
         coord = std::abs(coord);
@@ -81,7 +84,7 @@ template<std::size_t N, typename T>
 auto operator==(const Direction<N, T>& lhs, const Direction<N, T>& rhs)
     -> bool
 {
-    return std::equal(lhs.begin(), lhs.end(), rhs.begin(),
+    return std::equal(std::begin(lhs), std::end(lhs), std::begin(rhs),
                       [](T a, T b)
                       {
                           return float_equal(a, b);

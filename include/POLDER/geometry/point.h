@@ -22,9 +22,10 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <algorithm>
-#include <array>
+#include <cstddef>
 #include <iterator>
 #include <POLDER/algorithm.h>
+#include <POLDER/functional.h>
 #include <POLDER/geometry/details/types.h>
 #include <POLDER/geometry/details/vector_base.h>
 
