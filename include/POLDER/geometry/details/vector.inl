@@ -109,41 +109,24 @@ Vector<N, T>::Vector(Args... args)
 }
 
 template<std::size_t N, typename T>
-inline Vector<N, T>::Vector(const Point<N, T>& pt)
-{
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        coordinates[i] = pt[i];
-    }
-}
+Vector<N, T>::Vector(const Point<N, T>& pt):
+    super{pt}
+{}
 
 template<std::size_t N, typename T>
-inline Vector<N, T>::Vector(const Direction<N, T>& dir)
-{
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        coordinates[i] = dir[i];
-    }
-}
+Vector<N, T>::Vector(const Direction<N, T>& dir):
+    super{dir}
+{}
 
 template<std::size_t N, typename T>
-Vector<N, T>::Vector(const Point<N, T>& origin, const Point<N, T>& target)
-{
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        coordinates[i] = target[i] - origin[i];
-    }
-}
+Vector<N, T>::Vector(const Point<N, T>& origin, const Point<N, T>& target):
+    Vector{target - origin}
+{}
 
 template<std::size_t N, typename T>
-Vector<N, T>::Vector(const Line<N, T>& line)
-{
-    const Direction<N, T>& dir = line.direction();
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        coordinates[i] = dir[i];
-    }
-}
+Vector<N, T>::Vector(const Line<N, T>& line):
+    Vector{line.direction()}
+{}
 
 ////////////////////////////////////////////////////////////
 // Operators

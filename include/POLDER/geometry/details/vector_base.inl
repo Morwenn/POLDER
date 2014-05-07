@@ -133,8 +133,22 @@ inline auto ImmutableVectorBase<N, T>::cend() const
 }
 
 ////////////////////////////////////////////////////////////
-// Private construction methods
+// Protected construction methods
 ////////////////////////////////////////////////////////////
+
+template<std::size_t N, typename T>
+ImmutableVectorBase<N, T>::ImmutableVectorBase()
+    = default;
+
+template<std::size_t N, typename T>
+ImmutableVectorBase<N, T>::ImmutableVectorBase(const ImmutableVectorBase& other)
+{
+    std::copy(
+        std::begin(other.coordinates),
+        std::end(other.coordinates),
+        std::begin(coordinates)
+    );
+}
 
 template<std::size_t N, typename T>
 template<typename First, typename... Args>

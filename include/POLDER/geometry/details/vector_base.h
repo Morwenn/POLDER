@@ -85,6 +85,16 @@ namespace geometry
 
         protected:
 
+            ////////////////////////////////////////////////////////////
+            // Construction
+            ////////////////////////////////////////////////////////////
+
+            // Default constructor
+            ImmutableVectorBase();
+
+            // Copy another ImmutableVectorBase
+            ImmutableVectorBase(const ImmutableVectorBase& other);
+
             template<typename First, typename... Args>
             auto construct(First first, Args... args)
                 -> void;

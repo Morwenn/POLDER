@@ -29,35 +29,28 @@ Direction<N, T>::Direction()
 ////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
-Direction<N, T>::Direction(const Point<N, T>& pt)
+Direction<N, T>::Direction(const Point<N, T>& pt):
+    super{pt}
 {
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        coordinates[i] = pt[i];
-    }
     normalize();
 }
 
 template<std::size_t N, typename T>
 Direction<N, T>::Direction(const Point<N, T>& pt1, const Point<N, T>& pt2):
-    Direction<N, T>(pt2-pt1)
+    Direction{pt2 - pt1}
 {}
 
 template<std::size_t N, typename T>
-Direction<N, T>::Direction(const Vector<N, T>& vec)
+Direction<N, T>::Direction(const Vector<N, T>& vec):
+    super{vec}
 {
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        coordinates[i] = vec[i];
-    }
     normalize();
 }
 
 template<std::size_t N, typename T>
-inline Direction<N, T>::Direction(const Line<N, T>& line)
-{
-    *this = line.direction();
-}
+Direction<N, T>::Direction(const Line<N, T>& line):
+    Direction{line.direction()}
+{}
 
 ////////////////////////////////////////////////////////////
 // Private methods
