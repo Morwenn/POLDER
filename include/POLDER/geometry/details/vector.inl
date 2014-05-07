@@ -259,11 +259,7 @@ template<std::size_t N, typename T>
 auto operator-(Vector<N, T> vec)
     -> Vector<N, T>
 {
-    for (auto& coord: vec)
-    {
-        coord *= -1;
-    }
-    return vec;
+    return vec *= -1;
 }
 
 ////////////////////////////////////////////////////////////
