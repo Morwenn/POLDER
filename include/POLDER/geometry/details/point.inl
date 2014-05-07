@@ -110,7 +110,7 @@ auto operator-(const Point<N, T>& lhs, const Point<N, T>& rhs)
     Vector<N, T> res;
     for (std::size_t i = 0 ; i < N ; ++i)
     {
-        res[i] -= lhs[i] - rhs[i];
+        res[i] = lhs[i] - rhs[i];
     }
     return res;
 }
