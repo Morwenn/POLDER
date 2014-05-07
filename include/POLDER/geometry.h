@@ -21,8 +21,8 @@
  * @brief This header includes the whole geometry module.
  */
 
-#ifndef _POLDER_GEOMETRY_H
-#define _POLDER_GEOMETRY_H
+#ifndef POLDER_GEOMETRY_H_
+#define POLDER_GEOMETRY_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -49,4 +49,4 @@
  * and related functions such as distances and intersections.
  */
 
-#endif // _POLDER_GEOMETRY_H
+#endif // POLDER_GEOMETRY_H_

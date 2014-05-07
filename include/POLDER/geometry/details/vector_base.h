@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_GEOMETRY_VECTOR_BASE_H
-#define _POLDER_GEOMETRY_VECTOR_BASE_H
+#ifndef POLDER_GEOMETRY_VECTOR_BASE_H_
+#define POLDER_GEOMETRY_VECTOR_BASE_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -159,4 +159,4 @@ namespace geometry
     #include "vector_base.inl"
 }}
 
-#endif // _POLDER_GEOMETRY_VECTOR_BASE_H
+#endif // POLDER_GEOMETRY_VECTOR_BASE_H_
