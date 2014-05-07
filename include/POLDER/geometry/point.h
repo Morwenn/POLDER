@@ -110,6 +110,9 @@ namespace geometry
     auto operator+(Point<N, T> pt, const Vector<N, T>& vec)
         -> Point<N, T>;
     template<std::size_t N, typename T>
+    auto operator+(const Vector<N, T>& vec, Point<N, T> pt)
+        -> Point<N, T>;
+    template<std::size_t N, typename T>
     auto operator-(Point<N, T> pt, const Vector<N, T>& vec)
         -> Point<N, T>;
 

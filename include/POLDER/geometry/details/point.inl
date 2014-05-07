@@ -97,6 +97,13 @@ inline auto operator+(Point<N, T> pt, const Vector<N, T>& vec)
 }
 
 template<std::size_t N, typename T>
+inline auto operator+(const Vector<N, T>& vec, Point<N, T> pt)
+    -> Point<N, T>
+{
+    return pt += vec;
+}
+
+template<std::size_t N, typename T>
 inline auto operator-(Point<N, T> pt, const Vector<N, T>& vec)
     -> Point<N, T>
 {
