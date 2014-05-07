@@ -49,8 +49,7 @@ namespace details
             T res{};
             for (auto coord: vec)
             {
-                auto tmp = std::abs(coord);
-                res += tmp * tmp;
+                res += coord * coord;
             }
             return std::sqrt(res);
         }
