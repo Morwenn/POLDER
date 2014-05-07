@@ -119,6 +119,15 @@ inline Vector<N, T>::Vector(const Point<N, T>& pt)
 }
 
 template<std::size_t N, typename T>
+inline Vector<N, T>::Vector(const Direction<N, T>& dir)
+{
+    for (std::size_t i = 0 ; i < N ; ++i)
+    {
+        coordinates[i] = dir[i];
+    }
+}
+
+template<std::size_t N, typename T>
 Vector<N, T>::Vector(const Point<N, T>& origin, const Point<N, T>& target)
 {
     for (std::size_t i = 0 ; i < N ; ++i)

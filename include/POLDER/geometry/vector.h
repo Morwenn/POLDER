@@ -83,9 +83,16 @@ namespace geometry
             /**
              * @brief Constructs the Vector from the origin to a Point
              *
-             * @param P Some Point...
+             * @param pt Some Point.
              */
             Vector(const Point<N, T>& pt);
+
+            /**
+             * @brief Constructs a Vector from a Direction
+             *
+             * @param dir Some Direction.
+             */
+            Vector(const Direction<N, T>& dir);
 
             /**
              * @brief Construct a vector from two Points
