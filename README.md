@@ -7,9 +7,14 @@ proper cohesion between its modules.
 
 This folder contains the last version of the POLDER library.
 There is no official documentation. However, you can generate
-a bit of documentation for some of the modules using Doxygen.
+a bit of documentation for some of the modules using Doxygen,
+I hope that they are still up-to-date.
 
-If you want to compile the code properly, you will need some C++11
-support. Tested with the following compilers:
-* GCC 4.7.2
-* GCC 4.8.0 & 4.8.1
+Some examples are provided along with the library. The examples are
+regularly recompiled, so they should always work.
+
+POLDER uses some of the most recent C++ features, even some that
+are not already standardized but that ought to work with some of
+the most recent compilers. POLDER should compile with:
+* g++ 4.9
+* clang++ 3.5
