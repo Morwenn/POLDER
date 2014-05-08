@@ -48,7 +48,8 @@ int main()
         POLDER_ASSERT(Vector(2, 3) != a);
 
         Vector foo;
-        (void) foo;
+        POLDER_ASSERT(foo.x() == 0);
+        POLDER_ASSERT(foo.y() == 0);
     }
 
     // TEST: Vector-scalar multiplication

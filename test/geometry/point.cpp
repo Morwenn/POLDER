@@ -48,7 +48,8 @@ int main()
         POLDER_ASSERT(Point(2, 3) != a);
 
         Point foo;
-        (void) foo;
+        POLDER_ASSERT(foo.x() == 0);
+        POLDER_ASSERT(foo.y() == 0);
     }
 
     // TEST: Point-Point subtraction
