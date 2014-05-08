@@ -57,7 +57,7 @@ int main()
         using Point = geometry::Point<3u, double>;
         using Vector = geometry::Vector<3u, double>;
 
-        Point origin = { 0.0, 0.0, 0.0 };
+        Point origin;
         Point pt = { 6.0, -2.0, 3.0 };
         Vector vec = { 6.0, -2.0, 3.0 };
         POLDER_ASSERT(Direction(pt) == Direction(vec));
