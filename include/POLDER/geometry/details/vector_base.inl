@@ -137,8 +137,9 @@ inline auto ImmutableVectorBase<N, T>::cend() const
 ////////////////////////////////////////////////////////////
 
 template<std::size_t N, typename T>
-ImmutableVectorBase<N, T>::ImmutableVectorBase()
-    = default;
+ImmutableVectorBase<N, T>::ImmutableVectorBase():
+    coordinates()
+{}
 
 template<std::size_t N, typename T>
 ImmutableVectorBase<N, T>::ImmutableVectorBase(const ImmutableVectorBase& other)
