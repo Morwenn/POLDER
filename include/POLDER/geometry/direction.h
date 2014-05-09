@@ -33,11 +33,14 @@ namespace polder
 namespace geometry
 {
     /**
-     * @brief Geometric direction
+     * @brief Normalized vector.
      *
-     * A direction is a normalized Vector. While it may seem to
-     * do less than a Vector, it's actually heavier since it is
-     * normalized on construction.
+     * A direction is a normalized immutable Vector.
+     * It is normalized at construction cannot be
+     * modified later.
+     *
+     * @warning A direction constructed with a null
+     * vector is undefined behaviour.
     */
     template<std::size_t N, typename T=double>
     class Direction:
