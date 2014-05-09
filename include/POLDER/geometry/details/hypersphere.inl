@@ -30,28 +30,21 @@ Hypersphere<N, T>::Hypersphere()
 
 template<std::size_t N, typename T>
 Hypersphere<N, T>::Hypersphere(const Point<N, T>& centre, T radius):
-    centre(centre),
-    radius(radius)
+    centre{centre},
+    radius{radius}
 {}
 
 template<std::size_t N, typename T>
 Hypersphere<N, T>::Hypersphere(const Point<N, T>& centre, const Vector<N, T>& vec):
-    centre(centre),
-    radius(vec.norm())
+    centre{centre},
+    radius{vec.norm()}
 {}
 
 template<std::size_t N, typename T>
 Hypersphere<N, T>::Hypersphere(const Point<N, T>& centre, const Point<N, T>& pt):
-    centre(centre),
-    radius(value_type{})
-{
-    for (std::size_t i = 0 ; i < N ; ++i)
-    {
-        value_type tmp = pt[i] - centre[i];
-        radius += tmp * tmp;
-    }
-    radius = std::sqrt(radius);
-}
+    centre{centre},
+    radius{(pt-centre).norm()}
+{}
 
 ////////////////////////////////////////////////////////////
 // Miscellaneous functions
