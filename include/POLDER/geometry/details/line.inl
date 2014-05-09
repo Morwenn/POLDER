@@ -30,30 +30,23 @@ Line<N, T>::Line()
 
 template<std::size_t N, typename T>
 Line<N, T>::Line(const Point<N, T>& pt1, const Point<N, T>& pt2):
-    _point(pt1),
-    _dir(Direction<N, T>(pt1, pt2))
+    _point{pt1},
+    _dir{pt1, pt2}
 {
     POLDER_ASSERT(pt1 != pt2);
 }
 
 template<std::size_t N, typename T>
 Line<N, T>::Line(const Point<N, T>& pt, const Vector<N, T>& vec):
-    _point(pt),
-    _dir(vec.direction())
+    _point{pt},
+    _dir{vec}
 {}
 
 template<std::size_t N, typename T>
 Line<N, T>::Line(const Point<N, T>& pt, const Direction<N, T>& dir):
-    _point(pt),
-    _dir(dir)
+    _point{pt},
+    _dir{dir}
 {}
-
-template<std::size_t N, typename T>
-inline auto Line<N, T>::direction() const
-    -> Direction<N, T>
-{
-    return _dir;
-}
 
 ////////////////////////////////////////////////////////////
 // Miscellaneous functions
@@ -76,16 +69,43 @@ auto Line<N, T>::includes(const Point<N, T>& pt) const
     // A point is included in the line if it satisfies the parametric
     // equation for all its coordinates
 
-    T t1 = (pt.x() - _point.x()) / _dir.x();
-    for (std::size_t i = 1 ; i < N ; ++i)
+    auto vec = pt - _point;
+    T t{};
+    for (std::size_t i = 0 ; i < N ; ++i)
     {
-        const T t = (pt[i] - _point[i]) / _dir[i];
-        if (not float_equal(t, t1))
+        // Handle the case where the line is
+        // parallel to an axis
+        if (float_equal(_dir[i], T{0}))
         {
+            if (float_equal(vec[i], T{0}))
+            {
+                continue;
+            }
             return false;
+        }
+
+        // Regular case
+        if (float_equal(t, T{0}))
+        {
+            t = vec[i] / _dir[i];
+        }
+        else
+        {
+            T tmp = vec[i] / _dir[i];
+            if (not float_equal(tmp, t))
+            {
+                return false;
+            }
         }
     }
     return true;
+}
+
+template<std::size_t N, typename T>
+inline auto Line<N, T>::direction() const
+    -> Direction<N, T>
+{
+    return _dir;
 }
 
 template<std::size_t N, typename T>

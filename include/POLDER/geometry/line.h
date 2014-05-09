@@ -75,17 +75,6 @@ namespace geometry
             Line(const Point<N, T>& pt, const Direction<N, T>& dir);
 
             ////////////////////////////////////////////////////////////
-            // Elements accessors
-            ////////////////////////////////////////////////////////////
-
-            /**
-             * @brief Returns the direction of the line.
-             * @return Direction of the line.
-             */
-            auto direction() const
-                -> Direction<N, T>;
-
-            ////////////////////////////////////////////////////////////
             // Miscellaneous functions
             ////////////////////////////////////////////////////////////
 
@@ -97,6 +86,13 @@ namespace geometry
              */
             auto includes(const Point<N, T>& pt) const
                 -> bool;
+
+            /**
+             * @brief Returns the direction of the line.
+             * @return Direction of the line.
+             */
+            auto direction() const
+                -> Direction<N, T>;
 
             /**
              * @brief Returns an arbitrary point belonging to the line.
