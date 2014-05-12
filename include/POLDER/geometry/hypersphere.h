@@ -73,7 +73,7 @@ namespace geometry
          * @brief Construct an Hypersphere from a centre and a radius
          *
          * @param centre Centre of the Hypersphere
-         * @param V Radius of the Hypersphere
+         * @param vec Radius of the Hypersphere
          */
         Hypersphere(const Point<N, T>& centre, const Vector<N, T>& vec);
 
@@ -81,7 +81,7 @@ namespace geometry
          * @brief Construct an Hypersphere from a centre and a radius
          *
          * @param centre Centre of the Hypersphere
-         * @param P Point at the surface of the Hypersphere
+         * @param pt Point at the surface of the Hypersphere
          */
         Hypersphere(const Point<N, T>& centre, const Point<N, T>& pt);
 
@@ -92,8 +92,8 @@ namespace geometry
         /**
          * @brief Checks whether a point belongs to the hypersphere
          *
-         * @param P Some point
-         * @return True if \a P belongs to the hypersphere
+         * @param pt Some point
+         * @return whether \a pt belongs to the hypersphere
          */
         auto includes(const Point<N, T>& pt) const
             -> bool;

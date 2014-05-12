@@ -39,8 +39,8 @@ namespace geometry
      * @brief Geometric vector
      *
      * A Vector is a geometric object that has a length
-     * and a direction. As a Point, it can be defined
-     * by N coordinates in a N-dimensional space.
+     * and a direction. It is defined by N coordinates
+     * in a N-dimensional Euclidean space.
      */
     template<std::size_t N, typename T=double>
     class Vector:
@@ -107,9 +107,9 @@ namespace geometry
              * @brief Construct a vector from a Line
              *
              * Since a Line has no length, the length of
-             * the resulting Vector is quite arbitrary.
+             * the resulting Vector is arbitrary.
              *
-             * @param L Some Line...
+             * @param L Some Line.
              */
             Vector(const Line<N, T>& line);
 

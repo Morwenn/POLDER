@@ -44,9 +44,10 @@
  * @brief Geometry-related objects and functions
  *
  * This namespace contains many objects and functions
- * that allow to perform geometry in N-dimensional spaces.
- * For example, points, vectors, lines... representations
- * and related functions such as distances and intersections.
+ * that allow to perform geometry in N-dimensional Euclidean
+ * spaces. For example, points, vectors, lines...
+ * representations and related functions such as distances
+ * and intersections.
  */
 
 #endif // POLDER_GEOMETRY_H_

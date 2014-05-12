@@ -36,7 +36,7 @@ namespace geometry
     /**
      * @brief Geometric point
      *
-     * A point is simply defined by N coordinates
+     * A point is defined by N coordinates
      * in a N-dimensional space.
      */
     template<std::size_t N, typename T=double>

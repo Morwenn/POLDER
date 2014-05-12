@@ -72,29 +72,29 @@ namespace geometry
             /**
              * @brief Direction of a Line passing by the origin and a given point
              *
-             * @param P Point forming a Line with the Origin
+             * @param pt Point forming a Line with the origin
              */
             Direction(const Point<N, T>& pt);
 
             /**
              * @brief Direction of a Line passing by two given points
              *
-             * @param P1 First Point
-             * @param P2 Second Point
+             * @param pt1 First Point
+             * @param pt2 Second Point
              */
             Direction(const Point<N, T>& pt1, const Point<N, T>& pt2);
 
             /**
              * @brief Creates the Direction from a Vector
              *
-             * @param V Vector whose we take the direction
+             * @param vec Vector whose direction is taken
              */
             Direction(const Vector<N, T>& vec);
 
             /**
              * @brief Creates the Direction from a Line
              *
-             * @param L Line whose we take the direction
+             * @param line Line whose direction is taken
              */
             Direction(const Line<N, T>& line);
 
