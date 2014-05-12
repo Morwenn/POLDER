@@ -19,7 +19,7 @@
 template<std::size_t N, typename T>
 auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
     -> std::experimental::optional<
-        std::pair<Point<N, T>, Point<N, T>>
+        std::array<Point<N, T>, 2u>
     >
 {
     using math::sqr;
@@ -85,13 +85,13 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
         res1[i] = std::fma(t1, dir[i], pt[i]);
         res2[i] = std::fma(t2, dir[i], pt[i]);
     }
-    return { std::make_pair(res1, res2) };
+    return {{ res1, res2 }};
 }
 
 template<std::size_t N, typename T>
 inline auto intersection(const Hypersphere<N, T>& hs, const Line<N, T>& line)
     -> std::experimental::optional<
-        std::pair<Point<N, T>, Point<N, T>>
+        std::array<Point<N, T>, 2u>
     >
 {
     return intersection(line, hs);

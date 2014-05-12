@@ -39,7 +39,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <utility>
+#include <array>
 #include <experimental/optional>
 #include <POLDER/algorithm.h>
 #include <POLDER/math.h>
@@ -66,7 +66,7 @@ namespace geometry
     template<std::size_t N, typename T>
     auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
         -> std::experimental::optional<
-            std::pair<Point<N, T>, Point<N, T>>
+            std::array<Point<N, T>, 2u>
         >;
 
     /**
@@ -77,7 +77,7 @@ namespace geometry
     template<std::size_t N, typename T>
     auto intersection(const Hypersphere<N, T>& hs, const Line<N, T>& line)
         -> std::experimental::optional<
-            std::pair<Point<N, T>, Point<N, T>>
+            std::array<Point<N, T>, 2u>
         >;
 
     #include "details/intersection.inl"
