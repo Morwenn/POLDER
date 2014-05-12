@@ -52,6 +52,28 @@ int main()
         POLDER_ASSERT(foo.y() == 0);
     }
 
+    // TEST: relational operators
+    {
+        using Point = geometry::Point<3u, int>;
+
+        Point origin;
+        Point pt1 = { 2, 1, 1 };
+        Point pt2 = { 1, 3, 5 };
+        Point pt3 = { 1, 3, 4 };
+        Point pt4 = { -5, 2, 6 };
+
+        POLDER_ASSERT(origin < pt1);
+        POLDER_ASSERT(origin < pt2);
+        POLDER_ASSERT(origin > pt4);
+        POLDER_ASSERT(origin >= origin);
+        POLDER_ASSERT(origin <= origin);
+
+        POLDER_ASSERT(pt2 >= pt3);
+        POLDER_ASSERT(pt3 <= pt2);
+        POLDER_ASSERT(pt2 > pt3);
+        POLDER_ASSERT(pt3 < pt2);
+    }
+
     // TEST: Point-Point subtraction
     {
         using Point = geometry::Point<2u, int>;

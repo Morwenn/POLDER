@@ -106,6 +106,20 @@ namespace geometry
     auto operator!=(const Point<N, T>& lhs, const Point<N, T>& rhs)
         -> bool;
 
+    // Relational operators
+    template<std::size_t N, typename T>
+    auto operator<(const Point<N, T>& lhs, const Point<N, T>& rhs)
+        -> bool;
+    template<std::size_t N, typename T>
+    auto operator<=(const Point<N, T>& lhs, const Point<N, T>& rhs)
+        -> bool;
+    template<std::size_t N, typename T>
+    auto operator>(const Point<N, T>& lhs, const Point<N, T>& rhs)
+        -> bool;
+    template<std::size_t N, typename T>
+    auto operator>=(const Point<N, T>& lhs, const Point<N, T>& rhs)
+        -> bool;
+
     // Point-Vector arithmetic
     template<std::size_t N, typename T>
     auto operator+(Point<N, T> pt, const Vector<N, T>& vec)

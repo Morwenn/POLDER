@@ -90,6 +90,41 @@ auto operator!=(const Point<N, T>& lhs, const Point<N, T>& rhs)
 }
 
 ////////////////////////////////////////////////////////////
+// Outside class operators - Relational operators
+////////////////////////////////////////////////////////////
+
+template<std::size_t N, typename T>
+auto operator<(const Point<N, T>& lhs, const Point<N, T>& rhs)
+    -> bool
+{
+    return std::lexicographical_compare(
+        std::begin(lhs), std::end(lhs),
+        std::begin(rhs), std::end(rhs)
+    );
+}
+
+template<std::size_t N, typename T>
+auto operator<=(const Point<N, T>& lhs, const Point<N, T>& rhs)
+    -> bool
+{
+    return !(rhs < lhs);
+}
+
+template<std::size_t N, typename T>
+auto operator>(const Point<N, T>& lhs, const Point<N, T>& rhs)
+    -> bool
+{
+    return rhs < lhs;
+}
+
+template<std::size_t N, typename T>
+auto operator>=(const Point<N, T>& lhs, const Point<N, T>& rhs)
+    -> bool
+{
+    return !(lhs < rhs);
+}
+
+////////////////////////////////////////////////////////////
 // Outside class operators - Point-Vector arithmetic
 ////////////////////////////////////////////////////////////
 
