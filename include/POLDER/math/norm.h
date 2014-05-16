@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_MATH_NORM_H
-#define _POLDER_MATH_NORM_H
+#ifndef POLDER_MATH_NORM_H_
+#define POLDER_MATH_NORM_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -44,4 +44,4 @@ namespace math
     }
 }}
 
-#endif // _POLDER_MATH_NORM_H
+#endif // POLDER_MATH_NORM_H_

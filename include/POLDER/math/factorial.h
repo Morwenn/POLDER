@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_MATH_FACTORIAL_H
-#define _POLDER_MATH_FACTORIAL_H
+#ifndef POLDER_MATH_FACTORIAL_H_
+#define POLDER_MATH_FACTORIAL_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -29,35 +29,32 @@ namespace polder
 {
 namespace math
 {
-    inline namespace standard
-    {
-        /**
-         * @brief Iterative factorial function
-         * @param n Some integer
-         * @return Factorial of n
-         */
-        template<typename Unsigned>
-        auto factorial(Unsigned n)
-            -> Unsigned;
+    /**
+     * @brief Iterative factorial function
+     * @param n Some integer
+     * @return Factorial of n
+     */
+    template<typename Unsigned>
+    auto factorial(Unsigned n)
+        -> Unsigned;
 
-        /**
-         * @brief Double factorial function
-         * @param n Some integer
-         * @return Double factorial of n
-         */
-        template<typename Unsigned>
-        auto double_factorial(Unsigned n)
-            -> Unsigned;
+    /**
+     * @brief Double factorial function
+     * @param n Some integer
+     * @return Double factorial of n
+     */
+    template<typename Unsigned>
+    auto double_factorial(Unsigned n)
+        -> Unsigned;
 
-        /**
-         * @brief Stirling formula
-         * @param n Some integer
-         * @return Approximation of the factorial of n
-         */
-        template<typename Unsigned>
-        auto stirling(Unsigned n)
-            -> Unsigned;
-    }
+    /**
+     * @brief Stirling formula
+     * @param n Some integer
+     * @return Approximation of the factorial of n
+     */
+    template<typename Unsigned>
+    auto stirling(Unsigned n)
+        -> Unsigned;
 
     namespace meta
     {
@@ -69,4 +66,4 @@ namespace math
     #include "details/factorial.inl"
 }}
 
-#endif // _POLDER_MATH_FACTORIAL_H
+#endif // POLDER_MATH_FACTORIAL_H_

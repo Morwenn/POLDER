@@ -16,247 +16,242 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
-inline namespace standard
+template<typename Number>
+auto sign(Number val)
+    -> int
 {
-    template<typename Number>
-    auto sign(Number val)
-        -> int
-    {
-        return meta::sign(val);
-    }
+    return meta::sign(val);
+}
 
-    template<typename Integer>
-    auto is_even(Integer n)
-        -> bool
-    {
-        return meta::is_even(n);
-    }
+template<typename Integer>
+auto is_even(Integer n)
+    -> bool
+{
+    return meta::is_even(n);
+}
 
-    template<typename Integer>
-    auto is_odd(Integer n)
-        -> bool
-    {
-        return meta::is_odd(n);
-    }
+template<typename Integer>
+auto is_odd(Integer n)
+    -> bool
+{
+    return meta::is_odd(n);
+}
 
-    template<typename Unsigned>
-    auto is_prime(Unsigned n)
-        -> bool
-    {
-        return meta::is_prime(n);
-    }
+template<typename Unsigned>
+auto is_prime(Unsigned n)
+    -> bool
+{
+    return meta::is_prime(n);
+}
 
-    template<typename Float>
-    auto degrees(Float rad)
-        -> Float
-    {
-        return meta::degrees(rad);
-    }
+template<typename Float>
+auto degrees(Float rad)
+    -> Float
+{
+    return meta::degrees(rad);
+}
 
-    template<typename Float>
-    auto radians(Float deg)
-        -> Float
-    {
-        return meta::radians(deg);
-    }
+template<typename Float>
+auto radians(Float deg)
+    -> Float
+{
+    return meta::radians(deg);
+}
 
-    template<typename Float>
-    auto sinc(Float x)
-        -> Float
-    {
-        return std::sin(x) / x;
-    }
+template<typename Float>
+auto sinc(Float x)
+    -> Float
+{
+    return std::sin(x) / x;
+}
 
-    template<typename Float>
-    auto normalized_sinc(Float x)
-        -> Float
-    {
-        return std::sin(x * M_PI) / (x * M_PI);
-    }
+template<typename Float>
+auto normalized_sinc(Float x)
+    -> Float
+{
+    return std::sin(x * M_PI) / (x * M_PI);
+}
 
-    template<typename Float>
-    auto quadratic(Float A, Float B, Float C)
-        -> std::pair<std::complex<Float>, std::complex<Float>>
+template<typename Float>
+auto quadratic(Float A, Float B, Float C)
+    -> std::pair<std::complex<Float>, std::complex<Float>>
+{
+    A *= 2; // A is not used alone
+    const Float delta = std::fma(B, B, -2*A*C);
+    B = -B; // Only the opposite of B is used after this
+    if (delta < 0)
     {
-        A *= 2; // A is not used alone
-        const Float delta = std::fma(B, B, -2*A*C);
-        B = -B; // Only the opposite of B is used after this
-        if (delta < 0)
+        const Float tmp_div = B / A;
+        const Float delta_root = std::sqrt(delta);
+        return std::make_pair(std::complex<Float>(tmp_div, delta_root/A),
+                              std::complex<Float>(tmp_div, -delta_root/A));
+    }
+    else if (delta == 0)
+    {
+        const Float res = B / A;
+        return std::make_pair(res, res);
+    }
+    else
+    {
+        const Float delta_root = std::sqrt(delta);
+        return std::make_pair((B+delta_root)/A, (B-delta_root)/A);
+    }
+}
+
+template<typename Unsigned>
+auto fibonacci(Unsigned n)
+    -> Unsigned
+{
+    Unsigned a = 0;
+    Unsigned b = 1;
+    for (Unsigned i = 0 ; i < n ; ++i)
+    {
+        b += a;
+        a = b - a;
+    }
+    return a;
+}
+
+template<typename Number, typename... Rest>
+auto sum(Number first, Number second, Rest... rest)
+    -> Number
+{
+    return meta::sum(first, second, rest...);
+}
+
+template<typename... Args>
+auto mean(Args... args)
+    -> decltype(sum(args...) / sizeof...(args))
+{
+    return sum(args...) / sizeof...(args);
+}
+
+template<typename Unsigned>
+auto prime(Unsigned n)
+    -> Unsigned
+{
+    static std::vector<Unsigned> primes = { 1, 2, 3 };
+
+    // If the prime number is not already known,
+    // compute and store it
+    if (primes.size()-1 < n)
+    {
+        // We search numbers greater than
+        // the greatest known prime member
+        Unsigned tested_number = primes.back();
+
+        // While we have less than n prime numbers
+        while (primes.size()-1 < n)
         {
-            const Float tmp_div = B / A;
-            const Float delta_root = std::sqrt(delta);
-            return std::make_pair(std::complex<Float>(tmp_div, delta_root/A),
-                                  std::complex<Float>(tmp_div, -delta_root/A));
-        }
-        else if (delta == 0)
-        {
-            const Float res = B / A;
-            return std::make_pair(res, res);
-        }
-        else
-        {
-            const Float delta_root = std::sqrt(delta);
-            return std::make_pair((B+delta_root)/A, (B-delta_root)/A);
-        }
-    }
+            // We iterate 2 by 2 (to avoid non-even numbers)
+            tested_number += 2;
+            auto root = std::sqrt(tested_number);
 
-    template<typename Unsigned>
-    auto fibonacci(Unsigned n)
-        -> Unsigned
-    {
-        Unsigned a = 0;
-        Unsigned b = 1;
-        for (Unsigned i = 0 ; i < n ; ++i)
-        {
-            b += a;
-            a = b - a;
-        }
-        return a;
-    }
+            // Assume the number is a prime
+            // until the opposite is proven
+            bool is_prime = true;
 
-    template<typename Number, typename... Rest>
-    auto sum(Number first, Number second, Rest... rest)
-        -> Number
-    {
-        return meta::sum(first, second, rest...);
-    }
-
-    template<typename... Args>
-    auto mean(Args... args)
-        -> decltype(sum(args...) / sizeof...(args))
-    {
-        return sum(args...) / sizeof...(args);
-    }
-
-    template<typename Unsigned>
-    auto prime(Unsigned n)
-        -> Unsigned
-    {
-        static std::vector<Unsigned> primes = { 1, 2, 3 };
-
-        // If the prime number is not already known,
-        // compute and store it
-        if (primes.size()-1 < n)
-        {
-            // We search numbers greater than
-            // the greatest known prime member
-            Unsigned tested_number = primes.back();
-
-            // While we have less than n prime numbers
-            while (primes.size()-1 < n)
+            // Try to divide the supposed prime by all the known primes
+            // starting with 3
+            for (auto it = primes.cbegin()+2 ; it != primes.cend() ; ++it)
             {
-                // We iterate 2 by 2 (to avoid non-even numbers)
-                tested_number += 2;
-                auto root = std::sqrt(tested_number);
+                const auto& pri = *it;
+                // We don't have to search above the square root
+                if (pri > root) break;
 
-                // Assume the number is a prime
-                // until the opposite is proven
-                bool is_prime = true;
-
-                // Try to divide the supposed prime by all the known primes
-                // starting with 3
-                for (auto it = primes.cbegin()+2 ; it != primes.cend() ; ++it)
+                // If the number has an integer divider
+                if (tested_number % pri == 0)
                 {
-                    const auto& pri = *it;
-                    // We don't have to search above the square root
-                    if (pri > root) break;
-
-                    // If the number has an integer divider
-                    if (tested_number % pri == 0)
-                    {
-                        // It's not a prime number
-                        is_prime = false;
-                        break;
-                    }
-                }
-
-                if (is_prime)
-                {
-                    primes.push_back(tested_number);
+                    // It's not a prime number
+                    is_prime = false;
+                    break;
                 }
             }
-        }
-        return primes[n];
-    }
 
-    template<typename Unsigned>
-    auto gcd(Unsigned a, Unsigned b)
-        -> Unsigned
+            if (is_prime)
+            {
+                primes.push_back(tested_number);
+            }
+        }
+    }
+    return primes[n];
+}
+
+template<typename Unsigned>
+auto gcd(Unsigned a, Unsigned b)
+    -> Unsigned
+{
+    if (a == 0 || b == 0)
     {
-        if (a == 0 || b == 0)
-        {
-            return 0;
-        }
-        if (b > a)
-        {
-            std::swap(a, b);
-        }
-
-        Unsigned r = a % b;
-        while (r != 0)
-        {
-            a = b;
-            b = r;
-            r = a % b;
-        }
-        return b;
+        return 0;
     }
-
-    template<typename Unsigned>
-    auto lcm(Unsigned a, Unsigned b)
-        -> Unsigned
+    if (b > a)
     {
-        if (a == 0 || b == 0)
-        {
-            return 1;
-        }
-        return a*b / gcd(a, b);
+        std::swap(a, b);
     }
 
-    template<typename Number>
-    auto sqr(Number val)
-        -> Number
+    Unsigned r = a % b;
+    while (r != 0)
     {
-        return meta::sqr(val);
+        a = b;
+        b = r;
+        r = a % b;
     }
+    return b;
+}
 
-    template<typename Number>
-    auto clamp(Number val, Number min, Number max)
-        -> Number
+template<typename Unsigned>
+auto lcm(Unsigned a, Unsigned b)
+    -> Unsigned
+{
+    if (a == 0 || b == 0)
     {
-        return meta::clamp(val, min, max);
+        return 1;
     }
+    return a*b / gcd(a, b);
+}
+
+template<typename Number>
+auto sqr(Number val)
+    -> Number
+{
+    return meta::sqr(val);
+}
+
+template<typename Number>
+auto clamp(Number val, Number min, Number max)
+    -> Number
+{
+    return meta::clamp(val, min, max);
 }
 
 namespace meta
 {
     ////////////////////////////////////////////////////////////
-    // Static variables, Initialization & Helpers
-    ////////////////////////////////////////////////////////////
+    // Helper functions
 
-    namespace
+    namespace details
     {
         // Helper for the is_prime() function
         template<typename Unsigned>
-        constexpr auto _is_prime_helper(Unsigned n, Unsigned div)
+        constexpr auto is_prime_helper(Unsigned n, Unsigned div)
             -> bool
         {
             return (div*div > n) ? true :
                 (n % div == 0) ? false :
-                    _is_prime_helper(n, div+2);
+                    is_prime_helper(n, div+2);
         }
 
         template<typename Unsigned>
-        constexpr auto _gcd_helper(Unsigned b, Unsigned r)
+        constexpr auto gcd_helper(Unsigned b, Unsigned r)
             -> Unsigned
         {
-            return (r == 0) ? b : _gcd_helper(r, b % r);
+            return (r == 0) ? b : gcd_helper(r, b % r);
         }
     }
 
     ////////////////////////////////////////////////////////////
-    // POLDER functions
-    ////////////////////////////////////////////////////////////
+    // Main functions
 
     template<typename Number>
     constexpr auto sign(Number value)
@@ -286,7 +281,7 @@ namespace meta
         return (n < 2) ? false :
             (n == 2) ? true :
                 (n % 2 == 0) ? false :
-                    _is_prime_helper(n, 3);
+                    details::is_prime_helper(n, 3);
     }
 
     template<typename Float>
@@ -336,8 +331,8 @@ namespace meta
         -> Unsigned
     {
         return (a == 0 || b == 0) ? 0 :
-            (a >= b) ? _gcd_helper(b, a % b) :
-                _gcd_helper(a, b % a);
+            (a >= b) ? details::gcd_helper(b, a % b) :
+                details::gcd_helper(a, b % a);
     }
 
     template<typename Unsigned>

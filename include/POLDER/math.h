@@ -21,8 +21,8 @@
  * @brief This header includes the whole mathematics module.
  */
 
-#ifndef _POLDER_MATH_H
-#define _POLDER_MATH_H
+#ifndef POLDER_MATH_H_
+#define POLDER_MATH_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -31,7 +31,6 @@
 #include <POLDER/math/formula.h>
 #include <POLDER/math/factorial.h>
 #include <POLDER/math/norm.h>
-
 
 ////////////////////////////////////////////////////////////
 // Documentation
@@ -42,17 +41,8 @@
  * @brief Mathematical functions and constants
  *
  * Under this namespace are grouped several mathematical
- * constants and functions usable for different purpose.
- * It is often used as a low-level library for other
- * headers of POLDER library.
- */
-
-/**
- * @namespace polder::math::standard
- * @brief Default versions of mathematical functions
- *
- * Functions that have numerous versions have their most
- * intuitive implementation under this namespace.
+ * constants and functions usable for different purposes.
+ * It is used internally by many other POLDER modules.
  */
 
 /**
@@ -61,9 +51,8 @@
  *
  * Some simple functions can be evaluated at compile time
  * in some cases. However, at runtime, they are not as fast
- * as the standard ones. That's why we separate the
- * versions.
+ * as the standard ones. That's why separate versions of
+ * these functions are provided.
  */
 
-
-#endif // _POLDER_MATH_H
+#endif // POLDER_MATH_H_
