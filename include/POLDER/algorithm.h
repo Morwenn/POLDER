@@ -24,6 +24,7 @@
 #include <cmath>
 #include <limits>
 #include <type_traits>
+#include <POLDER/math/details/cmath_base.h>
 
 namespace polder
 {
@@ -72,7 +73,7 @@ namespace polder
      * @return true if the values compare equal
      */
     template<typename T>
-    auto float_equal(T lhs, T rhs)
+    constexpr auto float_equal(T lhs, T rhs)
         -> bool;
 
     #include "details/algorithm.inl"

@@ -36,23 +36,26 @@ auto range_map(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation
 }
 
 template<typename Float>
-auto float_equal(std::true_type, Float lhs, Float rhs)
+constexpr auto float_equal(std::true_type, Float lhs, Float rhs)
     -> bool
 {
-    return std::abs(lhs-rhs) <=
+    using math::meta::details::abs;
+    using math::meta::details::max;
+
+    return abs(lhs-rhs) <=
         std::numeric_limits<Float>::epsilon() *
-        std::max(std::abs(lhs), std::abs(rhs));
+        max(abs(lhs), abs(rhs));
 }
 
 template<typename T>
-auto float_equal(std::false_type, T lhs, T rhs)
+constexpr auto float_equal(std::false_type, T lhs, T rhs)
     -> bool
 {
     return lhs == rhs;
 }
 
 template<typename T>
-auto float_equal(T lhs, T rhs)
+constexpr auto float_equal(T lhs, T rhs)
     -> bool
 {
     return float_equal(std::is_floating_point<T>{}, lhs, rhs);
