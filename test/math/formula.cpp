@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Morwenn
+ * Copyright (C) 2013-2014 Morwenn
  *
  * static_math is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -15,7 +15,6 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include <POLDER/config.h>
 #include <POLDER/math/formula.h>
 
 using namespace polder;
