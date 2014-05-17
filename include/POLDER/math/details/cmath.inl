@@ -15,14 +15,17 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+////////////////////////////////////////////////////////////
+// Helper functions
+
 namespace details
 {
     template<typename T, typename U>
-    constexpr auto pow_helper(T acc, T value, U times)
+    constexpr auto pow_helper(T acc, T x, U times)
         -> T
     {
         return (times > 1) ?
-            pow_helper(acc*value, value, times-1) :
+            pow_helper(acc*x, x, times-1) :
                 acc;
     }
 
@@ -34,6 +37,9 @@ namespace details
             sqrt_helper(x, (y + x/y) / 2.0);
     }
 }
+
+////////////////////////////////////////////////////////////
+// Basic functions
 
 template<typename Number>
 constexpr auto abs(Number x)
@@ -56,45 +62,51 @@ constexpr auto max(T first, U second, Rest... rest)
     return details::max(first, second, rest...);
 }
 
+////////////////////////////////////////////////////////////
+// Number-theoretic and representation functions
+
 template<typename Float>
-constexpr auto floor(Float value)
+constexpr auto floor(Float x)
     -> int
 {
-    return (int(value) == value) ? int(value) :
-        (value >= 0.0) ? int(value) :
-            int(value) - 1;
+    return (int(x) == x) ? int(x) :
+        (x >= 0.0) ? int(x) :
+            int(x) - 1;
 }
 
 template<typename Float>
-constexpr auto ceil(Float value)
+constexpr auto ceil(Float x)
     -> int
 {
-    return (int(value) == value) ? int(value) :
-        (value >= 0.0) ? int(value) + 1 :
-            int(value);
+    return (int(x) == x) ? int(x) :
+        (x >= 0.0) ? int(x) + 1 :
+            int(x);
 }
 
 template<typename Float>
-constexpr auto round(Float value)
+constexpr auto round(Float x)
     -> int
 {
-    return (value >= 0.0) ? int(value + 0.5) : int(value - 0.5);
+    return (x >= 0.0) ? int(x + 0.5) : int(x - 0.5);
 }
 
 template<typename Float>
-constexpr auto trunc(Float value)
+constexpr auto trunc(Float x)
     -> int
 {
-    return int(value);
+    return int(x);
 }
 
-template<typename T, typename U>
-constexpr auto pow(T value, U exponent)
-    -> std::common_type_t<T, U>
+////////////////////////////////////////////////////////////
+// Power and logarithmic functions
+
+template<typename T, typename Integer>
+constexpr auto pow(T x, Integer exponent)
+    -> std::common_type_t<T, Integer>
 {
     return (exponent == 0) ? 1 :
-        (exponent > 0) ? details::pow_helper(value, value, exponent) :
-            1 / details::pow_helper(value, value, exponent);
+        (exponent > 0) ? details::pow_helper(x, x, exponent) :
+            1 / details::pow_helper(x, x, exponent);
 }
 
 template<typename Float>

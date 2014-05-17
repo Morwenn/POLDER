@@ -49,6 +49,9 @@ namespace math
 {
 namespace meta
 {
+    ////////////////////////////////////////////////////////////
+    // Basic functions
+
     /**
      * @brief Absolute value of a number
      */
@@ -70,6 +73,9 @@ namespace meta
     constexpr auto max(T first, U second, Rest... rest)
         -> std::common_type_t<T, U, Rest...>;
 
+    ////////////////////////////////////////////////////////////
+    // Number-theoretic and representation functions
+
     template<typename Float>
     constexpr auto floor(Float value)
         -> int;
@@ -86,14 +92,17 @@ namespace meta
     constexpr auto trunc(Float value)
         -> int;
 
+    ////////////////////////////////////////////////////////////
+    // Power and logarithmic functions
+
     /**
      * @brief Power function
      *
-     * @warning Only works with unsigned exponent.
+     * @warning Only works with positive integers.
      */
-    template<typename T, typename U>
-    constexpr auto pow(T value, U exponent)
-        -> std::common_type_t<T, U>;
+    template<typename T, typename Integer>
+    constexpr auto pow(T x, Integer exponent)
+        -> std::common_type_t<T, Integer>;
 
     /**
      * @brief Square root function
