@@ -21,12 +21,13 @@
 namespace details
 {
     template<typename T, typename Unsigned>
-    constexpr auto pow_helper(T acc, T x, Unsigned times)
+    constexpr auto pow_helper(T x, Unsigned exponent)
         -> T
     {
-        return (times > 1) ?
-            pow_helper(acc*x, x, times-1) :
-                acc;
+        // Exponentiation by squaring
+        return (exponent == 0) ? 1 :
+            (exponent % 2 == 0) ? pow_helper(x*x, exponent/2) :
+                x * pow_helper(x*x, (exponent-1)/2);
     }
 
     template<typename T>
@@ -105,8 +106,8 @@ constexpr auto pow(T x, Integer exponent)
     -> std::common_type_t<T, Integer>
 {
     return (exponent == 0) ? 1 :
-        (exponent > 0) ? details::pow_helper(x, x, exponent) :
-            1 / details::pow_helper(x, x, -exponent);
+        (exponent > 0) ? details::pow_helper(x, exponent) :
+            1 / details::pow_helper(x, -exponent);
 }
 
 template<typename Float>
