@@ -21,9 +21,9 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <array>
 #include <cmath>
 #include <complex>
-#include <utility>
 #include <vector>
 #include <POLDER/details/config.h>
 #include <POLDER/math/constants.h>
@@ -115,7 +115,7 @@ namespace math
      */
     template<typename Float>
     auto quadratic(Float A, Float B, Float C)
-        -> std::pair<std::complex<Float>, std::complex<Float>>;
+        -> std::array<std::complex<Float>, 2u>;
 
     /**
      * @brief Fibonacci function

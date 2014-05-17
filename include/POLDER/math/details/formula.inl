@@ -74,7 +74,7 @@ auto normalized_sinc(Float x)
 
 template<typename Float>
 auto quadratic(Float A, Float B, Float C)
-    -> std::pair<std::complex<Float>, std::complex<Float>>
+    -> std::array<std::complex<Float>, 2u>
 {
     A *= 2; // A is not used alone
     const Float delta = std::fma(B, B, -2*A*C);
@@ -83,18 +83,23 @@ auto quadratic(Float A, Float B, Float C)
     {
         const Float tmp_div = B / A;
         const Float delta_root = std::sqrt(delta);
-        return std::make_pair(std::complex<Float>(tmp_div, delta_root/A),
-                              std::complex<Float>(tmp_div, -delta_root/A));
+        return {
+            std::complex<Float>(tmp_div, delta_root/A),
+            std::complex<Float>(tmp_div, -delta_root/A)
+        };
     }
     else if (delta == 0)
     {
         const Float res = B / A;
-        return std::make_pair(res, res);
+        return { res, res };
     }
     else
     {
         const Float delta_root = std::sqrt(delta);
-        return std::make_pair((B+delta_root)/A, (B-delta_root)/A);
+        return {
+            (B+delta_root)/A,
+            (B-delta_root)/A
+        };
     }
 }
 

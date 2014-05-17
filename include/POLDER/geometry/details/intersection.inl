@@ -58,14 +58,14 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
 
     // Compute the results of the equation to find t
     auto t = math::quadratic(a, b, c);
-    if (t.first.imag() != 0 || t.second.imag() != 0)
+    if (t[0].imag() != 0 || t[1].imag() != 0)
     {
         // There is no intersection
         return { std::experimental::nullopt };
     }
 
-    auto t1 = t.first.real();
-    auto t2 = t.second.real();
+    auto t1 = t[0].real();
+    auto t2 = t[1].real();
 
     if (float_equal(t1, t2))
     {
