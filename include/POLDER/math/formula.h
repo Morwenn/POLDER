@@ -34,14 +34,54 @@ namespace polder
 {
 namespace math
 {
+    ////////////////////////////////////////////////////////////
+    // Basic functions
+
     /**
      * @brief signum function
-     * @param val Some number
-     * @return Sign of \a val
+     * @param x Some number
+     * @return Sign of \a x
      */
     template<typename Number>
-    auto sign(Number val)
+    auto sign(Number x)
         -> int;
+
+    /**
+     * @brief Sum of a number of variables
+     */
+    template<typename T, typename U, typename... Rest>
+    auto sum(T first, U second, Rest... rest)
+        -> std::common_type_t<T, U, Rest...>;
+
+    /**
+     * @brief Mean of a number of variables
+     */
+    template<typename... Numbers>
+    auto mean(Numbers... args)
+        -> decltype(sum(args...) / sizeof...(args));
+
+    /**
+     * @brief Square function
+     * @param x Some number
+     * @return Square of \a x
+     */
+    template<typename Number>
+    auto sqr(Number x)
+        -> Number;
+
+    /**
+     * @brief Limits a value to a range
+     * @param x Number to clamp
+     * @param min Lower limit
+     * @param max Higher limit
+     * @return \a x clamped between \a min and \a max
+     */
+    template<typename Number>
+    auto clamp(Number x, Number min, Number max)
+        -> Number;
+
+    ////////////////////////////////////////////////////////////
+    // Integer-related functions
 
     /**
      * @brief Tells whether the given number is even
@@ -69,77 +109,6 @@ namespace math
     template<typename Unsigned>
     auto is_prime(Unsigned n)
         -> bool;
-
-    /**
-     * @brief Converts an angle in radians into an angle in degrees.
-     * @param radians Angle in radians
-     * @return The degrees value
-     */
-    template<typename Float>
-    auto degrees(Float radians)
-        -> Float;
-
-    /**
-     * @brief Converts an angle in degrees into an angle in radians.
-     * @param degrees Angle in degrees
-     * @return The radians value
-     */
-    template<typename Float>
-    auto radians(Float degrees)
-        -> Float;
-
-    /**
-     * @brief Unnormalized sinc function
-     * @param x Real value
-     * @return Unnormalized cardinal sine of x
-     */
-    template<typename Float>
-    auto sinc(Float x)
-        -> Float;
-
-    /**
-     * @brief Normalized sinc function
-     * @param x Real value
-     * @return Normalized cardinal sine of x
-     */
-    template<typename Float>
-    auto normalized_sinc(Float x)
-        -> Float;
-
-    /**
-     * @brief Resolves a quadratic equation
-     *
-     * @param A First member of the quadratic equation
-     * @param B Second member of the quadratic equation
-     * @param C Third member of the quadratic equation
-     * @return Roots of the quadratic equation
-     */
-    template<typename Float>
-    auto quadratic(Float A, Float B, Float C)
-        -> std::array<std::complex<Float>, 2u>;
-
-    /**
-     * @brief Fibonacci function
-     * @param n Some integer
-     * @return Nth Fibonacci number
-     */
-    template<typename Unsigned>
-    auto fibonacci(Unsigned n)
-        -> Unsigned;
-
-    /**
-     * @brief Sum of a number of variables
-     */
-    template<typename T, typename U, typename... Rest>
-    auto sum(T first, U second, Rest... rest)
-        -> std::common_type_t<T, U, Rest...>;
-
-    /**
-     * @brief Mean of a number of variables
-     */
-    template<typename... Args>
-    auto mean(Args... args)
-        -> decltype(sum(args...) / sizeof...(args));
 
     /**
      * @brief Search a prime number
@@ -176,30 +145,92 @@ namespace math
         -> Unsigned;
 
     /**
-     * @brief Square function
-     * @param val Some number
-     * @return Square of \a val
+     * @brief Fibonacci function
+     * @param n Some integer
+     * @return Nth Fibonacci number
      */
-    template<typename Number>
-    auto sqr(Number val)
-        -> Number;
+    template<typename Unsigned>
+    auto fibonacci(Unsigned n)
+        -> Unsigned;
+
+    ////////////////////////////////////////////////////////////
+    // Angle conversions
 
     /**
-     * @brief Limits a value to a range
-     * @param val Number to clamp
-     * @param min Lower limit
-     * @param max Higher limit
-     * @return \a val clamped between \a min and \a max
+     * @brief Converts an angle in radians into an angle in degrees.
+     * @param x Angle in radians
+     * @return The degrees value
      */
-    template<typename Number>
-    auto clamp(Number val, Number min, Number max)
-        -> Number;
+    template<typename Float>
+    auto degrees(Float x)
+        -> Float;
+
+    /**
+     * @brief Converts an angle in degrees into an angle in radians.
+     * @param x Angle in degrees
+     * @return The radians value
+     */
+    template<typename Float>
+    auto radians(Float x)
+        -> Float;
+
+    ////////////////////////////////////////////////////////////
+    // Trigonometric functions
+
+    /**
+     * @brief Unnormalized sinc function
+     * @param x Real value
+     * @return Unnormalized cardinal sine of x
+     */
+    template<typename Float>
+    auto sinc(Float x)
+        -> Float;
+
+    /**
+     * @brief Normalized sinc function
+     * @param x Real value
+     * @return Normalized cardinal sine of x
+     */
+    template<typename Float>
+    auto normalized_sinc(Float x)
+        -> Float;
+
+    ////////////////////////////////////////////////////////////
+    // Miscellaneous functions
+
+    /**
+     * @brief Resolves a quadratic equation
+     *
+     * @param a First member of the quadratic equation
+     * @param b Second member of the quadratic equation
+     * @param c Third member of the quadratic equation
+     * @return Roots of the quadratic equation
+     */
+    template<typename Float>
+    auto quadratic(Float a, Float b, Float c)
+        -> std::array<std::complex<Float>, 2u>;
 
     namespace meta
     {
         template<typename Number>
-        constexpr auto sign(Number val)
+        constexpr auto sign(Number x)
             -> int;
+
+        template<typename T, typename U, typename... Rest>
+        constexpr auto sum(T first, U second, Rest... rest)
+            -> std::common_type_t<T, U, Rest...>;
+
+        template<typename... Numbers>
+        constexpr auto mean(Numbers... args)
+            -> decltype(sum(args...) / sizeof...(args));
+
+        template<typename Number>
+        constexpr auto sqr(Number x)
+            -> Number;
+
+        template<typename Number>
+        constexpr auto clamp(Number x, Number min, Number max)
+            -> Number;
 
         template<typename Integer>
         constexpr auto is_even(Integer n)
@@ -213,25 +244,9 @@ namespace math
         constexpr auto is_prime(Unsigned n)
             -> bool;
 
-        template<typename Float>
-        constexpr auto degrees(Float radians)
-            -> Float;
-
-        template<typename Float>
-        constexpr auto radians(Float degrees)
-            -> Float;
-
         template<typename Unsigned>
         constexpr auto fibonacci(Unsigned n)
             -> Unsigned;
-
-        template<typename T, typename U, typename... Rest>
-        constexpr auto sum(T first, U second, Rest... rest)
-            -> std::common_type_t<T, U, Rest...>;
-
-        template<typename... Numbers>
-        constexpr auto mean(Numbers... args)
-            -> decltype(sum(args...) / sizeof...(args));
 
         template<typename Unsigned>
         constexpr auto gcd(Unsigned a, Unsigned b)
@@ -241,13 +256,13 @@ namespace math
         constexpr auto lcm(Unsigned a, Unsigned b)
             -> Unsigned;
 
-        template<typename Number>
-        constexpr auto sqr(Number val)
-            -> Number;
+        template<typename Float>
+        constexpr auto degrees(Float radians)
+            -> Float;
 
-        template<typename Number>
-        constexpr auto clamp(Number val, Number min, Number max)
-            -> Number;
+        template<typename Float>
+        constexpr auto radians(Float degrees)
+            -> Float;
     }
 
     #include "details/formula.inl"

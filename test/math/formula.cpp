@@ -64,6 +64,7 @@ int main()
     POLDER_ASSERT(fibonacci(8) == 21);
 
     POLDER_ASSERT(sum(1, 2, 3, 4, 5) == 15);
+    POLDER_ASSERT(sum(1.0, 2.0, 3, 4, 5) == 15.0);
 
     POLDER_ASSERT(mean(2, 2, 2) == 2);
     POLDER_ASSERT(mean(2, 4, 3) == 3);

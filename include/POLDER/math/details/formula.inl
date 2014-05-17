@@ -16,12 +16,46 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+////////////////////////////////////////////////////////////
+// Basic functions
+
 template<typename Number>
-auto sign(Number val)
+auto sign(Number x)
     -> int
 {
-    return meta::sign(val);
+    return meta::sign(x);
 }
+
+template<typename T, typename U, typename... Rest>
+auto sum(T first, U second, Rest... rest)
+    -> std::common_type_t<T, U, Rest...>
+{
+    return meta::sum(first, second, rest...);
+}
+
+template<typename... Numbers>
+auto mean(Numbers... args)
+    -> decltype(sum(args...) / sizeof...(args))
+{
+    return sum(args...) / sizeof...(args);
+}
+
+template<typename Number>
+auto sqr(Number x)
+    -> Number
+{
+    return meta::sqr(x);
+}
+
+template<typename Number>
+auto clamp(Number x, Number min, Number max)
+    -> Number
+{
+    return meta::clamp(x, min, max);
+}
+
+////////////////////////////////////////////////////////////
+// Integer-related functions
 
 template<typename Integer>
 auto is_even(Integer n)
@@ -44,93 +78,6 @@ auto is_prime(Unsigned n)
     return meta::is_prime(n);
 }
 
-template<typename Float>
-auto degrees(Float rad)
-    -> Float
-{
-    return meta::degrees(rad);
-}
-
-template<typename Float>
-auto radians(Float deg)
-    -> Float
-{
-    return meta::radians(deg);
-}
-
-template<typename Float>
-auto sinc(Float x)
-    -> Float
-{
-    return std::sin(x) / x;
-}
-
-template<typename Float>
-auto normalized_sinc(Float x)
-    -> Float
-{
-    return std::sin(x * M_PI) / (x * M_PI);
-}
-
-template<typename Float>
-auto quadratic(Float A, Float B, Float C)
-    -> std::array<std::complex<Float>, 2u>
-{
-    A *= 2; // A is not used alone
-    const Float delta = std::fma(B, B, -2*A*C);
-    B = -B; // Only the opposite of B is used after this
-    if (delta < 0)
-    {
-        const Float tmp_div = B / A;
-        const Float delta_root = std::sqrt(delta);
-        return {
-            std::complex<Float>(tmp_div, delta_root/A),
-            std::complex<Float>(tmp_div, -delta_root/A)
-        };
-    }
-    else if (delta == 0)
-    {
-        const Float res = B / A;
-        return { res, res };
-    }
-    else
-    {
-        const Float delta_root = std::sqrt(delta);
-        return {
-            (B+delta_root)/A,
-            (B-delta_root)/A
-        };
-    }
-}
-
-template<typename Unsigned>
-auto fibonacci(Unsigned n)
-    -> Unsigned
-{
-    Unsigned a = 0;
-    Unsigned b = 1;
-    for (Unsigned i = 0 ; i < n ; ++i)
-    {
-        b += a;
-        a = b - a;
-    }
-    return a;
-}
-
-template<typename Number, typename... Rest>
-auto sum(Number first, Number second, Rest... rest)
-    -> Number
-{
-    return meta::sum(first, second, rest...);
-}
-
-template<typename... Args>
-auto mean(Args... args)
-    -> decltype(sum(args...) / sizeof...(args))
-{
-    return sum(args...) / sizeof...(args);
-}
-
 template<typename Unsigned>
 auto prime(Unsigned n)
     -> Unsigned
@@ -141,11 +88,10 @@ auto prime(Unsigned n)
     // compute and store it
     if (primes.size()-1 < n)
     {
-        // We search numbers greater than
-        // the greatest known prime member
+        // Search numbers greater than
+        // the greatest known prime
         Unsigned tested_number = primes.back();
 
-        // While we have less than n prime numbers
         while (primes.size()-1 < n)
         {
             // We iterate 2 by 2 (to avoid non-even numbers)
@@ -167,7 +113,6 @@ auto prime(Unsigned n)
                 // If the number has an integer divider
                 if (tested_number % pri == 0)
                 {
-                    // It's not a prime number
                     is_prime = false;
                     break;
                 }
@@ -180,6 +125,20 @@ auto prime(Unsigned n)
         }
     }
     return primes[n];
+}
+
+template<typename Unsigned>
+auto fibonacci(Unsigned n)
+    -> Unsigned
+{
+    Unsigned a = 0;
+    Unsigned b = 1;
+    for (Unsigned i = 0 ; i < n ; ++i)
+    {
+        b += a;
+        a = b - a;
+    }
+    return a;
 }
 
 template<typename Unsigned>
@@ -216,18 +175,72 @@ auto lcm(Unsigned a, Unsigned b)
     return a*b / gcd(a, b);
 }
 
-template<typename Number>
-auto sqr(Number val)
-    -> Number
+////////////////////////////////////////////////////////////
+// Angle conversions
+
+template<typename Float>
+auto degrees(Float x)
+    -> Float
 {
-    return meta::sqr(val);
+    return meta::degrees(x);
 }
 
-template<typename Number>
-auto clamp(Number val, Number min, Number max)
-    -> Number
+template<typename Float>
+auto radians(Float x)
+    -> Float
 {
-    return meta::clamp(val, min, max);
+    return meta::radians(x);
+}
+
+////////////////////////////////////////////////////////////
+// Trigonometric functions
+
+template<typename Float>
+auto sinc(Float x)
+    -> Float
+{
+    return std::sin(x) / x;
+}
+
+template<typename Float>
+auto normalized_sinc(Float x)
+    -> Float
+{
+    return std::sin(x * M_PI) / (x * M_PI);
+}
+
+////////////////////////////////////////////////////////////
+// Miscellaneous functions
+
+template<typename Float>
+auto quadratic(Float a, Float b, Float c)
+    -> std::array<std::complex<Float>, 2u>
+{
+    a *= 2; // a is not used alone
+    const Float delta = std::fma(b, b, -2*a*c);
+    b = -b; // Only the opposite of b is used after this
+    if (delta < 0)
+    {
+        const Float tmp_div = b / a;
+        const Float delta_root = std::sqrt(delta);
+        return {
+            std::complex<Float>(tmp_div, delta_root/a),
+            std::complex<Float>(tmp_div, -delta_root/a)
+        };
+    }
+    else if (delta == 0)
+    {
+        const Float res = b / a;
+        return { res, res };
+    }
+    else
+    {
+        const Float delta_root = std::sqrt(delta);
+        return {
+            (b+delta_root)/a,
+            (b-delta_root)/a
+        };
+    }
 }
 
 namespace meta
@@ -237,7 +250,6 @@ namespace meta
 
     namespace details
     {
-        // Helper for the is_prime() function
         template<typename Unsigned>
         constexpr auto is_prime_helper(Unsigned n, Unsigned div)
             -> bool
@@ -256,14 +268,52 @@ namespace meta
     }
 
     ////////////////////////////////////////////////////////////
-    // Main functions
+    // Basic functions
 
     template<typename Number>
-    constexpr auto sign(Number value)
+    constexpr auto sign(Number x)
         -> int
     {
-        return (value > 0) ? 1 : (value < 0) ? -1 : 0;
+        return (x > 0) ? 1 : (x < 0) ? -1 : 0;
     }
+
+    template<typename T, typename U>
+    constexpr auto sum(T first, U second)
+        -> std::common_type_t<T, U>
+    {
+        return first + second;
+    }
+
+    template<typename T, typename U, typename... Rest>
+    constexpr auto sum(T first, U second, Rest... rest)
+        -> std::common_type_t<T, U, Rest...>
+    {
+        return first + sum(second, rest...);
+    }
+
+    template<typename... Numbers>
+    constexpr auto mean(Numbers... args)
+        -> decltype(sum(args...) / sizeof...(args))
+    {
+        return sum(args...) / sizeof...(args);
+    }
+
+    template<typename Number>
+    constexpr auto sqr(Number x)
+        -> Number
+    {
+        return x * x;
+    }
+
+    template<typename Number>
+    constexpr auto clamp(Number x, Number min, Number max)
+        -> Number
+    {
+        return (x < min) ? min : (x > max) ? max : x;
+    }
+
+    ////////////////////////////////////////////////////////////
+    // Integer-related functions
 
     template<typename Integer>
     constexpr auto is_even(Integer n)
@@ -289,46 +339,11 @@ namespace meta
                     details::is_prime_helper(n, 3);
     }
 
-    template<typename Float>
-    constexpr auto degrees(Float rad)
-        -> Float
-    {
-        return rad * M_180_PI;
-    }
-
-    template<typename Float>
-    constexpr auto radians(Float deg)
-        -> Float
-    {
-        return deg * M_PI_180;
-    }
-
     template<typename Unsigned>
     constexpr auto fibonacci(Unsigned n)
         -> Unsigned
     {
         return (n < 2) ? n : meta::fibonacci(n-2) + meta::fibonacci(n-1);
-    }
-
-    template<typename T, typename U>
-    constexpr auto sum(T first, U second)
-        -> std::common_type_t<T, U>
-    {
-        return first + second;
-    }
-
-    template<typename T, typename U, typename... Rest>
-    constexpr auto sum(T first, U second, Rest... rest)
-        -> std::common_type_t<T, U, Rest...>
-    {
-        return first + sum(second, rest...);
-    }
-
-    template<typename... Numbers>
-    constexpr auto mean(Numbers... args)
-        -> decltype(sum(args...) / sizeof...(args))
-    {
-        return sum(args...) / sizeof...(args);
     }
 
     template<typename Unsigned>
@@ -348,17 +363,20 @@ namespace meta
             a * b / gcd(a, b);
     }
 
-    template<typename Number>
-    constexpr auto sqr(Number val)
-        -> Number
+    ////////////////////////////////////////////////////////////
+    // Angle conversions
+
+    template<typename Float>
+    constexpr auto degrees(Float x)
+        -> Float
     {
-        return val * val;
+        return x * M_180_PI;
     }
 
-    template<typename Number>
-    constexpr auto clamp(Number val, Number min, Number max)
-        -> Number
+    template<typename Float>
+    constexpr auto radians(Float x)
+        -> Float
     {
-        return (val < min) ? min : (val > max) ? max : val;
+        return x * M_PI_180;
     }
 }
