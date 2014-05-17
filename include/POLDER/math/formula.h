@@ -24,6 +24,7 @@
 #include <array>
 #include <cmath>
 #include <complex>
+#include <type_traits>
 #include <vector>
 #include <POLDER/details/config.h>
 #include <POLDER/math/constants.h>
@@ -129,9 +130,9 @@ namespace math
     /**
      * @brief Sum of a number of variables
      */
-    template<typename Number, typename... Rest>
-    auto sum(Number first, Number second, Rest... rest)
-        -> Number;
+    template<typename T, typename U, typename... Rest>
+    auto sum(T first, U second, Rest... rest)
+        -> std::common_type_t<T, U, Rest...>;
 
     /**
      * @brief Mean of a number of variables
@@ -224,16 +225,12 @@ namespace math
         constexpr auto fibonacci(Unsigned n)
             -> Unsigned;
 
-        template<typename Number, typename... Rest>
-        constexpr auto sum(Number first, Number second, Rest... rest)
-            -> Number;
+        template<typename T, typename U, typename... Rest>
+        constexpr auto sum(T first, U second, Rest... rest)
+            -> std::common_type_t<T, U, Rest...>;
 
-        template<typename Number>
-        constexpr auto sum(Number first, Number second)
-            -> Number;
-
-        template<typename... Args>
-        constexpr auto mean(Args... args)
+        template<typename... Numbers>
+        constexpr auto mean(Numbers... args)
             -> decltype(sum(args...) / sizeof...(args));
 
         template<typename Unsigned>

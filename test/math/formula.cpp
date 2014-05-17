@@ -123,6 +123,9 @@ int main()
     static_assert(
         meta::sum(1, 2, 3, 4, 5) == 15,
     "");
+    static_assert(
+        meta::sum(1.0, 2.0, 3, 4, 5) == 15.0,
+    "");
 
     static_assert(meta::mean(2, 2, 2) == 2, "");
     static_assert(meta::mean(2, 4, 3) == 3, "");

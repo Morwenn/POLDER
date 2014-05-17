@@ -310,22 +310,22 @@ namespace meta
         return (n < 2) ? n : meta::fibonacci(n-2) + meta::fibonacci(n-1);
     }
 
-    template<typename Number, typename... Rest>
-    constexpr auto sum(Number first, Number second, Rest... rest)
-        -> Number
-    {
-        return first + sum(second, rest...);
-    }
-
-    template<typename Number>
-    constexpr auto sum(Number first, Number second)
-        -> Number
+    template<typename T, typename U>
+    constexpr auto sum(T first, U second)
+        -> std::common_type_t<T, U>
     {
         return first + second;
     }
 
-    template<typename... Args>
-    constexpr auto mean(Args... args)
+    template<typename T, typename U, typename... Rest>
+    constexpr auto sum(T first, U second, Rest... rest)
+        -> std::common_type_t<T, U, Rest...>
+    {
+        return first + sum(second, rest...);
+    }
+
+    template<typename... Numbers>
+    constexpr auto mean(Numbers... args)
         -> decltype(sum(args...) / sizeof...(args))
     {
         return sum(args...) / sizeof...(args);
