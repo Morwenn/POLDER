@@ -63,6 +63,8 @@ int main()
     static_assert(pow(5.8, 0) == 1.0, "");
     static_assert(pow(2, 1) == 2, "");
     static_assert(pow(2, 2) == 4, "");
+    static_assert(pow(5.0, -6) == 1.0 / pow(5.0, 6), "");
+    static_assert(pow(2.0, -3) == 1.0 / pow(2.0, 3.0), "");
 
     static_assert(float_equal(sqrt(4.0), 2.0), "");
     static_assert(float_equal(sqrt(2.0), 1.414213562373095), "");

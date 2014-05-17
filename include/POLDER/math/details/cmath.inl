@@ -20,8 +20,8 @@
 
 namespace details
 {
-    template<typename T, typename U>
-    constexpr auto pow_helper(T acc, T x, U times)
+    template<typename T, typename Unsigned>
+    constexpr auto pow_helper(T acc, T x, Unsigned times)
         -> T
     {
         return (times > 1) ?
@@ -106,7 +106,7 @@ constexpr auto pow(T x, Integer exponent)
 {
     return (exponent == 0) ? 1 :
         (exponent > 0) ? details::pow_helper(x, x, exponent) :
-            1 / details::pow_helper(x, x, exponent);
+            1 / details::pow_helper(x, x, -exponent);
 }
 
 template<typename Float>
