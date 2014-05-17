@@ -18,13 +18,15 @@
 #define POLDER_MATH_CMATH_H_
 
 /**
- * @file static_math/cmath.h
- * @brief compile-time clone of the standard header cmath
+ * @file POLDER/math/cmath.h
+ * @brief compile-time versions of functions from <cmath>.
  *
  * This header provides functions aimed to mimic the ones
  * present in the header <cmath>. Some of them are not as
  * versatile as the original ones, some of them are more
- * versatile (e.g. min and max are variadic).
+ * versatile (e.g. min and max are variadic). If a function
+ * is less versatile than the original one, the difference
+ * between the two of them will be documented.
  *
  * The names slightly different from the original ones (for
  * example fabs, fmin and fmax are replaced by abs, min and
@@ -52,9 +54,6 @@ namespace meta
     ////////////////////////////////////////////////////////////
     // Basic functions
 
-    /**
-     * @brief Absolute value of a number
-     */
     template<typename Number>
     constexpr auto abs(Number x)
         -> Number;
@@ -96,16 +95,18 @@ namespace meta
     // Power and logarithmic functions
 
     /**
-     * @brief Power function
+     * @brief Power function.
      *
-     * @warning Only works with positive integers.
+     * Because of the way it is implemented, this function may
+     * be less precise than the <cmath> one. Moreover, it only
+     * accepts integer exponents.
      */
     template<typename T, typename Integer>
     constexpr auto pow(T x, Integer exponent)
         -> std::common_type_t<T, Integer>;
 
     /**
-     * @brief Square root function
+     * @brief Square root function.
      *
      * Square root computation with the babylonian method until
      * the best possible precision for the given floating point
