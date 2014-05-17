@@ -60,6 +60,8 @@ int main()
     static_assert(trunc(-2.1) == -2, "");
 
     static_assert(pow(2, 0) == 1, "");
+    static_assert(pow(2.0, 1) == 2.0, "");
+    static_assert(pow(5, 1) == 5, "");
     static_assert(pow(5.8, 0) == 1.0, "");
     static_assert(pow(2, 1) == 2, "");
     static_assert(pow(2, 2) == 4, "");
