@@ -161,4 +161,6 @@ namespace std
     {};
 }
 
+#include "details/constant_cmath.h"
+
 #endif // POLDER_SEMISYMBOLIC_CONSTANT_H_

@@ -20,10 +20,10 @@
 
 int main()
 {
+    using namespace polder::semisymbolic;
+
     // TEST: literals
     {
-        using namespace polder::semisymbolic;
-
         static_assert(0_c == 0, "");
         static_assert(1_c == 1, "");
         static_assert(-1_c == -1, "");
@@ -42,8 +42,6 @@ int main()
 
     // TEST: unary operator+
     {
-        using namespace polder::semisymbolic;
-
         constexpr auto a = 42_c;
         constexpr auto b = +a;
         static_assert(b == 42, "");
@@ -59,8 +57,6 @@ int main()
 
     // TEST: unary operator-
     {
-        using namespace polder::semisymbolic;
-
         constexpr auto a = 42_c;
         constexpr auto b = -a;
         static_assert(b == -42, "");
@@ -75,8 +71,6 @@ int main()
 
     // TEST: arithmetic operators
     {
-        using namespace polder::semisymbolic::literals;
-
         static_assert(0_c + 0_c == 0_c, "");
         static_assert(1_c + 0_c == 1_c, "");
         static_assert(0_c + 1_c == 1_c, "");
@@ -109,8 +103,6 @@ int main()
 
     // TEST: equality operators
     {
-        using namespace polder::semisymbolic;
-
         static_assert(52_c == 52_c, "");
         static_assert(0_c != 1_c, "");
 
@@ -129,8 +121,6 @@ int main()
 
     // TEST: relational operators
     {
-        using namespace polder::semisymbolic;
-
         static_assert(51_c < 52_c, "");
         static_assert(23_c <= 42_c, "");
         static_assert(23_c <= 23_c, "");
@@ -161,5 +151,39 @@ int main()
                 decltype(45_c >= 23_c),
                 Constant<bool, true>
             >::value, "");
+    }
+
+    // TEST: cmath functions
+    {
+        using namespace polder::math;
+
+        static_assert(meta::abs(-5_c) == 5_c, "");
+        static_assert(meta::abs(8_c) == 8_c, "");
+        static_assert(meta::abs(-82_cl) == 82_cl, "");
+
+        static_assert(
+            meta::min(1_c, 2_c) == 1_c, "");
+        static_assert(
+            meta::min(0_c, 0_c) == 0_c, "");
+        static_assert(
+            meta::min(-2_c, -1_c, 0_c, 1_c, 2_c) == -2_c, "");
+        static_assert(
+            meta::min(2_c, 1_c, 0_c, -1_c, -2_c) == -2_c, "");
+
+        static_assert(
+            meta::max(3_c, 8_c) == 8_c, "");
+        static_assert(
+            meta::max(-8_c, -8_c) == -8_c, "");
+        static_assert(
+            meta::max(8_c, -1_c, 6_c, 3_c, 5_c, 2_c, -8_c) == 8_c, "");
+        static_assert(
+            meta::max(-1_c, 0_c, 1_c, 2_c, 3_c, 2_c, 1_c, 0_c, -1_c) == 3_c, "");
+
+        static_assert(meta::pow(2_c, 0_c) == 1_c, "");
+        static_assert(meta::pow(2_c, 1_c) == 2_c, "");
+        static_assert(meta::pow(5_c, 1_c) == 5_c, "");
+        static_assert(meta::pow(5_c, 0_c) == 1_c, "");
+        static_assert(meta::pow(2_c, 1_c) == 2_c, "");
+        static_assert(meta::pow(2_c, 2_c) == 4_c, "");
     }
 }
