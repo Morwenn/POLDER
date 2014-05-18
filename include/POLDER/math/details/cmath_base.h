@@ -49,7 +49,9 @@ namespace details
     constexpr auto min(T first, U second, Rest... rest)
         -> std::common_type_t<T, U, Rest...>
     {
-        return (first < second) ? min(first, rest...) : min(second, rest...);
+        return (first < second) ?
+            details::min(first, rest...) :
+            details::min(second, rest...);
     }
 
     template<typename T, typename U>
@@ -63,7 +65,9 @@ namespace details
     constexpr auto max(T first, U second, Rest... rest)
         -> std::common_type_t<T, U, Rest...>
     {
-        return (first > second) ? max(first, rest...) : max(second, rest...);
+        return (first > second) ?
+            details::max(first, rest...) :
+            details::max(second, rest...);
     }
 }}}}
 
