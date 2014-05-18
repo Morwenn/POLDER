@@ -86,7 +86,7 @@ namespace polder
     }
 
     ////////////////////////////////////////////////////////////
-    // Static polymorphism utility
+    // Static polymorphism tools
 
     /**
      * @brief Trait holding a class types
@@ -98,6 +98,18 @@ namespace polder
      */
     template<typename T>
     struct types_t;
+
+    // Alias templates for the most common types
+    template<typename T>
+    using value_type_t = typename types_t<T>::value_type;
+    template<typename T>
+    using reference_t = typename types_t<T>::reference;
+    template<typename T>
+    using const_reference_t = typename types_t<T>::const_reference;
+    template<typename T>
+    using pointer_t = typename types_t<T>::pointer;
+    template<typename T>
+    using const_pointer_t = typename types_t<T>::const_pointer;
 
     ////////////////////////////////////////////////////////////
     // Development tool
