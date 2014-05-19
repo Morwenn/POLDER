@@ -15,13 +15,13 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include <POLDER/matrix.h>
 #include <POLDER/index.h>
+#include <POLDER/itertools.h>
+#include <POLDER/matrix.h>
 #include <POLDER/rational.h>
 
 int main()
 {
-    using namespace std;
     using namespace polder;
 
     // TEST: constructors/basic properties
@@ -291,5 +291,16 @@ int main()
         POLDER_ASSERT(transpose(b) == c);
         POLDER_ASSERT(make_rational(-1, 12) * c == d);
         POLDER_ASSERT(inverse(a) == d);
+    }
+
+    // TEST: static construction and flat iterators
+    {
+        using polder::itertools::flat;
+
+        auto a = Matrix<int>::zeros(5, 8);
+        for (int val: flat(a))
+        {
+            POLDER_ASSERT(val == 0);
+        }
     }
 }
