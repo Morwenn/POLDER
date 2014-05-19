@@ -28,6 +28,8 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <POLDER/semisymbolic/constant.h>
+#include <POLDER/semisymbolic/expression.h>
+#include <POLDER/semisymbolic/number.h>
 
 ////////////////////////////////////////////////////////////
 // Documentation
@@ -35,7 +37,7 @@
 
 /**
  * @namespace polder::semisymbolic
- * @brief Semi-symbolic mathematical utilities
+ * @brief Semi-symbolic mathematical utilities.
  *
  * This namespace contains expression templates and
  * other classes to perform semi-symbolic mathematical
