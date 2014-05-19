@@ -23,7 +23,7 @@
 ////////////////////////////////////////////////////////////
 #include <limits>
 #include <type_traits>
-#include <POLDER/details/config.h>
+#include <POLDER/utility.h>
 #include <POLDER/semisymbolic/details/parse.h>
 
 namespace polder
@@ -150,15 +150,36 @@ namespace semisymbolic
             >;
     }
 
+    ////////////////////////////////////////////////////////////
+    // Alias templates
+
+    using True  = Constant<bool, true>;
+    using False = Constant<bool, false>;
+
     #include "details/constant.inl"
 }}
 
 namespace std
 {
+    ////////////////////////////////////////////////////////////
+    // Numeric limits
+
     template<typename Int, Int N>
     class numeric_limits<polder::semisymbolic::Constant<Int, N>>:
         public std::numeric_limits<Int>
     {};
+}
+
+namespace polder
+{
+    ////////////////////////////////////////////////////////////
+    // CRTP value_type propagation
+
+    template<typename Int, Int N>
+    struct types_t<semisymbolic::Constant<Int, N>>
+    {
+        using value_type = Int;
+    };
 }
 
 #include "details/constant_cmath.h"
