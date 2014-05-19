@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_PATH_H
-#define _POLDER_PATH_H
+#ifndef POLDER_PATH_H_
+#define POLDER_PATH_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -160,4 +160,4 @@ namespace path
     #include "details/path.inl"
 }}
 
-#endif // _POLDER_PATH_H
+#endif // POLDER_PATH_H_

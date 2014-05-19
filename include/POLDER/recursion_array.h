@@ -15,15 +15,14 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_RECURSION_ARRAY_H
-#define _POLDER_RECURSION_ARRAY_H
+#ifndef POLDER_RECURSION_ARRAY_H_
+#define POLDER_RECURSION_ARRAY_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <initializer_list>
 #include <vector>
-#include <POLDER/details/config.h>
 #include <POLDER/utility.h>
 
 namespace polder
@@ -108,4 +107,4 @@ namespace polder
     #include "details/recursion_array.inl"
 }
 
-#endif // _POLDER_RECURSION_ARRAY_H
+#endif // POLDER_RECURSION_ARRAY_H_

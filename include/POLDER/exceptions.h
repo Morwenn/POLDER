@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_EXCEPTIONS_H
-#define _POLDER_EXCEPTIONS_H
+#ifndef POLDER_EXCEPTIONS_H_
+#define POLDER_EXCEPTIONS_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -100,4 +100,4 @@ namespace polder
     };
 }
 
-#endif // _POLDER_EXCEPTIONS_H
+#endif // POLDER_EXCEPTIONS_H_

@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_STYPE_H
-#define _POLDER_STYPE_H
+#ifndef POLDER_STYPE_H_
+#define POLDER_STYPE_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -48,4 +48,4 @@ namespace stype
     POLDER_API bool is_number(const char* str);
 }}
 
-#endif // _POLDER_STYPE_H
+#endif // POLDER_STYPE_H_

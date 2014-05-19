@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_STRING_H
-#define _POLDER_STRING_H
+#ifndef POLDER_STRING_H_
+#define POLDER_STRING_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -138,4 +138,4 @@ namespace string
     POLDER_API void to_lower(char* str);
 }}
 
-#endif // _POLDER_STRING_H
+#endif // POLDER_STRING_H_

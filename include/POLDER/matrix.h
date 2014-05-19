@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_MATRIX_H
-#define _POLDER_MATRIX_H
+#ifndef POLDER_MATRIX_H_
+#define POLDER_MATRIX_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -28,7 +28,6 @@
 #include <ostream>
 #include <vector>
 #include <POLDER/algorithm.h>
-#include <POLDER/details/config.h>
 #include <POLDER/functional.h>
 #include <POLDER/matrix/details/base.h>
 
@@ -517,4 +516,4 @@ namespace polder
     #include "details/matrix.inl"
 }
 
-#endif // _POLDER_MATRIX_H
+#endif // POLDER_MATRIX_H_

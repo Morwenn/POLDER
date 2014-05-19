@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_IO_H
-#define _POLDER_IO_H
+#ifndef POLDER_IO_H_
+#define POLDER_IO_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -135,4 +135,4 @@ namespace io
     #include "details/io.inl"
 }}
 
-#endif // _POLDER_IO_H
+#endif // POLDER_IO_H_

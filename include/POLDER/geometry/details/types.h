@@ -25,8 +25,8 @@
  * forward declare them at the beginning of each file.
  */
 
-#ifndef _POLDER_GEOMETRY_TYPES_H
-#define _POLDER_GEOMETRY_TYPES_H
+#ifndef POLDER_GEOMETRY_TYPES_H_
+#define POLDER_GEOMETRY_TYPES_H_
 
 namespace polder
 {
@@ -44,4 +44,4 @@ namespace geometry
     class Vector;
 }}
 
-#endif // _POLDER_GEOMETRY_TYPES_H
+#endif // POLDER_GEOMETRY_TYPES_H_

@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef _POLDER_EVALUATE_H
-#define _POLDER_EVALUATE_H
+#ifndef POLDER_EVALUATE_H_
+#define POLDER_EVALUATE_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -70,4 +70,4 @@ namespace polder
     };
 }
 
-#endif // _POLDER_EVALUATE_H
+#endif // POLDER_EVALUATE_H_
