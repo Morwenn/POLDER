@@ -19,27 +19,29 @@
 
 /**
  * @file POLDER/math/cmath.h
- * @brief compile-time versions of functions from <cmath>.
+ * @brief wrapper around functions from <cmath>.
  *
  * This header provides functions aimed to mimic the ones
- * present in the header <cmath>. Some of them are not as
- * versatile as the original ones, some of them are more
- * versatile (e.g. min and max are variadic). If a function
- * is less versatile than the original one, the difference
- * between the two of them will be documented.
+ * present in the header <cmath>. The main goal is to
+ * provide <cmath>-like overloadable functions since it is
+ * illegal to overload the ones from <cmath>.
  *
- * The names slightly different from the original ones (for
+ * Some names slightly different from the original ones (for
  * example fabs, fmin and fmax are replaced by abs, min and
  * max).
  *
- * All of these functions are meant to be executed at
- * compile time and are less efficient than their <cmath>
- * counterparts at runtime.
+ * This file also provides constexpr equivalents of some of
+ * the functions, in the subnamespace polder::math::meta.
+ *
+ * Some of the functions may be slightly different than the
+ * std:: ones, especially the ones in the polder::math::meta
+ * subnamespace. The differences should be documented.
  */
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <cmath>
 #include <type_traits>
 #include <POLDER/algorithm.h>
 #include <POLDER/details/config.h>
@@ -49,74 +51,105 @@ namespace polder
 {
 namespace math
 {
-namespace meta
-{
     ////////////////////////////////////////////////////////////
     // Basic functions
 
     template<typename Number>
-    constexpr auto abs(Number x)
+    auto abs(Number x)
         -> Number;
 
-    /**
-     * @brief Min of a number of variables
-     */
     template<typename T, typename U, typename... Rest>
-    constexpr auto min(T first, U second, Rest... rest)
+    auto min(T first, U second, Rest... rest)
         -> std::common_type_t<T, U, Rest...>;
 
-    /**
-     * @brief Max of a number of variables
-     */
     template<typename T, typename U, typename... Rest>
-    constexpr auto max(T first, U second, Rest... rest)
+    auto max(T first, U second, Rest... rest)
         -> std::common_type_t<T, U, Rest...>;
 
     ////////////////////////////////////////////////////////////
     // Number-theoretic and representation functions
 
-    template<typename Float>
-    constexpr auto floor(Float value)
-        -> int;
+    template<typename Number>
+    auto floor(Number x)
+        -> decltype(std::floor(x));
 
-    template<typename Float>
-    constexpr auto ceil(Float value)
-        -> int;
+    template<typename Number>
+    auto ceil(Number x)
+        -> decltype(std::ceil(x));
 
-    template<typename Float>
-    constexpr auto round(Float value)
-        -> int;
+    template<typename Number>
+    auto round(Number x)
+        -> decltype(std::round(x));
 
-    template<typename Float>
-    constexpr auto trunc(Float value)
-        -> int;
+    template<typename Number>
+    auto trunc(Number x)
+        -> decltype(std::trunc(x));
 
     ////////////////////////////////////////////////////////////
     // Power and logarithmic functions
 
-    /**
-     * @brief Power function.
-     *
-     * Because of the way it is implemented, this function may
-     * be less precise than the <cmath> one. Moreover, it only
-     * accepts integer exponents.
-     */
     template<typename T, typename Integer>
-    constexpr auto pow(T x, Integer exponent)
-        -> std::common_type_t<T, Integer>;
+    auto pow(T x, Integer exponent)
+        -> decltype(std::pow(x, exponent));
 
-    /**
-     * @brief Square root function.
-     *
-     * Square root computation with the babylonian method until
-     * the best possible precision for the given floating point
-     * type.
-     */
     template<typename Float>
-    constexpr auto sqrt(Float x)
-        -> Float;
+    auto sqrt(Float x)
+        -> decltype(std::sqrt(x));
+
+    namespace meta
+    {
+        template<typename Number>
+        constexpr auto abs(Number x)
+            -> Number;
+
+        template<typename T, typename U, typename... Rest>
+        constexpr auto min(T first, U second, Rest... rest)
+            -> std::common_type_t<T, U, Rest...>;
+
+        template<typename T, typename U, typename... Rest>
+        constexpr auto max(T first, U second, Rest... rest)
+            -> std::common_type_t<T, U, Rest...>;
+
+        template<typename Float>
+        constexpr auto floor(Float x)
+            -> decltype(std::floor(x));
+
+        template<typename Float>
+        constexpr auto ceil(Float x)
+            -> decltype(std::ceil(x));
+
+        template<typename Float>
+        constexpr auto round(Float x)
+            -> decltype(std::round(x));
+
+        template<typename Float>
+        constexpr auto trunc(Float x)
+            -> decltype(std::trunc(x));
+
+        /**
+         * @brief Power function.
+         *
+         * Because of the way it is implemented, this function may
+         * be less precise than the <cmath> one. Moreover, it only
+         * accepts integer exponents.
+         */
+        template<typename T, typename Integer>
+        constexpr auto pow(T x, Integer exponent)
+            -> std::common_type_t<T, Integer>;
+
+        /**
+         * @brief Square root function.
+         *
+         * Square root computation with the babylonian method until
+         * the best possible precision for the given floating point
+         * type.
+         */
+        template<typename Float>
+        constexpr auto sqrt(Float x)
+            -> decltype(std::sqrt(x));
+    }
 
     #include "details/cmath.inl"
-}}}
+}}
 
 #endif // POLDER_MATH_CMATH_H_
