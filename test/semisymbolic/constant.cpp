@@ -23,13 +23,22 @@ int main()
 {
     using namespace polder::semisymbolic;
 
-    // TEST: literals
+    // TEST: boolean constants
+    {
+        static_assert(True{} == true, "");
+        static_assert(False{} == false, "");
+        static_assert(True{} != false, "");
+        static_assert(False{} != true, "");
+        static_assert(True{} != False{}, "");
+    }
+
+    // TEST: integer literals
     {
         static_assert(0_c == 0, "");
         static_assert(1_c == 1, "");
         static_assert(-1_c == -1, "");
         static_assert(45_cl == 45l, "");
-        static_assert(52_cll() == 52ll, "");
+        static_assert(52_cll == 52ll, "");
         static_assert(decltype(45_cu)::value == 45u, "");
         static_assert(91_cul == 91ul, "");
         static_assert(23_cull == (long long unsigned)23, "");
@@ -110,13 +119,13 @@ int main()
         static_assert(
             std::is_same<
                 decltype(45_c == 23_c),
-                Constant<bool, false>
+                False
             >::value, "");
 
         static_assert(
             std::is_same<
                 decltype(45_c != 23_c),
-                Constant<bool, true>
+                True
             >::value, "");
     }
 
