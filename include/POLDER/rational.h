@@ -24,6 +24,7 @@
 #include <cmath>
 #include <type_traits>
 #include <POLDER/exceptions.h>
+#include <POLDER/math/cmath.h>
 #include <POLDER/math/formula.h>
 
 namespace polder
@@ -153,8 +154,7 @@ namespace polder
 
 
     ////////////////////////////////////////////////////////////
-    // Global operators
-    ////////////////////////////////////////////////////////////
+    // Unary arithmetic operators
 
     template<typename T>
     constexpr auto operator+(rational<T> rat)
@@ -162,6 +162,9 @@ namespace polder
     template<typename T>
     auto operator-(rational<T> rat)
         -> rational<T>;
+
+    ////////////////////////////////////////////////////////////
+    // Binary arithmetic operators
 
     template<typename T, typename U>
     auto operator+(const rational<T>& lhs, const rational<U>& rhs)
@@ -203,6 +206,9 @@ namespace polder
     auto operator/(const U& lhs, const rational<T>& rhs)
         -> rational<std::common_type_t<T, U>>;
 
+    ////////////////////////////////////////////////////////////
+    // Equality operators
+
     template<typename T, typename U>
     constexpr
     auto operator==(const rational<T>& lhs, const rational<U>& rhs)
@@ -228,6 +234,9 @@ namespace polder
     constexpr
     auto operator!=(const U& lhs, const rational<T>& rhs)
         -> bool;
+
+    ////////////////////////////////////////////////////////////
+    // Relational operators
 
     template<typename T, typename U>
     constexpr
@@ -281,6 +290,9 @@ namespace polder
     auto operator>=(const U& lhs, const rational<T>& rhs)
         -> bool;
 
+    ////////////////////////////////////////////////////////////
+    // Stream operators
+
     /**
      * @brief Output stream operator overload
      *
@@ -292,12 +304,15 @@ namespace polder
     auto operator<<(std::ostream& stream, const rational<T>& rat)
         -> std::ostream&;
 
+    ////////////////////////////////////////////////////////////
+    // Helper functions
+
     /**
-     * @brief Rational numbers creation handler
+     * @brief Rational numbers creation helper
      *
      * Function helping to construct rational numbers without
-     * having to fill the template parameters since they will
-     * be deduced from the parameters.
+     * having to specify the template parameters since they
+     * will be deduced from the parameters.
      *
      * @param numerator Numerator of a fraction
      * @param denominator Denominator of the fraction
@@ -305,6 +320,17 @@ namespace polder
      */
     template<typename T>
     constexpr auto make_rational(T numerator, T denominator=1)
+        -> rational<T>;
+
+    ////////////////////////////////////////////////////////////
+    // Mathematical functions
+
+    template<typename T>
+    constexpr auto abs(const rational<T>& rat)
+        -> rational<T>;
+
+    template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
+    constexpr auto pow(const rational<T>& rat, U exponent)
         -> rational<T>;
 
     #include "details/rational.inl"

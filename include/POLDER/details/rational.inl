@@ -197,7 +197,7 @@ auto rational<T>::simplify()
 }
 
 ////////////////////////////////////////////////////////////
-// Outside-class operators
+// Unary arithmetic operators
 ////////////////////////////////////////////////////////////
 
 template<typename T>
@@ -213,6 +213,10 @@ auto operator-(rational<T> rat)
 {
     return rat *= -1;
 }
+
+////////////////////////////////////////////////////////////
+// Binary arithmetic operators
+////////////////////////////////////////////////////////////
 
 template<typename T, typename U>
 auto operator+(const rational<T>& lhs, const rational<U>& rhs)
@@ -304,6 +308,10 @@ auto operator/(const U& lhs, const rational<T>& rhs)
     );
 }
 
+////////////////////////////////////////////////////////////
+// Equality operators
+////////////////////////////////////////////////////////////
+
 template<typename T, typename U>
 constexpr
 auto operator==(const rational<T>& lhs, const rational<U>& rhs)
@@ -328,6 +336,10 @@ auto operator==(const U& lhs, const rational<T>& rhs)
 {
     return rhs.numerator() == rhs.denominator() * lhs;
 }
+
+////////////////////////////////////////////////////////////
+// Relational operators
+////////////////////////////////////////////////////////////
 
 template<typename T, typename U>
 constexpr
@@ -453,6 +465,10 @@ auto operator>=(const U& lhs, const rational<T>& rhs)
     return rhs.numerator() < rhs.denominator() * lhs;
 }
 
+////////////////////////////////////////////////////////////
+// Stream operators
+////////////////////////////////////////////////////////////
+
 template<typename T>
 auto operator<<(std::ostream& stream, const rational<T>& rat)
     -> std::ostream&
@@ -462,7 +478,7 @@ auto operator<<(std::ostream& stream, const rational<T>& rat)
 }
 
 ////////////////////////////////////////////////////////////
-// Construction helper
+// Helper functions
 ////////////////////////////////////////////////////////////
 
 template<typename T>
@@ -470,4 +486,28 @@ constexpr auto make_rational(T numerator, T denominator)
     -> rational<T>
 {
     return rational<T>(numerator, denominator);
+}
+
+////////////////////////////////////////////////////////////
+// Mathematical functions
+////////////////////////////////////////////////////////////
+
+template<typename T>
+constexpr auto abs(const rational<T>& rat)
+    -> rational<T>
+{
+    return make_rational(
+        math::meta::abs(rat.numerator()),
+        rat.denominator()
+    );
+}
+
+template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
+constexpr auto pow(const rational<T>& rat, U exponent)
+    -> rational<T>
+{
+    return make_rational(
+        math::meta::pow(rat.numerator(), exponent),
+        math::meta::pow(rat.denominator(), exponent)
+    );
 }
