@@ -29,7 +29,7 @@ constexpr rational<T>::rational():
 template<typename T>
 constexpr rational<T>::rational(value_type numerator, value_type denominator):
     _numerator(numerator * math::meta::sign(denominator)),
-    _denominator(denominator >= 0 ? denominator : -denominator)
+    _denominator(math::meta::abs(denominator))
 {}
 
 template<typename T>
