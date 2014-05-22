@@ -211,7 +211,7 @@ template<typename T>
 auto operator-(rational<T> rat)
     -> rational<T>
 {
-    return rat *= -1;
+    return rat *= T{-1};
 }
 
 ////////////////////////////////////////////////////////////
@@ -257,10 +257,10 @@ template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>
 auto operator-(const U& lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, U>>
 {
-    return rational<std::common_type_t<T, U>>(
+    return {
         lhs * rhs.denominator() - rhs.numerator(),
         rhs.denominator()
-    );
+    };
 }
 
 template<typename T, typename U>
@@ -302,10 +302,10 @@ template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>
 auto operator/(const U& lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, U>>
 {
-    return rational<std::common_type_t<T, U>>(
+    return {
         lhs * rhs.denominator(),
         rhs.numerator()
-    );
+    };
 }
 
 ////////////////////////////////////////////////////////////
@@ -485,7 +485,7 @@ template<typename T>
 constexpr auto make_rational(T numerator, T denominator)
     -> rational<T>
 {
-    return rational<T>(numerator, denominator);
+    return { numerator, denominator };
 }
 
 ////////////////////////////////////////////////////////////
@@ -496,18 +496,18 @@ template<typename T>
 constexpr auto abs(const rational<T>& rat)
     -> rational<T>
 {
-    return make_rational(
+    return {
         math::meta::abs(rat.numerator()),
         rat.denominator()
-    );
+    };
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr auto pow(const rational<T>& rat, U exponent)
     -> rational<T>
 {
-    return make_rational(
+    return {
         math::meta::pow(rat.numerator(), exponent),
         math::meta::pow(rat.denominator(), exponent)
-    );
+    };
 }
