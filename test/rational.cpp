@@ -26,16 +26,16 @@ int main()
 
         // Default initialization
         constexpr rational<int> r0;
-        static_assert(r0.numerator() == 0, "");
-        static_assert(r0.denominator() == 1, "");
+        static_assert(r0.numer() == 0, "");
+        static_assert(r0.denom() == 1, "");
 
         constexpr auto ratio = make_rational(4, 3);
-        static_assert(ratio.numerator() == 4, "");
-        static_assert(ratio.denominator() == 3, "");
+        static_assert(ratio.numer() == 4, "");
+        static_assert(ratio.denom() == 3, "");
 
         constexpr auto ratio2 = make_rational(5);
-        static_assert(ratio2.numerator() == 5, "");
-        static_assert(ratio2.denominator() == 1, "");
+        static_assert(ratio2.numer() == 5, "");
+        static_assert(ratio2.denom() == 1, "");
     }
 
     // TEST: relational operators
@@ -129,8 +129,8 @@ int main()
         static_assert(sign(r1) == -1, "");
         static_assert(sign(r2) == -1, "");
         static_assert(sign(r3) == 1, "");
-        static_assert(sign(r1) == sign(r1.numerator()), "");
-        static_assert(sign(r2) == sign(r2.numerator()), "");
+        static_assert(sign(r1) == sign(r1.numer()), "");
+        static_assert(sign(r2) == sign(r2.numer()), "");
     }
 
     // TEST: cast

@@ -22,20 +22,20 @@
 
 template<typename T>
 constexpr rational<T>::rational():
-    _numerator(0),
-    _denominator(1)
+    _numer(0),
+    _denom(1)
 {}
 
 template<typename T>
 constexpr rational<T>::rational(value_type numerator, value_type denominator):
-    _numerator(numerator * math::meta::sign(denominator)),
-    _denominator(math::meta::abs(denominator))
+    _numer(numerator * math::meta::sign(denominator)),
+    _denom(math::meta::abs(denominator))
 {}
 
 template<typename T>
 constexpr rational<T>::rational(value_type numerator) noexcept:
-    _numerator(numerator),
-    _denominator(1)
+    _numer(numerator),
+    _denom(1)
 {}
 
 ////////////////////////////////////////////////////////////
@@ -44,18 +44,18 @@ constexpr rational<T>::rational(value_type numerator) noexcept:
 
 template<typename T>
 constexpr
-auto rational<T>::numerator() const noexcept
+auto rational<T>::numer() const noexcept
     -> value_type
 {
-    return _numerator;
+    return _numer;
 }
 
 template<typename T>
 constexpr
-auto rational<T>::denominator() const noexcept
+auto rational<T>::denom() const noexcept
     -> value_type
 {
-    return _denominator;
+    return _denom;
 }
 
 ////////////////////////////////////////////////////////////
@@ -66,8 +66,8 @@ template<typename T>
 auto rational<T>::operator=(value_type other)
     -> rational&
 {
-    _numerator = other;
-    _denominator = 1;
+    _numer = other;
+    _denom = 1;
     return *this;
 }
 
@@ -75,9 +75,9 @@ template<typename T>
 auto rational<T>::operator+=(const rational& other)
     -> rational&
 {
-    _numerator *= other._denominator;
-    _numerator += other._numerator * _denominator;
-    _denominator *= other._denominator;
+    _numer *= other.denom();
+    _numer += other.numer() * _denom;
+    _denom *= other.denom();
     return *this;
 }
 
@@ -85,7 +85,7 @@ template<typename T>
 auto rational<T>::operator+=(value_type other)
     -> rational&
 {
-    _numerator += other * _denominator;
+    _numer += other * _denom;
     return *this;
 }
 
@@ -93,9 +93,9 @@ template<typename T>
 auto rational<T>::operator-=(const rational& other)
     -> rational&
 {
-    _numerator *= other._denominator;
-    _numerator -= other._numerator * _denominator;
-    _denominator *= other._denominator;
+    _numer *= other.denom();
+    _numer -= other.numer() * _denom;
+    _denom *= other.denom();
     return *this;
 }
 
@@ -103,7 +103,7 @@ template<typename T>
 auto rational<T>::operator-=(value_type other)
     -> rational&
 {
-    _numerator -= other * _denominator;
+    _numer -= other * _denom;
     return *this;
 }
 
@@ -111,8 +111,8 @@ template<typename T>
 auto rational<T>::operator*=(const rational& other)
     -> rational&
 {
-    _numerator *= other._numerator;
-    _denominator *= other._denominator;
+    _numer *= other.numer();
+    _denom *= other.denom();
     return *this;
 }
 
@@ -120,7 +120,7 @@ template<typename T>
 auto rational<T>::operator*=(value_type other)
     -> rational&
 {
-    _numerator *= other;
+    _numer *= other;
     return *this;
 }
 
@@ -128,12 +128,12 @@ template<typename T>
 auto rational<T>::operator/=(const rational& other)
     -> rational&
 {
-    if (other._numerator == 0)
+    if (other.numer() == 0)
     {
         throw division_by_zero();
     }
-    _numerator *= other._denominator;
-    _denominator *= other._numerator;
+    _numer *= other.denom();
+    _denom *= other.numer();
     return *this;
 }
 
@@ -145,29 +145,29 @@ auto rational<T>::operator/=(value_type val)
     {
         throw division_by_zero();
     }
-    _denominator *= val;
+    _denom *= val;
     return *this;
 }
 
 template<typename T>
-constexpr
-rational<T>::operator float() const
+constexpr rational<T>::operator float() const
 {
-    return float(_numerator) / float(_denominator);
+    return static_cast<float>(_numer) /
+           static_cast<float>(_denom);
 }
 
 template<typename T>
-constexpr
-rational<T>::operator double() const
+constexpr rational<T>::operator double() const
 {
-    return double(_numerator) / double(_denominator);
+    return static_cast<double>(_numer) /
+           static_cast<double>(_denom);
 }
 
 template<typename T>
-constexpr
-rational<T>::operator long double() const
+constexpr rational<T>::operator long double() const
 {
-    return (long double) _numerator / (long double) _denominator;
+    return static_cast<long double>(_numer) /
+           static_cast<long double>(_denom);
 }
 
 ////////////////////////////////////////////////////////////
@@ -179,19 +179,19 @@ auto rational<T>::simplify()
     -> void
 {
     // Sign simplification
-    if (_denominator < 0)
+    if (denom < 0)
     {
-        _numerator = -_numerator;
-        _denominator = -_denominator;
+        _numer = -_numer;
+        denom = -denom;
     }
     // Value simplification
-    if (_numerator != 1 && _denominator != 1)
+    if (_numer != 1 && denom != 1)
     {
-        auto _gcd = math::gcd(_numerator, _denominator);
+        auto _gcd = math::gcd(_numer, denom);
         if (_gcd != 1)
         {
-            _numerator /= _gcd;
-            _denominator /= _gcd;
+            _numer /= _gcd;
+            denom /= _gcd;
         }
     }
 }
@@ -258,8 +258,8 @@ auto operator-(U lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, U>>
 {
     return {
-        lhs * rhs.denominator() - rhs.numerator(),
-        rhs.denominator()
+        lhs * rhs.denom() - rhs.numer(),
+        rhs.denom()
     };
 }
 
@@ -303,8 +303,8 @@ auto operator/(U lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, U>>
 {
     return {
-        lhs * rhs.denominator(),
-        rhs.numerator()
+        lhs * rhs.denom(),
+        rhs.numer()
     };
 }
 
@@ -317,8 +317,8 @@ constexpr
 auto operator==(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
-    return lhs.numerator() * rhs.denominator()
-        == lhs.denominator() * rhs.numerator();
+    return lhs.numer() * rhs.denom()
+        == lhs.denom() * rhs.numer();
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
@@ -326,7 +326,7 @@ constexpr
 auto operator==(const rational<T>& lhs, U rhs)
     -> bool
 {
-    return lhs.numerator() == lhs.denominator() * rhs;
+    return lhs.numer() == lhs.denom() * rhs;
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
@@ -334,7 +334,7 @@ constexpr
 auto operator==(U lhs, const rational<T>& rhs)
     -> bool
 {
-    return rhs.numerator() == rhs.denominator() * lhs;
+    return rhs.numer() == rhs.denom() * lhs;
 }
 
 ////////////////////////////////////////////////////////////
@@ -370,8 +370,8 @@ constexpr
 auto operator<(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
-    return lhs.numerator() * rhs.denominator()
-        < lhs.denominator() * rhs.numerator();
+    return lhs.numer() * rhs.denom()
+        < lhs.denom() * rhs.numer();
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
@@ -379,7 +379,7 @@ constexpr
 auto operator<(const rational<T>& lhs, U rhs)
     -> bool
 {
-    return lhs.numerator() < lhs.denominator() * rhs;
+    return lhs.numer() < lhs.denom() * rhs;
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
@@ -387,7 +387,7 @@ constexpr
 auto operator<(U lhs, const rational<T>& rhs)
     -> bool
 {
-    return rhs.numerator() >= rhs.denominator() * lhs;
+    return rhs.numer() >= rhs.denom() * lhs;
 }
 
 template<typename T, typename U>
@@ -395,8 +395,8 @@ constexpr
 auto operator>(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
-    return lhs.numerator() * rhs.denominator()
-        > lhs.denominator() * rhs.numerator();
+    return lhs.numer() * rhs.denom()
+        > lhs.denom() * rhs.numer();
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
@@ -404,7 +404,7 @@ constexpr
 auto operator>(const rational<T>& lhs, U rhs)
     -> bool
 {
-    return lhs.numerator() > lhs.denominator() * rhs;
+    return lhs.numer() > lhs.denom() * rhs;
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
@@ -412,7 +412,7 @@ constexpr
 auto operator>(U lhs, const rational<T>& rhs)
     -> bool
 {
-    return rhs.numerator() <= rhs.denominator() * lhs;
+    return rhs.numer() <= rhs.denom() * lhs;
 }
 
 template<typename T, typename U>
@@ -420,8 +420,8 @@ constexpr
 auto operator<=(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
-    return lhs.numerator() * rhs.denominator()
-        <= lhs.denominator() * rhs.numerator();
+    return lhs.numer() * rhs.denom()
+        <= lhs.denom() * rhs.numer();
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
@@ -429,7 +429,7 @@ constexpr
 auto operator<=(const rational<T>& lhs, U rhs)
     -> bool
 {
-    return lhs.numerator() <= lhs.denominator() * rhs;
+    return lhs.numer() <= lhs.denom() * rhs;
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
@@ -437,7 +437,7 @@ constexpr
 auto operator<=(U lhs, const rational<T>& rhs)
     -> bool
 {
-    return lhs * rhs.denominator() <= rhs.numerator();
+    return lhs * rhs.denom() <= rhs.numer();
 }
 
 template<typename T, typename U>
@@ -445,8 +445,8 @@ constexpr
 auto operator>=(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
-    return lhs.numerator() * rhs.denominator()
-        >= lhs.denominator() * rhs.numerator();
+    return lhs.numer() * rhs.denom()
+        >= lhs.denom() * rhs.numer();
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
@@ -454,7 +454,7 @@ constexpr
 auto operator>=(const rational<T>& lhs, U rhs)
     -> bool
 {
-    return lhs.numerator() >= lhs.denominator() * rhs;
+    return lhs.numer() >= lhs.denom() * rhs;
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
@@ -462,7 +462,7 @@ constexpr
 auto operator>=(U lhs, const rational<T>& rhs)
     -> bool
 {
-    return rhs.numerator() < rhs.denominator() * lhs;
+    return rhs.numer() < rhs.denom() * lhs;
 }
 
 ////////////////////////////////////////////////////////////
@@ -473,7 +473,7 @@ template<typename T>
 auto operator<<(std::ostream& stream, const rational<T>& rat)
     -> std::ostream&
 {
-    stream << rat.numerator() << "/" << rat.denominator();
+    stream << rat.numer() << "/" << rat.denom();
     return stream;
 }
 
@@ -497,8 +497,8 @@ constexpr auto abs(const rational<T>& rat)
     -> rational<T>
 {
     return {
-        math::meta::abs(rat.numerator()),
-        rat.denominator()
+        math::meta::abs(rat.numer()),
+        math::meta::abs(rat.denom())
     };
 }
 
@@ -512,12 +512,12 @@ constexpr auto pow(const rational<T>& rat, Integer exponent)
 
     return (exponent == 0) ? Ret(1) :
         (exponent > 0) ? Ret(
-                        pow(rat.numerator(), exponent),
-                        pow(rat.denominator(), exponent)
+                        pow(rat.numer(), exponent),
+                        pow(rat.denom(), exponent)
                     ) :
                     Ret(
-                        pow(rat.denominator(), -exponent),
-                        pow(rat.numerator(), -exponent)
+                        pow(rat.denom(), -exponent),
+                        pow(rat.numer(), -exponent)
                     );
 }
 
@@ -526,5 +526,5 @@ constexpr auto sign(const rational<T>& rat)
     -> int
 {
     using polder::math::meta::sign;
-    return sign(rat.numerator()) * sign(rat.denominator());
+    return sign(rat.numer()) * sign(rat.denom());
 }

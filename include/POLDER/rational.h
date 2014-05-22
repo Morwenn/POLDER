@@ -45,7 +45,7 @@ namespace polder
     struct rational
     {
         static_assert(std::is_integral<T>::value,
-                      "A rational can only be made of integral values.");
+                      "a rational can only be made of integral values");
 
         public:
 
@@ -91,7 +91,7 @@ namespace polder
              * @return Numerator
              */
             constexpr
-            auto numerator() const noexcept
+            auto numer() const noexcept
                 -> value_type;
 
             /**
@@ -99,7 +99,7 @@ namespace polder
              * @return Denominator
              */
             constexpr
-            auto denominator() const noexcept
+            auto denom() const noexcept
                 -> value_type;
 
             ////////////////////////////////////////////////////////////
@@ -147,8 +147,8 @@ namespace polder
         private:
 
             // Member data
-            value_type _numerator;      /**< Numerator */
-            value_type _denominator;    /**< Denominator */
+            value_type _numer;      /**< Numerator */
+            value_type _denom;    /**< Denominator */
     };
 
 
