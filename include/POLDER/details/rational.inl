@@ -506,9 +506,6 @@ template<typename T, typename Integer>
 constexpr auto pow(const rational<T>& rat, Integer exponent)
     -> rational<std::common_type_t<T, Integer>>
 {
-    static_assert(std::is_integral<Integer>::value,
-                  "pow only accepts integer exponents");
-
     using Ret = rational<std::common_type_t<T, Integer>>;
 
     using polder::math::meta::pow;
