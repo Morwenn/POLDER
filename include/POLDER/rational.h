@@ -332,6 +332,10 @@ namespace polder
     constexpr auto pow(const rational<T>& rat, Integer exponent)
         -> rational<std::common_type_t<T, Integer>>;
 
+    template<typename T>
+    constexpr auto sign(const rational<T>& rat)
+        -> int;
+
     #include "details/rational.inl"
 }
 

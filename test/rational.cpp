@@ -24,6 +24,11 @@ int main()
     {
         using namespace polder;
 
+        // Default initialization
+        constexpr rational<int> r0;
+        static_assert(r0.numerator() == 0, "");
+        static_assert(r0.denominator() == 1, "");
+
         constexpr auto ratio = make_rational(4, 3);
         static_assert(ratio.numerator() == 4, "");
         static_assert(ratio.denominator() == 3, "");
@@ -101,6 +106,12 @@ int main()
     {
         using polder::make_rational;
 
+        // ADL
+        using polder::math::meta::abs;
+        using polder::math::meta::pow;
+        using polder::math::meta::sign;
+
+        constexpr auto r0 = make_rational(0, 1);
         constexpr auto r1 = make_rational(-1, 2);
         constexpr auto r2 = make_rational(1, -2);
         constexpr auto r3 = make_rational(4, 5);
@@ -109,13 +120,17 @@ int main()
         static_assert(abs(r2) == make_rational(1, 2), "");
         static_assert(abs(r1) == abs(r2), "");
 
-        // ADL
-        using polder::math::meta::pow;
-
         static_assert(pow(r1, 0) == make_rational(1, 1), "");
         static_assert(pow(r2, 1) == r2, "");
         static_assert(pow(r3, 3) == make_rational(64, 125), "");
         static_assert(pow(r3, -3) == make_rational(pow(5, 3), pow(4, 3)), "");
+
+        static_assert(sign(r0) == 0, "");
+        static_assert(sign(r1) == -1, "");
+        static_assert(sign(r2) == -1, "");
+        static_assert(sign(r3) == 1, "");
+        static_assert(sign(r1) == sign(r1.numerator()), "");
+        static_assert(sign(r2) == sign(r2.numerator()), "");
     }
 
     // TEST: cast

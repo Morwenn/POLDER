@@ -520,3 +520,11 @@ constexpr auto pow(const rational<T>& rat, Integer exponent)
                         pow(rat.numerator(), -exponent)
                     );
 }
+
+template<typename T>
+constexpr auto sign(const rational<T>& rat)
+    -> int
+{
+    using polder::math::meta::sign;
+    return sign(rat.numerator()) * sign(rat.denominator());
+}
