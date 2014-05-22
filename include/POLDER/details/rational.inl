@@ -27,13 +27,13 @@ constexpr rational<T>::rational():
 {}
 
 template<typename T>
-constexpr rational<T>::rational(const T& numerator, const T& denominator):
+constexpr rational<T>::rational(value_type numerator, value_type denominator):
     _numerator(numerator * math::meta::sign(denominator)),
     _denominator(denominator >= 0 ? denominator : -denominator)
 {}
 
 template<typename T>
-constexpr rational<T>::rational(const T& numerator) noexcept:
+constexpr rational<T>::rational(value_type numerator) noexcept:
     _numerator(numerator),
     _denominator(1)
 {}
@@ -63,7 +63,7 @@ auto rational<T>::denominator() const noexcept
 ////////////////////////////////////////////////////////////
 
 template<typename T>
-auto rational<T>::operator=(const T& other)
+auto rational<T>::operator=(value_type other)
     -> rational&
 {
     _numerator = other;
@@ -82,7 +82,7 @@ auto rational<T>::operator+=(const rational& other)
 }
 
 template<typename T>
-auto rational<T>::operator+=(const value_type& other)
+auto rational<T>::operator+=(value_type other)
     -> rational&
 {
     _numerator += other * _denominator;
@@ -100,7 +100,7 @@ auto rational<T>::operator-=(const rational& other)
 }
 
 template<typename T>
-auto rational<T>::operator-=(const value_type& other)
+auto rational<T>::operator-=(value_type other)
     -> rational&
 {
     _numerator -= other * _denominator;
@@ -117,7 +117,7 @@ auto rational<T>::operator*=(const rational& other)
 }
 
 template<typename T>
-auto rational<T>::operator*=(const value_type& other)
+auto rational<T>::operator*=(value_type other)
     -> rational&
 {
     _numerator *= other;
@@ -138,7 +138,7 @@ auto rational<T>::operator/=(const rational& other)
 }
 
 template<typename T>
-auto rational<T>::operator/=(const value_type& val)
+auto rational<T>::operator/=(value_type val)
     -> rational&
 {
     if (val == 0)
@@ -226,14 +226,14 @@ auto operator+(const rational<T>& lhs, const rational<U>& rhs)
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
-auto operator+(const rational<T>& lhs, const U& rhs)
+auto operator+(const rational<T>& lhs, U rhs)
     -> rational<std::common_type_t<T, U>>
 {
     return rational<std::common_type_t<T, U>>(lhs) += rhs;
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
-auto operator+(const U& lhs, const rational<T>& rhs)
+auto operator+(U lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, U>>
 {
     return rational<std::common_type_t<T, U>>(rhs) += lhs;
@@ -247,14 +247,14 @@ auto operator-(const rational<T>& lhs, const rational<U>& rhs)
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
-auto operator-(const rational<T>& lhs, const U& rhs)
+auto operator-(const rational<T>& lhs, U rhs)
     -> rational<std::common_type_t<T, U>>
 {
     return rational<std::common_type_t<T, U>>(lhs) -= rhs;
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
-auto operator-(const U& lhs, const rational<T>& rhs)
+auto operator-(U lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, U>>
 {
     return {
@@ -271,14 +271,14 @@ auto operator*(const rational<T>& lhs, const rational<U>& rhs)
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
-auto operator*(const rational<T>& lhs, const U& rhs)
+auto operator*(const rational<T>& lhs, U rhs)
     -> rational<std::common_type_t<T, U>>
 {
     return rational<std::common_type_t<T, U>>(lhs) *= rhs;
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
-auto operator*(const U& lhs, const rational<T>& rhs)
+auto operator*(U lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, U>>
 {
     return rational<std::common_type_t<T, U>>(rhs) *= lhs;
@@ -292,14 +292,14 @@ auto operator/(const rational<T>& lhs, const rational<U>& rhs)
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
-auto operator/(const rational<T>& lhs, const U& rhs)
+auto operator/(const rational<T>& lhs, U rhs)
     -> rational<std::common_type_t<T, U>>
 {
     return rational<std::common_type_t<T, U>>(lhs) /= rhs;
 }
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
-auto operator/(const U& lhs, const rational<T>& rhs)
+auto operator/(U lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, U>>
 {
     return {
@@ -323,7 +323,7 @@ auto operator==(const rational<T>& lhs, const rational<U>& rhs)
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr
-auto operator==(const rational<T>& lhs, const U& rhs)
+auto operator==(const rational<T>& lhs, U rhs)
     -> bool
 {
     return lhs.numerator() == lhs.denominator() * rhs;
@@ -331,7 +331,7 @@ auto operator==(const rational<T>& lhs, const U& rhs)
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr
-auto operator==(const U& lhs, const rational<T>& rhs)
+auto operator==(U lhs, const rational<T>& rhs)
     -> bool
 {
     return rhs.numerator() == rhs.denominator() * lhs;
@@ -351,7 +351,7 @@ auto operator!=(const rational<T>& lhs, const rational<U>& rhs)
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr
-auto operator!=(const rational<T>& lhs, const U& rhs)
+auto operator!=(const rational<T>& lhs, U rhs)
     -> bool
 {
     return !(lhs == rhs);
@@ -359,7 +359,7 @@ auto operator!=(const rational<T>& lhs, const U& rhs)
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr
-auto operator!=(const U& lhs, const rational<T>& rhs)
+auto operator!=(U lhs, const rational<T>& rhs)
     -> bool
 {
     return !(lhs == rhs);
@@ -376,7 +376,7 @@ auto operator<(const rational<T>& lhs, const rational<U>& rhs)
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr
-auto operator<(const rational<T>& lhs, const U& rhs)
+auto operator<(const rational<T>& lhs, U rhs)
     -> bool
 {
     return lhs.numerator() < lhs.denominator() * rhs;
@@ -384,7 +384,7 @@ auto operator<(const rational<T>& lhs, const U& rhs)
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr
-auto operator<(const U& lhs, const rational<T>& rhs)
+auto operator<(U lhs, const rational<T>& rhs)
     -> bool
 {
     return rhs.numerator() >= rhs.denominator() * lhs;
@@ -401,7 +401,7 @@ auto operator>(const rational<T>& lhs, const rational<U>& rhs)
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr
-auto operator>(const rational<T>& lhs, const U& rhs)
+auto operator>(const rational<T>& lhs, U rhs)
     -> bool
 {
     return lhs.numerator() > lhs.denominator() * rhs;
@@ -409,7 +409,7 @@ auto operator>(const rational<T>& lhs, const U& rhs)
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr
-auto operator>(const U& lhs, const rational<T>& rhs)
+auto operator>(U lhs, const rational<T>& rhs)
     -> bool
 {
     return rhs.numerator() <= rhs.denominator() * lhs;
@@ -426,7 +426,7 @@ auto operator<=(const rational<T>& lhs, const rational<U>& rhs)
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr
-auto operator<=(const rational<T>& lhs, const U& rhs)
+auto operator<=(const rational<T>& lhs, U rhs)
     -> bool
 {
     return lhs.numerator() <= lhs.denominator() * rhs;
@@ -434,7 +434,7 @@ auto operator<=(const rational<T>& lhs, const U& rhs)
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr
-auto operator<=(const U& lhs, const rational<T>& rhs)
+auto operator<=(U lhs, const rational<T>& rhs)
     -> bool
 {
     return lhs * rhs.denominator() <= rhs.numerator();
@@ -451,7 +451,7 @@ auto operator>=(const rational<T>& lhs, const rational<U>& rhs)
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr
-auto operator>=(const rational<T>& lhs, const U& rhs)
+auto operator>=(const rational<T>& lhs, U rhs)
     -> bool
 {
     return lhs.numerator() >= lhs.denominator() * rhs;
@@ -459,7 +459,7 @@ auto operator>=(const rational<T>& lhs, const U& rhs)
 
 template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
 constexpr
-auto operator>=(const U& lhs, const rational<T>& rhs)
+auto operator>=(U lhs, const rational<T>& rhs)
     -> bool
 {
     return rhs.numerator() < rhs.denominator() * lhs;
