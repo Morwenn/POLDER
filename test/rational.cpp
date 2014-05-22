@@ -16,6 +16,7 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include <POLDER/rational.h>
+#include <POLDER/math/cmath.h>
 
 int main()
 {
@@ -108,9 +109,13 @@ int main()
         static_assert(abs(r2) == make_rational(1, 2), "");
         static_assert(abs(r1) == abs(r2), "");
 
+        // ADL
+        using polder::math::meta::pow;
+
         static_assert(pow(r1, 0) == make_rational(1, 1), "");
         static_assert(pow(r2, 1) == r2, "");
         static_assert(pow(r3, 3) == make_rational(64, 125), "");
+        static_assert(pow(r3, -3) == make_rational(pow(5, 3), pow(4, 3)), "");
     }
 
     // TEST: cast

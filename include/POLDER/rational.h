@@ -328,9 +328,9 @@ namespace polder
     constexpr auto abs(const rational<T>& rat)
         -> rational<T>;
 
-    template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
-    constexpr auto pow(const rational<T>& rat, U exponent)
-        -> rational<T>;
+    template<typename T, typename Integer>
+    constexpr auto pow(const rational<T>& rat, Integer exponent)
+        -> rational<std::common_type_t<T, Integer>>;
 
     #include "details/rational.inl"
 }

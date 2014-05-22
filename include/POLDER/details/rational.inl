@@ -502,12 +502,24 @@ constexpr auto abs(const rational<T>& rat)
     };
 }
 
-template<typename T, typename U, typename = std::enable_if_t<std::is_integral<U>::value, void>>
-constexpr auto pow(const rational<T>& rat, U exponent)
-    -> rational<T>
+template<typename T, typename Integer>
+constexpr auto pow(const rational<T>& rat, Integer exponent)
+    -> rational<std::common_type_t<T, Integer>>
 {
-    return {
-        math::meta::pow(rat.numerator(), exponent),
-        math::meta::pow(rat.denominator(), exponent)
-    };
+    static_assert(std::is_integral<Integer>::value,
+                  "pow only accepts integer exponents");
+
+    using Ret = rational<std::common_type_t<T, Integer>>;
+
+    using polder::math::meta::pow;
+
+    return (exponent == 0) ? Ret(1) :
+        (exponent > 0) ? Ret(
+                        pow(rat.numerator(), exponent),
+                        pow(rat.denominator(), exponent)
+                    ) :
+                    Ret(
+                        pow(rat.denominator(), -exponent),
+                        pow(rat.numerator(), -exponent)
+                    );
 }
