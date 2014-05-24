@@ -127,8 +127,8 @@ inline namespace literals
     template<char... Digits>
     constexpr auto operator"" _c()
         -> Constant<
-            int,
-            details::parse<int, Digits...>()
+            details::parse_t<int, Digits...>,
+            details::parse<int, Digits...>::value
         >
     {
         return {};
@@ -137,8 +137,8 @@ inline namespace literals
     template<char... Digits>
     constexpr auto operator"" _cl()
         -> Constant<
-            long,
-            details::parse<long, Digits...>()
+            details::parse_t<long, Digits...>,
+            details::parse<long, Digits...>::value
         >
     {
         return {};
@@ -147,8 +147,8 @@ inline namespace literals
     template<char... Digits>
     constexpr auto operator"" _cll()
         -> Constant<
-            long long,
-            details::parse<long long, Digits...>()
+            details::parse_t<long long, Digits...>,
+            details::parse<long long, Digits...>::value
         >
     {
         return {};
@@ -157,8 +157,8 @@ inline namespace literals
     template<char... Digits>
     constexpr auto operator"" _cu()
         -> Constant<
-            unsigned,
-            details::parse<unsigned, Digits...>()
+            details::parse_t<unsigned, Digits...>,
+            details::parse<unsigned, Digits...>::value
         >
     {
         return {};
@@ -167,8 +167,8 @@ inline namespace literals
     template<char... Digits>
     constexpr auto operator"" _cul()
         -> Constant<
-            unsigned long,
-            details::parse<unsigned long, Digits...>()
+            details::parse_t<unsigned long, Digits...>,
+            details::parse<unsigned long, Digits...>::value
         >
     {
         return {};
@@ -177,8 +177,8 @@ inline namespace literals
     template<char... Digits>
     constexpr auto operator"" _cull()
         -> Constant<
-            unsigned long long,
-            details::parse<unsigned long long, Digits...>()
+            details::parse_t<unsigned long long, Digits...>,
+            details::parse<unsigned long long, Digits...>::value
         >
     {
         return {};

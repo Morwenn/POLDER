@@ -48,6 +48,14 @@ int main()
                 decltype(58_c),
                 Constant<int, 58>
             >::value, "");
+
+        // Should be too big for an int
+        static_assert(
+            not std::is_same<
+                decltype(18446744073709551615_c),
+                Constant<int, 58>
+            >::value, "");
+
     }
 
     // TEST: unary operator+
@@ -141,25 +149,25 @@ int main()
         static_assert(
             std::is_same<
                 decltype(45_c < 23_c),
-                Constant<bool, false>
+                False
             >::value, "");
 
         static_assert(
             std::is_same<
                 decltype(45_c <= 23_c),
-                Constant<bool, false>
+                False
             >::value, "");
 
         static_assert(
             std::is_same<
                 decltype(45_c > 23_c),
-                Constant<bool, true>
+                True
             >::value, "");
 
         static_assert(
             std::is_same<
                 decltype(45_c >= 23_c),
-                Constant<bool, true>
+                True
             >::value, "");
     }
 

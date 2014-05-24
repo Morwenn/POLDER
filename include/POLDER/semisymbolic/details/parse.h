@@ -21,7 +21,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <POLDER/details/config.h>
+#include <POLDER/type_traits.h>
 
 namespace polder
 {
@@ -30,7 +30,21 @@ namespace semisymbolic
 namespace details
 {
     ////////////////////////////////////////////////////////////
-    // Function to
+    // Helper functions
+
+    constexpr auto is_decimal_digit(char c)
+        -> bool
+    {
+        return c >= '0' && c <= '9';
+    }
+
+    template<typename... Chars>
+    constexpr auto is_decimal_digit(char c, Chars... digits)
+        -> bool
+    {
+        return is_decimal_digit(c)
+            && is_decimal_digit(digits...);
+    }
 
     constexpr auto combine(unsigned long long value)
         -> unsigned long long
@@ -46,19 +60,32 @@ namespace details
     }
 
     ////////////////////////////////////////////////////////////
-    // Parsing function
+    // Parsing interface
 
     template<typename T, char C, char... Digits>
-    constexpr auto parse()
-        -> T
+    class parse
     {
         static_assert(C != '0' || sizeof...(Digits) == 0,
-                      "octal literals are not handled");
+                      "parse cannot handle octal literals");
 
-        return static_cast<T>(
-            combine(0, C-'0', Digits-'0'...)
-        );
-    }
+        static_assert(is_decimal_digit(C, Digits...),
+                      "parse only handles decimal digits");
+
+        private:
+
+            static constexpr unsigned long long raw_value =
+                combine(0, C-'0', Digits-'0'...);
+
+        public:
+
+            using type = integer_fit_t<T, raw_value>;
+
+            static constexpr type value =
+                static_cast<type>(raw_value);
+    };
+
+    template<typename T, char... Digits>
+    using parse_t = typename parse<T, Digits...>::type;
 }}}
 
 #endif // POLDER_SEMISYMBOLIC_PARSE_H_
