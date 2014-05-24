@@ -267,22 +267,18 @@ namespace polder
     template<typename T>
     struct is_iterable_impl
     {
-        struct yes {};
-        struct no {};
-
         template<typename U>
-        static auto test(typename U::iterator*)
-            -> yes;
+        static constexpr auto test(typename U::iterator*)
+            -> std::true_type
+        { return {}; }
 
         template<typename>
-        static auto test(...)
-            -> no;
+        static constexpr auto test(...)
+            -> std::false_type
+        { return {}; }
 
         static constexpr bool value =
-            std::is_same<
-                yes,
-                decltype(test<std::decay_t<T>>(nullptr))
-            >::value;
+            test<std::decay_t<T>>(nullptr);
     };
 
     template<typename...>
@@ -313,22 +309,18 @@ namespace polder
     template<typename T>
     struct is_reverse_iterable_impl
     {
-        struct yes {};
-        struct no {};
-
         template<typename U>
-        static auto test(typename U::reverse_iterator*)
-            -> yes;
+        static constexpr auto test(typename U::reverse_iterator*)
+            -> std::true_type
+        { return {}; }
 
         template<typename>
-        static auto test(...)
-            -> no;
+        static constexpr auto test(...)
+            -> std::false_type
+        { return {}; }
 
         static constexpr bool value =
-            std::is_same<
-                yes,
-                decltype(test<std::decay_t<T>>(nullptr))
-            >::value;
+            test<std::decay_t<T>>(nullptr);
     };
 
     template<typename...>
