@@ -51,9 +51,9 @@ int main()
 
         // Should be too big for an int
         static_assert(
-            not std::is_same<
-                decltype(18446744073709551615_c),
-                Constant<int, 58>
+            std::is_same<
+                decltype(1844674407370955161_c),
+                Constant<long long, 1844674407370955161>
             >::value, "");
 
     }
