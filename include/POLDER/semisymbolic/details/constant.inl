@@ -128,7 +128,7 @@ inline namespace literals
     constexpr auto operator"" _c()
         -> Constant<
             int,
-            details::parse<int>(Digits-'0'...)
+            details::parse<int, Digits...>()
         >
     {
         return {};
@@ -138,7 +138,7 @@ inline namespace literals
     constexpr auto operator"" _cl()
         -> Constant<
             long,
-            details::parse<long>(Digits-'0'...)
+            details::parse<long, Digits...>()
         >
     {
         return {};
@@ -148,7 +148,7 @@ inline namespace literals
     constexpr auto operator"" _cll()
         -> Constant<
             long long,
-            details::parse<long long>(Digits-'0'...)
+            details::parse<long long, Digits...>()
         >
     {
         return {};
@@ -158,7 +158,7 @@ inline namespace literals
     constexpr auto operator"" _cu()
         -> Constant<
             unsigned,
-            details::parse<unsigned>(Digits-'0'...)
+            details::parse<unsigned, Digits...>()
         >
     {
         return {};
@@ -168,7 +168,7 @@ inline namespace literals
     constexpr auto operator"" _cul()
         -> Constant<
             unsigned long,
-            details::parse<unsigned long>(Digits-'0'...)
+            details::parse<unsigned long, Digits...>()
         >
     {
         return {};
@@ -178,7 +178,7 @@ inline namespace literals
     constexpr auto operator"" _cull()
         -> Constant<
             unsigned long long,
-            details::parse<unsigned long long>(Digits-'0'...)
+            details::parse<unsigned long long, Digits...>()
         >
     {
         return {};

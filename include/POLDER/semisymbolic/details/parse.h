@@ -29,18 +29,35 @@ namespace semisymbolic
 {
 namespace details
 {
-    template<typename T>
-    constexpr auto parse(T value)
-        -> T
+    ////////////////////////////////////////////////////////////
+    // Function to
+
+    constexpr auto combine(unsigned long long value)
+        -> unsigned long long
     {
         return value;
     }
 
-    template<typename T, typename... Args>
-    constexpr auto parse(T value, T first, Args... digits)
+    template<typename... ULL>
+    constexpr auto combine(unsigned long long value, unsigned long long first, ULL... digits)
+        -> unsigned long long
+    {
+        return combine(value*10 + first, digits...);
+    }
+
+    ////////////////////////////////////////////////////////////
+    // Parsing function
+
+    template<typename T, char C, char... Digits>
+    constexpr auto parse()
         -> T
     {
-        return parse(value*10 + first, digits...);
+        static_assert(C != '0' || sizeof...(Digits) == 0,
+                      "octal literals are not handled");
+
+        return static_cast<T>(
+            combine(0, C-'0', Digits-'0'...)
+        );
     }
 }}}
 
