@@ -42,6 +42,7 @@ namespace polder
 namespace itertools
 {
     // Forward declarations
+    template<typename Integer>
     class RangeObject;
     template<typename BidirectionalIterable>
     class ReversedObject;
@@ -67,8 +68,9 @@ namespace itertools
      * @param end Last value
      * @return Generator
      */
-    constexpr auto range(int end) noexcept
-        -> RangeObject;
+    template<typename Integer>
+    constexpr auto range(Integer end) noexcept
+        -> RangeObject<Integer>;
 
     /**
      * @brief Versatile range of integers
@@ -83,8 +85,9 @@ namespace itertools
      * @param step Step between two values
      * @return Generator
      */
-    constexpr auto range(int begin, int end, unsigned int step=1) noexcept
-        -> RangeObject;
+    template<typename Integer>
+    constexpr auto range(Integer begin, Integer end, Integer step=1) noexcept
+        -> RangeObject<Integer>;
 
     /**
      * @brief Global rbegin function

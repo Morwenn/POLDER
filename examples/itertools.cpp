@@ -67,6 +67,13 @@ int main()
                 break;
             }
         }
+        std::cout << '\n';
+
+        // Custom integer type
+        for (auto u: range<unsigned>(12u))
+        {
+            std::cout << u << " ";
+        }
     }
 
 

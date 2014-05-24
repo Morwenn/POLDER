@@ -17,18 +17,19 @@
  */
 
 ////////////////////////////////////////////////////////////
+template<typename Integer>
 class RangeObject
 {
     private:
 
-        constexpr RangeObject(int end) noexcept:
+        constexpr RangeObject(Integer end) noexcept:
             _i(0),
             _end(end),
             _step(1),
             _sup(end >= 0)
         {}
 
-        constexpr RangeObject(int begin, int end, unsigned int step) noexcept:
+        constexpr RangeObject(Integer begin, Integer end, Integer step) noexcept:
             _i(begin),
             _end(end),
             _step(step),
@@ -69,32 +70,34 @@ class RangeObject
         }
 
         constexpr auto operator*() const noexcept
-            -> const int&
+            -> Integer
         {
             return _i;
         }
 
     private:
 
-        int _i;
-        const int _end;
-        const unsigned int _step;
+        Integer _i;
+        const Integer _end;
+        const Integer _step;
         const bool _sup;
 
-    friend constexpr auto range(int) noexcept
+    friend auto range<>(Integer) noexcept
         -> RangeObject;
-    friend constexpr auto range(int, int, unsigned int) noexcept
+    friend auto range<>(Integer, Integer, Integer) noexcept
         -> RangeObject;
 };
 
-constexpr auto range(int end) noexcept
-    -> RangeObject
+template<typename Integer>
+constexpr auto range(Integer end) noexcept
+    -> RangeObject<Integer>
 {
     return { end };
 }
 
-constexpr auto range(int begin, int end, unsigned int step) noexcept
-    -> RangeObject
+template<typename Integer>
+constexpr auto range(Integer begin, Integer end, Integer step) noexcept
+    -> RangeObject<Integer>
 {
     return { begin, end, step };
 }
