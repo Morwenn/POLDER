@@ -21,8 +21,8 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <limits>
 #include <type_traits>
-#include <POLDER/details/config.h>
 #include <POLDER/type_list.h>
 
 namespace polder
@@ -126,6 +126,90 @@ namespace polder
 
     template<typename T, std::size_t N>
     using argument_type = typename function_traits<T>::template argument_type<N>;
+
+    ////////////////////////////////////////////////////////////
+    // Integer literals trait
+    //
+    // These functions are meant to help the parsing
+    // of integer literals.
+    ////////////////////////////////////////////////////////////
+
+    /**
+     * @brief Unsigned integer fit.
+     *
+     * This functions checks whether a given unsigned long long
+     * value can fit in a given type of integer.
+     */
+    template<typename Integer>
+    constexpr auto can_fit(unsigned long long n)
+    {
+        return n <= std::numeric_limits<Integer>::max();
+    }
+
+    /**
+     * @brief Suitable integer type selection.
+     *
+     * This class will select the smallest type at least
+     * as big as the given one where the given unsigned
+     * long long value can fit.
+     */
+    template<typename T, unsigned long long N>
+    struct integer_fit;
+
+    template<typename T, unsigned long long N>
+    using integer_fit_t = typename integer_fit<T, N>::type;
+
+    template<unsigned long long N>
+    struct integer_fit<int, N>
+    {
+        using type = std::conditional_t<
+            can_fit<int>(N),
+            int,
+            integer_fit_t<long, N>
+        >;
+    };
+
+    template<unsigned long long N>
+    struct integer_fit<long, N>
+    {
+        using type = std::conditional_t<
+            can_fit<long>(N),
+            long,
+            long long
+        >;
+    };
+
+    template<unsigned long long N>
+    struct integer_fit<long long, N>
+    {
+        using type = long long;
+    };
+
+    template<unsigned long long N>
+    struct integer_fit<unsigned, N>
+    {
+        using type = std::conditional_t<
+            can_fit<unsigned>(N),
+            unsigned,
+            integer_fit_t<unsigned long long, N>
+        >;
+    };
+
+    template<unsigned long long N>
+    struct integer_fit<unsigned long, N>
+    {
+        using type = std::conditional_t<
+            can_fit<unsigned long>(N),
+            unsigned long,
+            unsigned long long
+        >;
+    };
+
+    template<unsigned long long N>
+    struct integer_fit<unsigned long long, N>
+    {
+        using type = unsigned long long;
+    };
 
     ////////////////////////////////////////////////////////////
     // Size traits
