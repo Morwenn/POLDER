@@ -107,6 +107,8 @@ namespace semisymbolic
 
     inline namespace literals
     {
+    inline namespace constant_literals
+    {
         template<char... Digits>
         constexpr auto operator"" _c()
             -> Constant<
@@ -148,7 +150,7 @@ namespace semisymbolic
                 details::parse_t<unsigned long long, Digits...>,
                 details::parse<unsigned long long, Digits...>::value
             >;
-    }
+    }}
 
     ////////////////////////////////////////////////////////////
     // Alias templates

@@ -124,6 +124,8 @@ constexpr auto operator>=(Constant<Int, N>, Constant<Int, M>)
 
 inline namespace literals
 {
+inline namespace constant_literals
+{
     template<char... Digits>
     constexpr auto operator"" _c()
         -> Constant<
@@ -183,4 +185,4 @@ inline namespace literals
     {
         return {};
     }
-}
+}}
