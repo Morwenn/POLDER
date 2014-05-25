@@ -125,6 +125,15 @@ namespace math
         -> Unsigned;
 
     /**
+     * @brief Fibonacci function
+     * @param n Some integer
+     * @return Nth Fibonacci number
+     */
+    template<typename Unsigned>
+    auto fibonacci(Unsigned n)
+        -> Unsigned;
+
+    /**
      * @brief Greatest common divisor
      * @param a Some integer
      * @param b Some integer
@@ -145,12 +154,14 @@ namespace math
         -> Unsigned;
 
     /**
-     * @brief Fibonacci function
-     * @param n Some integer
-     * @return Nth Fibonacci number
+     * @brief Modular exponentiation
+     * @param a Base
+     * @param b Exponent
+     * @param c Modulus
+     * @return pow(a, b) % c
      */
     template<typename Unsigned>
-    auto fibonacci(Unsigned n)
+    auto modpow(Unsigned a, Unsigned b, Unsigned c)
         -> Unsigned;
 
     ////////////////////////////////////////////////////////////
@@ -254,6 +265,10 @@ namespace math
 
         template<typename Unsigned>
         constexpr auto lcm(Unsigned a, Unsigned b)
+            -> Unsigned;
+
+        template<typename Unsigned>
+        constexpr auto modpow(Unsigned a, Unsigned b, Unsigned c)
             -> Unsigned;
 
         template<typename Float>

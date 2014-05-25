@@ -24,8 +24,7 @@ using namespace math;
 int main()
 {
     ////////////////////////////////////////////////////////////
-    // Tests for the namespace standard
-    ////////////////////////////////////////////////////////////
+    // Tests for the runtime functions
 
     POLDER_ASSERT(sign(5) == 1);
     POLDER_ASSERT(sign(-3) == -1);
@@ -33,6 +32,16 @@ int main()
     POLDER_ASSERT(sign(-5.8) == -1);
     POLDER_ASSERT(sign(0) == 0);
     POLDER_ASSERT(sign(0.0) == 0);
+
+    POLDER_ASSERT(sum(1, 2, 3, 4, 5) == 15);
+    POLDER_ASSERT(sum(1.0, 2.0, 3, 4, 5) == 15.0);
+
+    POLDER_ASSERT(mean(2, 2, 2) == 2);
+    POLDER_ASSERT(mean(2, 4, 3) == 3);
+
+    POLDER_ASSERT(clamp(3, 2, 4) == 3);
+    POLDER_ASSERT(clamp(1, 2, 4) == 2);
+    POLDER_ASSERT(clamp(5, 2, 4) == 4);
 
     POLDER_ASSERT(is_even(5) == false);
     POLDER_ASSERT(is_even(-4) == true);
@@ -63,12 +72,6 @@ int main()
     POLDER_ASSERT(fibonacci(7) == 13);
     POLDER_ASSERT(fibonacci(8) == 21);
 
-    POLDER_ASSERT(sum(1, 2, 3, 4, 5) == 15);
-    POLDER_ASSERT(sum(1.0, 2.0, 3, 4, 5) == 15.0);
-
-    POLDER_ASSERT(mean(2, 2, 2) == 2);
-    POLDER_ASSERT(mean(2, 4, 3) == 3);
-
     POLDER_ASSERT(gcd(1071, 1029) == 21);
     POLDER_ASSERT(gcd(1029, 1071) == 21);
     POLDER_ASSERT(gcd(270, 84) == 6);
@@ -77,13 +80,10 @@ int main()
     POLDER_ASSERT(lcm(60, 168) == 840);
     POLDER_ASSERT(lcm(168, 60) == 840);
 
-    POLDER_ASSERT(clamp(3, 2, 4) == 3);
-    POLDER_ASSERT(clamp(1, 2, 4) == 2);
-    POLDER_ASSERT(clamp(5, 2, 4) == 4);
+    POLDER_ASSERT(modpow(4, 13, 497) == 445);
 
     ////////////////////////////////////////////////////////////
-    // Tests for the namespace meta
-    ////////////////////////////////////////////////////////////
+    // Tests for the compile time
 
     static_assert(meta::sign(5) == 1, "");
     static_assert(meta::sign(-3) == -1, "");
@@ -91,6 +91,20 @@ int main()
     static_assert(meta::sign(-5.8) == -1, "");
     static_assert(meta::sign(0) == 0, "");
     static_assert(meta::sign(0.0) == 0, "");
+
+    static_assert(
+        meta::sum(1, 2, 3, 4, 5) == 15,
+    "");
+    static_assert(
+        meta::sum(1.0, 2.0, 3, 4, 5) == 15.0,
+    "");
+
+    static_assert(meta::mean(2, 2, 2) == 2, "");
+    static_assert(meta::mean(2, 4, 3) == 3, "");
+
+    static_assert(meta::clamp(3, 2, 4) == 3, "");
+    static_assert(meta::clamp(1, 2, 4) == 2, "");
+    static_assert(meta::clamp(5, 2, 4) == 4, "");
 
     static_assert(meta::is_even(5) == false, "");
     static_assert(meta::is_even(-4) == true, "");
@@ -121,16 +135,6 @@ int main()
     static_assert(meta::fibonacci(7) == 13, "");
     static_assert(meta::fibonacci(8) == 21, "");
 
-    static_assert(
-        meta::sum(1, 2, 3, 4, 5) == 15,
-    "");
-    static_assert(
-        meta::sum(1.0, 2.0, 3, 4, 5) == 15.0,
-    "");
-
-    static_assert(meta::mean(2, 2, 2) == 2, "");
-    static_assert(meta::mean(2, 4, 3) == 3, "");
-
     static_assert(meta::gcd(1071, 1029) == 21, "");
     static_assert(meta::gcd(1029, 1071) == 21, "");
     static_assert(meta::gcd(270, 84) == 6, "");
@@ -139,7 +143,5 @@ int main()
     static_assert(meta::lcm(60, 168) == 840, "");
     static_assert(meta::lcm(168, 60) == 840, "");
 
-    static_assert(meta::clamp(3, 2, 4) == 3, "");
-    static_assert(meta::clamp(1, 2, 4) == 2, "");
-    static_assert(meta::clamp(5, 2, 4) == 4, "");
+    static_assert(meta::modpow(4, 13, 497) == 445, "");
 }

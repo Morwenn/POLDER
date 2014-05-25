@@ -175,6 +175,18 @@ auto lcm(Unsigned a, Unsigned b)
     return a*b / gcd(a, b);
 }
 
+template<typename Unsigned>
+auto modpow(Unsigned a, Unsigned b, Unsigned c)
+    -> Unsigned
+{
+    Unsigned tmp = 1;
+    for (Unsigned i = 0 ; i < b ; ++i)
+    {
+        tmp = tmp * a % c;
+    }
+    return tmp;
+}
+
 ////////////////////////////////////////////////////////////
 // Angle conversions
 
@@ -264,6 +276,14 @@ namespace meta
             -> Unsigned
         {
             return (r == 0) ? b : gcd_helper(r, b % r);
+        }
+
+        template<typename T>
+        constexpr auto modpow_helper(T res, T a, T b, T c)
+            -> T
+        {
+            return (b == 0) ? res :
+                modpow_helper(res * a % c, a, b-1, c);
         }
     }
 
@@ -361,6 +381,13 @@ namespace meta
     {
         return (a == 0 || b == 0) ? 1 :
             a * b / gcd(a, b);
+    }
+
+    template<typename Unsigned>
+    constexpr auto modpow(Unsigned a, Unsigned b, Unsigned c)
+        -> Unsigned
+    {
+        return details::modpow_helper(1, a, b, c);
     }
 
     ////////////////////////////////////////////////////////////
