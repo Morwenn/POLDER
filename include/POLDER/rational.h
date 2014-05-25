@@ -318,6 +318,32 @@ namespace polder
     constexpr auto sign(const rational<T>& rat)
         -> int;
 
+    ////////////////////////////////////////////////////////////
+    // User-defined literals
+
+    inline namespace literals
+    {
+    inline namespace rational_literals
+    {
+        constexpr auto operator "" _r(unsigned long long n)
+            -> rational<int>;
+
+        constexpr auto operator "" _rl(unsigned long long n)
+            -> rational<long>;
+
+        constexpr auto operator "" _rll(unsigned long long n)
+            -> rational<long long>;
+
+        constexpr auto operator "" _ru(unsigned long long n)
+            -> rational<unsigned>;
+
+        constexpr auto operator "" _rul(unsigned long long n)
+            -> rational<unsigned long>;
+
+        constexpr auto operator "" _rull(unsigned long long n)
+            -> rational<unsigned long long>;
+    }}
+
     #include "details/rational.inl"
 }
 
