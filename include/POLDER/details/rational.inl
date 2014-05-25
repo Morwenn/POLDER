@@ -474,11 +474,18 @@ auto operator<<(std::ostream& stream, const rational<T>& rat)
 // Helper functions
 ////////////////////////////////////////////////////////////
 
-template<typename T>
-auto make_rational(T numerator, T denominator)
-    -> rational<T>
+template<typename T, typename U>
+auto make_rational(T numerator, U denominator)
+    -> rational<std::common_type_t<T, U>>
 {
     return { numerator, denominator };
+}
+
+template<typename T>
+auto make_rational(T numerator)
+    -> rational<T>
+{
+    return { numerator };
 }
 
 ////////////////////////////////////////////////////////////

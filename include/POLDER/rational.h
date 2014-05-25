@@ -297,8 +297,12 @@ namespace polder
      * @param denominator Denominator of the fraction
      * @return New rational number
      */
+    template<typename T, typename U>
+    auto make_rational(T numerator, U denominator)
+        -> rational<std::common_type_t<T, U>>;
+
     template<typename T>
-    auto make_rational(T numerator, T denominator=1)
+    auto make_rational(T numerator)
         -> rational<T>;
 
     ////////////////////////////////////////////////////////////
