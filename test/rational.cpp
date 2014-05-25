@@ -140,4 +140,33 @@ int main()
         static_assert(make_rational(1, 2) == make_rational(1L, 2L), "");
         static_assert(make_rational(3ULL, 2ULL) == rational<short>(3, 2), "");
     }
+
+    // TEST: normalizing operations
+    {
+        using namespace polder;
+
+        auto r1 = 1/2_r + 1/2_r;
+        POLDER_ASSERT(r1.numer() == 1);
+        POLDER_ASSERT(r1.denom() == 1);
+
+        auto r2 = 3/2_r - 1/2_r;
+        POLDER_ASSERT(r2.numer() == 1);
+        POLDER_ASSERT(r2.denom() == 1);
+
+        auto r3 = (2/3_r) * (3/2_r);
+        POLDER_ASSERT(r3.numer() == 1);
+        POLDER_ASSERT(r3.denom() == 1);
+
+        auto r4 = 1/2_r * 2;
+        POLDER_ASSERT(r4.numer() == 1);
+        POLDER_ASSERT(r4.denom() == 1);
+
+        auto r5 = (3/4_r) / (3/5_r);
+        POLDER_ASSERT(r5.numer() == 5);
+        POLDER_ASSERT(r5.denom() == 4);
+
+        auto r6 = (3/4_r) / 3;
+        POLDER_ASSERT(r6.numer() == 1);
+        POLDER_ASSERT(r6.denom() == 4);
+    }
 }

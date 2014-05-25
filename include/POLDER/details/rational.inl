@@ -78,6 +78,8 @@ auto rational<T>::operator+=(const rational& other)
     _numer *= other.denom();
     _numer += other.numer() * _denom;
     _denom *= other.denom();
+
+    normalize();
     return *this;
 }
 
@@ -86,6 +88,7 @@ auto rational<T>::operator+=(value_type other)
     -> rational&
 {
     _numer += other * _denom;
+    // this does not need normalization
     return *this;
 }
 
@@ -96,6 +99,8 @@ auto rational<T>::operator-=(const rational& other)
     _numer *= other.denom();
     _numer -= other.numer() * _denom;
     _denom *= other.denom();
+
+    normalize();
     return *this;
 }
 
@@ -104,6 +109,7 @@ auto rational<T>::operator-=(value_type other)
     -> rational&
 {
     _numer -= other * _denom;
+    // this does not need normalization
     return *this;
 }
 
@@ -113,6 +119,8 @@ auto rational<T>::operator*=(const rational& other)
 {
     _numer *= other.numer();
     _denom *= other.denom();
+
+    normalize();
     return *this;
 }
 
@@ -121,6 +129,8 @@ auto rational<T>::operator*=(value_type other)
     -> rational&
 {
     _numer *= other;
+
+    normalize();
     return *this;
 }
 
@@ -134,6 +144,8 @@ auto rational<T>::operator/=(const rational& other)
     }
     _numer *= other.denom();
     _denom *= other.numer();
+
+    normalize();
     return *this;
 }
 
@@ -146,6 +158,8 @@ auto rational<T>::operator/=(value_type val)
         throw division_by_zero();
     }
     _denom *= val;
+
+    normalize();
     return *this;
 }
 
@@ -175,23 +189,24 @@ constexpr rational<T>::operator long double() const
 ////////////////////////////////////////////////////////////
 
 template<typename T>
-auto rational<T>::simplify()
+auto rational<T>::normalize()
     -> void
 {
+    using std::abs;
+    using math::sign;
+
     // Sign simplification
-    if (denom < 0)
-    {
-        _numer = -_numer;
-        denom = -denom;
-    }
+    _numer *= sign(_denom);
+    _denom = abs(_denom);
+
     // Value simplification
-    if (_numer != 1 && denom != 1)
+    if (_numer != 1 && _denom != 1)
     {
-        auto _gcd = math::gcd(_numer, denom);
+        auto _gcd = math::gcd(_numer, _denom);
         if (_gcd != 1)
         {
             _numer /= _gcd;
-            denom /= _gcd;
+            _denom /= _gcd;
         }
     }
 }
@@ -257,10 +272,7 @@ template<typename T, typename Integer>
 auto operator-(Integer lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, Integer>>
 {
-    return {
-        lhs * rhs.denom() - rhs.numer(),
-        rhs.denom()
-    };
+    return rational<std::common_type_t<T, Integer>>(lhs) -= rhs;
 }
 
 template<typename T, typename U>
@@ -302,10 +314,7 @@ template<typename T, typename Integer>
 auto operator/(Integer lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, Integer>>
 {
-    return {
-        lhs * rhs.denom(),
-        rhs.numer()
-    };
+    return rational<std::common_type_t<T, Integer>>(lhs) /= rhs;
 }
 
 ////////////////////////////////////////////////////////////

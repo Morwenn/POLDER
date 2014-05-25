@@ -134,17 +134,17 @@ namespace polder
             explicit constexpr operator double() const;
             explicit constexpr operator long double() const;
 
-            /**
-             * @brief Simplify the fraction
+        private:
+
+            /*
+             * Normalize the fraction.
              *
-             * Divides _numerator and _denominator by their
-             * greatest common divisor if needed. Also does a
+             * Divides _numer and _denom by their greatest
+             * common divisor if needed. Also does a
              * sign simplification if necessary.
              */
-            auto simplify()
+            auto normalize()
                 -> void;
-
-        private:
 
             // Member data
             value_type _numer;      /**< Numerator */
