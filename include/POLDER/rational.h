@@ -61,18 +61,6 @@ namespace polder
             /**
              * @brief Initialization constructor
              *
-             * Constructs a new rational number with their numerator
-             * and denominator. Throws a division_by_zero exception if
-             * denominator == 0.
-             *
-             * @param numerator Numerator of the fraction
-             * @param denominator Denominator of the fraction
-             */
-            constexpr rational(value_type numerator, value_type denominator);
-
-            /**
-             * @brief Initialization constructor
-             *
              * Same as the complete initialization constructor
              * except that this one does not need to check the
              * denominator since it is always 1.
@@ -82,6 +70,18 @@ namespace polder
              */
             constexpr rational(value_type numerator) noexcept;
 
+            /**
+             * @brief Initialization constructor
+             *
+             * Constructs a new rational number with their numerator
+             * and denominator. Throws a division_by_zero exception if
+             * denominator == 0.
+             *
+             * @param numerator Numerator of the fraction
+             * @param denominator Denominator of the fraction
+             */
+            rational(value_type numerator, value_type denominator);
+
             ////////////////////////////////////////////////////////////
             // Getters
             ////////////////////////////////////////////////////////////
@@ -90,7 +90,6 @@ namespace polder
              * @brief Returns the numerator of a rational number
              * @return Numerator
              */
-            constexpr
             auto numer() const noexcept
                 -> value_type;
 
@@ -98,7 +97,6 @@ namespace polder
              * @brief Returns the denominator of a rational number
              * @return Denominator
              */
-            constexpr
             auto denom() const noexcept
                 -> value_type;
 
@@ -130,9 +128,9 @@ namespace polder
             auto operator/=(value_type val)
                 -> rational&;
 
-            explicit constexpr operator float() const;
-            explicit constexpr operator double() const;
-            explicit constexpr operator long double() const;
+            explicit operator float() const;
+            explicit operator double() const;
+            explicit operator long double() const;
 
         private:
 
@@ -156,7 +154,7 @@ namespace polder
     // Unary arithmetic operators
 
     template<typename T>
-    constexpr auto operator+(rational<T> rat)
+    auto operator+(rational<T> rat)
         -> rational<T>;
     template<typename T>
     auto operator-(rational<T> rat)
@@ -209,66 +207,66 @@ namespace polder
     // Equality operators
 
     template<typename T, typename U>
-    constexpr auto operator==(const rational<T>& lhs, const rational<U>& rhs)
+    auto operator==(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
     template<typename T, typename Integer>
-    constexpr auto operator==(const rational<T>& lhs, Integer rhs)
+    auto operator==(const rational<T>& lhs, Integer rhs)
         -> bool;
     template<typename T, typename Integer>
-    constexpr auto operator==(Integer lhs, const rational<T>& rhs)
+    auto operator==(Integer lhs, const rational<T>& rhs)
         -> bool;
 
     template<typename T, typename U>
-    constexpr auto operator!=(const rational<T>& lhs, const rational<U>& rhs)
+    auto operator!=(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
     template<typename T, typename Integer>
-    constexpr auto operator!=(const rational<T>& lhs, Integer rhs)
+    auto operator!=(const rational<T>& lhs, Integer rhs)
         -> bool;
     template<typename T, typename Integer>
-    constexpr auto operator!=(Integer lhs, const rational<T>& rhs)
+    auto operator!=(Integer lhs, const rational<T>& rhs)
         -> bool;
 
     ////////////////////////////////////////////////////////////
     // Relational operators
 
     template<typename T, typename U>
-    constexpr auto operator<(const rational<T>& lhs, const rational<U>& rhs)
+    auto operator<(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
     template<typename T, typename Integer>
-    constexpr auto operator<(const rational<T>& lhs, Integer rhs)
+    auto operator<(const rational<T>& lhs, Integer rhs)
         -> bool;
     template<typename T, typename Integer>
-    constexpr auto operator<(Integer lhs, const rational<T>& rhs)
+    auto operator<(Integer lhs, const rational<T>& rhs)
         -> bool;
 
     template<typename T, typename U>
-    constexpr auto operator>(const rational<T>& lhs, const rational<U>& rhs)
+    auto operator>(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
     template<typename T, typename Integer>
-    constexpr auto operator>(const rational<T>& lhs, Integer rhs)
+    auto operator>(const rational<T>& lhs, Integer rhs)
         -> bool;
     template<typename T, typename Integer>
-    constexpr auto operator>(Integer lhs, const rational<T>& rhs)
+    auto operator>(Integer lhs, const rational<T>& rhs)
         -> bool;
 
     template<typename T, typename U>
-    constexpr auto operator<=(const rational<T>& lhs, const rational<U>& rhs)
+    auto operator<=(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
     template<typename T, typename Integer>
-    constexpr auto operator<=(const rational<T>& lhs, Integer rhs)
+    auto operator<=(const rational<T>& lhs, Integer rhs)
         -> bool;
     template<typename T, typename Integer>
-    constexpr auto operator<=(Integer lhs, const rational<T>& rhs)
+    auto operator<=(Integer lhs, const rational<T>& rhs)
         -> bool;
 
     template<typename T, typename U>
-    constexpr auto operator>=(const rational<T>& lhs, const rational<U>& rhs)
+    auto operator>=(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
     template<typename T, typename Integer>
-    constexpr auto operator>=(const rational<T>& lhs, Integer rhs)
+    auto operator>=(const rational<T>& lhs, Integer rhs)
         -> bool;
     template<typename T, typename Integer>
-    constexpr auto operator>=(Integer lhs, const rational<T>& rhs)
+    auto operator>=(Integer lhs, const rational<T>& rhs)
         -> bool;
 
     ////////////////////////////////////////////////////////////
@@ -300,22 +298,22 @@ namespace polder
      * @return New rational number
      */
     template<typename T>
-    constexpr auto make_rational(T numerator, T denominator=1)
+    auto make_rational(T numerator, T denominator=1)
         -> rational<T>;
 
     ////////////////////////////////////////////////////////////
     // Mathematical functions
 
     template<typename T>
-    constexpr auto abs(const rational<T>& rat)
+    auto abs(const rational<T>& rat)
         -> rational<T>;
 
     template<typename T, typename Integer>
-    constexpr auto pow(const rational<T>& rat, Integer exponent)
+    auto pow(const rational<T>& rat, Integer exponent)
         -> rational<std::common_type_t<T, Integer>>;
 
     template<typename T>
-    constexpr auto sign(const rational<T>& rat)
+    auto sign(const rational<T>& rat)
         -> int;
 
     ////////////////////////////////////////////////////////////
@@ -325,22 +323,22 @@ namespace polder
     {
     inline namespace rational_literals
     {
-        constexpr auto operator "" _r(unsigned long long n)
+        auto operator "" _r(unsigned long long n)
             -> rational<int>;
 
-        constexpr auto operator "" _rl(unsigned long long n)
+        auto operator "" _rl(unsigned long long n)
             -> rational<long>;
 
-        constexpr auto operator "" _rll(unsigned long long n)
+        auto operator "" _rll(unsigned long long n)
             -> rational<long long>;
 
-        constexpr auto operator "" _ru(unsigned long long n)
+        auto operator "" _ru(unsigned long long n)
             -> rational<unsigned>;
 
-        constexpr auto operator "" _rul(unsigned long long n)
+        auto operator "" _rul(unsigned long long n)
             -> rational<unsigned long>;
 
-        constexpr auto operator "" _rull(unsigned long long n)
+        auto operator "" _rull(unsigned long long n)
             -> rational<unsigned long long>;
     }}
 

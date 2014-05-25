@@ -25,64 +25,64 @@ int main()
         using namespace polder;
 
         // Default initialization
-        constexpr rational<int> r0;
-        static_assert(r0.numer() == 0, "");
-        static_assert(r0.denom() == 1, "");
+        rational<int> r0;
+        POLDER_ASSERT(r0.numer() == 0);
+        POLDER_ASSERT(r0.denom() == 1);
 
-        constexpr auto ratio = make_rational(4, 3);
-        static_assert(ratio.numer() == 4, "");
-        static_assert(ratio.denom() == 3, "");
+        auto ratio = make_rational(4, 3);
+        POLDER_ASSERT(ratio.numer() == 4);
+        POLDER_ASSERT(ratio.denom() == 3);
 
-        constexpr auto ratio2 = make_rational(5);
-        static_assert(ratio2.numer() == 5, "");
-        static_assert(ratio2.denom() == 1, "");
+        auto ratio2 = make_rational(5);
+        POLDER_ASSERT(ratio2.numer() == 5);
+        POLDER_ASSERT(ratio2.denom() == 1);
     }
 
     // TEST: relational operators
     {
         using namespace polder;
 
-        constexpr auto r1 = make_rational(1, 2);
-        constexpr auto r2 = make_rational(2, 4);
-        constexpr auto r3 = make_rational(1, 3);
-        constexpr auto r4 = make_rational(5, 1);
-        constexpr auto r5 = make_rational(-1, 2);
-        constexpr auto r6 = make_rational(1, -2);
+        auto r1 = make_rational(1, 2);
+        auto r2 = make_rational(2, 4);
+        auto r3 = make_rational(1, 3);
+        auto r4 = make_rational(5, 1);
+        auto r5 = make_rational(-1, 2);
+        auto r6 = make_rational(1, -2);
 
         // rational-rational comparison
-        static_assert(r1 == r2, "");
-        static_assert(r1 != r3, "");
-        static_assert(r1 > r3, "");
-        static_assert(r3 < r2, "");
-        static_assert(r1 >= r2, "");
-        static_assert(r3 <= r2, "");
-        static_assert(r5 == r6, "");
+        POLDER_ASSERT(r1 == r2);
+        POLDER_ASSERT(r1 != r3);
+        POLDER_ASSERT(r1 > r3);
+        POLDER_ASSERT(r3 < r2);
+        POLDER_ASSERT(r1 >= r2);
+        POLDER_ASSERT(r3 <= r2);
+        POLDER_ASSERT(r5 == r6);
 
         // rational-integral comparison
-        static_assert(r4 == 5, "");
-        static_assert(5 == r4, "");
-        static_assert(r1 != 3, "");
-        static_assert(8 != r2, "");
-        static_assert(0 < r1, "");
-        static_assert(r2 < 1, "");
-        static_assert(8 > r4, "");
-        static_assert(r2 > -1, "");
-        static_assert(5 <= r4, "");
-        static_assert(r3 <= 1, "");
-        static_assert(1 >= r3, "");
-        static_assert(r1 >= -8, "");
-        static_assert(r5 <= 0, "");
-        static_assert(r6 <= 0, "");
+        POLDER_ASSERT(r4 == 5);
+        POLDER_ASSERT(5 == r4);
+        POLDER_ASSERT(r1 != 3);
+        POLDER_ASSERT(8 != r2);
+        POLDER_ASSERT(0 < r1);
+        POLDER_ASSERT(r2 < 1);
+        POLDER_ASSERT(8 > r4);
+        POLDER_ASSERT(r2 > -1);
+        POLDER_ASSERT(5 <= r4);
+        POLDER_ASSERT(r3 <= 1);
+        POLDER_ASSERT(1 >= r3);
+        POLDER_ASSERT(r1 >= -8);
+        POLDER_ASSERT(r5 <= 0);
+        POLDER_ASSERT(r6 <= 0);
     }
 
     // TEST: arithmetic operators
     {
         using namespace polder;
 
-        constexpr auto r1 = make_rational(1, 2);
-        constexpr auto r2 = make_rational(2, 4);
-        constexpr auto r3 = make_rational(1, 3);
-        constexpr auto r4 = make_rational(5, 1);
+        auto r1 = make_rational(1, 2);
+        auto r2 = make_rational(2, 4);
+        auto r3 = make_rational(1, 3);
+        auto r4 = make_rational(5, 1);
 
         // rational-rational arithmetic operations
         POLDER_ASSERT(r1 + r2 == 1);
@@ -111,39 +111,43 @@ int main()
         using polder::math::meta::pow;
         using polder::math::meta::sign;
 
-        constexpr auto r0 = make_rational(0, 1);
-        constexpr auto r1 = make_rational(-1, 2);
-        constexpr auto r2 = make_rational(1, -2);
-        constexpr auto r3 = make_rational(4, 5);
+        auto r0 = make_rational(0, 1);
+        auto r1 = make_rational(-1, 2);
+        auto r2 = make_rational(1, -2);
+        auto r3 = make_rational(4, 5);
 
-        static_assert(abs(r1) == make_rational(1, 2), "");
-        static_assert(abs(r2) == make_rational(1, 2), "");
-        static_assert(abs(r1) == abs(r2), "");
+        POLDER_ASSERT(abs(r1) == make_rational(1, 2));
+        POLDER_ASSERT(abs(r2) == make_rational(1, 2));
+        POLDER_ASSERT(abs(r1) == abs(r2));
 
-        static_assert(pow(r1, 0) == make_rational(1, 1), "");
-        static_assert(pow(r2, 1) == r2, "");
-        static_assert(pow(r3, 3) == make_rational(64, 125), "");
-        static_assert(pow(r3, -3) == make_rational(pow(5, 3), pow(4, 3)), "");
+        POLDER_ASSERT(pow(r1, 0) == make_rational(1, 1));
+        POLDER_ASSERT(pow(r2, 1) == r2);
+        POLDER_ASSERT(pow(r3, 3) == make_rational(64, 125));
+        POLDER_ASSERT(pow(r3, -3) == make_rational(pow(5, 3), pow(4, 3)));
 
-        static_assert(sign(r0) == 0, "");
-        static_assert(sign(r1) == -1, "");
-        static_assert(sign(r2) == -1, "");
-        static_assert(sign(r3) == 1, "");
-        static_assert(sign(r1) == sign(r1.numer()), "");
-        static_assert(sign(r2) == sign(r2.numer()), "");
+        POLDER_ASSERT(sign(r0) == 0);
+        POLDER_ASSERT(sign(r1) == -1);
+        POLDER_ASSERT(sign(r2) == -1);
+        POLDER_ASSERT(sign(r3) == 1);
+        POLDER_ASSERT(sign(r1) == sign(r1.numer()));
+        POLDER_ASSERT(sign(r2) == sign(r2.numer()));
     }
 
     // TEST: cast
     {
         using namespace polder;
 
-        static_assert(make_rational(1, 2) == make_rational(1L, 2L), "");
-        static_assert(make_rational(3ULL, 2ULL) == rational<short>(3, 2), "");
+        POLDER_ASSERT(make_rational(1, 2) == make_rational(1L, 2L));
+        POLDER_ASSERT(make_rational(3ULL, 2ULL) == rational<short>(3, 2));
     }
 
     // TEST: normalizing operations
     {
         using namespace polder;
+
+        auto r0 = make_rational(1, -2);
+        POLDER_ASSERT(r0.numer() == -1);
+        POLDER_ASSERT(r0.denom() == 2);
 
         auto r1 = 1/2_r + 1/2_r;
         POLDER_ASSERT(r1.numer() == 1);
@@ -168,5 +172,9 @@ int main()
         auto r6 = (3/4_r) / 3;
         POLDER_ASSERT(r6.numer() == 1);
         POLDER_ASSERT(r6.denom() == 4);
+
+        auto r7 = make_rational(2, 4);
+        POLDER_ASSERT(r7.numer() == 1);
+        POLDER_ASSERT(r7.denom() == 2);
     }
 }
