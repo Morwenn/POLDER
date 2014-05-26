@@ -128,6 +128,19 @@ namespace polder
                 -> rational&;
 
             ////////////////////////////////////////////////////////////
+            // Increment & decrement operators
+
+            auto operator++()
+                -> rational&;
+            auto operator++(int)
+                -> rational;
+
+            auto operator--()
+                -> rational&;
+            auto operator--(int)
+                -> rational;
+
+            ////////////////////////////////////////////////////////////
             // Cast operators
 
             explicit operator bool() const;

@@ -96,7 +96,7 @@ auto rational<T>::operator+=(value_type other)
     -> rational&
 {
     _numer += other * _denom;
-    // this does not need normalization
+    // cannot denormalize the fraction
     return *this;
 }
 
@@ -117,7 +117,7 @@ auto rational<T>::operator-=(value_type other)
     -> rational&
 {
     _numer -= other * _denom;
-    // this does not need normalization
+    // cannot denormalize the fraction
     return *this;
 }
 
@@ -169,6 +169,46 @@ auto rational<T>::operator/=(value_type val)
 
     normalize();
     return *this;
+}
+
+////////////////////////////////////////////////////////////
+// Increment & decrement operators
+////////////////////////////////////////////////////////////
+
+template<typename T>
+auto rational<T>::operator++()
+    -> rational&
+{
+    _numer += _denom;
+    // cannot denormalize the fraction
+    return *this;
+}
+
+template<typename T>
+auto rational<T>::operator++(int)
+    -> rational
+{
+    auto tmp = *this;
+    operator++();
+    return tmp;
+}
+
+template<typename T>
+auto rational<T>::operator--()
+    -> rational&
+{
+    _numer -= _denom;
+    // cannot denormalize the fraction
+    return *this;
+}
+
+template<typename T>
+auto rational<T>::operator--(int)
+    -> rational
+{
+    auto tmp = *this;
+    operator--();
+    return tmp;
 }
 
 ////////////////////////////////////////////////////////////

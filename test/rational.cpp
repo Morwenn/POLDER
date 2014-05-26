@@ -101,6 +101,23 @@ int main()
         POLDER_ASSERT(r3 / 3 == make_rational(1, 9));
     }
 
+    // TEST: increment and decrement operators
+    {
+        using namespace polder;
+
+        auto r1 = 2/5_r;
+        POLDER_ASSERT((r1++).numer() == 2);
+        POLDER_ASSERT(r1.numer() == 7);
+        POLDER_ASSERT(r1.denom() == 5);
+        POLDER_ASSERT((--r1).numer() == 2);
+
+        auto r2 = 15/7_r;
+        POLDER_ASSERT((r2--).numer() == 15);
+        POLDER_ASSERT(r2.numer() == 8);
+        POLDER_ASSERT(r2.denom() == 7);
+        POLDER_ASSERT((++r2).numer() == 15);
+    }
+
     // TEST: math functions
     // - ADL test
     {
