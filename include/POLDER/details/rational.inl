@@ -266,8 +266,8 @@ auto rational<T>::invert()
     }
 
     using std::swap;
-    using polder::math::meta::abs;
-    using polder::math::meta::sign;
+    using math::meta::abs;
+    using math::meta::sign;
 
     swap(_numer, _denom);
     _numer *= sign(_denom);
@@ -595,9 +595,11 @@ template<typename T>
 auto abs(const rational<T>& rat)
     -> rational<T>
 {
+    using math::meta::abs;
+
     return {
-        math::meta::abs(rat.numer()),
-        math::meta::abs(rat.denom())
+        abs(rat.numer()),
+        rat.denom()
     };
 }
 
@@ -605,27 +607,31 @@ template<typename T, typename Integer>
 auto pow(const rational<T>& rat, Integer exponent)
     -> rational<std::common_type_t<T, Integer>>
 {
-    using Ret = rational<std::common_type_t<T, Integer>>;
+    using math::meta::pow;
 
-    using std::pow;
-
-    return (exponent == 0) ? Ret(1) :
-        (exponent > 0) ? Ret(
-                        pow(rat.numer(), exponent),
-                        pow(rat.denom(), exponent)
-                    ) :
-                    Ret(
-                        pow(rat.denom(), -exponent),
-                        pow(rat.numer(), -exponent)
-                    );
+    if (exponent > 0)
+    {
+        return {
+            pow(rat.numer(), exponent),
+            pow(rat.denom(), exponent)
+        };
+    }
+    else if (exponent < 0)
+    {
+        return {
+            pow(rat.numer(), -exponent),
+            pow(rat.denom(), -exponent)
+        };
+    }
+    return { 1 };
 }
 
 template<typename T>
 auto sign(const rational<T>& rat)
     -> int
 {
-    using polder::math::sign;
-    return sign(rat.numer()) * sign(rat.denom());
+    using math::sign;
+    return sign(rat.numer());
 }
 
 ////////////////////////////////////////////////////////////
