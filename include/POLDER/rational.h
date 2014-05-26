@@ -53,7 +53,6 @@ namespace polder
 
             ////////////////////////////////////////////////////////////
             // Constructors
-            ////////////////////////////////////////////////////////////
 
             // Default constructor
             constexpr rational();
@@ -84,7 +83,6 @@ namespace polder
 
             ////////////////////////////////////////////////////////////
             // Getters
-            ////////////////////////////////////////////////////////////
 
             /**
              * @brief Returns the numerator of a rational number
@@ -101,12 +99,13 @@ namespace polder
                 -> value_type;
 
             ////////////////////////////////////////////////////////////
-            // Operators
-            ////////////////////////////////////////////////////////////
+            // Assignment operator
 
-            // Assignment
             auto operator=(value_type other)
                 -> rational&;
+
+            ////////////////////////////////////////////////////////////
+            // Compound assignment operators
 
             auto operator+=(const rational& other)
                 -> rational&;
@@ -128,11 +127,17 @@ namespace polder
             auto operator/=(value_type val)
                 -> rational&;
 
+            ////////////////////////////////////////////////////////////
+            // Cast operators
+
             explicit operator float() const;
             explicit operator double() const;
             explicit operator long double() const;
 
         private:
+
+            ////////////////////////////////////////////////////////////
+            // Miscellaneous functions
 
             /*
              * Normalize the fraction.
@@ -144,9 +149,11 @@ namespace polder
             auto normalize()
                 -> void;
 
+            ////////////////////////////////////////////////////////////
             // Member data
-            value_type _numer;      /**< Numerator */
-            value_type _denom;    /**< Denominator */
+
+            value_type _numer;  /**< Numerator */
+            value_type _denom;  /**< Denominator */
     };
 
 
