@@ -63,7 +63,7 @@ auto rational<T>::denom() const noexcept
 }
 
 ////////////////////////////////////////////////////////////
-// In-class operators
+// Assignment operator
 ////////////////////////////////////////////////////////////
 
 template<typename T>
@@ -74,6 +74,10 @@ auto rational<T>::operator=(value_type other)
     _denom = 1;
     return *this;
 }
+
+////////////////////////////////////////////////////////////
+// Compound assignment operators
+////////////////////////////////////////////////////////////
 
 template<typename T>
 auto rational<T>::operator+=(const rational& other)
@@ -165,6 +169,16 @@ auto rational<T>::operator/=(value_type val)
 
     normalize();
     return *this;
+}
+
+////////////////////////////////////////////////////////////
+// Cast operators
+////////////////////////////////////////////////////////////
+
+template<typename T>
+rational<T>::operator bool() const
+{
+    return _numer != 0;
 }
 
 template<typename T>

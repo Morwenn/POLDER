@@ -130,6 +130,8 @@ namespace polder
             ////////////////////////////////////////////////////////////
             // Cast operators
 
+            explicit operator bool() const;
+
             explicit operator float() const;
             explicit operator double() const;
             explicit operator long double() const;

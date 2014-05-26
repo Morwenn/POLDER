@@ -137,6 +137,10 @@ int main()
     {
         using namespace polder;
 
+        POLDER_ASSERT(not 0_r);
+        POLDER_ASSERT(bool(1_r));
+        POLDER_ASSERT(not not 8_r);
+
         POLDER_ASSERT(make_rational(1, 2) == make_rational(1L, 2L));
         POLDER_ASSERT(make_rational(3ULL, 2ULL) == rational<short>(3, 2));
     }
