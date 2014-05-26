@@ -155,6 +155,9 @@ namespace polder
             auto swap(rational& other) noexcept
                 -> void;
 
+            auto invert()
+                -> rational&;
+
         private:
 
             ////////////////////////////////////////////////////////////

@@ -256,6 +256,25 @@ auto rational<T>::swap(rational<T>& other) noexcept
     swap(_denom, other._denom);
 }
 
+template<typename T>
+auto rational<T>::invert()
+    -> rational&
+{
+    if (_denom == 0)
+    {
+        throw division_by_zero();
+    }
+
+    using std::swap;
+    using polder::math::meta::abs;
+    using polder::math::meta::sign;
+
+    swap(_numer, _denom);
+    _numer *= sign(_denom);
+    _denom = abs(_denom);
+    return *this;
+}
+
 ////////////////////////////////////////////////////////////
 // Miscellaneous functions
 ////////////////////////////////////////////////////////////
