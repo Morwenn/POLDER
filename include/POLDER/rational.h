@@ -344,6 +344,10 @@ namespace polder
     // Mathematical functions
 
     template<typename T>
+    auto reciprocal(rational<T> rat)
+        -> rational<T>;
+
+    template<typename T>
     auto abs(const rational<T>& rat)
         -> rational<T>;
 

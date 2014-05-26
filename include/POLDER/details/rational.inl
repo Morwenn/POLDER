@@ -585,6 +585,13 @@ auto swap(rational<T>& lhs, rational<T>& rhs) noexcept
 ////////////////////////////////////////////////////////////
 
 template<typename T>
+auto reciprocal(rational<T> rat)
+    -> rational<T>
+{
+    return rat.invert();
+}
+
+template<typename T>
 auto abs(const rational<T>& rat)
     -> rational<T>
 {
