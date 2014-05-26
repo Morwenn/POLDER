@@ -136,6 +136,12 @@ namespace polder
             explicit operator double() const;
             explicit operator long double() const;
 
+            ////////////////////////////////////////////////////////////
+            // Modifiers
+
+            auto swap(rational& other) noexcept
+                -> void;
+
         private:
 
             ////////////////////////////////////////////////////////////
@@ -313,6 +319,10 @@ namespace polder
     template<typename T>
     auto make_rational(T numerator)
         -> rational<T>;
+
+    template<typename T>
+    auto swap(rational<T>& lhs, rational<T>& rhs) noexcept
+        -> void;
 
     ////////////////////////////////////////////////////////////
     // Mathematical functions

@@ -203,6 +203,20 @@ rational<T>::operator long double() const
 }
 
 ////////////////////////////////////////////////////////////
+// Modifiers
+////////////////////////////////////////////////////////////
+
+template<typename T>
+auto rational<T>::swap(rational<T>& other) noexcept
+    -> void
+{
+    using std::swap;
+
+    swap(_numer, other._numer);
+    swap(_denom, other._denom);
+}
+
+////////////////////////////////////////////////////////////
 // Miscellaneous functions
 ////////////////////////////////////////////////////////////
 
@@ -498,6 +512,13 @@ auto make_rational(T numerator)
     -> rational<T>
 {
     return { numerator };
+}
+
+template<typename T>
+auto swap(rational<T>& lhs, rational<T>& rhs) noexcept
+    -> void
+{
+    lhs.swap(rhs);
 }
 
 ////////////////////////////////////////////////////////////
