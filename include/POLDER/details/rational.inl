@@ -341,27 +341,24 @@ template<typename T, typename U>
 auto operator==(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
-    return lhs.numer() * rhs.denom()
-        == lhs.denom() * rhs.numer();
+    return lhs.numer() == rhs.numer()
+        && lhs.denom() == rhs.denom();
 }
 
 template<typename T, typename Integer>
 auto operator==(const rational<T>& lhs, Integer rhs)
     -> bool
 {
-    return lhs.numer() == lhs.denom() * rhs;
+    return lhs.numer() == rhs
+        && lhs.denom() == 1;
 }
 
 template<typename T, typename Integer>
 auto operator==(Integer lhs, const rational<T>& rhs)
     -> bool
 {
-    return rhs.numer() == rhs.denom() * lhs;
+    return rhs == lhs;
 }
-
-////////////////////////////////////////////////////////////
-// Relational operators
-////////////////////////////////////////////////////////////
 
 template<typename T, typename U>
 auto operator!=(const rational<T>& lhs, const rational<U>& rhs)
@@ -384,12 +381,16 @@ auto operator!=(Integer lhs, const rational<T>& rhs)
     return !(lhs == rhs);
 }
 
+////////////////////////////////////////////////////////////
+// Relational operators
+////////////////////////////////////////////////////////////
+
 template<typename T, typename U>
 auto operator<(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
     return lhs.numer() * rhs.denom()
-        < lhs.denom() * rhs.numer();
+         < lhs.denom() * rhs.numer();
 }
 
 template<typename T, typename Integer>
@@ -403,73 +404,70 @@ template<typename T, typename Integer>
 auto operator<(Integer lhs, const rational<T>& rhs)
     -> bool
 {
-    return rhs.numer() >= rhs.denom() * lhs;
+    return rhs > lhs;
 }
 
 template<typename T, typename U>
 auto operator>(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
-    return lhs.numer() * rhs.denom()
-        > lhs.denom() * rhs.numer();
+    return rhs < lhs;
 }
 
 template<typename T, typename Integer>
 auto operator>(const rational<T>& lhs, Integer rhs)
     -> bool
 {
-    return lhs.numer() > lhs.denom() * rhs;
+    return rhs < lhs;
 }
 
 template<typename T, typename Integer>
 auto operator>(Integer lhs, const rational<T>& rhs)
     -> bool
 {
-    return rhs.numer() <= rhs.denom() * lhs;
+    return rhs < lhs;
 }
 
 template<typename T, typename U>
 auto operator<=(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
-    return lhs.numer() * rhs.denom()
-        <= lhs.denom() * rhs.numer();
+    return !(rhs < lhs);
 }
 
 template<typename T, typename Integer>
 auto operator<=(const rational<T>& lhs, Integer rhs)
     -> bool
 {
-    return lhs.numer() <= lhs.denom() * rhs;
+    return !(rhs < lhs);
 }
 
 template<typename T, typename Integer>
 auto operator<=(Integer lhs, const rational<T>& rhs)
     -> bool
 {
-    return lhs * rhs.denom() <= rhs.numer();
+    return !(rhs < lhs);
 }
 
 template<typename T, typename U>
 auto operator>=(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
-    return lhs.numer() * rhs.denom()
-        >= lhs.denom() * rhs.numer();
+    return !(lhs > rhs);
 }
 
 template<typename T, typename Integer>
 auto operator>=(const rational<T>& lhs, Integer rhs)
     -> bool
 {
-    return lhs.numer() >= lhs.denom() * rhs;
+    return !(lhs > rhs);
 }
 
 template<typename T, typename Integer>
 auto operator>=(Integer lhs, const rational<T>& rhs)
     -> bool
 {
-    return rhs.numer() < rhs.denom() * lhs;
+    return !(lhs > rhs);
 }
 
 ////////////////////////////////////////////////////////////
