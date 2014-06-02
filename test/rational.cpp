@@ -152,7 +152,7 @@ int main()
         POLDER_ASSERT(reciprocal(r1) == reciprocal(r2));
 
         POLDER_ASSERT(r1.invert() == r2.invert());
-        POLDER_ASSERT(r1.numer() == 2);
+        POLDER_ASSERT(r1.numer() == -2);
         POLDER_ASSERT(r2.denom() == 1);
     }
 
