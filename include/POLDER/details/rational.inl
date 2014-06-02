@@ -477,7 +477,7 @@ template<typename T, typename Integer>
 auto operator<(Integer lhs, const rational<T>& rhs)
     -> bool
 {
-    return rhs > lhs;
+    return lhs * rhs.denom() < rhs.numer();
 }
 
 template<typename T, typename U>
@@ -526,21 +526,21 @@ template<typename T, typename U>
 auto operator>=(const rational<T>& lhs, const rational<U>& rhs)
     -> bool
 {
-    return !(lhs > rhs);
+    return !(lhs < rhs);
 }
 
 template<typename T, typename Integer>
 auto operator>=(const rational<T>& lhs, Integer rhs)
     -> bool
 {
-    return !(lhs > rhs);
+    return !(lhs < rhs);
 }
 
 template<typename T, typename Integer>
 auto operator>=(Integer lhs, const rational<T>& rhs)
     -> bool
 {
-    return !(lhs > rhs);
+    return !(lhs < rhs);
 }
 
 ////////////////////////////////////////////////////////////
@@ -619,8 +619,8 @@ auto pow(const rational<T>& rat, Integer exponent)
     else if (exponent < 0)
     {
         return {
-            pow(rat.numer(), -exponent),
-            pow(rat.denom(), -exponent)
+            pow(rat.denom(), -exponent),
+            pow(rat.numer(), -exponent)
         };
     }
     return { 1 };
