@@ -195,12 +195,12 @@
         }
     }
 
-    #define POLDER_ASSERT(assertion) \
-        polder_assert(assertion, __FILE__, __LINE__, #assertion)
+    #define POLDER_ASSERT(...) \
+        polder_assert((__VA_ARGS__), __FILE__, __LINE__, (#__VA_ARGS__))
 
 #else
 
-    #define POLDER_ASSERT(assertion)
+    #define POLDER_ASSERT(...)
 
 #endif
 

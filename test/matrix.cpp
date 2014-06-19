@@ -114,8 +114,7 @@ int main()
         POLDER_ASSERT(a.at(1, 1) == 99);
         POLDER_ASSERT(a[2][2] == 85);
         POLDER_ASSERT(a(0, 0) == 8);
-        bool dummy = a[{1,2}] == 63;
-        POLDER_ASSERT(dummy);
+        POLDER_ASSERT(a[{1,2}] == 63);
 
         // front/back
         POLDER_ASSERT(a.front() == 8);
@@ -127,9 +126,8 @@ int main()
             for (std::size_t j = 0 ; j < a.width() ; ++j)
             {
                 int val = a[i][j];
-                int dummy = a[{i, j}];
                 POLDER_ASSERT(val == a.at(i, j));
-                POLDER_ASSERT(val == dummy);
+                POLDER_ASSERT(val == a[{i, j}]);
                 POLDER_ASSERT(val == a(i, j));
             }
         }
