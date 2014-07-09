@@ -104,7 +104,7 @@ namespace ini
          *
          * @param output Output stream.
          */
-        auto write(std::ostream& output)
+        auto write(std::ostream& output) const
             -> void;
 
         /**
@@ -186,6 +186,15 @@ namespace ini
 
         std::map<std::string, Element> items;
     };
+
+    ////////////////////////////////////////////////////////////
+    // Stream operators
+
+    auto operator<<(std::ostream& stream, const Parser& config)
+        -> std::ostream&;
+
+    auto operator>>(std::istream& stream, Parser& config)
+        -> std::istream&;
 }}
 
 #endif // POLDER_INI_PARSER_H_

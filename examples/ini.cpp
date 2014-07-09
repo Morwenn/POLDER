@@ -54,8 +54,11 @@ int main()
             // Write config to a file
             {
                 std::ofstream fout("test1.ini");
-                config.write(fout);
+                fout << config;
             }
+
+            // Write config to standard output
+            std::cout << config;
         }
 
         ////////////////////////////////////////////////////////////
@@ -65,7 +68,7 @@ int main()
             Parser config;
             {
                 std::ifstream fin(fname);
-                config.read(fin);
+                fin >> config;
             }
 
             if (config.has("section"))

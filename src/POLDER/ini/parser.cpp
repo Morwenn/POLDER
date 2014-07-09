@@ -15,12 +15,12 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include <iostream>
 #include <typeindex>
 #include <utility>
 #include <POLDER/ini/details/token.h>
 #include <POLDER/ini/error.h>
 #include <POLDER/ini/parser.h>
-#include <POLDER/io.h>
 
 namespace polder
 {
@@ -206,7 +206,7 @@ namespace ini
         }
     }
 
-    auto Parser::write(std::ostream& output)
+    auto Parser::write(std::ostream& output) const
         -> void
     {
         if (not output)
@@ -362,5 +362,23 @@ namespace ini
         -> const_iterator
     {
         return const_iterator(std::end(items));
+    }
+
+    ////////////////////////////////////////////////////////////
+    // Stream operators
+    ////////////////////////////////////////////////////////////
+
+    auto operator<<(std::ostream& stream, const Parser& config)
+        -> std::ostream&
+    {
+        config.write(stream);
+        return stream;
+    }
+
+    auto operator>>(std::istream& stream, Parser& config)
+        -> std::istream&
+    {
+        config.read(stream);
+        return stream;
     }
 }}
