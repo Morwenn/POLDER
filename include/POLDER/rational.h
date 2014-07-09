@@ -21,7 +21,9 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <ostream>
 #include <type_traits>
+#include <utility>
 #include <POLDER/exceptions.h>
 #include <POLDER/math/cmath.h>
 #include <POLDER/math/formula.h>

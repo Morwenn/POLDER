@@ -251,7 +251,6 @@ auto rational<T>::swap(rational<T>& other) noexcept
     -> void
 {
     using std::swap;
-
     swap(_numer, other._numer);
     swap(_denom, other._denom);
 }
