@@ -93,7 +93,7 @@ int main()
             // Write config back to a file
             {
                 std::ofstream fout(fname);
-                config.write(fout);
+                fout << config;
             }
         }
     }
