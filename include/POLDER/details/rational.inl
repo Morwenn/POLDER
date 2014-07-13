@@ -136,9 +136,14 @@ template<typename T>
 auto rational<T>::operator*=(value_type other)
     -> rational&
 {
+    using math::gcd;
+
+    // Reduce probability of overflow
+    auto divisor = gcd(_denom, other);
+    other /= divisor;
+    _denom /= divisor;
     _numer *= other;
 
-    normalize();
     return *this;
 }
 
@@ -158,16 +163,22 @@ auto rational<T>::operator/=(const rational& other)
 }
 
 template<typename T>
-auto rational<T>::operator/=(value_type val)
+auto rational<T>::operator/=(value_type other)
     -> rational&
 {
-    if (val == 0)
+    if (other == 0)
     {
         throw division_by_zero();
     }
-    _denom *= val;
 
-    normalize();
+    using math::gcd;
+
+    // Reduce probability of overflow
+    auto divisor = gcd(_numer, other);
+    other /= divisor;
+    _numer /= divisor;
+    _denom *= other;
+
     return *this;
 }
 

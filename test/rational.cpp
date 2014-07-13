@@ -15,6 +15,7 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include <limits>
 #include <POLDER/rational.h>
 #include <POLDER/math/cmath.h>
 
@@ -203,5 +204,18 @@ int main()
         auto r7 = make_rational(2, 4);
         POLDER_ASSERT(r7.numer() == 1);
         POLDER_ASSERT(r7.denom() == 2);
+    }
+
+    // TEST: integer overflow
+    {
+        using namespace polder;
+
+        auto max = std::numeric_limits<int>::max();
+
+        auto r1 = max / 2_r;
+        POLDER_ASSERT(r1 * 2 == max);
+
+        auto r2 = 2_r / max;
+        POLDER_ASSERT(r2 / 2 == 1_r / max);
     }
 }

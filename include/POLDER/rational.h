@@ -126,7 +126,7 @@ namespace polder
 
             auto operator/=(const rational& other)
                 -> rational&;
-            auto operator/=(value_type val)
+            auto operator/=(value_type other)
                 -> rational&;
 
             ////////////////////////////////////////////////////////////
