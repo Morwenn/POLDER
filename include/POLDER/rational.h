@@ -69,7 +69,7 @@ namespace polder
              * @param numerator Numerator of the fraction
              * @see rational(value_type numerator, value_type denominator)
              */
-            constexpr rational(value_type numerator) noexcept;
+            explicit constexpr rational(value_type numerator) noexcept;
 
             /**
              * @brief Initialization constructor

@@ -580,7 +580,7 @@ template<typename T>
 auto make_rational(T numerator)
     -> rational<T>
 {
-    return { numerator };
+    return rational<T>{ numerator };
 }
 
 template<typename T>
@@ -633,7 +633,7 @@ auto pow(const rational<T>& rat, Integer exponent)
             pow(rat.numer(), -exponent)
         };
     }
-    return { 1 };
+    return rational<std::common_type_t<T, Integer>>{ 1 };
 }
 
 template<typename T>
@@ -655,36 +655,36 @@ inline namespace rational_literals
     auto operator "" _r(unsigned long long n)
         -> rational<int>
     {
-        return { static_cast<int>(n) };
+        return rational<int>{ static_cast<int>(n) };
     }
 
     auto operator "" _rl(unsigned long long n)
         -> rational<long>
     {
-        return { static_cast<long>(n) };
+        return rational<long>{ static_cast<long>(n) };
     }
 
     auto operator "" _rll(unsigned long long n)
         -> rational<long long>
     {
-        return { static_cast<long long>(n) };
+        return rational<long long>{ static_cast<long long>(n) };
     }
 
     auto operator "" _ru(unsigned long long n)
         -> rational<unsigned>
     {
-        return { static_cast<unsigned>(n) };
+        return rational<unsigned>{ static_cast<unsigned>(n) };
     }
 
     auto operator "" _rul(unsigned long long n)
         -> rational<unsigned long>
     {
-        return { static_cast<unsigned long>(n) };
+        return rational<unsigned long>{ static_cast<unsigned long>(n) };
     }
 
     auto operator "" _rull(unsigned long long n)
         -> rational<unsigned long long>
     {
-        return { n };
+        return rational<unsigned long long>{ n };
     }
 }}
