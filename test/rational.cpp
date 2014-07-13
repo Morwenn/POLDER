@@ -100,6 +100,7 @@ int main()
         POLDER_ASSERT(6 * r2 == r1 * 6);
         POLDER_ASSERT(1 / r2 == 2);
         POLDER_ASSERT(r3 / 3 == make_rational(1, 9));
+        POLDER_ASSERT(r1 / -2 == -1 / 4_r);
     }
 
     // TEST: increment and decrement operators

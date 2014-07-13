@@ -172,12 +172,14 @@ auto rational<T>::operator/=(value_type other)
     }
 
     using math::gcd;
+    using math::sign;
+    using math::meta::abs;
 
     // Reduce probability of overflow
     auto divisor = gcd(_numer, other);
     other /= divisor;
-    _numer /= divisor;
-    _denom *= other;
+    _numer /= divisor * sign(other);
+    _denom *= abs(other);
 
     return *this;
 }
