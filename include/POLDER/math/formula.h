@@ -28,6 +28,7 @@
 #include <utility>
 #include <vector>
 #include <POLDER/details/config.h>
+#include <POLDER/math/cmath.h>
 #include <POLDER/math/constants.h>
 
 
@@ -136,23 +137,33 @@ namespace math
 
     /**
      * @brief Greatest common divisor
+     *
+     * Greatest common divisor of two integer values.
+     * The result will always be positive, even if one
+     * of the passed values is negative.
+     *
      * @param a Some integer
      * @param b Some integer
      * @return Greatest common divisor of a and b
      */
-    template<typename Unsigned>
-    auto gcd(Unsigned a, Unsigned b)
-        -> Unsigned;
+    template<typename Integer>
+    auto gcd(Integer a, Integer b)
+        -> Integer;
 
     /**
      * @brief Least common multiple
+     *
+     * Least common multiple of two integer values.
+     * The result will always be positive, even if
+     * one of the passed values is negative.
+     *
      * @param a Some integer
      * @param b Some integer
      * @return Least common multiple of a and b
      */
-    template<typename Unsigned>
-    auto lcm(Unsigned a, Unsigned b)
-        -> Unsigned;
+    template<typename Integer>
+    auto lcm(Integer a, Integer b)
+        -> Integer;
 
     /**
      * @brief Modular exponentiation

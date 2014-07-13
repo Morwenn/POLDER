@@ -77,6 +77,11 @@ int main()
     POLDER_ASSERT(gcd(270, 84) == 6);
     POLDER_ASSERT(gcd(84, 270) == 6);
 
+    POLDER_ASSERT(gcd(3, 6) == 3);
+    POLDER_ASSERT(gcd(-3, 6) == 3);
+    POLDER_ASSERT(gcd(3, -6) == 3);
+    POLDER_ASSERT(gcd(-3, -6) == 3);
+
     POLDER_ASSERT(lcm(60, 168) == 840);
     POLDER_ASSERT(lcm(168, 60) == 840);
 
@@ -139,6 +144,11 @@ int main()
     static_assert(meta::gcd(1029, 1071) == 21, "");
     static_assert(meta::gcd(270, 84) == 6, "");
     static_assert(meta::gcd(84, 270) == 6, "");
+
+    static_assert(meta::gcd(3, 6) == 3, "");
+    static_assert(meta::gcd(-3, 6) == 3, "");
+    static_assert(meta::gcd(3, -6) == 3, "");
+    static_assert(meta::gcd(-3, -6) == 3, "");
 
     static_assert(meta::lcm(60, 168) == 840, "");
     static_assert(meta::lcm(168, 60) == 840, "");

@@ -149,6 +149,13 @@ auto gcd(Unsigned a, Unsigned b)
     {
         return 0;
     }
+
+    // Ensure that the result
+    // is always positive
+    using math::meta::abs;
+    a = abs(a);
+    b = abs(b);
+
     if (b > a)
     {
         std::swap(a, b);
@@ -370,9 +377,11 @@ namespace meta
     constexpr auto gcd(Unsigned a, Unsigned b)
         -> Unsigned
     {
+        using math::meta::abs;
         return (a == 0 || b == 0) ? 0 :
-            (a >= b) ? details::gcd_helper(b, a % b) :
-                details::gcd_helper(a, b % a);
+            (a < 0 || b < 0) ? gcd(abs(a), abs(b)) :
+                (a >= b) ? details::gcd_helper(b, a % b) :
+                    details::gcd_helper(a, b % a);
     }
 
     template<typename Unsigned>
