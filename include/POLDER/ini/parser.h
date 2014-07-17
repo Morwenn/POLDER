@@ -30,7 +30,7 @@
 #include <POLDER/details/config.h>
 #include <POLDER/ini/dialect.h>
 #include <POLDER/ini/element.h>
-#include <POLDER/itertools.h>
+#include <POLDER/iterator.h>
 
 namespace polder
 {
@@ -48,8 +48,8 @@ namespace ini
         struct Section;
 
         // Types
-        using iterator = itertools::get_iterator<1, std::map<std::string, Section>::iterator>;
-        using const_iterator = itertools::get_iterator<1, std::map<std::string, Section>::const_iterator>;
+        using iterator = get_iterator<1, std::map<std::string, Section>::iterator>;
+        using const_iterator = get_iterator<1, std::map<std::string, Section>::const_iterator>;
 
         Parser();
 
@@ -161,8 +161,8 @@ namespace ini
      */
     struct Parser::Section
     {
-        using iterator = itertools::get_iterator<1, std::map<std::string, Element>::iterator>;
-        using const_iterator = itertools::get_iterator<1, std::map<std::string, Element>::const_iterator>;
+        using iterator = get_iterator<1, std::map<std::string, Element>::iterator>;
+        using const_iterator = get_iterator<1, std::map<std::string, Element>::const_iterator>;
 
         auto has(const std::string& key)
             -> bool;
