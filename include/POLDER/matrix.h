@@ -144,9 +144,9 @@ namespace polder
                 -> value_type;
 
             // Assignment operator
-            auto operator=(const Matrix<T>& other)
+            auto operator=(const Matrix<T>& other) &
                 -> Matrix&;
-            auto operator=(Matrix<T>&& other) noexcept
+            auto operator=(Matrix<T>&& other) & noexcept
                 -> Matrix&;
 
             // Matrix-Matrix arithmetic operations

@@ -183,7 +183,7 @@ auto Matrix<T>::eye(size_type x, size_type y, int k)
 ////////////////////////////////////////////////////////////
 
 template<typename T>
-auto Matrix<T>::operator=(const Matrix<T>& other)
+auto Matrix<T>::operator=(const Matrix<T>& other) &
     -> Matrix&
 {
     if (this != &other)
@@ -202,7 +202,7 @@ auto Matrix<T>::operator=(const Matrix<T>& other)
 }
 
 template<typename T>
-auto Matrix<T>::operator=(Matrix<T>&& other) noexcept
+auto Matrix<T>::operator=(Matrix<T>&& other) & noexcept
     -> Matrix&
 {
     if (this != &other)

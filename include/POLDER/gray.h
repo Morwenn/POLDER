@@ -76,7 +76,7 @@ namespace polder
          * It works the same way as the equivalent
          * constructor does.
          */
-        auto operator=(value_type other)
+        auto operator=(value_type other) &
             -> GrayCode&;
 
         /**

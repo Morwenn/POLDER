@@ -67,7 +67,7 @@ auto rational<T>::denom() const noexcept
 ////////////////////////////////////////////////////////////
 
 template<typename T>
-auto rational<T>::operator=(value_type other)
+auto rational<T>::operator=(value_type other) &
     -> rational&
 {
     _numer = other;

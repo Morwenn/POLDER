@@ -34,7 +34,7 @@ constexpr GrayCode<Unsigned>::GrayCode(value_type value):
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator=(value_type other)
+auto GrayCode<Unsigned>::operator=(value_type other) &
     -> GrayCode&
 {
     value = (other >> 1) ^ other;

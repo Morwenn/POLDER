@@ -103,7 +103,7 @@ namespace polder
             ////////////////////////////////////////////////////////////
             // Assignment operator
 
-            auto operator=(value_type other)
+            auto operator=(value_type other) &
                 -> rational&;
 
             ////////////////////////////////////////////////////////////
