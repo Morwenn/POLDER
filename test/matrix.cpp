@@ -261,20 +261,22 @@ int main()
     // - transpose
     // - inverse
     {
+        using namespace polder;
+
         Matrix<rational<int>> a = {
-            { 1, 2, -1 },
-            { -2, 1, 1 },
-            { 0, 3, -3 }
+            { 1_r, 2_r, -1_r },
+            { -2_r, 1_r, 1_r },
+            { 0_r, 3_r, -3_r }
         };
         Matrix<rational<int>> b = {
-            { -6, -6, -6 },
-            { 3, -3, -3 },
-            { 3, 1, 5 }
+            { -6_r, -6_r, -6_r },
+            { 3_r, -3_r, -3_r },
+            { 3_r, 1_r, 5_r }
         };
         Matrix<rational<int>> c = {
-            { -6, 3, 3 },
-            { -6, -3, 1 },
-            { -6, -3, 5 }
+            { -6_r, 3_r, 3_r },
+            { -6_r, -3_r, 1_r },
+            { -6_r, -3_r, 5_r }
         };
         Matrix<rational<int>> d = {
             { {1,2}, {-1,4}, {-1,4} },
