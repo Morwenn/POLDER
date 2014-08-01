@@ -15,8 +15,13 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include <array>
 #include <cstdint>
+#include <deque>
+#include <forward_list>
+#include <list>
 #include <type_traits>
+#include <vector>
 #include <POLDER/type_traits.h>
 
 int main()
@@ -60,5 +65,23 @@ int main()
         static_assert(can_fit<uint_least16_t>(65535u), "");
         static_assert(can_fit<uint_least32_t>(4294967295u), "");
         static_assert(can_fit<uint_least64_t>(18446744073709551615u), "");
+    }
+
+    // TEST: iterable traits
+    {
+        int arr[] = { 0, 1, 2, 3, 4 };
+        static_assert(is_iterable<decltype(arr)>::value, "");
+        static_assert(is_reverse_iterable<decltype(arr)>::value, "");
+
+        static_assert(is_iterable<std::array<int, 5>>::value, "");
+        static_assert(is_reverse_iterable<std::array<float, 3>>::value, "");
+        static_assert(is_iterable<std::vector<char>>::value, "");
+        static_assert(is_reverse_iterable<std::vector<double>>::value, "");
+        static_assert(is_iterable<std::deque<int>>::value, "");
+        static_assert(is_reverse_iterable<std::deque<std::size_t>>::value, "");
+        static_assert(is_iterable<std::list<long double>>::value, "");
+        static_assert(is_reverse_iterable<std::list<unsigned>>::value, "");
+        static_assert(is_iterable<std::forward_list<unsigned long>>::value, "");
+        static_assert(not is_reverse_iterable<std::forward_list<int>>::value, "");
     }
 }

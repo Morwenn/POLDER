@@ -293,6 +293,11 @@ namespace polder
     {};
 
     template<typename T, std::size_t N>
+    struct is_iterable<T[N]>:
+        std::true_type
+    {};
+
+    template<typename T, std::size_t N>
     struct is_iterable<T (&)[N]>:
         std::true_type
     {};
@@ -332,6 +337,11 @@ namespace polder
             bool,
             is_reverse_iterable_impl<T>::value
         >
+    {};
+
+    template<typename T, std::size_t N>
+    struct is_reverse_iterable<T[N]>:
+        std::true_type
     {};
 
     template<typename T, std::size_t N>
