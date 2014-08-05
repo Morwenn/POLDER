@@ -15,7 +15,6 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include <type_traits>
 #include <utility>
 #include <POLDER/utility.h>
 
