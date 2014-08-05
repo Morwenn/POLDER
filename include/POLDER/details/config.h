@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef _POLDER_CONFIG_H
-#define _POLDER_CONFIG_H
+#ifndef POLDER_CONFIG_H_
+#define POLDER_CONFIG_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -219,4 +219,4 @@
  */
 
 
-#endif // _POLDER_CONFIG_H
+#endif // POLDER_CONFIG_H_
