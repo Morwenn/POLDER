@@ -33,21 +33,28 @@ namespace polder
     ////////////////////////////////////////////////////////////
     // std::integer_sequence tools
 
-    template<typename Int, Int S, Int E,  bool Increasing=(S<E)>
+    template<typename Int, Int Begin, Int End,
+             bool Increasing=(Begin<End)>
     struct integer_range;
 
-    template<typename Int, Int S, Int E>
-    struct integer_range<Int, S, E, true>:
-        details::increasing_integer_range<Int, std::make_integer_sequence<Int, E-S>, S>
+    template<typename Int, Int Begin, Int End>
+    struct integer_range<Int, Begin, End, true>:
+        details::increasing_integer_range<
+            Int,
+            std::make_integer_sequence<Int, End-Begin>,
+            Begin>
     {};
 
-    template<typename Int, Int S, Int E>
-    struct integer_range<Int, S, E, false>:
-        details::decreasing_integer_range<Int, std::make_integer_sequence<Int, S-E>, S>
+    template<typename Int, Int Begin, Int End>
+    struct integer_range<Int, Begin, End, false>:
+        details::decreasing_integer_range<
+            Int,
+            std::make_integer_sequence<Int, Begin-End>,
+            Begin>
     {};
 
-    template<std::size_t S, std::size_t E>
-    using index_range = integer_range<std::size_t, S, E>;
+    template<std::size_t Begin, std::size_t End>
+    using index_range = integer_range<std::size_t, Begin, End>;
 
     template<typename T>
     using to_index_sequence =
