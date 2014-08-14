@@ -30,11 +30,11 @@ namespace details
     }
 
     template<typename First, typename... Args>
-    auto print_impl(std::ostream& stream, const First& first, const Args&... others)
+    auto print_impl(std::ostream& stream, const First& first, Args&&... others)
         -> void
     {
         stream << first << " ";
-        print_impl(stream, others...);
+        print_impl(stream, std::forward<Args>(others)...);
     }
 }
 
