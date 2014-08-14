@@ -15,48 +15,17 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include <cstdio>
 #include <iostream>
 #include <string>
 #include <POLDER/io.h>
 
 using namespace polder;
-using namespace io;
 
-/**
- * @brief Entry point of application
- *
- * @return Application exit code
- */
 int main()
 {
     ////////////////////////////////////////////////////////////
     {
-        std::cout << "fgetl example\n";
-
-        // Open a file
-        FILE* f = std::fopen("io_example.txt", "r");
-        if (f == nullptr)
-        {
-            std::cerr << "Can't open the file.\n";
-            exit(1);
-        }
-
-        // line is the file reader.
-        // Be sure to set it to nullptr before calling the function;
-        // otherwise it "may" work but won't be safe.
-        char* line = nullptr;
-        // This function reads the file the same way fgets does
-        // However, it can read a line, no matter its size.
-        while (fgetl(line, f))
-        {
-            std::cout << line;
-        }
-    }
-
-    ////////////////////////////////////////////////////////////
-    {
-        std::cout << "\nprint examples\n";
+        std::cout << "print examples\n";
 
         int a = 5;
         double b = 6.3;
@@ -70,21 +39,5 @@ int main()
         // The results can be forwarded to the given output stream
         // instead of always being fed to std::cout.
         print(std::cerr, 5.3, 2, "Hey!");
-    }
-
-    ////////////////////////////////////////////////////////////
-    {
-        std::cout << "\nFile and io::open example\n";
-
-        // Open a file
-        File f = open("io_example.txt", "r");
-
-        // Read and display all the lines
-        for (const std::string& line: f)
-        {
-            std::cout << line;
-        }
-        // Close the file
-        f.close();
     }
 }
