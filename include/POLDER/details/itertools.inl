@@ -38,7 +38,7 @@ class RangeObject
 
     public:
 
-        constexpr auto begin() noexcept
+        constexpr auto begin() const noexcept
             -> const RangeObject&
         {
             return *this;
