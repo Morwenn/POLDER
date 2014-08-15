@@ -65,12 +65,14 @@ namespace polder
     ////////////////////////////////////////////////////////////
     // Call function with tuple members as arguments
 
-    template<typename F, typename Tuple,
-             typename Indices=to_index_sequence<Tuple>>
-    auto apply(F&& f, Tuple&& args)
-        -> decltype(details::apply_impl(std::forward<F>(f), std::forward<Tuple>(args), Indices()))
+    template<typename F, typename Tuple>
+    constexpr auto apply(F&& f, Tuple&& args)
+        -> decltype(auto)
     {
-        return details::apply_impl(std::forward<F>(f), std::forward<Tuple>(args), Indices());
+        using Indices = to_index_sequence<Tuple>;
+        return details::apply_impl(std::forward<F>(f),
+                                   std::forward<Tuple>(args),
+                                   Indices{});
     }
 
     ////////////////////////////////////////////////////////////

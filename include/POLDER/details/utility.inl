@@ -41,8 +41,8 @@ namespace details
     // Call function with tuple members as arguments
 
     template<typename F, typename Tuple, std::size_t... I>
-    auto apply_impl(F&& f, Tuple&& args, std::index_sequence<I...>)
-        -> decltype(std::forward<F>(f)(std::get<I>(std::forward<Tuple>(args))...))
+    constexpr auto apply_impl(F&& f, Tuple&& args, std::index_sequence<I...>)
+        -> decltype(auto)
     {
         return std::forward<F>(f)(std::get<I>(std::forward<Tuple>(args))...);
     }
