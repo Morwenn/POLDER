@@ -13,8 +13,16 @@ I hope that they are still up-to-date.
 Some examples are provided along with the library. The examples are
 regularly recompiled, so they should always work.
 
+Compilation
+-----------
+
 POLDER uses some of the most recent C++ features, even some that
 are not already standardized but that ought to work with some of
 the most recent compilers. POLDER should compile with:
 * g++ 4.9
 * clang++ 3.5
+
+Documentation
+-------------
+
+You can find some work in progress documentation at http://morwenn.github.io/POLDER/
