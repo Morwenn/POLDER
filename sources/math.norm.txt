@@ -1,0 +1,36 @@
+:mod:`norm` --- Mathematical norms
+==================================
+
+.. module:: norm
+
+This module defines tag types that represent mathematical norms.
+These tags can be used to specify which norm should be used when
+computing functions such as a vector norm, a matrix norm or the
+distance between two points.
+
+All of tag types live in the namespace ``math::norm``.
+
+.. cpp:type:: math::norm::manhattan
+
+    Tag for the `Manhattan norm`_: :math:`\|x\|_1 = \sum\limits_{i=1}^n |x_i|`.
+
+.. cpp:type:: math::norm::euclidean
+
+    Tag for the `Euclidean norm`_: :math:`\|x\|_2 = \sqrt{\sum\limits_{i=1}^n x_i^2}`.
+
+.. cpp:type:: math::norm::maximum
+
+    Tag for the `maximum norm`_: :math:`\|x\|_\infty  = \max \left(|x_1|, \ldots ,|x_n| \right)`.
+
+.. cpp:type:: math::norm::p
+
+    Tag for the `p norm`_: :math:`\|x\|_p = \left(\sum\limits_{i=1}^n |x_i|^p\right)^{1/p}`.
+
+
+.. _Manhattan norm: http://en.wikipedia.org/wiki/Norm_%28mathematics%29#Taxicab_norm_or_Manhattan_norm
+
+.. _Euclidean norm: http://en.wikipedia.org/wiki/Norm_%28mathematics%29#Euclidean_norm
+
+.. _maximum norm: http://en.wikipedia.org/wiki/Maximum_norm
+
+.. _p norm: http://de.wikipedia.org/wiki/P-Norm

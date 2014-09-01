@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.2. formula — Miscellaneous mathematical formula &mdash; POLDER 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
+    <link rel="up" title="1. math — Mathematical module" href="math.html" />
+    <link rel="next" title="1.3. constants — Mathematical constants" href="math.constants.html" />
+    <link rel="prev" title="1.1. cmath — Common mathematical functions" href="math.cmath.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="math.constants.html" title="1.3. constants — Mathematical constants"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="math.cmath.html" title="1.1. cmath — Common mathematical functions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="math.html" accesskey="U">1. <tt class="docutils literal"><span class="pre">math</span></tt> &#8212; Mathematical module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-formula">
+<span id="formula-miscellaneous-mathematical-formula"></span><h1>1.2. <a class="reference internal" href="#module-formula" title="formula"><tt class="xref py py-mod docutils literal"><span class="pre">formula</span></tt></a> &#8212; Miscellaneous mathematical formula<a class="headerlink" href="#module-formula" title="Permalink to this headline">¶</a></h1>
+<p>This module contains miscellaneous mathematical formula is various
+areas of mathematics. Most of them exist because they are needed in
+the implementations od other POLDER modules.</p>
+<div class="section" id="basic-functions">
+<h2>1.2.1. Basic functions<a class="headerlink" href="#basic-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="math::sign__Number">
+int <tt class="descclassname">math::</tt><tt class="descname">sign</tt><big>(</big>Number <em>x</em><big>)</big><a class="headerlink" href="#math::sign__Number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signum function: <span class="math">\(\mathrm{sign}(x) = \begin{cases} -1 &amp; \text{if } x &lt; 0, \\ 0 &amp; \text{if } x = 0, \\ 1 &amp; \text{if } x &gt; 0. \end{cases}\)</span>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descname">CommonType math::sum(T first, U second, Rest... rest)</tt></dt>
+<dd><p>Return the sum of two or more arguments. If the arguments have different
+types, the result type will be the common type of the different arguments,
+<tt class="docutils literal"><span class="pre">std::common_type_t&lt;T,</span> <span class="pre">U,</span> <span class="pre">Rest...&gt;</span></tt>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descname">CommonType math::mean(Numbers... args)</tt></dt>
+<dd><p>Return the mean of two or more arguments. If the arguments have different
+types, the result type will be the common type of the different arguments,
+<tt class="docutils literal"><span class="pre">std::common_type_t&lt;Numbers...&gt;</span></tt>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="math::sqr__Number">
+Number <tt class="descclassname">math::</tt><tt class="descname">sqr</tt><big>(</big>Number <em>x</em><big>)</big><a class="headerlink" href="#math::sqr__Number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the square of <em>x</em>: <span class="math">\(x*x\)</span>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="math::clamp__Number.Number.Number">
+Number <tt class="descclassname">math::</tt><tt class="descname">clamp</tt><big>(</big>Number <em>x</em>, Number <em>min</em>, Number <em>max</em><big>)</big><a class="headerlink" href="#math::clamp__Number.Number.Number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <em>x</em>, <a class="reference external" href="http://en.wikipedia.org/wiki/Clamping_%28graphics%29">clamped</a> between <em>min</em> and <em>max</em>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="integer-related-functions">
+<h2>1.2.2. Integer-related functions<a class="headerlink" href="#integer-related-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="math::is_even__Integer">
+bool <tt class="descclassname">math::</tt><tt class="descname">is_even</tt><big>(</big>Integer <em>n</em><big>)</big><a class="headerlink" href="#math::is_even__Integer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether <em>n</em> is an even number.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="math::is_odd__Integer">
+bool <tt class="descclassname">math::</tt><tt class="descname">is_odd</tt><big>(</big>Integer <em>n</em><big>)</big><a class="headerlink" href="#math::is_odd__Integer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether <em>n</em> is an odd number.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="math::is_prime__Unsigned">
+bool <tt class="descclassname">math::</tt><tt class="descname">is_prime</tt><big>(</big>Unsigned <em>n</em><big>)</big><a class="headerlink" href="#math::is_prime__Unsigned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether <em>n</em> is a prime number.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="math::prime__Unsigned">
+Unsigned <tt class="descclassname">math::</tt><tt class="descname">prime</tt><big>(</big>Unsigned <em>n</em><big>)</big><a class="headerlink" href="#math::prime__Unsigned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the nth prime number.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="math::fibonacci__Unsigned">
+Unsigned <tt class="descclassname">math::</tt><tt class="descname">fibonacci</tt><big>(</big>Unsigned <em>n</em><big>)</big><a class="headerlink" href="#math::fibonacci__Unsigned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the nth Fibonacci number: <span class="math">\(F_n = F_{n-1} + F_{n-2}\)</span>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="math::gcd__Unsigned.Unsigned">
+Unsigned <tt class="descclassname">math::</tt><tt class="descname">gcd</tt><big>(</big>Unsigned <em>a</em>, Unsigned <em>b</em><big>)</big><a class="headerlink" href="#math::gcd__Unsigned.Unsigned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <a class="reference external" href="http://en.wikipedia.org/wiki/Greatest_common_divisor">greatest common divisor</a> of <em>a</em> and <em>b</em>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="math::lcm__Unsigned.Unsigned">
+Unsigned <tt class="descclassname">math::</tt><tt class="descname">lcm</tt><big>(</big>Unsigned <em>a</em>, Unsigned <em>b</em><big>)</big><a class="headerlink" href="#math::lcm__Unsigned.Unsigned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <a class="reference external" href="http://en.wikipedia.org/wiki/Least_common_multiple">least common multiple</a> of <em>a</em> and <em>b</em>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="math::modpow__Unsigned.Unsigned.Unsigned">
+Unsigned <tt class="descclassname">math::</tt><tt class="descname">modpow</tt><big>(</big>Unsigned <em>a</em>, Unsigned <em>b</em>, Unsigned <em>c</em><big>)</big><a class="headerlink" href="#math::modpow__Unsigned.Unsigned.Unsigned" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="http://en.wikipedia.org/wiki/Modular_exponentiation">Modular exponentiation</a> function. Computes <span class="math">\(a^b \pmod{c}\)</span> and may prevent overflows.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="angle-conversions">
+<h2>1.2.3. Angle conversions<a class="headerlink" href="#angle-conversions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="math::degrees__Float">
+Float <tt class="descclassname">math::</tt><tt class="descname">degrees</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::degrees__Float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts angle <em>x</em> from radians to degrees.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="math::radians__Float">
+Float <tt class="descclassname">math::</tt><tt class="descname">radians</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::radians__Float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts angle <em>x</em> from degrees to radians.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="trigonometric-functions">
+<h2>1.2.4. Trigonometric functions<a class="headerlink" href="#trigonometric-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="math::sinc__Float">
+Float <tt class="descclassname">math::</tt><tt class="descname">sinc</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::sinc__Float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unnormalized cardinal since of <em>x</em>: <span class="math">\(\mathrm{sinc}(x) = \frac{\sin(x)}{x}\)</span>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="math::normalized_sinc__Float">
+Float <tt class="descclassname">math::</tt><tt class="descname">normalized_sinc</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::normalized_sinc__Float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalized cardinal since of <em>x</em>: <span class="math">\(\mathrm{sinc}(x) = \frac{\sin(\pi x)}{\pi x}\)</span>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="miscellaneous-functions">
+<h2>1.2.5. Miscellaneous functions<a class="headerlink" href="#miscellaneous-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="math::quadratic__Float.Float.Float">
+std::array&lt;std::complex&lt;Float, 2u&gt;&gt; <tt class="descclassname">math::</tt><tt class="descname">quadratic</tt><big>(</big>Float <em>a</em>, Float <em>b</em>, Float <em>c</em><big>)</big><a class="headerlink" href="#math::quadratic__Float.Float.Float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the results <em>x</em> solutions of the quadratic equation <span class="math">\(ax^2 + bx +c\)</span>.</p>
+<p><span class="math">\(x = \frac{-b\pm\sqrt{b^2-4ac\ }}{2a}\)</span>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="compile-time-functions">
+<h2>1.2.6. Compile-time functions<a class="headerlink" href="#compile-time-functions" title="Permalink to this headline">¶</a></h2>
+<p>Some of the functions also have equivalents in the namespace <tt class="docutils literal"><span class="pre">math::meta</span></tt>
+that can be executed at compile time:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">math::meta::sign</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::sum</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::mean</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::sqr</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::clamp</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::is_even</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::is_odd</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::is_prime</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::fibonacci</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::gcd</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::lcm</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::modpow</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::degrees</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">math::meta::radians</span></tt></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1.2. <tt class="docutils literal"><span class="pre">formula</span></tt> &#8212; Miscellaneous mathematical formula</a><ul>
+<li><a class="reference internal" href="#basic-functions">1.2.1. Basic functions</a></li>
+<li><a class="reference internal" href="#integer-related-functions">1.2.2. Integer-related functions</a></li>
+<li><a class="reference internal" href="#angle-conversions">1.2.3. Angle conversions</a></li>
+<li><a class="reference internal" href="#trigonometric-functions">1.2.4. Trigonometric functions</a></li>
+<li><a class="reference internal" href="#miscellaneous-functions">1.2.5. Miscellaneous functions</a></li>
+<li><a class="reference internal" href="#compile-time-functions">1.2.6. Compile-time functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="math.cmath.html"
+                        title="previous chapter">1.1. <tt class="docutils literal"><span class="pre">cmath</span></tt> &#8212; Common mathematical functions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="math.constants.html"
+                        title="next chapter">1.3. <tt class="docutils literal"><span class="pre">constants</span></tt> &#8212; Mathematical constants</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/math.formula.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="math.constants.html" title="1.3. constants — Mathematical constants"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="math.cmath.html" title="1.1. cmath — Common mathematical functions"
+             >previous</a> |</li>
+        <li><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="math.html" >1. <tt class="docutils literal"><span class="pre">math</span></tt> &#8212; Mathematical module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Morwenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

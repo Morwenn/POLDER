@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.3. constants — Mathematical constants &mdash; POLDER 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
+    <link rel="up" title="1. math — Mathematical module" href="math.html" />
+    <link rel="next" title="1.4. norm — Mathematical norms" href="math.norm.html" />
+    <link rel="prev" title="1.2. formula — Miscellaneous mathematical formula" href="math.formula.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="math.norm.html" title="1.4. norm — Mathematical norms"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="math.formula.html" title="1.2. formula — Miscellaneous mathematical formula"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="math.html" accesskey="U">1. <tt class="docutils literal"><span class="pre">math</span></tt> &#8212; Mathematical module</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-constants">
+<span id="constants-mathematical-constants"></span><h1>1.3. <a class="reference internal" href="#module-constants" title="constants"><tt class="xref py py-mod docutils literal"><span class="pre">constants</span></tt></a> &#8212; Mathematical constants<a class="headerlink" href="#module-constants" title="Permalink to this headline">¶</a></h1>
+<p>This module contains some common mathematical constants, implement as
+<tt class="docutils literal"><span class="pre">constexpr</span> <span class="pre">double</span></tt> variables.</p>
+<div class="section" id="standard-posix-constants">
+<h2>1.3.1. Standard POSIX constants<a class="headerlink" href="#standard-posix-constants" title="Permalink to this headline">¶</a></h2>
+<p>If the <a class="reference external" href="http://www.gnu.org/software/libc/manual/html_mono/libc.html#Mathematical-Constants">standard POSIX mathematical constants</a> are defined as macros, this modules
+undefines them. These constant are reintroduced in the namespace <tt class="docutils literal"><span class="pre">polder::math</span></tt>,
+no matter whether they were already defined as macros.</p>
+<dl class="var">
+<dt id="c.math::M_E">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_E</tt><a class="headerlink" href="#c.math::M_E" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(e\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_LOG2E">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_LOG2E</tt><a class="headerlink" href="#c.math::M_LOG2E" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\log_2{e}\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_LOG10E">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_LOG10E</tt><a class="headerlink" href="#c.math::M_LOG10E" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\log_{10}{e}\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_LN2">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_LN2</tt><a class="headerlink" href="#c.math::M_LN2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\ln{2}\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_LN10">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_LN10</tt><a class="headerlink" href="#c.math::M_LN10" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\ln{10}\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_PI">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_PI</tt><a class="headerlink" href="#c.math::M_PI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\pi\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_PI_2">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_PI_2</tt><a class="headerlink" href="#c.math::M_PI_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\pi/2\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_PI_4">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_PI_4</tt><a class="headerlink" href="#c.math::M_PI_4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\pi/4\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_1_PI">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_1_PI</tt><a class="headerlink" href="#c.math::M_1_PI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(1/\pi\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_2_PI">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_2_PI</tt><a class="headerlink" href="#c.math::M_2_PI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(2/\pi\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_2_SQRTPI">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_2_SQRTPI</tt><a class="headerlink" href="#c.math::M_2_SQRTPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(2/\sqrt{\pi}\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_SQRT2">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_SQRT2</tt><a class="headerlink" href="#c.math::M_SQRT2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\sqrt{2}\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_SQRT1_2">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_SQRT1_2</tt><a class="headerlink" href="#c.math::M_SQRT1_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(1/\sqrt{2}\)</span>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="unit-circle-constants">
+<h2>1.3.2. Unit circle constants<a class="headerlink" href="#unit-circle-constants" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="c.math::M_PI_3">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_PI_3</tt><a class="headerlink" href="#c.math::M_PI_3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\pi/3\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_PI_6">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_PI_6</tt><a class="headerlink" href="#c.math::M_PI_6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\pi/6\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_2PI_3">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_2PI_3</tt><a class="headerlink" href="#c.math::M_2PI_3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(2*\pi/3\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_3PI_4">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_3PI_4</tt><a class="headerlink" href="#c.math::M_3PI_4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(3*\pi/4\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_5PI_6">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_5PI_6</tt><a class="headerlink" href="#c.math::M_5PI_6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(5*\pi/6\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_7PI_6">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_7PI_6</tt><a class="headerlink" href="#c.math::M_7PI_6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(7*\pi/6\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_5PI_4">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_5PI_4</tt><a class="headerlink" href="#c.math::M_5PI_4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(5*\pi/4\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_4PI_3">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_4PI_3</tt><a class="headerlink" href="#c.math::M_4PI_3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(4*\pi/3\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_5PI_3">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_5PI_3</tt><a class="headerlink" href="#c.math::M_5PI_3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(5*\pi/3\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_7PI_4">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_7PI_4</tt><a class="headerlink" href="#c.math::M_7PI_4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(7*\pi/4\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_11PI_6">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_11PI_6</tt><a class="headerlink" href="#c.math::M_11PI_6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(11*\pi/6\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_SQRT2_2">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_SQRT2_2</tt><a class="headerlink" href="#c.math::M_SQRT2_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\sqrt{2}/2\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_SQRT2_3">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_SQRT2_3</tt><a class="headerlink" href="#c.math::M_SQRT2_3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\sqrt{2}/3\)</span>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="other-common-constants">
+<h2>1.3.3. Other common constants<a class="headerlink" href="#other-common-constants" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="c.math::M_PHI">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_PHI</tt><a class="headerlink" href="#c.math::M_PHI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\phi\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_SQRT3">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_SQRT3</tt><a class="headerlink" href="#c.math::M_SQRT3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\sqrt{3}\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_PI_180">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_PI_180</tt><a class="headerlink" href="#c.math::M_PI_180" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(\pi/180\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_180_PI">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_180_PI</tt><a class="headerlink" href="#c.math::M_180_PI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(180/\pi\)</span>.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="c.math::M_2PI">
+constexpr double <tt class="descclassname">math::</tt><tt class="descname">M_2PI</tt><a class="headerlink" href="#c.math::M_2PI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Value of <span class="math">\(2*\pi\)</span>.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1.3. <tt class="docutils literal"><span class="pre">constants</span></tt> &#8212; Mathematical constants</a><ul>
+<li><a class="reference internal" href="#standard-posix-constants">1.3.1. Standard POSIX constants</a></li>
+<li><a class="reference internal" href="#unit-circle-constants">1.3.2. Unit circle constants</a></li>
+<li><a class="reference internal" href="#other-common-constants">1.3.3. Other common constants</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="math.formula.html"
+                        title="previous chapter">1.2. <tt class="docutils literal"><span class="pre">formula</span></tt> &#8212; Miscellaneous mathematical formula</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="math.norm.html"
+                        title="next chapter">1.4. <tt class="docutils literal"><span class="pre">norm</span></tt> &#8212; Mathematical norms</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/math.constants.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="math.norm.html" title="1.4. norm — Mathematical norms"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="math.formula.html" title="1.2. formula — Miscellaneous mathematical formula"
+             >previous</a> |</li>
+        <li><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
+          <li><a href="math.html" >1. <tt class="docutils literal"><span class="pre">math</span></tt> &#8212; Mathematical module</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Morwenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
