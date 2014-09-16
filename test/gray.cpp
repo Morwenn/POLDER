@@ -28,14 +28,14 @@ int main()
     {
         constexpr auto zero = gray(0u);
         static_assert(zero == 0u, "");
-        static_assert(zero.value == 0u, "");
+        static_assert(zero.value == 0b0000u, "");
     }
 
     // TEST: check a random number
     {
         constexpr auto gr = gray(5u);
         static_assert(gr == 5u, "");
-        static_assert(gr.value == 7u, "");
+        static_assert(gr.value == 0b0111u, "");
     }
 
     // TEST: max value of a type
