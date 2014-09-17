@@ -28,7 +28,6 @@
 #include <POLDER/details/config.h>
 #include <POLDER/type_traits.h>
 #include <POLDER/utility.h>
-#include <POLDER/io.h>
 
 namespace polder
 {
