@@ -120,9 +120,11 @@ int main()
         using namespace polder::geometry;
         using namespace polder::math::norm;
 
-        Vector<3u, double> test = { 4.0, -2.0, 6.0 };
+        Vector<3u> test = { 4.0, -2.0, 6.0 };
 
-        POLDER_ASSERT(test.norm() == test.norm<euclidean>());
+        POLDER_ASSERT(float_equal(
+            test.norm(), test.norm<euclidean>()
+        ));
         POLDER_ASSERT(float_equal(
             test.norm<manhattan>(), 12.0
         ));

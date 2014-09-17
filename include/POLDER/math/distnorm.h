@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef POLDER_MATH_NORM_H_
-#define POLDER_MATH_NORM_H_
+#ifndef POLDER_MATH_DISTNORM_H_
+#define POLDER_MATH_DISTNORM_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -28,13 +28,12 @@ namespace polder
 namespace math
 {
     /**
-     * @brief Mathematical norms
+     * @brief Mathematical distances.
      *
-     * Norms are frequently used to compute distances.
-     * These "norms" can be used in distance functions
-     * or norm functions (vector, matrix...).
+     * Collection of tag classes that represent
+     * mathematical distances.
      */
-    namespace norm
+    namespace dist
     {
         struct manhattan {};
         struct euclidean {};
@@ -42,6 +41,21 @@ namespace math
         struct p {};
         struct canberra {};
     }
+
+    /**
+     * @brief Mathematical norms.
+     *
+     * Collection of tag classes that represent
+     * mathematical norms. Every norm tag is an
+     * alias for a polder::math::dist distance.
+     */
+    namespace norm
+    {
+        using dist::manhattan;
+        using dist::euclidean;
+        using dist::maximum;
+        using dist::p;
+    }
 }}
 
-#endif // POLDER_MATH_NORM_H_
+#endif // POLDER_MATH_DISTNORM_H_

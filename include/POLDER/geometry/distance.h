@@ -37,7 +37,7 @@
 ////////////////////////////////////////////////////////////
 #include <cmath>
 #include <POLDER/geometry/point.h>
-#include <POLDER/math/norm.h>
+#include <POLDER/math/distnorm.h>
 
 namespace polder
 {
@@ -48,12 +48,12 @@ namespace geometry
     // - Point
     // - Point
 
-    template<typename Norm=math::norm::euclidean,
+    template<typename Dist=math::dist::euclidean,
              std::size_t N, typename T>
     auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
         -> T;
 
-    template<typename Norm=math::norm::p,
+    template<typename Dist=math::dist::p,
              std::size_t N, typename T>
     auto distance(const Point<N, T>& p1, const Point<N, T>& p2, unsigned p)
         -> T;
@@ -63,12 +63,12 @@ namespace geometry
     // - Point
     // - Hypersphere
 
-    template<typename Norm=math::norm::euclidean,
+    template<typename Dist=math::dist::euclidean,
              std::size_t N, typename T>
     auto distance(const Point<N, T>& p, const Hypersphere<N, T>& h)
         -> T;
 
-    template<typename Norm=math::norm::euclidean,
+    template<typename Dist=math::dist::euclidean,
              std::size_t N, typename T>
     auto distance(const Hypersphere<N, T>& h, const Point<N, T>& p)
         -> T;

@@ -46,13 +46,15 @@ int main()
 
         Circle c2 = { pt1, vec };
         POLDER_ASSERT(c2.centre == pt1);
-        POLDER_ASSERT(c2.radius == vec.norm());
+        POLDER_ASSERT(float_equal(
+            c2.radius, vec.norm()
+        ));
 
         Circle c3 = { pt1, pt2 };
         POLDER_ASSERT(c3.centre == pt1);
-        POLDER_ASSERT(
-            c3.radius == (pt2-pt1).norm()
-        );
+        POLDER_ASSERT(float_equal(
+            c3.radius, (pt2-pt1).norm()
+        ));
 
         Circle c4 = { pt1, pt2-pt1 };
 

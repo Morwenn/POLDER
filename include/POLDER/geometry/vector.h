@@ -29,7 +29,7 @@
 #include <POLDER/functional.h>
 #include <POLDER/geometry/details/types.h>
 #include <POLDER/geometry/details/vector_base.h>
-#include <POLDER/math/norm.h>
+#include <POLDER/math/distnorm.h>
 
 namespace polder
 {

@@ -18,123 +18,133 @@
 
 namespace details
 {
-    template<std::size_t N, typename T, typename Norm>
-    struct distance_helper_t;
+    ////////////////////////////////////////////////////////////
+    // Implementation of distance between
+    // - Point
+    // - Point
 
     template<std::size_t N, typename T>
-    struct distance_helper_t<N, T, math::norm::manhattan>
+    auto distance(math::dist::manhattan,
+                  const Point<N, T>& p1, const Point<N, T>& p2)
+        -> T
     {
-        static auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
-            -> T
+        T res{};
+        for (std::size_t i = 0 ; i < N ; ++i)
         {
-            T res{};
-            for (std::size_t i = 0 ; i < N ; ++i)
-            {
-                res += std::abs(p1[i] - p2[i]);
-            }
-            return res;
+            res += std::abs(p1[i] - p2[i]);
         }
-    };
+        return res;
+    }
 
     template<std::size_t N, typename T>
-    struct distance_helper_t<N, T, math::norm::euclidean>
+    auto distance(math::dist::euclidean,
+                  const Point<N, T>& p1, const Point<N, T>& p2)
+        -> T
     {
-        static auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
-            -> T
+        T res{};
+        for (std::size_t i = 0 ; i < N ; ++i)
         {
-            T res{};
-            for (std::size_t i = 0 ; i < N ; ++i)
-            {
-                auto tmp = p1[i] - p2[i];
-                res += tmp * tmp;
-            }
-            return std::sqrt(res);
+            auto tmp = p1[i] - p2[i];
+            res += tmp * tmp;
         }
-
-        static auto distance(const Point<N, T>& p, const Hypersphere<N, T>& hs)
-            -> T
-        {
-            return std::abs(distance(p, hs.centre) - hs.radius);
-        }
-    };
+        return std::sqrt(res);
+    }
 
     template<std::size_t N, typename T>
-    struct distance_helper_t<N, T, math::norm::maximum>
+    auto distance(math::dist::maximum,
+                  const Point<N, T>& p1, const Point<N, T>& p2)
+        -> T
     {
-        static auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
-            -> T
+        T res = std::abs(p1[0] - p2[0]);
+        for (std::size_t i = 1 ; i < N ; ++i)
         {
-            T res = std::abs(p1[0] - p2[0]);
-            for (std::size_t i = 1 ; i < N ; ++i)
+            T tmp = std::abs(p1[i] - p2[i]);
+            if (tmp > res)
             {
-                T tmp = std::abs(p1[i] - p2[i]);
-                if (tmp > res)
-                {
-                    res = tmp;
-                }
+                res = tmp;
             }
-            return res;
         }
-    };
+        return res;
+    }
 
     template<std::size_t N, typename T>
-    struct distance_helper_t<N, T, math::norm::canberra>
+    auto distance(math::dist::canberra,
+                  const Point<N, T>& p1, const Point<N, T>& p2)
+        -> T
     {
-        static auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
-            -> T
+        T res{};
+        for (std::size_t i = 0 ; i < N ; ++i)
         {
-            T res{};
-            for (std::size_t i = 0 ; i < N ; ++i)
-            {
-                auto tmp = std::abs(p1[i] - p2[i]);
-                tmp /= std::abs(p1[i]) + std::abs(p2[i]);
-                res += tmp;
-            }
-            return res;
+            auto tmp = std::abs(p1[i] - p2[i]);
+            tmp /= std::abs(p1[i]) + std::abs(p2[i]);
+            res += tmp;
         }
-    };
+        return res;
+    }
 
     template<std::size_t N, typename T>
-    struct distance_helper_t<N, T, math::norm::p>
+    auto distance(math::dist::p,
+                  const Point<N, T>& p1, const Point<N, T>& p2,
+                  unsigned p)
+        -> T
     {
-        static auto distance(const Point<N, T>& p1, const Point<N, T>& p2, unsigned p)
-            -> T
+        T res{};
+        for (std::size_t i = 0 ; i < N ; ++i)
         {
-            T res{};
-            for (std::size_t i = 0 ; i < N ; ++i)
-            {
-                auto tmp = std::abs(p1[i] - p2[i]);
-                res += std::pow(tmp, p);
-            }
-            return std::pow(res, T{1}/p);
+            auto tmp = std::abs(p1[i] - p2[i]);
+            res += std::pow(tmp, p);
         }
-    };
+        return std::pow(res, T{1}/p);
+    }
+
+    ////////////////////////////////////////////////////////////
+    // Implementation of distance between
+    // - Point
+    // - Hypersphere
+
+    template<std::size_t N, typename T>
+    auto distance(math::dist::euclidean,
+                  const Point<N, T>& p, const Hypersphere<N, T>& hs)
+        -> T
+    {
+        return std::abs(distance<math::dist::euclidean>(p, hs.centre) - hs.radius);
+    }
 }
 
-template<typename Norm, std::size_t N, typename T>
+////////////////////////////////////////////////////////////
+// Distance between
+// - Point
+// - Point
+
+template<typename Dist, std::size_t N, typename T>
 auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
     -> T
 {
-    return details::distance_helper_t<N, T, Norm>::distance(p1, p2);
+    return details::distance(Dist{}, p1, p2);
 }
 
-template<typename Norm, std::size_t N, typename T>
+template<typename Dist, std::size_t N, typename T>
 auto distance(const Point<N, T>& p1, const Point<N, T>& p2, unsigned p)
     -> T
 {
-    return details::distance_helper_t<N, T, Norm>::distance(p1, p2, p);
+    return details::distance(Dist{}, p1, p2, p);
 }
 
-template<typename Norm, std::size_t N, typename T>
+////////////////////////////////////////////////////////////
+// Distance between
+// - Point
+// - Hypersphere
+
+template<typename Dist, std::size_t N, typename T>
 auto distance(const Point<N, T>& p, const Hypersphere<N, T>& h)
     -> T
 {
-    return details::distance_helper_t<N, T, Norm>::distance(p, h);
+    return details::distance(Dist{}, p, h);
 }
 
-template<typename Norm, std::size_t N, typename T>
+template<typename Dist, std::size_t N, typename T>
 auto distance(const Hypersphere<N, T>& h, const Point<N, T>& p)
     -> T
 {
-    return details::distance_helper_t<N, T, Norm>::distance(p, h);
+    return details::distance(Dist{}, p, h);
 }

@@ -22,73 +22,58 @@
 
 namespace details
 {
-    template<std::size_t N, typename T, typename Norm>
-    struct vecnorm_helper_t;
+    template<std::size_t N, typename T>
+    auto norm(math::norm::manhattan, const Vector<N, T>& vec)
+        -> T
+    {
+        T res{};
+        for (auto coord: vec)
+        {
+            res += std::abs(coord);
+        }
+        return res;
+    }
 
     template<std::size_t N, typename T>
-    struct vecnorm_helper_t<N, T, math::norm::manhattan>
+    auto norm(math::norm::euclidean, const Vector<N, T>& vec)
+        -> T
     {
-        static auto norm(const Vector<N, T>& vec)
-            -> T
+        T res{};
+        for (auto coord: vec)
         {
-            T res{};
-            for (auto coord: vec)
-            {
-                res += std::abs(coord);
-            }
-            return res;
+            res += coord * coord;
         }
-    };
+        return std::sqrt(res);
+    }
 
     template<std::size_t N, typename T>
-    struct vecnorm_helper_t<N, T, math::norm::euclidean>
+    auto norm(math::norm::maximum, const Vector<N, T>& vec)
+        -> T
     {
-        static auto norm(const Vector<N, T>& vec)
-            -> T
+        T res = std::abs(vec[0]);
+        for (std::size_t i = 1 ; i < N ; ++i)
         {
-            T res{};
-            for (auto coord: vec)
+            T tmp = std::abs(vec[i]);
+            if (tmp > res)
             {
-                res += coord * coord;
+                res = tmp;
             }
-            return std::sqrt(res);
         }
-    };
+        return res;
+    }
 
     template<std::size_t N, typename T>
-    struct vecnorm_helper_t<N, T, math::norm::maximum>
+    auto norm(math::norm::p, const Vector<N, T>& vec, unsigned p)
+        -> T
     {
-        static auto norm(const Vector<N, T>& vec)
-            -> T
+        T res{};
+        for (auto coord: vec)
         {
-            T res = std::abs(vec[0]);
-            for (std::size_t i = 1 ; i < N ; ++i)
-            {
-                T tmp = std::abs(vec[i]);
-                if (tmp > res)
-                {
-                    res = tmp;
-                }
-            }
-            return res;
+            auto tmp = std::abs(coord);
+            res += std::pow(tmp, p);
         }
-    };
-
-    template<std::size_t N, typename T>
-    struct vecnorm_helper_t<N, T, math::norm::p>
-    {
-        static auto norm(const Vector<N, T>& vec, unsigned p)
-            -> T
-        {
-            T res{};
-            for (auto coord: vec)
-            {
-                auto tmp = std::abs(coord);
-                res += std::pow(tmp, p);
-            }
-            return std::pow(res, 1.0/p);
-        }
-    };
+        return std::pow(res, 1.0/p);
+    }
 }
 
 ////////////////////////////////////////////////////////////
@@ -196,7 +181,7 @@ template<typename Norm>
 auto Vector<N, T>::norm() const
     -> value_type
 {
-    return details::vecnorm_helper_t<N, T, Norm>::norm(*this);
+    return details::norm(Norm{}, *this);
 }
 
 template<std::size_t N, typename T>
@@ -204,7 +189,7 @@ template<typename Norm>
 auto Vector<N, T>::norm(unsigned p) const
     -> value_type
 {
-    return details::vecnorm_helper_t<N, T, Norm>::norm(*this, p);
+    return details::norm(Norm{}, *this, p);
 }
 
 ////////////////////////////////////////////////////////////

@@ -30,7 +30,7 @@
 #include <POLDER/math/constants.h>
 #include <POLDER/math/formula.h>
 #include <POLDER/math/factorial.h>
-#include <POLDER/math/norm.h>
+#include <POLDER/math/distnorm.h>
 
 ////////////////////////////////////////////////////////////
 // Documentation
