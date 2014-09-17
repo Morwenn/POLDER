@@ -26,6 +26,6 @@ directly in ``polder::math``.
     math.cmath.rst
     math.formula.rst
     math.constants.rst
-    math.norm.rst
+    math.distnorm.rst
     math.factorial.rst
     
