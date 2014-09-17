@@ -37,8 +37,8 @@ namespace math
     {
         struct manhattan {};
         struct euclidean {};
-        struct maximum {};
-        struct p {};
+        struct chebyshev {};
+        struct minkowski {};
         struct canberra {};
     }
 
@@ -51,10 +51,10 @@ namespace math
      */
     namespace norm
     {
-        using dist::manhattan;
-        using dist::euclidean;
-        using dist::maximum;
-        using dist::p;
+        using manhattan = dist::manhattan;
+        using euclidean = dist::euclidean;
+        using uniform   = dist::chebyshev;
+        using p         = dist::minkowski;
     }
 }}
 

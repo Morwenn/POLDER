@@ -51,7 +51,7 @@ namespace details
     }
 
     template<std::size_t N, typename T>
-    auto distance(math::dist::maximum,
+    auto distance(math::dist::chebyshev,
                   const Point<N, T>& p1, const Point<N, T>& p2)
         -> T
     {
@@ -83,7 +83,7 @@ namespace details
     }
 
     template<std::size_t N, typename T>
-    auto distance(math::dist::p,
+    auto distance(math::dist::minkowski,
                   const Point<N, T>& p1, const Point<N, T>& p2,
                   unsigned p)
         -> T

@@ -53,7 +53,7 @@ namespace geometry
     auto distance(const Point<N, T>& p1, const Point<N, T>& p2)
         -> T;
 
-    template<typename Dist=math::dist::p,
+    template<typename Dist=math::dist::minkowski,
              std::size_t N, typename T>
     auto distance(const Point<N, T>& p1, const Point<N, T>& p2, unsigned p)
         -> T;

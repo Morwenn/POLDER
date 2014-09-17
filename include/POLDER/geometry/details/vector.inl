@@ -47,7 +47,7 @@ namespace details
     }
 
     template<std::size_t N, typename T>
-    auto norm(math::norm::maximum, const Vector<N, T>& vec)
+    auto norm(math::norm::uniform, const Vector<N, T>& vec)
         -> T
     {
         T res = std::abs(vec[0]);

@@ -132,7 +132,7 @@ int main()
             test.norm<euclidean>(), 7.483314773547883
         ));
         POLDER_ASSERT(float_equal(
-            test.norm<maximum>(), 6.0
+            test.norm<uniform>(), 6.0
         ));
 
         POLDER_ASSERT(test.norm(3u) == test.norm<p>(3u));
