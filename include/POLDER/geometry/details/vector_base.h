@@ -26,7 +26,6 @@
 #include <cmath>
 #include <iterator>
 #include <POLDER/algorithm.h>
-#include <POLDER/math/norm.h>
 #include <POLDER/geometry/details/types.h>
 
 
