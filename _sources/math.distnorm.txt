@@ -1,10 +1,10 @@
-:mod:`distnorm` --- Mathematical norms
-======================================
+:mod:`distnorm` --- Mathematical distances and norms
+====================================================
 
 .. module:: distnorm
 
-This module defines tag types that represent mathematical norms and distances.
-These tags can be used to specify which norm or distance should be used when
+This module defines tag types that represent mathematical distances and norms.
+These tags can be used to specify which distance or norm should be used when
 computing functions such as a vector norm, a matrix norm or the distance between
 two geometric entities. The module is divided in two namespaces: ``math::dist``
 and ``math::norm``.
