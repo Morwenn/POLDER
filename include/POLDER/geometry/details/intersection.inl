@@ -22,7 +22,9 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
         std::array<Point<N, T>, 2u>
     >
 {
+    using std::fma;
     using math::sqr;
+
     // Take an arbitrary point from the Line and its direction
     const auto& pt  = line.point();
     const auto& dir = line.direction();
@@ -51,7 +53,7 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
     {
         a += sqr(dir[i]);
         b += dir[i] * (pt[i] - ctr[i]);
-        c += std::fma(pt[i], pt[i] - 2*ctr[i], sqr(ctr[i]));
+        c += fma(pt[i], pt[i] - 2*ctr[i], sqr(ctr[i]));
     }
     b *= 2;
     c -= sqr(hs.radius);
@@ -73,7 +75,7 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
         Point<N, T> res;
         for (std::size_t i = 0 ; i < N ; ++i)
         {
-            res[i] = std::fma(t1, dir[i], pt[i]);
+            res[i] = fma(t1, dir[i], pt[i]);
         }
         throw res;
     }
@@ -82,8 +84,8 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
     Point<N, T> res1, res2;
     for (std::size_t i = 0 ; i < N ; ++i)
     {
-        res1[i] = std::fma(t1, dir[i], pt[i]);
-        res2[i] = std::fma(t2, dir[i], pt[i]);
+        res1[i] = fma(t1, dir[i], pt[i]);
+        res2[i] = fma(t2, dir[i], pt[i]);
     }
     return {{ res1, res2 }};
 }

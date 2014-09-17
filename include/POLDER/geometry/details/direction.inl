@@ -60,19 +60,22 @@ template<std::size_t N, typename T>
 auto Direction<N, T>::normalize()
     -> void
 {
+    using std::abs;
+    using std::sqrt;
+
     // Compute the norm
     value_type tmp{};
     for (auto coord: coordinates)
     {
         tmp += coord*coord;
     }
-    tmp = std::sqrt(tmp);
+    tmp = sqrt(tmp);
 
     // Divide by the norm
     for (auto& coord: coordinates)
     {
         coord /= tmp;
-        coord = std::abs(coord);
+        coord = abs(coord);
     }
 }
 

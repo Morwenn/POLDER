@@ -26,10 +26,12 @@ namespace details
     auto norm(math::norm::manhattan, const Vector<N, T>& vec)
         -> T
     {
+        using std::abs;
+
         T res{};
         for (auto coord: vec)
         {
-            res += std::abs(coord);
+            res += abs(coord);
         }
         return res;
     }
@@ -38,22 +40,26 @@ namespace details
     auto norm(math::norm::euclidean, const Vector<N, T>& vec)
         -> T
     {
+        using std::sqrt;
+
         T res{};
         for (auto coord: vec)
         {
             res += coord * coord;
         }
-        return std::sqrt(res);
+        return sqrt(res);
     }
 
     template<std::size_t N, typename T>
     auto norm(math::norm::uniform, const Vector<N, T>& vec)
         -> T
     {
-        T res = std::abs(vec[0]);
+        using std::abs;
+
+        T res = abs(vec[0]);
         for (std::size_t i = 1 ; i < N ; ++i)
         {
-            T tmp = std::abs(vec[i]);
+            T tmp = abs(vec[i]);
             if (tmp > res)
             {
                 res = tmp;
@@ -66,13 +72,16 @@ namespace details
     auto norm(math::norm::p, const Vector<N, T>& vec, unsigned p)
         -> T
     {
+        using std::abs;
+        using std::pow;
+
         T res{};
         for (auto coord: vec)
         {
-            auto tmp = std::abs(coord);
-            res += std::pow(tmp, p);
+            auto tmp = abs(coord);
+            res += pow(tmp, p);
         }
-        return std::pow(res, 1.0/p);
+        return pow(res, 1.0/p);
     }
 }
 

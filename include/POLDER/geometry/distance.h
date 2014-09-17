@@ -36,6 +36,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <cmath>
+#include <cstdlib>
 #include <POLDER/geometry/point.h>
 #include <POLDER/math/distnorm.h>
 

@@ -28,10 +28,12 @@ namespace details
                   const Point<N, T>& p1, const Point<N, T>& p2)
         -> T
     {
+        using std::abs;
+
         T res{};
         for (std::size_t i = 0 ; i < N ; ++i)
         {
-            res += std::abs(p1[i] - p2[i]);
+            res += abs(p1[i] - p2[i]);
         }
         return res;
     }
@@ -41,13 +43,15 @@ namespace details
                   const Point<N, T>& p1, const Point<N, T>& p2)
         -> T
     {
+        using std::sqrt;
+
         T res{};
         for (std::size_t i = 0 ; i < N ; ++i)
         {
             auto tmp = p1[i] - p2[i];
             res += tmp * tmp;
         }
-        return std::sqrt(res);
+        return sqrt(res);
     }
 
     template<std::size_t N, typename T>
@@ -55,10 +59,12 @@ namespace details
                   const Point<N, T>& p1, const Point<N, T>& p2)
         -> T
     {
-        T res = std::abs(p1[0] - p2[0]);
+        using std::abs;
+
+        T res = abs(p1[0] - p2[0]);
         for (std::size_t i = 1 ; i < N ; ++i)
         {
-            T tmp = std::abs(p1[i] - p2[i]);
+            T tmp = abs(p1[i] - p2[i]);
             if (tmp > res)
             {
                 res = tmp;
@@ -72,11 +78,13 @@ namespace details
                   const Point<N, T>& p1, const Point<N, T>& p2)
         -> T
     {
+        using std::abs;
+
         T res{};
         for (std::size_t i = 0 ; i < N ; ++i)
         {
-            auto tmp = std::abs(p1[i] - p2[i]);
-            tmp /= std::abs(p1[i]) + std::abs(p2[i]);
+            auto tmp = abs(p1[i] - p2[i]);
+            tmp /= abs(p1[i]) + abs(p2[i]);
             res += tmp;
         }
         return res;
@@ -88,13 +96,16 @@ namespace details
                   unsigned p)
         -> T
     {
+        using std::abs;
+        using std::pow;
+
         T res{};
         for (std::size_t i = 0 ; i < N ; ++i)
         {
-            auto tmp = std::abs(p1[i] - p2[i]);
-            res += std::pow(tmp, p);
+            auto tmp = abs(p1[i] - p2[i]);
+            res += pow(tmp, p);
         }
-        return std::pow(res, T{1}/p);
+        return pow(res, T{1}/p);
     }
 
     ////////////////////////////////////////////////////////////
@@ -107,7 +118,8 @@ namespace details
                   const Point<N, T>& p, const Hypersphere<N, T>& hs)
         -> T
     {
-        return std::abs(distance<math::dist::euclidean>(p, hs.centre) - hs.radius);
+        using std::abs;
+        return abs(distance<math::dist::euclidean>(p, hs.centre) - hs.radius);
     }
 }
 
