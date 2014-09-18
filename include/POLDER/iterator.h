@@ -58,40 +58,38 @@ namespace polder
         -> std::reverse_iterator<T*>;
 
     /**
-     * @brief Iterator adapter
+     * @brief Iterator adapter.
      *
-     * Make an iterator which will get the nth
-     * element of the object returned by the
-     * given iterator. It allows to create iterators
-     * to traverse keys of a std::map-like object
-     * for example.
-     * Useful to iterate through some specific std::pair
-     * or std::tuple elements.
+     * Make an iterator which will apply the given unary
+     * function to the dereferenced iterator before
+     * returning it.
      */
-    template<std::size_t N, typename Iterator>
-    class get_iterator
+    template<typename Iterator, typename UnaryFunction>
+    class transform_iterator
     {
         private:
 
-            Iterator _current;
+            Iterator current;
+            UnaryFunction func;
 
         public:
 
             using iterator_category = typename std::iterator_traits<Iterator>::iterator_category;
             using iterator_type     = Iterator;
-            using value_type        = std::remove_reference_t<decltype(std::get<N>(*_current))>;
+            using value_type        = std::remove_reference_t<decltype(func(*current))>;
             using difference_type   = typename std::iterator_traits<Iterator>::difference_type;
             using pointer           = value_type*;
             using reference         = value_type&;
 
-            get_iterator();
-            explicit get_iterator(Iterator it);
+            transform_iterator();
+            explicit transform_iterator(Iterator it);
+            transform_iterator(Iterator it, UnaryFunction func);
             template<typename U>
-            get_iterator(const get_iterator<N, U>& other);
+            transform_iterator(const transform_iterator<U, UnaryFunction>& other);
 
             template<typename U>
-            auto operator=(const get_iterator<N, U>& other)
-                -> get_iterator&;
+            auto operator=(const transform_iterator<U, UnaryFunction>& other)
+                -> transform_iterator&;
 
             auto base() const
                 -> Iterator;
@@ -102,41 +100,61 @@ namespace polder
                 -> pointer;
 
             auto operator++()
-                -> get_iterator&;
+                -> transform_iterator&;
             auto operator++(int)
-                -> get_iterator&;
+                -> transform_iterator&;
 
             auto operator--()
-                -> get_iterator&;
+                -> transform_iterator&;
             auto operator--(int)
-                -> get_iterator&;
+                -> transform_iterator&;
     };
 
-    template<std::size_t N, typename Iterator1, typename Iterator2>
-    auto operator==(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    template<typename Iterator1, typename Iterator2, typename UnaryFunction>
+    auto operator==(const transform_iterator<Iterator1, UnaryFunction>& lhs,
+                    const transform_iterator<Iterator2, UnaryFunction>& rhs)
         -> bool;
 
-    template<std::size_t N, typename Iterator1, typename Iterator2>
-    auto operator!=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    template<typename Iterator1, typename Iterator2, typename UnaryFunction>
+    auto operator!=(const transform_iterator<Iterator1, UnaryFunction>& lhs,
+                    const transform_iterator<Iterator2, UnaryFunction>& rhs)
         -> bool;
 
-    template<std::size_t N, typename Iterator1, typename Iterator2>
-    auto operator<(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    template<typename Iterator1, typename Iterator2, typename UnaryFunction>
+    auto operator<(const transform_iterator<Iterator1, UnaryFunction>& lhs,
+                   const transform_iterator<Iterator2, UnaryFunction>& rhs)
         -> bool;
 
-    template<std::size_t N, typename Iterator1, typename Iterator2>
-    auto operator<=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    template<typename Iterator1, typename Iterator2, typename UnaryFunction>
+    auto operator<=(const transform_iterator<Iterator1, UnaryFunction>& lhs,
+                    const transform_iterator<Iterator2, UnaryFunction>& rhs)
         -> bool;
 
-    template<std::size_t N, typename Iterator1, typename Iterator2>
-    auto operator>(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    template<typename Iterator1, typename Iterator2, typename UnaryFunction>
+    auto operator>(const transform_iterator<Iterator1, UnaryFunction>& lhs,
+                   const transform_iterator<Iterator2, UnaryFunction>& rhs)
         -> bool;
 
-    template<std::size_t N, typename Iterator1, typename Iterator2>
-    auto operator>=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+    template<typename Iterator1, typename Iterator2, typename UnaryFunction>
+    auto operator>=(const transform_iterator<Iterator1, UnaryFunction>& lhs,
+                    const transform_iterator<Iterator2, UnaryFunction>& rhs)
         -> bool;
 
     #include "details/iterator.inl"
+
+    /**
+     * @brief Iterator adapter.
+     *
+     * Make an iterator which will get the nth
+     * element of the object returned by the
+     * given iterator. It allows to create iterators
+     * to traverse keys of a std::map-like object
+     * for example.
+     * Useful to iterate through some specific std::pair
+     * or std::tuple elements.
+     */
+    template<std::size_t N, typename Iterator>
+    using get_iterator = transform_iterator<Iterator, details::getter<N>>;
 }
 
 #endif // POLDER_ITERATOR_H_
