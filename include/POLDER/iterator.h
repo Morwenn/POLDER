@@ -77,10 +77,10 @@ namespace polder
 
             using iterator_category = typename std::iterator_traits<Iterator>::iterator_category;
             using iterator_type     = Iterator;
-            using value_type        = std::remove_reference_t<decltype(func(*current))>;
+            using value_type        = std::decay_t<decltype(func(*current))>;
             using difference_type   = typename std::iterator_traits<Iterator>::difference_type;
             using pointer           = value_type*;
-            using reference         = value_type&;
+            using reference         = decltype(func(*current));
 
             transform_iterator();
             explicit transform_iterator(Iterator it);
