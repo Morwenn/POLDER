@@ -22,6 +22,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <iterator>
+#include <POLDER/details/config.h>
 
 namespace polder
 {
