@@ -87,20 +87,18 @@ transform_iterator<Iterator, UnaryFunction>::transform_iterator()
 
 template<typename Iterator, typename UnaryFunction>
 transform_iterator<Iterator, UnaryFunction>::transform_iterator(Iterator it):
-    current{it}
+    members{it, UnaryFunction()}
 {}
 
 template<typename Iterator, typename UnaryFunction>
 transform_iterator<Iterator, UnaryFunction>::transform_iterator(Iterator it, UnaryFunction func):
-    current{it},
-    func{func}
+    members{it, func}
 {}
 
 template<typename Iterator, typename UnaryFunction>
 template<typename U>
 transform_iterator<Iterator, UnaryFunction>::transform_iterator(const transform_iterator<U, UnaryFunction>& other):
-    current{other.base()},
-    func{other.func}
+    members{other.base(), std::get<1>(other.members)}
 {}
 
 template<typename Iterator, typename UnaryFunction>
@@ -110,8 +108,10 @@ auto transform_iterator<Iterator, UnaryFunction>::operator=(const transform_iter
 {
     if (&other != this)
     {
-        current = other.base();
-        func = other.func;
+        members = {
+            other.base(),
+            std::get<1>(other.members)
+        };
     }
     return *this;
 }
@@ -120,14 +120,14 @@ template<typename Iterator, typename UnaryFunction>
 auto transform_iterator<Iterator, UnaryFunction>::base() const
     -> Iterator
 {
-    return current;
+    return std::get<0>(members);
 }
 
 template<typename Iterator, typename UnaryFunction>
 auto transform_iterator<Iterator, UnaryFunction>::operator*() const
     -> reference
 {
-    return func(*current);
+    return std::get<1>(members)(*base());
 }
 
 template<typename Iterator, typename UnaryFunction>
@@ -141,7 +141,7 @@ template<typename Iterator, typename UnaryFunction>
 auto transform_iterator<Iterator, UnaryFunction>::operator++()
     -> transform_iterator&
 {
-    ++current;
+    ++std::get<0>(members);
     return *this;
 }
 
@@ -150,7 +150,7 @@ auto transform_iterator<Iterator, UnaryFunction>::operator++(int)
     -> transform_iterator&
 {
     auto tmp = *this;
-    ++current;
+    operator++();
     return tmp;
 }
 
@@ -158,7 +158,7 @@ template<typename Iterator, typename UnaryFunction>
 auto transform_iterator<Iterator, UnaryFunction>::operator--()
     -> transform_iterator&
 {
-    --current;
+    --std::get<0>(members);
     return *this;
 }
 
@@ -167,7 +167,7 @@ auto transform_iterator<Iterator, UnaryFunction>::operator--(int)
     -> transform_iterator&
 {
     auto tmp = *this;
-    --current;
+    operator--();
     return tmp;
 }
 

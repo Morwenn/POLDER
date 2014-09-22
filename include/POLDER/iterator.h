@@ -22,6 +22,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <iterator>
+#include <tuple>
 #include <POLDER/details/config.h>
 
 namespace polder
@@ -64,23 +65,28 @@ namespace polder
      * Make an iterator which will apply the given unary
      * function to the dereferenced iterator before
      * returning it.
+     *
+     * This class may perform the empty base class
+     * optimization if UnaryFunction is an empty functor
+     * class.
      */
     template<typename Iterator, typename UnaryFunction>
     class transform_iterator
     {
         private:
 
-            Iterator current;
-            UnaryFunction func;
+            // std::tuple may perform empty base class optimization
+            // when UnaryFunction is an empty function object
+            std::tuple<Iterator, UnaryFunction> members;
 
         public:
 
             using iterator_category = typename std::iterator_traits<Iterator>::iterator_category;
             using iterator_type     = Iterator;
-            using value_type        = std::decay_t<decltype(func(*current))>;
+            using value_type        = std::decay_t<decltype(std::get<1>(members)(*std::get<0>(members)))>;
             using difference_type   = typename std::iterator_traits<Iterator>::difference_type;
             using pointer           = value_type*;
-            using reference         = decltype(func(*current));
+            using reference         = decltype(std::get<1>(members)(*std::get<0>(members)));
 
             transform_iterator();
             explicit transform_iterator(Iterator it);
@@ -151,6 +157,7 @@ namespace polder
      * given iterator. It allows to create iterators
      * to traverse keys of a std::map-like object
      * for example.
+     *
      * Useful to iterate through some specific std::pair
      * or std::tuple elements.
      */
