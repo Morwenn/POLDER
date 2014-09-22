@@ -147,7 +147,7 @@ auto transform_iterator<Iterator, UnaryFunction>::operator++()
 
 template<typename Iterator, typename UnaryFunction>
 auto transform_iterator<Iterator, UnaryFunction>::operator++(int)
-    -> transform_iterator&
+    -> transform_iterator
 {
     auto tmp = *this;
     operator++();
@@ -164,7 +164,7 @@ auto transform_iterator<Iterator, UnaryFunction>::operator--()
 
 template<typename Iterator, typename UnaryFunction>
 auto transform_iterator<Iterator, UnaryFunction>::operator--(int)
-    -> transform_iterator&
+    -> transform_iterator
 {
     auto tmp = *this;
     operator--();

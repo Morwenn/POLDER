@@ -82,5 +82,23 @@ int main()
         ++value_it;
         POLDER_ASSERT(*key_it == foo_it->first);
         POLDER_ASSERT(*value_it == foo_it->second);
+
+        foo_it++;
+        key_it++;
+        value_it++;
+        POLDER_ASSERT(*key_it == foo_it->first);
+        POLDER_ASSERT(*value_it == foo_it->second);
+
+        --foo_it;
+        --key_it;
+        --value_it;
+        POLDER_ASSERT(*key_it == foo_it->first);
+        POLDER_ASSERT(*value_it == foo_it->second);
+
+        foo_it--;
+        key_it--;
+        value_it--;
+        POLDER_ASSERT(*key_it == foo_it->first);
+        POLDER_ASSERT(*value_it == foo_it->second);
     }
 }

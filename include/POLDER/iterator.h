@@ -109,12 +109,12 @@ namespace polder
             auto operator++()
                 -> transform_iterator&;
             auto operator++(int)
-                -> transform_iterator&;
+                -> transform_iterator;
 
             auto operator--()
                 -> transform_iterator&;
             auto operator--(int)
-                -> transform_iterator&;
+                -> transform_iterator;
     };
 
     template<typename Iterator1, typename Iterator2, typename UnaryFunction>
