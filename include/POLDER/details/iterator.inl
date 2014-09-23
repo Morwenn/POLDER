@@ -19,6 +19,23 @@
 ////////////////////////////////////////////////////////////
 // Global begin and end functions
 
+namespace details
+{
+    template<std::size_t N>
+    struct getter
+    {
+        template<typename T>
+        auto operator()(T&& arg) const
+            -> decltype(auto)
+        {
+            return std::get<N>(std::forward<T>(arg));
+        }
+    };
+}
+
+////////////////////////////////////////////////////////////
+// Global begin and end functions
+
 template<typename T>
 auto rbegin(T& iterable)
     -> decltype(iterable.rbegin())
@@ -62,128 +79,142 @@ auto rend(T (&array)[N])
 }
 
 ////////////////////////////////////////////////////////////
-// get_iterator
+// transform_iterator
 
-template<std::size_t N, typename Iterator>
-get_iterator<N, Iterator>::get_iterator()
+template<typename Iterator, typename UnaryFunction>
+transform_iterator<Iterator, UnaryFunction>::transform_iterator()
     = default;
 
-template<std::size_t N, typename Iterator>
-get_iterator<N, Iterator>::get_iterator(Iterator it):
-    _current(it)
+template<typename Iterator, typename UnaryFunction>
+transform_iterator<Iterator, UnaryFunction>::transform_iterator(Iterator it):
+    members{it, UnaryFunction()}
 {}
 
-template<std::size_t N, typename Iterator>
-template<typename U>
-get_iterator<N, Iterator>::get_iterator(const get_iterator<N, U>& other):
-    _current(other.base())
+template<typename Iterator, typename UnaryFunction>
+transform_iterator<Iterator, UnaryFunction>::transform_iterator(Iterator it, UnaryFunction func):
+    members{it, func}
 {}
 
-template<std::size_t N, typename Iterator>
+template<typename Iterator, typename UnaryFunction>
 template<typename U>
-auto get_iterator<N, Iterator>::operator=(const get_iterator<N, U>& other)
-    -> get_iterator&
+transform_iterator<Iterator, UnaryFunction>::transform_iterator(const transform_iterator<U, UnaryFunction>& other):
+    members{other.base(), std::get<1>(other.members)}
+{}
+
+template<typename Iterator, typename UnaryFunction>
+template<typename U>
+auto transform_iterator<Iterator, UnaryFunction>::operator=(const transform_iterator<U, UnaryFunction>& other)
+    -> transform_iterator&
 {
     if (&other != this)
     {
-        _current = other.base();
+        members = {
+            other.base(),
+            std::get<1>(other.members)
+        };
     }
     return *this;
 }
 
-template<std::size_t N, typename Iterator>
-auto get_iterator<N, Iterator>::base() const
+template<typename Iterator, typename UnaryFunction>
+auto transform_iterator<Iterator, UnaryFunction>::base() const
     -> Iterator
 {
-    return _current;
+    return std::get<0>(members);
 }
 
-template<std::size_t N, typename Iterator>
-auto get_iterator<N, Iterator>::operator*() const
+template<typename Iterator, typename UnaryFunction>
+auto transform_iterator<Iterator, UnaryFunction>::operator*() const
     -> reference
 {
-    return std::get<N>(*_current);
+    return std::get<1>(members)(*base());
 }
 
-template<std::size_t N, typename Iterator>
-auto get_iterator<N, Iterator>::operator->() const
+template<typename Iterator, typename UnaryFunction>
+auto transform_iterator<Iterator, UnaryFunction>::operator->() const
     -> pointer
 {
     return &(operator*());
 }
 
-template<std::size_t N, typename Iterator>
-auto get_iterator<N, Iterator>::operator++()
-    -> get_iterator&
+template<typename Iterator, typename UnaryFunction>
+auto transform_iterator<Iterator, UnaryFunction>::operator++()
+    -> transform_iterator&
 {
-    ++_current;
+    ++std::get<0>(members);
     return *this;
 }
 
-template<std::size_t N, typename Iterator>
-auto get_iterator<N, Iterator>::operator++(int)
-    -> get_iterator&
+template<typename Iterator, typename UnaryFunction>
+auto transform_iterator<Iterator, UnaryFunction>::operator++(int)
+    -> transform_iterator
 {
     auto tmp = *this;
-    ++_current;
+    operator++();
     return tmp;
 }
 
-template<std::size_t N, typename Iterator>
-auto get_iterator<N, Iterator>::operator--()
-    -> get_iterator&
+template<typename Iterator, typename UnaryFunction>
+auto transform_iterator<Iterator, UnaryFunction>::operator--()
+    -> transform_iterator&
 {
-    --_current;
+    --std::get<0>(members);
     return *this;
 }
 
-template<std::size_t N, typename Iterator>
-auto get_iterator<N, Iterator>::operator--(int)
-    -> get_iterator&
+template<typename Iterator, typename UnaryFunction>
+auto transform_iterator<Iterator, UnaryFunction>::operator--(int)
+    -> transform_iterator
 {
     auto tmp = *this;
-    --_current;
+    operator--();
     return tmp;
 }
 
-template<std::size_t N, typename Iterator1, typename Iterator2>
-auto operator==(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+template<typename Iterator1, typename Iterator2, typename UnaryFunction>
+auto operator==(const transform_iterator<Iterator1, UnaryFunction>& lhs,
+                const transform_iterator<Iterator2, UnaryFunction>& rhs)
     -> bool
 {
     return lhs.base() == rhs.base();
 }
 
-template<std::size_t N, typename Iterator1, typename Iterator2>
-auto operator!=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+template<typename Iterator1, typename Iterator2, typename UnaryFunction>
+auto operator!=(const transform_iterator<Iterator1, UnaryFunction>& lhs,
+                const transform_iterator<Iterator2, UnaryFunction>& rhs)
     -> bool
 {
-    return !(lhs == rhs);
+    return lhs.base() != rhs.base();
 }
 
-template<std::size_t N, typename Iterator1, typename Iterator2>
-auto operator<(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+template<typename Iterator1, typename Iterator2, typename UnaryFunction>
+auto operator<(const transform_iterator<Iterator1, UnaryFunction>& lhs,
+               const transform_iterator<Iterator2, UnaryFunction>& rhs)
     -> bool
 {
     return lhs.base() < rhs.base();
 }
 
-template<std::size_t N, typename Iterator1, typename Iterator2>
-auto operator<=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+template<typename Iterator1, typename Iterator2, typename UnaryFunction>
+auto operator<=(const transform_iterator<Iterator1, UnaryFunction>& lhs,
+                const transform_iterator<Iterator2, UnaryFunction>& rhs)
     -> bool
 {
-    return !(rhs < lhs);
+    return lhs.base() <= rhs.base();
 }
 
-template<std::size_t N, typename Iterator1, typename Iterator2>
-auto operator>(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+template<typename Iterator1, typename Iterator2, typename UnaryFunction>
+auto operator>(const transform_iterator<Iterator1, UnaryFunction>& lhs,
+               const transform_iterator<Iterator2, UnaryFunction>& rhs)
     -> bool
 {
-    return rhs < lhs;
+    return lhs.base() > rhs.base();
 }
 
-template<std::size_t N, typename Iterator1, typename Iterator2>
-auto operator>=(const get_iterator<N, Iterator1>& lhs, const get_iterator<N, Iterator2>& rhs)
+template<typename Iterator1, typename Iterator2, typename UnaryFunction>
+auto operator>=(const transform_iterator<Iterator1, UnaryFunction>& lhs,
+                const transform_iterator<Iterator2, UnaryFunction>& rhs)
     -> bool
 {
-    return !(lhs < rhs);
+    return lhs.base() >= rhs.base();
 }
