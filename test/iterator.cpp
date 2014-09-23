@@ -15,13 +15,34 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include <list>
 #include <map>
+#include <tuple>
 #include <type_traits>
+#include <POLDER/compiler.h>
 #include <POLDER/iterator.h>
 
 int main()
 {
     using namespace polder;
+
+    // TEST: EBCO for transform_iterator
+    {
+        using iterator = std::list<int>::iterator;
+
+        auto lambda = [](int dummy)
+        {
+            return dummy;
+        };
+
+        if (compiler::has_ebco_for<std::tuple>())
+        {
+            POLDER_ASSERT(
+                sizeof(transform_iterator<iterator, decltype(lambda)>) <
+                sizeof(transform_iterator<iterator, int(*)(int)>)
+            );
+        }
+    }
 
     // TEST: get_iterator
     {
