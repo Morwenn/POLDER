@@ -68,14 +68,14 @@ have been stripped from their type-specific prefixes and suffixes.</p>
 <div class="section" id="basic-functions">
 <h2>2.1.1. Basic functions<a class="headerlink" href="#basic-functions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="math::meta::abs__T">
-T <tt class="descclassname">math::meta::</tt><tt class="descname">abs</tt><big>(</big>T <em>x</em><big>)</big><a class="headerlink" href="#math::meta::abs__T" title="Permalink to this definition">¶</a></dt>
+<dt id="math::meta::abs__NumberCE">
+<em class="property">constexpr</em> Number <tt class="descclassname">math::meta::</tt><tt class="descname">abs</tt><big>(</big>Number <em>x</em><big>)</big><a class="headerlink" href="#math::meta::abs__NumberCE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the absolute value of <em>x</em>.</p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descname">CommonType math::meta::min(T first, U second, Rest... rest)</tt></dt>
+<tt class="descname">constexpr CommonType math::meta::min(T first, U second, Rest... rest)</tt></dt>
 <dd><p>Return the smallest of two or more arguments. If the arguments have different types,
 the result type will be the common type of the different arguments,
 <tt class="docutils literal"><span class="pre">std::common_type_t&lt;T,</span> <span class="pre">U,</span> <span class="pre">Rest...&gt;</span></tt>.</p>
@@ -83,7 +83,7 @@ the result type will be the common type of the different arguments,
 
 <dl class="function">
 <dt>
-<tt class="descname">CommonType math::meta::max(T first, U second, Rest... rest)</tt></dt>
+<tt class="descname">constexpr CommonType math::meta::max(T first, U second, Rest... rest)</tt></dt>
 <dd><p>Return the largest of two or more arguments. If the arguments have different types,
 the result type will be the common type of the different arguments,
 <tt class="docutils literal"><span class="pre">std::common_type_t&lt;T,</span> <span class="pre">U,</span> <span class="pre">Rest...&gt;</span></tt>.</p>
@@ -93,26 +93,26 @@ the result type will be the common type of the different arguments,
 <div class="section" id="number-theoretic-and-representation-functions">
 <h2>2.1.2. Number-theoretic and representation functions<a class="headerlink" href="#number-theoretic-and-representation-functions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="math::meta::floor__Float">
-Float <tt class="descclassname">math::meta::</tt><tt class="descname">floor</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::floor__Float" title="Permalink to this definition">¶</a></dt>
+<dt id="math::meta::floor__FloatCE">
+<em class="property">constexpr</em> Float <tt class="descclassname">math::meta::</tt><tt class="descname">floor</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::floor__FloatCE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the nearest integer not greater than <em>x</em>.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="math::meta::ceil__Float">
-Float <tt class="descclassname">math::meta::</tt><tt class="descname">ceil</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::ceil__Float" title="Permalink to this definition">¶</a></dt>
+<dt id="math::meta::ceil__FloatCE">
+<em class="property">constexpr</em> Float <tt class="descclassname">math::meta::</tt><tt class="descname">ceil</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::ceil__FloatCE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the nearest integer not less than <em>x</em>.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="math::meta::round__Float">
-Float <tt class="descclassname">math::meta::</tt><tt class="descname">round</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::round__Float" title="Permalink to this definition">¶</a></dt>
+<dt id="math::meta::round__FloatCE">
+<em class="property">constexpr</em> Float <tt class="descclassname">math::meta::</tt><tt class="descname">round</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::round__FloatCE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the nearest integer, rounding away from zero in halfway cases.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="math::meta::trunc__Float">
-Float <tt class="descclassname">math::meta::</tt><tt class="descname">trunc</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::trunc__Float" title="Permalink to this definition">¶</a></dt>
+<dt id="math::meta::trunc__FloatCE">
+<em class="property">constexpr</em> Float <tt class="descclassname">math::meta::</tt><tt class="descname">trunc</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::trunc__FloatCE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the nearest integer not greater in magnitude than <em>x</em>.</p>
 </dd></dl>
 
@@ -120,14 +120,14 @@ Float <tt class="descclassname">math::meta::</tt><tt class="descname">trunc</tt>
 <div class="section" id="power-and-logarithmic-functions">
 <h2>2.1.3. Power and logarithmic functions<a class="headerlink" href="#power-and-logarithmic-functions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="math::meta::pow__T.Integer">
-CommonType <tt class="descclassname">math::meta::</tt><tt class="descname">pow</tt><big>(</big>T <em>value</em>, Integer <em>exponent</em><big>)</big><a class="headerlink" href="#math::meta::pow__T.Integer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <tt class="docutils literal"><span class="pre">value</span></tt> raised to the power <tt class="docutils literal"><span class="pre">exponent</span></tt>.</p>
+<dt id="math::meta::pow__T.IntegerCE">
+<em class="property">constexpr</em> CommonType <tt class="descclassname">math::meta::</tt><tt class="descname">pow</tt><big>(</big>T <em>value</em>, Integer <em>exponent</em><big>)</big><a class="headerlink" href="#math::meta::pow__T.IntegerCE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <em>value</em> raised to the power <em>exponent</em>.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="math::meta::sqrt__Float">
-Float <tt class="descclassname">math::meta::</tt><tt class="descname">sqrt</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::sqrt__Float" title="Permalink to this definition">¶</a></dt>
+<dt id="math::meta::sqrt__FloatCE">
+<em class="property">constexpr</em> Float <tt class="descclassname">math::meta::</tt><tt class="descname">sqrt</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::sqrt__FloatCE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the square root of <em>x</em>.</p>
 <p><em>Precondition:</em> <tt class="docutils literal"><span class="pre">x</span> <span class="pre">&gt;=</span> <span class="pre">0</span></tt>.</p>
 </dd></dl>

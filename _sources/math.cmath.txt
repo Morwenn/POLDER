@@ -17,17 +17,17 @@ have been stripped from their type-specific prefixes and suffixes.
 Basic functions
 ---------------
 
-.. cpp:function:: T math::meta::abs(T x)
+.. cpp:function:: constexpr Number math::meta::abs(Number x)
 
     Return the absolute value of *x*.
 
-.. cpp:function:: CommonType math::meta::min(T first, U second, Rest... rest)
+.. cpp:function:: constexpr CommonType math::meta::min(T first, U second, Rest... rest)
 
     Return the smallest of two or more arguments. If the arguments have different types,
     the result type will be the common type of the different arguments,
     ``std::common_type_t<T, U, Rest...>``.
 
-.. cpp:function:: CommonType math::meta::max(T first, U second, Rest... rest)
+.. cpp:function:: constexpr CommonType math::meta::max(T first, U second, Rest... rest)
 
     Return the largest of two or more arguments. If the arguments have different types,
     the result type will be the common type of the different arguments,
@@ -37,19 +37,19 @@ Basic functions
 Number-theoretic and representation functions
 ---------------------------------------------
 
-.. cpp:function:: Float math::meta::floor(Float x)
+.. cpp:function:: constexpr Float math::meta::floor(Float x)
 
     Return the nearest integer not greater than *x*.
 
-.. cpp:function:: Float math::meta::ceil(Float x)
+.. cpp:function:: constexpr Float math::meta::ceil(Float x)
 
     Return the nearest integer not less than *x*.
 
-.. cpp:function:: Float math::meta::round(Float x)
+.. cpp:function:: constexpr Float math::meta::round(Float x)
 
     Return the nearest integer, rounding away from zero in halfway cases.
 
-.. cpp:function:: Float math::meta::trunc(Float x)
+.. cpp:function:: constexpr Float math::meta::trunc(Float x)
 
     Return the nearest integer not greater in magnitude than *x*.
 
@@ -57,11 +57,11 @@ Number-theoretic and representation functions
 Power and logarithmic functions
 -------------------------------
 
-.. cpp:function:: CommonType math::meta::pow(T value, Integer exponent)
+.. cpp:function:: constexpr CommonType math::meta::pow(T value, Integer exponent)
 
-    Return ``value`` raised to the power ``exponent``.
+    Return *value* raised to the power *exponent*.
 
-.. cpp:function:: Float math::meta::sqrt(Float x)
+.. cpp:function:: constexpr Float math::meta::sqrt(Float x)
 
     Return the square root of *x*.
     

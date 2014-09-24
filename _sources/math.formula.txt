@@ -5,7 +5,7 @@
 
 This module contains miscellaneous mathematical formula is various
 areas of mathematics. Most of them exist because they are needed in
-the implementations od other POLDER modules.
+the implementations of other POLDER modules.
 
 
 Basic functions
