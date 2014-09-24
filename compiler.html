@@ -80,6 +80,16 @@ for some of the standard library templates and always return <tt class="docutils
 <li><tt class="docutils literal"><span class="pre">std::unique_ptr</span></tt></li>
 <li><tt class="docutils literal"><span class="pre">std::tuple</span></tt></li>
 </ul>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// Example usage</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">compiler</span><span class="o">::</span><span class="n">has_ebco_for</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&gt;</span><span class="p">())</span>
+<span class="p">{</span>
+    <span class="n">assert</span><span class="p">(</span>
+        <span class="k">sizeof</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">&lt;</span>
+        <span class="k">sizeof</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="o">&gt;</span><span class="p">)</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>

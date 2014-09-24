@@ -30,4 +30,15 @@ Standard library-related functions
     * ``std::unique_ptr``
     * ``std::tuple``
 
+    .. code-block:: cpp
+
+        // Example usage
+        if (compiler::has_ebco_for<std::unique_ptr>())
+        {
+            assert(
+                sizeof(std::unique_ptr<int>) <
+                sizeof(std::unique_ptr<int, int(*)(int*)>)
+            );
+        }
+
 .. _empty base class optimization: http://en.cppreference.com/w/cpp/language/ebo
