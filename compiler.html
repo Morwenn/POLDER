@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. compiler — Implementation information &mdash; POLDER 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="2. math — Mathematical module" href="math.html" />
+    <link rel="prev" title="Welcome to POLDER’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="math.html" title="2. math — Mathematical module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to POLDER’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-compiler">
+<span id="compiler-implementation-information"></span><h1>1. <a class="reference internal" href="#module-compiler" title="compiler"><tt class="xref py py-mod docutils literal"><span class="pre">compiler</span></tt></a> &#8212; Implementation information<a class="headerlink" href="#module-compiler" title="Permalink to this headline">¶</a></h1>
+<p>This module contains functions to query properties of the compiler or of the
+standard library implementation. It is mainly used by the test files to check
+whether compiler-specific optimizations work.</p>
+<div class="section" id="compiler-related-functions">
+<h2>1.1. Compiler-related functions<a class="headerlink" href="#compiler-related-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="compiler::has_ebcoCE">
+<em class="property">constexpr</em> bool <tt class="descclassname">compiler::</tt><tt class="descname">has_ebco</tt><big>(</big><big>)</big><a class="headerlink" href="#compiler::has_ebcoCE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether the compiler is able to perform <a class="reference external" href="http://en.cppreference.com/w/cpp/language/ebo">empty base class optimization</a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="standard-library-related-functions">
+<h2>1.2. Standard library-related functions<a class="headerlink" href="#standard-library-related-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="compiler::has_ebco_forCE">
+<em class="property">constexpr</em> bool <tt class="descclassname">compiler::</tt><tt class="descname">has_ebco_for</tt><big>(</big><big>)</big><a class="headerlink" href="#compiler::has_ebco_forCE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether the given template from the standard library is optimized to take
+advantage of the empty base class optimization. This function has specializations
+for some of the standard library templates and always return <tt class="docutils literal"><span class="pre">false</span></tt> otherwise.</p>
+<p>It has specializations for the following standard library templates:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">std::unique_ptr</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">std::tuple</span></tt></li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1. <tt class="docutils literal"><span class="pre">compiler</span></tt> &#8212; Implementation information</a><ul>
+<li><a class="reference internal" href="#compiler-related-functions">1.1. Compiler-related functions</a></li>
+<li><a class="reference internal" href="#standard-library-related-functions">1.2. Standard library-related functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to POLDER&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="math.html"
+                        title="next chapter">2. <tt class="docutils literal"><span class="pre">math</span></tt> &#8212; Mathematical module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/compiler.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="math.html" title="2. math — Mathematical module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to POLDER’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Morwenn.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
