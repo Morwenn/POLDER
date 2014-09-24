@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2
    :numbered:
    
+   compiler.rst
    math.rst
 
 
