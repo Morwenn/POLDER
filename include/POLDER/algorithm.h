@@ -29,6 +29,19 @@
 namespace polder
 {
     /**
+     * @brief Three-way comparison between values.
+     *
+     * Performs a three-way comparison between two
+     * LessComparable values.
+     *
+     * @param lhs Left-hand side value
+     * @param rhs Right-hand side value
+     */
+    template<typename T, typename U>
+    auto compare(const T& lhs, const U& rhs)
+        -> int;
+
+    /**
      * @brief Map an unary function to a range
      *
      * Apply a given unary function to a given

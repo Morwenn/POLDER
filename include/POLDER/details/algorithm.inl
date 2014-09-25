@@ -15,6 +15,13 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+template<typename T, typename U>
+auto compare(const T& lhs, const U& rhs)
+    -> int
+{
+    return (lhs < rhs) ? -1 : (rhs < lhs);
+}
+
 template<typename InputIt, typename UnaryOperation>
 auto range_map(InputIt first, InputIt last, UnaryOperation unary_op)
     -> void
