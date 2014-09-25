@@ -23,7 +23,9 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <string>
 #include <type_traits>
+#include <POLDER/details/config.h>
 #include <POLDER/math/details/cmath_base.h>
 
 namespace polder
@@ -39,6 +41,13 @@ namespace polder
      */
     template<typename T, typename U>
     auto compare(const T& lhs, const U& rhs)
+        -> int;
+
+    template<typename CharT,
+             typename Traits1, typename Alloc1,
+             typename Traits2, typename Alloc2>
+    auto compare(const std::basic_string<CharT, Traits1, Alloc1>& lhs,
+                 const std::basic_string<CharT, Traits2, Alloc2>& rhs)
         -> int;
 
     /**

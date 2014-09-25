@@ -15,6 +15,7 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include <string>
 #include <POLDER/algorithm.h>
 
 int main()
@@ -23,9 +24,20 @@ int main()
 
     // TEST: compare
     {
+        using namespace std::string_literals;
+
+        // scalar
         POLDER_ASSERT(compare(-8, 2) == -1);
         POLDER_ASSERT(compare(3, 3) == 0);
         POLDER_ASSERT(compare(8u, 3u) == 1);
         POLDER_ASSERT(compare(0.0, -0.0) == 0);
+
+        // std::string
+        POLDER_ASSERT(compare("hello"s, "world"s) == -1);
+        POLDER_ASSERT(compare("kinky"s, "kinko"s) == 1);
+        POLDER_ASSERT(compare("animals"s, "animals"s) == 0);
+        POLDER_ASSERT(compare(""s, "foo"s) == -1);
+        POLDER_ASSERT(compare("bar"s, ""s) == 1);
+        POLDER_ASSERT(compare(""s, ""s) == 0);
     }
 }

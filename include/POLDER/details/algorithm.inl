@@ -22,6 +22,17 @@ auto compare(const T& lhs, const U& rhs)
     return (lhs < rhs) ? -1 : (rhs < lhs);
 }
 
+template<typename CharT,
+         typename Traits1, typename Alloc1,
+         typename Traits2, typename Alloc2>
+auto compare(const std::basic_string<CharT, Traits1, Alloc1>& lhs,
+             const std::basic_string<CharT, Traits2, Alloc2>& rhs)
+    -> int
+{
+    int res = lhs.compare(0, lhs.size(), rhs.data(), rhs.size());
+    return compare(res, 0);
+}
+
 template<typename InputIt, typename UnaryOperation>
 auto range_map(InputIt first, InputIt last, UnaryOperation unary_op)
     -> void
