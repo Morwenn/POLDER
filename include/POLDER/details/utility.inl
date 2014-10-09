@@ -21,21 +21,20 @@ namespace details
     ////////////////////////////////////////////////////////////
     // std::integer_sequence tools
 
-    template<typename Int, typename, Int Begin>
-    struct increasing_integer_range;
+    template<typename Int, typename, Int Begin, bool Increasing>
+    struct integer_range_impl;
 
     template<typename Int, Int... N, Int Begin>
-    struct increasing_integer_range<Int, std::integer_sequence<Int, N...>, Begin>:
-        std::integer_sequence<Int, N+Begin...>
-    {};
-
-    template<typename Int, typename, Int Begin>
-    struct decreasing_integer_range;
+    struct integer_range_impl<Int, std::integer_sequence<Int, N...>, Begin, true>
+    {
+        using type = std::integer_sequence<Int, N+Begin...>;
+    };
 
     template<typename Int, Int... N, Int Begin>
-    struct decreasing_integer_range<Int, std::integer_sequence<Int, N...>, Begin>:
-        std::integer_sequence<Int, Begin-N...>
-    {};
+    struct integer_range_impl<Int, std::integer_sequence<Int, N...>, Begin, false>
+    {
+        using type = std::integer_sequence<Int, Begin-N...>;
+    };
 
     ////////////////////////////////////////////////////////////
     // Call function with tuple members as arguments

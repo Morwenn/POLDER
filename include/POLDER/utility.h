@@ -33,25 +33,14 @@ namespace polder
     ////////////////////////////////////////////////////////////
     // std::integer_sequence tools
 
-    template<typename Int, Int Begin, Int End,
-             bool Increasing=(Begin<End)>
-    struct integer_range;
 
     template<typename Int, Int Begin, Int End>
-    struct integer_range<Int, Begin, End, true>:
-        details::increasing_integer_range<
-            Int,
-            std::make_integer_sequence<Int, End-Begin>,
-            Begin>
-    {};
-
-    template<typename Int, Int Begin, Int End>
-    struct integer_range<Int, Begin, End, false>:
-        details::decreasing_integer_range<
-            Int,
-            std::make_integer_sequence<Int, Begin-End>,
-            Begin>
-    {};
+    using integer_range = typename details::integer_range_impl<
+        Int,
+        std::make_integer_sequence<Int, (Begin<End) ? End-Begin : Begin-End>,
+        Begin,
+        (Begin<End)
+    >::type;
 
     template<std::size_t Begin, std::size_t End>
     using index_range = integer_range<std::size_t, Begin, End>;
