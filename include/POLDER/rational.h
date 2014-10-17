@@ -199,40 +199,48 @@ namespace polder
     template<typename T, typename U>
     auto operator+(const rational<T>& lhs, const rational<U>& rhs)
         -> rational<std::common_type_t<T, U>>;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator+(const rational<T>& lhs, Integer rhs)
         -> rational<std::common_type_t<T, Integer>>;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator+(Integer lhs, const rational<T>& rhs)
         -> rational<std::common_type_t<T, Integer>>;
 
     template<typename T, typename U>
     auto operator-(const rational<T>& lhs, const rational<U>& rhs)
         -> rational<std::common_type_t<T, U>>;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator-(const rational<T>& lhs, Integer rhs)
         -> rational<std::common_type_t<T, Integer>>;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator-(Integer lhs, const rational<T>& rhs)
         -> rational<std::common_type_t<T, Integer>>;
 
     template<typename T, typename U>
     auto operator*(const rational<T>& lhs, const rational<U>& rhs)
         -> rational<std::common_type_t<T, U>>;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator*(const rational<T>& lhs, Integer rhs)
         -> rational<std::common_type_t<T, Integer>>;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator*(Integer lhs, const rational<T>& rhs)
         -> rational<std::common_type_t<T, Integer>>;
 
     template<typename T, typename U>
     auto operator/(const rational<T>& lhs, const rational<U>& rhs)
         -> rational<std::common_type_t<T, U>>;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator/(const rational<T>& lhs, Integer rhs)
         -> rational<std::common_type_t<T, Integer>>;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator/(Integer lhs, const rational<T>& rhs)
         -> rational<std::common_type_t<T, Integer>>;
 
@@ -242,20 +250,24 @@ namespace polder
     template<typename T, typename U>
     auto operator==(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator==(const rational<T>& lhs, Integer rhs)
         -> bool;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator==(Integer lhs, const rational<T>& rhs)
         -> bool;
 
     template<typename T, typename U>
     auto operator!=(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator!=(const rational<T>& lhs, Integer rhs)
         -> bool;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator!=(Integer lhs, const rational<T>& rhs)
         -> bool;
 
@@ -265,40 +277,48 @@ namespace polder
     template<typename T, typename U>
     auto operator<(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator<(const rational<T>& lhs, Integer rhs)
         -> bool;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator<(Integer lhs, const rational<T>& rhs)
         -> bool;
 
     template<typename T, typename U>
     auto operator>(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator>(const rational<T>& lhs, Integer rhs)
         -> bool;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator>(Integer lhs, const rational<T>& rhs)
         -> bool;
 
     template<typename T, typename U>
     auto operator<=(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator<=(const rational<T>& lhs, Integer rhs)
         -> bool;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator<=(Integer lhs, const rational<T>& rhs)
         -> bool;
 
     template<typename T, typename U>
     auto operator>=(const rational<T>& lhs, const rational<U>& rhs)
         -> bool;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator>=(const rational<T>& lhs, Integer rhs)
         -> bool;
-    template<typename T, typename Integer>
+    template<typename T, typename Integer,
+             typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
     auto operator>=(Integer lhs, const rational<T>& rhs)
         -> bool;
 

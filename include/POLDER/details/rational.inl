@@ -18,7 +18,6 @@
 
 ////////////////////////////////////////////////////////////
 // Constructors
-////////////////////////////////////////////////////////////
 
 template<typename T>
 constexpr rational<T>::rational():
@@ -46,7 +45,6 @@ constexpr rational<T>::rational(value_type numerator) noexcept:
 
 ////////////////////////////////////////////////////////////
 // Getters
-////////////////////////////////////////////////////////////
 
 template<typename T>
 auto rational<T>::numer() const noexcept
@@ -64,7 +62,6 @@ auto rational<T>::denom() const noexcept
 
 ////////////////////////////////////////////////////////////
 // Assignment operator
-////////////////////////////////////////////////////////////
 
 template<typename T>
 auto rational<T>::operator=(value_type other) &
@@ -77,7 +74,6 @@ auto rational<T>::operator=(value_type other) &
 
 ////////////////////////////////////////////////////////////
 // Compound assignment operators
-////////////////////////////////////////////////////////////
 
 template<typename T>
 auto rational<T>::operator+=(const rational& other)
@@ -186,7 +182,6 @@ auto rational<T>::operator/=(value_type other)
 
 ////////////////////////////////////////////////////////////
 // Increment & decrement operators
-////////////////////////////////////////////////////////////
 
 template<typename T>
 auto rational<T>::operator++()
@@ -226,7 +221,6 @@ auto rational<T>::operator--(int)
 
 ////////////////////////////////////////////////////////////
 // Cast operators
-////////////////////////////////////////////////////////////
 
 template<typename T>
 rational<T>::operator bool() const
@@ -257,7 +251,6 @@ rational<T>::operator long double() const
 
 ////////////////////////////////////////////////////////////
 // Modifiers
-////////////////////////////////////////////////////////////
 
 template<typename T>
 auto rational<T>::swap(rational<T>& other) noexcept
@@ -289,7 +282,6 @@ auto rational<T>::invert()
 
 ////////////////////////////////////////////////////////////
 // Miscellaneous functions
-////////////////////////////////////////////////////////////
 
 template<typename T>
 auto rational<T>::normalize()
@@ -314,7 +306,6 @@ auto rational<T>::normalize()
 
 ////////////////////////////////////////////////////////////
 // Unary arithmetic operators
-////////////////////////////////////////////////////////////
 
 template<typename T>
 auto operator+(rational<T> rat)
@@ -332,7 +323,6 @@ auto operator-(rational<T> rat)
 
 ////////////////////////////////////////////////////////////
 // Binary arithmetic operators
-////////////////////////////////////////////////////////////
 
 template<typename T, typename U>
 auto operator+(const rational<T>& lhs, const rational<U>& rhs)
@@ -341,14 +331,16 @@ auto operator+(const rational<T>& lhs, const rational<U>& rhs)
     return rational<std::common_type_t<T, U>>(lhs) += rhs;
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator+(const rational<T>& lhs, Integer rhs)
     -> rational<std::common_type_t<T, Integer>>
 {
     return rational<std::common_type_t<T, Integer>>(lhs) += rhs;
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator+(Integer lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, Integer>>
 {
@@ -362,14 +354,16 @@ auto operator-(const rational<T>& lhs, const rational<U>& rhs)
     return rational<std::common_type_t<T, U>>(lhs) -= rhs;
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator-(const rational<T>& lhs, Integer rhs)
     -> rational<std::common_type_t<T, Integer>>
 {
     return rational<std::common_type_t<T, Integer>>(lhs) -= rhs;
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator-(Integer lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, Integer>>
 {
@@ -383,14 +377,16 @@ auto operator*(const rational<T>& lhs, const rational<U>& rhs)
     return rational<std::common_type_t<T, U>>(lhs) *= rhs;
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator*(const rational<T>& lhs, Integer rhs)
     -> rational<std::common_type_t<T, Integer>>
 {
     return rational<std::common_type_t<T, Integer>>(lhs) *= rhs;
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator*(Integer lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, Integer>>
 {
@@ -404,14 +400,16 @@ auto operator/(const rational<T>& lhs, const rational<U>& rhs)
     return rational<std::common_type_t<T, U>>(lhs) /= rhs;
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator/(const rational<T>& lhs, Integer rhs)
     -> rational<std::common_type_t<T, Integer>>
 {
     return rational<std::common_type_t<T, Integer>>(lhs) /= rhs;
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator/(Integer lhs, const rational<T>& rhs)
     -> rational<std::common_type_t<T, Integer>>
 {
@@ -419,8 +417,7 @@ auto operator/(Integer lhs, const rational<T>& rhs)
 }
 
 ////////////////////////////////////////////////////////////
-// Equality operators
-////////////////////////////////////////////////////////////
+// Comparison operators
 
 template<typename T, typename U>
 auto operator==(const rational<T>& lhs, const rational<U>& rhs)
@@ -430,7 +427,8 @@ auto operator==(const rational<T>& lhs, const rational<U>& rhs)
         && lhs.denom() == rhs.denom();
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator==(const rational<T>& lhs, Integer rhs)
     -> bool
 {
@@ -438,7 +436,8 @@ auto operator==(const rational<T>& lhs, Integer rhs)
         && lhs.denom() == 1;
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator==(Integer lhs, const rational<T>& rhs)
     -> bool
 {
@@ -452,14 +451,16 @@ auto operator!=(const rational<T>& lhs, const rational<U>& rhs)
     return !(lhs == rhs);
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator!=(const rational<T>& lhs, Integer rhs)
     -> bool
 {
     return !(lhs == rhs);
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator!=(Integer lhs, const rational<T>& rhs)
     -> bool
 {
@@ -468,7 +469,6 @@ auto operator!=(Integer lhs, const rational<T>& rhs)
 
 ////////////////////////////////////////////////////////////
 // Relational operators
-////////////////////////////////////////////////////////////
 
 template<typename T, typename U>
 auto operator<(const rational<T>& lhs, const rational<U>& rhs)
@@ -478,14 +478,16 @@ auto operator<(const rational<T>& lhs, const rational<U>& rhs)
          < lhs.denom() * rhs.numer();
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator<(const rational<T>& lhs, Integer rhs)
     -> bool
 {
     return lhs.numer() < lhs.denom() * rhs;
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator<(Integer lhs, const rational<T>& rhs)
     -> bool
 {
@@ -499,14 +501,16 @@ auto operator>(const rational<T>& lhs, const rational<U>& rhs)
     return rhs < lhs;
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator>(const rational<T>& lhs, Integer rhs)
     -> bool
 {
     return rhs < lhs;
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator>(Integer lhs, const rational<T>& rhs)
     -> bool
 {
@@ -520,14 +524,16 @@ auto operator<=(const rational<T>& lhs, const rational<U>& rhs)
     return !(rhs < lhs);
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator<=(const rational<T>& lhs, Integer rhs)
     -> bool
 {
     return !(rhs < lhs);
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator<=(Integer lhs, const rational<T>& rhs)
     -> bool
 {
@@ -541,14 +547,16 @@ auto operator>=(const rational<T>& lhs, const rational<U>& rhs)
     return !(lhs < rhs);
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator>=(const rational<T>& lhs, Integer rhs)
     -> bool
 {
     return !(lhs < rhs);
 }
 
-template<typename T, typename Integer>
+template<typename T, typename Integer,
+         typename = std::enable_if_t<std::is_convertible<Integer, T>::value>>
 auto operator>=(Integer lhs, const rational<T>& rhs)
     -> bool
 {
@@ -557,7 +565,6 @@ auto operator>=(Integer lhs, const rational<T>& rhs)
 
 ////////////////////////////////////////////////////////////
 // Stream operators
-////////////////////////////////////////////////////////////
 
 template<typename T>
 auto operator<<(std::ostream& stream, const rational<T>& rat)
@@ -569,7 +576,6 @@ auto operator<<(std::ostream& stream, const rational<T>& rat)
 
 ////////////////////////////////////////////////////////////
 // Helper functions
-////////////////////////////////////////////////////////////
 
 template<typename T, typename U>
 auto make_rational(T numerator, U denominator)
@@ -594,7 +600,6 @@ auto swap(rational<T>& lhs, rational<T>& rhs) noexcept
 
 ////////////////////////////////////////////////////////////
 // Mathematical functions
-////////////////////////////////////////////////////////////
 
 template<typename T>
 auto reciprocal(rational<T> rat)
@@ -648,7 +653,6 @@ auto sign(const rational<T>& rat)
 
 ////////////////////////////////////////////////////////////
 // User-defined literals
-////////////////////////////////////////////////////////////
 
 inline namespace literals
 {
