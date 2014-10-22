@@ -17,76 +17,77 @@
  */
 #include <string>
 #include <POLDER/ini/dialect.h>
+#include "catch.hpp"
 
-int main()
+using namespace polder;
+using namespace ini;
+
+TEST_CASE( "function ini::to_dialect", "[ini][dialect]" )
 {
-    using namespace polder;
-    using namespace ini;
-
-    // TEST: default dialect
+    SECTION( "default dialect" )
     {
         Dialect default_dial;
-        POLDER_ASSERT(default_dial.delimiter == '=');
-        POLDER_ASSERT(default_dial.commentchar == ';');
-        POLDER_ASSERT(default_dial.escapechar == '\\');
-        POLDER_ASSERT(default_dial.lineterminator == '\n');
-        POLDER_ASSERT(default_dial.quotechar == '"');
-        POLDER_ASSERT(default_dial.doublequote == false);
+        REQUIRE( default_dial.delimiter == '=' );
+        REQUIRE( default_dial.commentchar == ';' );
+        REQUIRE( default_dial.escapechar == '\\' );
+        REQUIRE( default_dial.lineterminator == '\n' );
+        REQUIRE( default_dial.quotechar == '"' );
+        REQUIRE( default_dial.doublequote == false );
 
-        POLDER_ASSERT(
+        REQUIRE(
             to_dialect("", default_dial)
-            == R"("")");
-        POLDER_ASSERT(
+            == R"("")" );
+        REQUIRE(
             to_dialect("foo", default_dial)
-            == R"("foo")");
-        POLDER_ASSERT(
+            == R"("foo")" );
+        REQUIRE(
             to_dialect("\\", default_dial)
-            == R"("\\")");
-        POLDER_ASSERT(
+            == R"("\\")" );
+        REQUIRE(
             to_dialect("foo\"bar", default_dial)
-            == R"("foo\"bar")");
-        POLDER_ASSERT(
+            == R"("foo\"bar")" );
+        REQUIRE(
             to_dialect("foo\\bar", default_dial)
-            == R"("foo\\bar")");
-        POLDER_ASSERT(
+            == R"("foo\\bar")" );
+        REQUIRE(
             to_dialect("foo\\\"bar", default_dial)
-            == R"("foo\\\"bar")");
-        POLDER_ASSERT(
+            == R"("foo\\\"bar")" );
+        REQUIRE(
             to_dialect("foo\\\\bar", default_dial)
-            == R"("foo\\\\bar")");
-        POLDER_ASSERT(
+            == R"("foo\\\\bar")" );
+        REQUIRE(
             to_dialect("a=;tref", default_dial)
-            == R"("a=;tref")");
+            == R"("a=;tref")" );
     }
 
-    // TEST: double-quote dialect
+    SECTION( "double-quote dialect" )
     {
         Dialect dbquote_dial;
         dbquote_dial.doublequote = true;
 
-        POLDER_ASSERT(
+        REQUIRE(
             to_dialect("", dbquote_dial)
-            == R"("")");
-        POLDER_ASSERT(
+            == R"("")" );
+        REQUIRE(
             to_dialect("foo", dbquote_dial)
-            == R"("foo")");
-        POLDER_ASSERT(
+            == R"("foo")" );
+        REQUIRE(
             to_dialect("\"", dbquote_dial)
-            == R"("""")");
-        POLDER_ASSERT(
+            == R"("""")" );
+        REQUIRE(
             to_dialect("foo\"bar", dbquote_dial)
-            == R"("foo""bar")");
-        POLDER_ASSERT(
+            == R"("foo""bar")" );
+        REQUIRE(
             to_dialect("foo\\bar", dbquote_dial)
-            == R"("foo\bar")");
-        POLDER_ASSERT(
+            == R"("foo\bar")" );
+        REQUIRE(
             to_dialect("foo\\\"bar", dbquote_dial)
-            == R"("foo\""bar")");
-        POLDER_ASSERT(
+            == R"("foo\""bar")" );
+        REQUIRE(
             to_dialect("foo\\\\bar", dbquote_dial)
-            == R"("foo\\bar")");
-        POLDER_ASSERT(
+            == R"("foo\\bar")" );
+        REQUIRE(
             to_dialect("a=;tref", dbquote_dial)
-            == R"("a=;tref")");
+            == R"("a=;tref")" );
     }
 }

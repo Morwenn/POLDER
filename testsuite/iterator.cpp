@@ -21,44 +21,45 @@
 #include <type_traits>
 #include <POLDER/compiler.h>
 #include <POLDER/iterator.h>
+#include "catch.hpp"
 
-int main()
+using namespace polder;
+
+TEST_CASE( "EBCO for transform_iterator", "[iterator][compiler]" )
 {
-    using namespace polder;
+    using iterator = std::list<int>::iterator;
 
-    // TEST: EBCO for transform_iterator
+    auto lambda = [](int dummy)
     {
-        using iterator = std::list<int>::iterator;
+        return dummy;
+    };
 
-        auto lambda = [](int dummy)
-        {
-            return dummy;
-        };
-
-        if (compiler::has_ebco_for<std::tuple>())
-        {
-            POLDER_ASSERT(
-                sizeof(transform_iterator<iterator, decltype(lambda)>) <
-                sizeof(transform_iterator<iterator, int(*)(int)>)
-            );
-        }
+    if (compiler::has_ebco_for<std::tuple>())
+    {
+        REQUIRE(
+            sizeof(transform_iterator<iterator, decltype(lambda)>) <
+            sizeof(transform_iterator<iterator, int(*)(int)>)
+        );
     }
+}
 
-    // TEST: get_iterator
+TEST_CASE( "get_iterator", "[iterator]" )
+{
+    std::map<std::string, int> foo = {
+        { "foobar",     4  },
+        { "borzaz",     8  },
+        { "bornibus",   32 },
+        { "eggs",       21 },
+        { "hamspam",    2  },
+        { "polder",     3  },
+        { "tempel",     5  }
+    };
+
+    using key_it_t      = get_iterator<0, std::map<std::string, int>::iterator>;
+    using value_it_t    = get_iterator<1, std::map<std::string, int>::iterator>;
+
+    SECTION( "get_iterator member types" )
     {
-        std::map<std::string, int> foo = {
-            { "foobar",     4  },
-            { "borzaz",     8  },
-            { "bornibus",   32 },
-            { "eggs",       21 },
-            { "hamspam",    2  },
-            { "polder",     3  },
-            { "tempel",     5  }
-        };
-
-        using key_it_t      = get_iterator<0, std::map<std::string, int>::iterator>;
-        using value_it_t    = get_iterator<1, std::map<std::string, int>::iterator>;
-
         static_assert(std::is_same<
             key_it_t::iterator_type,
             std::map<std::string, int>::iterator
@@ -88,38 +89,44 @@ int main()
             value_it_t::reference,
             int&
         >::value, "");
+    }
 
-        auto foo_it = foo.begin();
-        key_it_t key_it(foo_it);
-        value_it_t value_it(foo_it);
+    auto foo_it = foo.begin();
+    key_it_t key_it(foo_it);
+    value_it_t value_it(foo_it);
 
-        POLDER_ASSERT(key_it.base() == foo_it);
-        POLDER_ASSERT(value_it.base() == foo_it);
-        POLDER_ASSERT(*key_it == foo_it->first);
-        POLDER_ASSERT(*value_it == foo_it->second);
+    SECTION( "observers" )
+    {
+        REQUIRE( key_it.base() == foo_it );
+        REQUIRE( value_it.base() == foo_it );
+        REQUIRE( *key_it == foo_it->first );
+        REQUIRE( *value_it == foo_it->second );
+    }
 
+    SECTION( "increment/decrement operators" )
+    {
         ++foo_it;
         ++key_it;
         ++value_it;
-        POLDER_ASSERT(*key_it == foo_it->first);
-        POLDER_ASSERT(*value_it == foo_it->second);
+        REQUIRE( *key_it == foo_it->first );
+        REQUIRE( *value_it == foo_it->second );
 
         foo_it++;
         key_it++;
         value_it++;
-        POLDER_ASSERT(*key_it == foo_it->first);
-        POLDER_ASSERT(*value_it == foo_it->second);
+        REQUIRE( *key_it == foo_it->first );
+        REQUIRE( *value_it == foo_it->second );
 
         --foo_it;
         --key_it;
         --value_it;
-        POLDER_ASSERT(*key_it == foo_it->first);
-        POLDER_ASSERT(*value_it == foo_it->second);
+        REQUIRE( *key_it == foo_it->first );
+        REQUIRE( *value_it == foo_it->second );
 
         foo_it--;
         key_it--;
         value_it--;
-        POLDER_ASSERT(*key_it == foo_it->first);
-        POLDER_ASSERT(*value_it == foo_it->second);
+        REQUIRE( *key_it == foo_it->first );
+        REQUIRE( *value_it == foo_it->second );
     }
 }

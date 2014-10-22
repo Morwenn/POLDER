@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 Morwenn
+ * Copyright (C) 2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -17,27 +17,29 @@
  */
 #include <string>
 #include <POLDER/algorithm.h>
+#include "catch.hpp"
 
-int main()
+using namespace polder;
+
+TEST_CASE( "compare algorithm", "[algorithm]" )
 {
-    using namespace polder;
+    SECTION( "scalar types" )
+    {
+        REQUIRE( compare(-8, 2) == -1 );
+        REQUIRE( compare(3, 3) == 0 );
+        REQUIRE( compare(8u, 3u) == 1 );
+        REQUIRE( compare(0.0, -0.0) == 0 );
+    }
 
-    // TEST: compare
+    SECTION( "std::string" )
     {
         using namespace std::string_literals;
 
-        // scalar
-        POLDER_ASSERT(compare(-8, 2) == -1);
-        POLDER_ASSERT(compare(3, 3) == 0);
-        POLDER_ASSERT(compare(8u, 3u) == 1);
-        POLDER_ASSERT(compare(0.0, -0.0) == 0);
-
-        // std::string
-        POLDER_ASSERT(compare("hello"s, "world"s) == -1);
-        POLDER_ASSERT(compare("kinky"s, "kinko"s) == 1);
-        POLDER_ASSERT(compare("animals"s, "animals"s) == 0);
-        POLDER_ASSERT(compare(""s, "foo"s) == -1);
-        POLDER_ASSERT(compare("bar"s, ""s) == 1);
-        POLDER_ASSERT(compare(""s, ""s) == 0);
+        REQUIRE( compare("hello"s, "world"s) == -1 );
+        REQUIRE( compare("kinky"s, "kinko"s) == 1 );
+        REQUIRE( compare("animals"s, "animals"s) == 0 );
+        REQUIRE( compare(""s, "foo"s) == -1 );
+        REQUIRE( compare("bar"s, ""s) == 1 );
+        REQUIRE( compare(""s, ""s) == 0 );
     }
 }

@@ -17,26 +17,24 @@
  */
 #include <POLDER/geo2d.h>
 #include <POLDER/math/distnorm.h>
+#include "catch.hpp"
 
-int main()
+using namespace polder::geo2d;
+using namespace polder::math::dist;
+
+TEST_CASE( "Manhattan distance", "[geometry][distnorm]" )
 {
-    using namespace polder::geo2d;
-    using namespace polder::math::dist;
+    Point<int> x = { 1, -5 };
+    Point<int> y = { -2, 3 };
+    REQUIRE( distance<manhattan>(x, y) == distance<manhattan>(y, x) );
+    REQUIRE( distance<manhattan>(x, y) == 11 );
+}
 
-    // TEST: Manhattan distance
-    {
-        Point<int> x = { 1, -5 };
-        Point<int> y = { -2, 3 };
-        POLDER_ASSERT(distance<manhattan>(x, y) == distance<manhattan>(y, x));
-        POLDER_ASSERT(distance<manhattan>(x, y) == 11);
-    }
-
-    // TEST: Euclidean distance
-    {
-        Point<int> x = { 2, -1 };
-        Point<int> y = { -2, 2 };
-        POLDER_ASSERT(distance(x, y) == distance(y, x));
-        POLDER_ASSERT(distance(x, y) == distance<euclidean>(x, y));
-        POLDER_ASSERT(distance(x, y) == 5);
-    }
+TEST_CASE( "Euclidean distance", "[geometry][distnorm]" )
+{
+    Point<int> x = { 2, -1 };
+    Point<int> y = { -2, 2 };
+    REQUIRE( distance(x, y) == distance(y, x) );
+    REQUIRE( distance(x, y) == distance<euclidean>(x, y) );
+    REQUIRE( distance(x, y) == 5 );
 }

@@ -18,8 +18,9 @@
 #include <type_traits>
 #include <utility>
 #include <POLDER/utility.h>
+#include "catch.hpp"
 
-int main()
+TEST_CASE( "integer_range", "[utility]" )
 {
     static_assert(std::is_same<
         polder::integer_range<int, 8, 8>,
