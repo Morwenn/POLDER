@@ -3,13 +3,12 @@ POLDER test suite
 
 The POLDER test suite runs with a custom modified version of the Catch unit
 testing framework, due to problems with overloaded operators. The modified
-version of Catch is embedded in catch.hpp.
+version of Catch (header-only) is embedded in catch.hpp.
 
-Changes
--------
+Changes to Catch
+----------------
 
 Here is a list of what is different from the original Catch framework:
-
 * Ignored GCC warning -Wzero-as-null-pointer-constant
 * Symmetrical handling of operators on both sides of comparison and relational operators in REQUIRE and friends (thanks tclamb)
 * Ignored GCC warning -Wparenthesis
