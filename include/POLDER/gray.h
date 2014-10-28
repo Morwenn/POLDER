@@ -33,12 +33,12 @@ namespace polder
      * This class represents a gray code unsigned
      * integer. It can be set by integers
      *
-     * auto gr = GrayCode<uint16_t>{ 24 };
+     * auto gr = gray_code<uint16_t>{ 24 };
      * uint16_t u = gr;         // u == 24 (0b11000)
      * uint16_t g = gr.value;   // g == 20 (0b10100)
      */
     template<typename Unsigned>
-    struct GrayCode
+    struct gray_code
     {
         static_assert(std::is_unsigned<Unsigned>::value,
                       "gray code only supports unsigned integers");
@@ -54,7 +54,7 @@ namespace polder
         ////////////////////////////////////////////////////////////
 
         // Default constructor
-        constexpr GrayCode();
+        constexpr gray_code();
 
         /**
          * @brief Construction from an unsigned integer
@@ -64,7 +64,7 @@ namespace polder
          *
          * @param value Unsigned integer to convert
          */
-        constexpr explicit GrayCode(value_type value);
+        constexpr explicit gray_code(value_type value);
 
         ////////////////////////////////////////////////////////////
         // Operators
@@ -77,7 +77,7 @@ namespace polder
          * constructor does.
          */
         auto operator=(value_type other) &
-            -> GrayCode&;
+            -> gray_code&;
 
         /**
          * @brief Conversion to the representing type
@@ -89,63 +89,63 @@ namespace polder
         ////////////////////////////////////////////////////////////
 
         auto operator++()
-            -> GrayCode&;
+            -> gray_code&;
         auto operator++(int)
-            -> GrayCode&;
+            -> gray_code&;
 
         auto operator--()
-            -> GrayCode&;
+            -> gray_code&;
         auto operator--(int)
-            -> GrayCode&;
+            -> gray_code&;
 
         ////////////////////////////////////////////////////////////
         // Bitwise operations
         ////////////////////////////////////////////////////////////
 
-        auto operator&=(GrayCode other)
-            -> GrayCode&;
-        auto operator|=(GrayCode other)
-            -> GrayCode&;
-        auto operator^=(GrayCode other)
-            -> GrayCode&;
+        auto operator&=(gray_code other)
+            -> gray_code&;
+        auto operator|=(gray_code other)
+            -> gray_code&;
+        auto operator^=(gray_code other)
+            -> gray_code&;
         auto operator>>=(Unsigned other)
-            -> GrayCode&;
+            -> gray_code&;
         auto operator<<=(Unsigned other)
-            -> GrayCode&;
+            -> gray_code&;
     };
 
     /**
-     * @brief Create a GrayCode instance.
+     * @brief Create a gray_code instance.
      *
      * @param value Unsigned integer to convert to gay code
      */
     template<typename Unsigned>
     constexpr auto gray(Unsigned value)
-        -> GrayCode<Unsigned>;
+        -> gray_code<Unsigned>;
 
     ////////////////////////////////////////////////////////////
     // Comparison operators
     ////////////////////////////////////////////////////////////
 
     template<typename Unsigned>
-    constexpr auto operator==(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
+    constexpr auto operator==(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
         -> bool;
     template<typename Unsigned>
-    constexpr auto operator!=(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
-        -> bool;
-
-    template<typename Unsigned>
-    constexpr auto operator==(GrayCode<Unsigned> lhs, Unsigned rhs)
-        -> bool;
-    template<typename Unsigned>
-    constexpr auto operator!=(GrayCode<Unsigned> lhs, Unsigned rhs)
+    constexpr auto operator!=(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
         -> bool;
 
     template<typename Unsigned>
-    constexpr auto operator==(Unsigned lhs, GrayCode<Unsigned> rhs)
+    constexpr auto operator==(gray_code<Unsigned> lhs, Unsigned rhs)
         -> bool;
     template<typename Unsigned>
-    constexpr auto operator!=(Unsigned lhs, GrayCode<Unsigned> rhs)
+    constexpr auto operator!=(gray_code<Unsigned> lhs, Unsigned rhs)
+        -> bool;
+
+    template<typename Unsigned>
+    constexpr auto operator==(Unsigned lhs, gray_code<Unsigned> rhs)
+        -> bool;
+    template<typename Unsigned>
+    constexpr auto operator!=(Unsigned lhs, gray_code<Unsigned> rhs)
         -> bool;
 
     ////////////////////////////////////////////////////////////
@@ -153,24 +153,24 @@ namespace polder
     ////////////////////////////////////////////////////////////
 
     template<typename Unsigned>
-    auto operator&(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
-        -> GrayCode<Unsigned>;
+    auto operator&(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+        -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator|(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
-        -> GrayCode<Unsigned>;
+    auto operator|(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+        -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator^(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
-        -> GrayCode<Unsigned>;
+    auto operator^(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+        -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator>>(GrayCode<Unsigned> lhs, Unsigned rhs)
-        -> GrayCode<Unsigned>;
+    auto operator>>(gray_code<Unsigned> lhs, Unsigned rhs)
+        -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator<<(GrayCode<Unsigned> lhs, Unsigned rhs)
-        -> GrayCode<Unsigned>;
+    auto operator<<(gray_code<Unsigned> lhs, Unsigned rhs)
+        -> gray_code<Unsigned>;
 
     ////////////////////////////////////////////////////////////
     // Overloaded math functions
@@ -179,11 +179,11 @@ namespace polder
     namespace math
     {
         template<typename Unsigned>
-        auto is_even(GrayCode<Unsigned> code)
+        auto is_even(gray_code<Unsigned> code)
             -> bool;
 
         template<typename Unsigned>
-        auto is_odd(GrayCode<Unsigned> code)
+        auto is_odd(gray_code<Unsigned> code)
             -> bool;
     }
 

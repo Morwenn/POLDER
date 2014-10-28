@@ -17,19 +17,19 @@
  */
 
 template<typename Derived>
-inline auto RecursionArray<Derived>::operator()(std::size_t n)
+inline auto recursion_array<Derived>::operator()(std::size_t n)
     -> value_type
 {
     return self(n);
 }
 
 template<typename Derived>
-constexpr RecursionArray<Derived>::RecursionArray(std::initializer_list<value_type> vals):
+constexpr recursion_array<Derived>::recursion_array(std::initializer_list<value_type> vals):
     _values(std::begin(vals), std::end(vals))
 {}
 
 template<typename Derived>
-auto RecursionArray<Derived>::self(std::size_t n)
+auto recursion_array<Derived>::self(std::size_t n)
     -> value_type
 {
     while (size() <= n)
@@ -41,14 +41,14 @@ auto RecursionArray<Derived>::self(std::size_t n)
 }
 
 template<typename Derived>
-constexpr auto RecursionArray<Derived>::size() const
+constexpr auto recursion_array<Derived>::size() const
     -> std::size_t
 {
     return _values.size();
 }
 
 template<typename Derived>
-auto RecursionArray<Derived>::function(std::size_t n)
+auto recursion_array<Derived>::function(std::size_t n)
     -> value_type
 {
     return static_cast<Derived&>(*this).function(n);

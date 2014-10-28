@@ -22,16 +22,16 @@ using namespace polder;
 
 
 // Forward declaration
-struct MemoizedFibonacci;
+struct memoized_fibonacci;
 
 namespace polder
 {
     /*
-     * We need to tell to the RecursionArray which
+     * We need to tell to the recursion_array which
      * kind of data it has to store.
      */
     template<>
-    struct types_t<MemoizedFibonacci>
+    struct types_t<memoized_fibonacci>
     {
         using value_type = unsigned int;
     };
@@ -44,19 +44,19 @@ namespace polder
  * to store its results in order to gain some speed with the
  * following calls to the function.
  */
-struct MemoizedFibonacci:
-    RecursionArray<MemoizedFibonacci>
+struct memoized_fibonacci:
+    recursion_array<memoized_fibonacci>
 {
-    using super = RecursionArray<MemoizedFibonacci>;
+    using super = recursion_array<memoized_fibonacci>;
 
     /**
      * @brief Default constructor
      *
      * To use a Fibonacci function, we need to know at least
      * its first two values (for 0 and 1) which are 0 and 1.
-     * We pass those values to the RecursionArray constructor.
+     * We pass those values to the recursion_array constructor.
      */
-    MemoizedFibonacci():
+    memoized_fibonacci():
         super( { 0, 1 } )
     {}
 
@@ -71,7 +71,7 @@ struct MemoizedFibonacci:
      * @return nth Fibonacci number
      */
     auto function(std::size_t n)
-        -> types_t<MemoizedFibonacci>::value_type
+        -> types_t<memoized_fibonacci>::value_type
     {
         return self(n-1) + self(n-2);
     }
@@ -82,10 +82,10 @@ int main()
 {
     // We must declare the Fibonacci function in order to use it.
     // It is the major design issue of recursion arrays.
-    MemoizedFibonacci fibonacci;
+    memoized_fibonacci fibonacci;
 
     // The Fibonacci numbers up to the nth are computed
-    // and stored into the RecursionArray
+    // and stored into the recursion_array
     std::cout << fibonacci(12)  << '\n';    // 144
     std::cout << fibonacci(0)   << '\n';    // 0
     std::cout << fibonacci(1)   << '\n';    // 1

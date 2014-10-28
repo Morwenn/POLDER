@@ -37,15 +37,15 @@ namespace polder
      * is an unsigned int.
      */
     template<typename Derived>
-    class RecursionArray
+    class recursion_array
     {
         public:
 
             using value_type = typename types_t<Derived>::value_type;
 
-            // A RecursionArray is not copyable
-            RecursionArray(const RecursionArray&) = delete;
-            RecursionArray& operator=(const RecursionArray&) = delete;
+            // A recursion_array is not copyable
+            recursion_array(const recursion_array&) = delete;
+            recursion_array& operator=(const recursion_array&) = delete;
 
             /**
              * @brief Calls "function" and applies memoization
@@ -56,17 +56,17 @@ namespace polder
 
         protected:
 
-            RecursionArray() = default;
+            recursion_array() = default;
 
             /**
              * @brief Initializer-list constructor
              *
              * This should be the one and only way to instance a
-             * RecursionArray.
+             * recursion_array.
              *
              * @param vals Results of "function" for the first values
              */
-            constexpr RecursionArray(std::initializer_list<value_type> vals);
+            constexpr recursion_array(std::initializer_list<value_type> vals);
 
             /**
              * @brief Calls "function" and applies memoization
@@ -87,10 +87,10 @@ namespace polder
             /**
              * @brief User-defined function whose results are stored
              *
-             * This is the core of the class. A RecursionArray is just
+             * This is the core of the class. A recursion_array is just
              * meant to store the results of "function" are reuse them
              * instead of computing them another time. That is why a
-             * RecursionArray function can only accept unsigned integers
+             * recursion_array function can only accept unsigned integers
              * as parameters.
              *
              * @param n Index of the element

@@ -21,11 +21,11 @@
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
-constexpr GrayCode<Unsigned>::GrayCode()
+constexpr gray_code<Unsigned>::gray_code()
     = default;
 
 template<typename Unsigned>
-constexpr GrayCode<Unsigned>::GrayCode(value_type value):
+constexpr gray_code<Unsigned>::gray_code(value_type value):
     value( (value >> 1) ^ value )
 {}
 
@@ -34,15 +34,15 @@ constexpr GrayCode<Unsigned>::GrayCode(value_type value):
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator=(value_type other) &
-    -> GrayCode&
+auto gray_code<Unsigned>::operator=(value_type other) &
+    -> gray_code&
 {
     value = (other >> 1) ^ other;
     return *this;
 }
 
 template<typename Unsigned>
-GrayCode<Unsigned>::operator value_type() const
+gray_code<Unsigned>::operator value_type() const
 {
     value_type res = value;
     for (value_type mask = std::numeric_limits<value_type>::digits / 2
@@ -58,8 +58,8 @@ GrayCode<Unsigned>::operator value_type() const
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator++()
-    -> GrayCode&
+auto gray_code<Unsigned>::operator++()
+    -> gray_code&
 {
     if (math::is_odd(*this))
     {
@@ -75,8 +75,8 @@ auto GrayCode<Unsigned>::operator++()
 }
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator++(int)
-    -> GrayCode&
+auto gray_code<Unsigned>::operator++(int)
+    -> gray_code&
 {
     auto res = *this;
     operator++();
@@ -84,8 +84,8 @@ auto GrayCode<Unsigned>::operator++(int)
 }
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator--()
-    -> GrayCode&
+auto gray_code<Unsigned>::operator--()
+    -> gray_code&
 {
     if (math::is_odd(*this))
     {
@@ -101,8 +101,8 @@ auto GrayCode<Unsigned>::operator--()
 }
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator--(int)
-    -> GrayCode&
+auto gray_code<Unsigned>::operator--(int)
+    -> gray_code&
 {
     auto res = *this;
     operator--();
@@ -114,40 +114,40 @@ auto GrayCode<Unsigned>::operator--(int)
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator&=(GrayCode other)
-    -> GrayCode&
+auto gray_code<Unsigned>::operator&=(gray_code other)
+    -> gray_code&
 {
     value &= other.value;
     return *this;
 }
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator|=(GrayCode other)
-    -> GrayCode&
+auto gray_code<Unsigned>::operator|=(gray_code other)
+    -> gray_code&
 {
     value |= other.value;
     return *this;
 }
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator^=(GrayCode other)
-    -> GrayCode&
+auto gray_code<Unsigned>::operator^=(gray_code other)
+    -> gray_code&
 {
     value ^= other.value;
     return *this;
 }
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator>>=(Unsigned other)
-    -> GrayCode&
+auto gray_code<Unsigned>::operator>>=(Unsigned other)
+    -> gray_code&
 {
     value >>= other;
     return *this;
 }
 
 template<typename Unsigned>
-auto GrayCode<Unsigned>::operator<<=(Unsigned other)
-    -> GrayCode&
+auto gray_code<Unsigned>::operator<<=(Unsigned other)
+    -> gray_code&
 {
     value <<= other;
     return *this;
@@ -159,9 +159,9 @@ auto GrayCode<Unsigned>::operator<<=(Unsigned other)
 
 template<typename Unsigned>
 constexpr auto gray(Unsigned value)
-    -> GrayCode<Unsigned>
+    -> gray_code<Unsigned>
 {
-    return GrayCode<Unsigned>(value);
+    return gray_code<Unsigned>(value);
 }
 
 ////////////////////////////////////////////////////////////
@@ -169,42 +169,42 @@ constexpr auto gray(Unsigned value)
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
-constexpr auto operator==(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
+constexpr auto operator==(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
     -> bool
 {
     return lhs.value == rhs.value;
 }
 
 template<typename Unsigned>
-constexpr auto operator!=(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
+constexpr auto operator!=(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
     -> bool
 {
     return lhs.value != rhs.value;
 }
 
 template<typename Unsigned>
-constexpr auto operator==(GrayCode<Unsigned> lhs, Unsigned rhs)
+constexpr auto operator==(gray_code<Unsigned> lhs, Unsigned rhs)
     -> bool
 {
     return (rhs ^ (rhs >> 1)) == lhs.value;
 }
 
 template<typename Unsigned>
-constexpr auto operator!=(GrayCode<Unsigned> lhs, Unsigned rhs)
+constexpr auto operator!=(gray_code<Unsigned> lhs, Unsigned rhs)
     -> bool
 {
     return (rhs ^ (rhs >> 1)) != lhs.value;
 }
 
 template<typename Unsigned>
-constexpr auto operator==(Unsigned lhs, GrayCode<Unsigned> rhs)
+constexpr auto operator==(Unsigned lhs, gray_code<Unsigned> rhs)
     -> bool
 {
     return (lhs ^ (lhs >> 1)) == rhs.value;
 }
 
 template<typename Unsigned>
-constexpr auto operator!=(Unsigned lhs, GrayCode<Unsigned> rhs)
+constexpr auto operator!=(Unsigned lhs, gray_code<Unsigned> rhs)
     -> bool
 {
     return (lhs ^ (lhs >> 1)) != rhs.value;
@@ -215,36 +215,36 @@ constexpr auto operator!=(Unsigned lhs, GrayCode<Unsigned> rhs)
 ////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
-auto operator&(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
-    -> GrayCode<Unsigned>
+auto operator&(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+    -> gray_code<Unsigned>
 {
     return lhs &= rhs;
 }
 
 template<typename Unsigned>
-auto operator|(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
-    -> GrayCode<Unsigned>
+auto operator|(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+    -> gray_code<Unsigned>
 {
     return lhs |= rhs;
 }
 
 template<typename Unsigned>
-auto operator^(GrayCode<Unsigned> lhs, GrayCode<Unsigned> rhs)
-    -> GrayCode<Unsigned>
+auto operator^(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+    -> gray_code<Unsigned>
 {
     return lhs ^= rhs;
 }
 
 template<typename Unsigned>
-auto operator>>(GrayCode<Unsigned> lhs, Unsigned rhs)
-    -> GrayCode<Unsigned>
+auto operator>>(gray_code<Unsigned> lhs, Unsigned rhs)
+    -> gray_code<Unsigned>
 {
     return lhs >>= rhs;
 }
 
 template<typename Unsigned>
-auto operator<<(GrayCode<Unsigned> lhs, Unsigned rhs)
-    -> GrayCode<Unsigned>
+auto operator<<(gray_code<Unsigned> lhs, Unsigned rhs)
+    -> gray_code<Unsigned>
 {
     return lhs <<= rhs;
 }
@@ -256,14 +256,14 @@ auto operator<<(GrayCode<Unsigned> lhs, Unsigned rhs)
 namespace math
 {
     template<typename Unsigned>
-    auto is_even(GrayCode<Unsigned> code)
+    auto is_even(gray_code<Unsigned> code)
         -> bool
     {
         return not is_odd(code);
     }
 
     template<typename Unsigned>
-    auto is_odd(GrayCode<Unsigned> code)
+    auto is_odd(gray_code<Unsigned> code)
         -> bool
     {
         // A gray code is odd when the number

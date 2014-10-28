@@ -52,7 +52,7 @@ TEST_CASE( "gray codes convert to and from unsigned integers", "[gray]" )
 
 TEST_CASE( "gray codes operator=", "[gray]" )
 {
-    GrayCode<unsigned> gr1, gr2;
+    gray_code<unsigned> gr1, gr2;
 
     SECTION( "assignment from gray codes" )
     {
