@@ -61,7 +61,7 @@ TEST_CASE( "gray codes operator=", "[gray]" )
         REQUIRE( gr1 == gray(58u) );
         REQUIRE( gr2 == gray(22u) );
         REQUIRE( gr1 == 58u );
-        REQUIRE( gr2 == 22u );
+        REQUIRE( 22u == gr2 );
     }
 
     SECTION( "assignment from unsigned integers" )
@@ -72,7 +72,7 @@ TEST_CASE( "gray codes operator=", "[gray]" )
         REQUIRE( gr1 == gray(73u) );
         REQUIRE( gr2 == gray(194u) );
         REQUIRE( gr1 == 73u );
-        REQUIRE( gr2 == 194u );
+        REQUIRE( 194u == gr2 );
     }
 }
 
