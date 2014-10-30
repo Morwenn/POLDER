@@ -270,7 +270,13 @@ namespace math
         // of bits set in its representation
         // is odd
 
-        #ifndef __GNUC__
+        #if defined(__GNUC__) || defined(__clang__)
+
+            // Compiler intrinsics can be
+            // insanely faster
+            return bool(__builtin_parity(code.value));
+
+        #else
 
             unsigned nb_bits{};
             for (; code.value ; ++nb_bits)
@@ -279,12 +285,6 @@ namespace math
                 code.value &= code.value - 1;
             }
             return bool(nb_bits % 2);
-
-        #else
-
-            // Compiler intrinsics can be
-            // insanely faster
-            return bool(__builtin_parity(code.value));
 
         #endif
     }
