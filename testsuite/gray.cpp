@@ -133,12 +133,24 @@ TEST_CASE( "gray code increment", "[gray]" )
     {
         REQUIRE( val == i );
     }
+
+    i = 0u;
+    for (auto val = gray(0u) ; val < 10u ; val++, i++)
+    {
+        REQUIRE( val == i );
+    }
 }
 
 TEST_CASE( "gray code decrement", "[gray]" )
 {
     unsigned i = 35u;
     for (auto val = gray(35u) ; val > 23u ; --val, --i)
+    {
+        REQUIRE( val == i );
+    }
+
+    i = 35u;
+    for (auto val = gray(35u) ; val > 23u ; val--, i--)
     {
         REQUIRE( val == i );
     }

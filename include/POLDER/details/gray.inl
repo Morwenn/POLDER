@@ -76,7 +76,7 @@ auto gray_code<Unsigned>::operator++()
 
 template<typename Unsigned>
 auto gray_code<Unsigned>::operator++(int)
-    -> gray_code&
+    -> gray_code
 {
     auto res = *this;
     operator++();
@@ -102,7 +102,7 @@ auto gray_code<Unsigned>::operator--()
 
 template<typename Unsigned>
 auto gray_code<Unsigned>::operator--(int)
-    -> gray_code&
+    -> gray_code
 {
     auto res = *this;
     operator--();

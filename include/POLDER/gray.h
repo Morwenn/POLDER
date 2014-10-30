@@ -91,12 +91,12 @@ namespace polder
         auto operator++()
             -> gray_code&;
         auto operator++(int)
-            -> gray_code&;
+            -> gray_code;
 
         auto operator--()
             -> gray_code&;
         auto operator--(int)
-            -> gray_code&;
+            -> gray_code;
 
         ////////////////////////////////////////////////////////////
         // Bitwise operations
