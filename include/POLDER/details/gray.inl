@@ -272,10 +272,10 @@ auto is_odd(gray_code<Unsigned> code)
     #else
 
         unsigned nb_bits{};
-        for (; code.value ; ++nb_bits)
+        for (auto val = code.value ; val ; ++nb_bits)
         {
             // clear the least significant bit set
-            code.value &= code.value - 1;
+            val &= val - 1;
         }
         return bool(nb_bits % 2);
 
