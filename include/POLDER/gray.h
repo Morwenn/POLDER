@@ -173,19 +173,16 @@ namespace polder
         -> gray_code<Unsigned>;
 
     ////////////////////////////////////////////////////////////
-    // Overloaded math functions
+    // Mathematical functions
     ////////////////////////////////////////////////////////////
 
-    namespace math
-    {
-        template<typename Unsigned>
-        auto is_even(gray_code<Unsigned> code)
-            -> bool;
+    template<typename Unsigned>
+    auto is_even(gray_code<Unsigned> code)
+        -> bool;
 
-        template<typename Unsigned>
-        auto is_odd(gray_code<Unsigned> code)
-            -> bool;
-    }
+    template<typename Unsigned>
+    auto is_odd(gray_code<Unsigned> code)
+        -> bool;
 
     #include "details/gray.inl"
 }

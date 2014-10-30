@@ -21,7 +21,6 @@
 #include "catch.hpp"
 
 using namespace polder;
-using namespace math;
 
 TEST_CASE( "gray codes convert to and from unsigned integers", "[gray]" )
 {

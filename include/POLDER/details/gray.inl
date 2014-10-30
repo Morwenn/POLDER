@@ -61,7 +61,7 @@ template<typename Unsigned>
 auto gray_code<Unsigned>::operator++()
     -> gray_code&
 {
-    if (math::is_odd(*this))
+    if (is_odd(*this))
     {
         auto y = value & -value;
         value ^= (y << 1);
@@ -87,7 +87,7 @@ template<typename Unsigned>
 auto gray_code<Unsigned>::operator--()
     -> gray_code&
 {
-    if (math::is_odd(*this))
+    if (is_odd(*this))
     {
         // Flip rightmost bit
         value ^= 1;
@@ -250,42 +250,39 @@ auto operator<<(gray_code<Unsigned> lhs, Unsigned rhs)
 }
 
 ////////////////////////////////////////////////////////////
-// Overloaded math functions
+// Mathematical functions
 ////////////////////////////////////////////////////////////
 
-namespace math
+template<typename Unsigned>
+auto is_even(gray_code<Unsigned> code)
+    -> bool
 {
-    template<typename Unsigned>
-    auto is_even(gray_code<Unsigned> code)
-        -> bool
-    {
-        return not is_odd(code);
-    }
+    return not is_odd(code);
+}
 
-    template<typename Unsigned>
-    auto is_odd(gray_code<Unsigned> code)
-        -> bool
-    {
-        // A gray code is odd when the number
-        // of bits set in its representation
-        // is odd
+template<typename Unsigned>
+auto is_odd(gray_code<Unsigned> code)
+    -> bool
+{
+    // A gray code is odd when the number
+    // of bits set in its representation
+    // is odd
 
-        #if defined(__GNUC__) || defined(__clang__)
+    #if defined(__GNUC__) || defined(__clang__)
 
-            // Compiler intrinsics can be
-            // insanely faster
-            return bool(__builtin_parity(code.value));
+        // Compiler intrinsics can be
+        // insanely faster
+        return bool(__builtin_parity(code.value));
 
-        #else
+    #else
 
-            unsigned nb_bits{};
-            for (; code.value ; ++nb_bits)
-            {
-                // clear the least significant bit set
-                code.value &= code.value - 1;
-            }
-            return bool(nb_bits % 2);
+        unsigned nb_bits{};
+        for (; code.value ; ++nb_bits)
+        {
+            // clear the least significant bit set
+            code.value &= code.value - 1;
+        }
+        return bool(nb_bits % 2);
 
-        #endif
-    }
+    #endif
 }
