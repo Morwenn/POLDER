@@ -28,10 +28,10 @@
 namespace polder
 {
     /**
-     * @brief Gray code unsigned integer
+     * @brief Gray code unsigned integer.
      *
      * This class represents a gray code unsigned
-     * integer. It can be set by integers
+     * integer. It can be set by integers.
      *
      * auto gr = gray_code<uint16_t>{ 24 };
      * uint16_t u = gr;         // u == 24 (0b11000)
@@ -41,23 +41,22 @@ namespace polder
     struct gray_code
     {
         static_assert(std::is_unsigned<Unsigned>::value,
-                      "gray code only supports unsigned integers");
+                      "gray code only supports built-in unsigned integers");
 
-        // Type
+        // Underlying unsigned integer
         using value_type = Unsigned;
 
         // Variable containing the gray code
         value_type value;
 
         ////////////////////////////////////////////////////////////
-        // Constructors/destructor
-        ////////////////////////////////////////////////////////////
+        // Constructors operations
 
         // Default constructor
         constexpr gray_code();
 
         /**
-         * @brief Construction from an unsigned integer
+         * @brief Construction from an unsigned integer.
          *
          * The integer is converted to gray code. The value
          * is preserved. The representation is not.
@@ -67,11 +66,10 @@ namespace polder
         constexpr explicit gray_code(value_type value);
 
         ////////////////////////////////////////////////////////////
-        // Operators
-        ////////////////////////////////////////////////////////////
+        // Assignment operations
 
         /**
-         * @brief Assigns an unsigned integer
+         * @brief Assigns an unsigned integer.
          *
          * It works the same way as the equivalent
          * constructor does.
@@ -79,14 +77,16 @@ namespace polder
         auto operator=(value_type other) &
             -> gray_code&;
 
+        ////////////////////////////////////////////////////////////
+        // Conversion operations
+
         /**
-         * @brief Conversion to the representing type
+         * @brief Conversion to the underlying type.
          */
         operator value_type() const;
 
         ////////////////////////////////////////////////////////////
-        // Arithmetic operations
-        ////////////////////////////////////////////////////////////
+        // Increment/decrement operations
 
         auto operator++()
             -> gray_code&;
@@ -99,8 +99,7 @@ namespace polder
             -> gray_code;
 
         ////////////////////////////////////////////////////////////
-        // Bitwise operations
-        ////////////////////////////////////////////////////////////
+        // Bitwise assignment operations
 
         auto operator&=(gray_code other)
             -> gray_code&;
@@ -115,17 +114,19 @@ namespace polder
     };
 
     /**
-     * @brief Create a gray_code instance.
+     * @brief Creates a gray_code instance.
      *
-     * @param value Unsigned integer to convert to gay code
+     * The may advantage of this function is its ability to
+     * deduce the type of its parameter.
+     *
+     * @param value Unsigned integer to convert to gray code.
      */
     template<typename Unsigned>
     constexpr auto gray(Unsigned value)
         -> gray_code<Unsigned>;
 
     ////////////////////////////////////////////////////////////
-    // Comparison operators
-    ////////////////////////////////////////////////////////////
+    // Comparison operations
 
     template<typename Unsigned>
     constexpr auto operator==(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
@@ -150,7 +151,6 @@ namespace polder
 
     ////////////////////////////////////////////////////////////
     // Bitwise operations
-    ////////////////////////////////////////////////////////////
 
     template<typename Unsigned>
     auto operator&(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
@@ -174,7 +174,6 @@ namespace polder
 
     ////////////////////////////////////////////////////////////
     // Mathematical functions
-    ////////////////////////////////////////////////////////////
 
     template<typename Unsigned>
     auto is_even(gray_code<Unsigned> code)

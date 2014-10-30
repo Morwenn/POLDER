@@ -17,8 +17,7 @@
  */
 
 ////////////////////////////////////////////////////////////
-// Constructors
-////////////////////////////////////////////////////////////
+// Construction operations
 
 template<typename Unsigned>
 constexpr gray_code<Unsigned>::gray_code()
@@ -30,8 +29,7 @@ constexpr gray_code<Unsigned>::gray_code(value_type value):
 {}
 
 ////////////////////////////////////////////////////////////
-// Operators
-////////////////////////////////////////////////////////////
+// Assignment operations
 
 template<typename Unsigned>
 auto gray_code<Unsigned>::operator=(value_type other) &
@@ -40,6 +38,9 @@ auto gray_code<Unsigned>::operator=(value_type other) &
     value = (other >> 1) ^ other;
     return *this;
 }
+
+////////////////////////////////////////////////////////////
+// Conversion operations
 
 template<typename Unsigned>
 gray_code<Unsigned>::operator value_type() const
@@ -54,8 +55,7 @@ gray_code<Unsigned>::operator value_type() const
 }
 
 ////////////////////////////////////////////////////////////
-// Arithmetic operations
-////////////////////////////////////////////////////////////
+// Increment/decrement operations
 
 template<typename Unsigned>
 auto gray_code<Unsigned>::operator++()
@@ -110,8 +110,7 @@ auto gray_code<Unsigned>::operator--(int)
 }
 
 ////////////////////////////////////////////////////////////
-// Bitwise operations
-////////////////////////////////////////////////////////////
+// Bitwise assignment operations
 
 template<typename Unsigned>
 auto gray_code<Unsigned>::operator&=(gray_code other)
@@ -154,8 +153,7 @@ auto gray_code<Unsigned>::operator<<=(Unsigned other)
 }
 
 ////////////////////////////////////////////////////////////
-// Helper functions
-////////////////////////////////////////////////////////////
+// Construction function
 
 template<typename Unsigned>
 constexpr auto gray(Unsigned value)
@@ -165,8 +163,7 @@ constexpr auto gray(Unsigned value)
 }
 
 ////////////////////////////////////////////////////////////
-// Comparison operators
-////////////////////////////////////////////////////////////
+// Comparison operations
 
 template<typename Unsigned>
 constexpr auto operator==(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
@@ -212,7 +209,6 @@ constexpr auto operator!=(Unsigned lhs, gray_code<Unsigned> rhs)
 
 ////////////////////////////////////////////////////////////
 // Bitwise operations
-////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
 auto operator&(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
@@ -251,7 +247,6 @@ auto operator<<(gray_code<Unsigned> lhs, Unsigned rhs)
 
 ////////////////////////////////////////////////////////////
 // Mathematical functions
-////////////////////////////////////////////////////////////
 
 template<typename Unsigned>
 auto is_even(gray_code<Unsigned> code)
