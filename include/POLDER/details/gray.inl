@@ -20,8 +20,9 @@
 // Construction operations
 
 template<typename Unsigned>
-constexpr gray_code<Unsigned>::gray_code()
-    = default;
+constexpr gray_code<Unsigned>::gray_code():
+    value(0u)
+{}
 
 template<typename Unsigned>
 constexpr gray_code<Unsigned>::gray_code(value_type value):

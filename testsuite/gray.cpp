@@ -49,6 +49,15 @@ TEST_CASE( "gray codes convert to and from unsigned integers", "[gray]" )
     }
 }
 
+TEST_CASE( "gray codes value construction", "[gray]" )
+{
+    gray_code<unsigned> gr1{};
+    REQUIRE( gr1.value == 0u );
+
+    gray_code<unsigned long long> gr2{};
+    REQUIRE( gr2.value == 0ull );
+}
+
 TEST_CASE( "gray codes operator=", "[gray]" )
 {
     gray_code<unsigned> gr1, gr2;
