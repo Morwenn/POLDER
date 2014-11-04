@@ -103,12 +103,22 @@ namespace polder
 
         auto operator&=(gray_code other)
             -> gray_code&;
+        auto operator&=(value_type other)
+            -> gray_code&;
+
         auto operator|=(gray_code other)
             -> gray_code&;
+        auto operator|=(value_type other)
+            -> gray_code&;
+
         auto operator^=(gray_code other)
             -> gray_code&;
+        auto operator^=(value_type other)
+            -> gray_code&;
+
         auto operator>>=(Unsigned other)
             -> gray_code&;
+
         auto operator<<=(Unsigned other)
             -> gray_code&;
     };
@@ -162,6 +172,10 @@ namespace polder
 
     template<typename Unsigned>
     auto operator^(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+        -> gray_code<Unsigned>;
+
+    template<typename Unsigned>
+    auto operator~(gray_code<Unsigned> rhs)
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>

@@ -105,6 +105,7 @@ TEST_CASE( "gray codes bitwise operations", "[gray]" )
     REQUIRE( (gr1 & gr2).value == (gr1.value & gr2.value) );
     REQUIRE( (gr1 | gr2).value == (gr1.value | gr2.value) );
     REQUIRE( (gr1 ^ gr2).value == (gr1.value ^ gr2.value) );
+    REQUIRE( (~gr1).value == ~(gr1.value) );
     REQUIRE( (gr1 << 3u).value == (gr1.value << 3u) );
     REQUIRE( (gr1 >> 2u).value == (gr1.value >> 2u) );
 }

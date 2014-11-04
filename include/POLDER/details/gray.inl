@@ -122,6 +122,14 @@ auto gray_code<Unsigned>::operator&=(gray_code other)
 }
 
 template<typename Unsigned>
+auto gray_code<Unsigned>::operator&=(value_type other)
+    -> gray_code&
+{
+    value &= other;
+    return *this;
+}
+
+template<typename Unsigned>
 auto gray_code<Unsigned>::operator|=(gray_code other)
     -> gray_code&
 {
@@ -130,10 +138,26 @@ auto gray_code<Unsigned>::operator|=(gray_code other)
 }
 
 template<typename Unsigned>
+auto gray_code<Unsigned>::operator|=(value_type other)
+    -> gray_code&
+{
+    value |= other;
+    return *this;
+}
+
+template<typename Unsigned>
 auto gray_code<Unsigned>::operator^=(gray_code other)
     -> gray_code&
 {
     value ^= other.value;
+    return *this;
+}
+
+template<typename Unsigned>
+auto gray_code<Unsigned>::operator^=(value_type other)
+    -> gray_code&
+{
+    value ^= other;
     return *this;
 }
 
@@ -230,6 +254,14 @@ auto operator^(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
     -> gray_code<Unsigned>
 {
     return lhs ^= rhs;
+}
+
+template<typename Unsigned>
+auto operator~(gray_code<Unsigned> rhs)
+    -> gray_code<Unsigned>
+{
+    rhs.value = ~rhs.value;
+    return rhs;
 }
 
 template<typename Unsigned>
