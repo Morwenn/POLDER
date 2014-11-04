@@ -15,6 +15,7 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <POLDER/io.h>
@@ -39,5 +40,20 @@ int main()
         // The results can be forwarded to the given output stream
         // instead of always being fed to std::cout.
         print(std::cerr, 5.3, 2, "Hey!");
+    }
+
+    ////////////////////////////////////////////////////////////
+    {
+        std::cout << "\nflags_guard example\n";
+
+        std::cout << 434 << '\n';
+        {
+            flags_guard guard(std::cout);
+            std::cout << std::hex;
+
+            std::cout << "0x" << 435 << '\n';
+            std::cout << "0x" << 436 << '\n';
+        }
+        std::cout << 437 << '\n';
     }
 }

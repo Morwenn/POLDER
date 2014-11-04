@@ -16,6 +16,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+////////////////////////////////////////////////////////////
+// Print function
+
 namespace details
 {
     inline auto print_impl(std::ostream&)
@@ -50,4 +53,17 @@ auto print(std::ostream& stream, Args&&... args)
     -> void
 {
     details::print_impl(stream, std::forward<Args>(args)...);
+}
+
+////////////////////////////////////////////////////////////
+// Flags guard
+
+flags_guard::flags_guard(std::ios_base& stream):
+    stream{stream},
+    flags{stream.flags()}
+{}
+
+flags_guard::~flags_guard()
+{
+    stream.flags(flags);
 }

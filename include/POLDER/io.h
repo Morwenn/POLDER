@@ -44,6 +44,26 @@ namespace polder
     auto print(std::ostream& stream, Args&&... args)
         -> void;
 
+    ////////////////////////////////////////////////////////////
+    // Flags guard
+
+    /**
+     * @brief RAII wrapper to stack and restore stream format flags
+     */
+    class flags_guard
+    {
+        public:
+
+            explicit flags_guard(std::ios_base& stream);
+
+            ~flags_guard();
+
+        private:
+
+            std::ios_base& stream;
+            std::ios_base::fmtflags flags;
+    };
+
     #include "details/io.inl"
 }
 
