@@ -162,18 +162,18 @@ auto gray_code<Unsigned>::operator^=(value_type other)
 }
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator>>=(Unsigned other)
+auto gray_code<Unsigned>::operator>>=(std::size_t pos)
     -> gray_code&
 {
-    value >>= other;
+    value >>= pos;
     return *this;
 }
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator<<=(Unsigned other)
+auto gray_code<Unsigned>::operator<<=(std::size_t pos)
     -> gray_code&
 {
-    value <<= other;
+    value <<= pos;
     return *this;
 }
 
@@ -257,25 +257,25 @@ auto operator^(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
 }
 
 template<typename Unsigned>
-auto operator~(gray_code<Unsigned> rhs)
+auto operator~(gray_code<Unsigned> val)
     -> gray_code<Unsigned>
 {
-    rhs.value = ~rhs.value;
-    return rhs;
+    val.value = ~val.value;
+    return val;
 }
 
 template<typename Unsigned>
-auto operator>>(gray_code<Unsigned> lhs, Unsigned rhs)
+auto operator>>(gray_code<Unsigned> val, std::size_t pos)
     -> gray_code<Unsigned>
 {
-    return lhs >>= rhs;
+    return val >>= pos;
 }
 
 template<typename Unsigned>
-auto operator<<(gray_code<Unsigned> lhs, Unsigned rhs)
+auto operator<<(gray_code<Unsigned> val, std::size_t pos)
     -> gray_code<Unsigned>
 {
-    return lhs <<= rhs;
+    return val <<= pos;
 }
 
 ////////////////////////////////////////////////////////////

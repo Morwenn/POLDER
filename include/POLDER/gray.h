@@ -21,6 +21,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <cstddef>
 #include <limits>
 #include <type_traits>
 #include <POLDER/details/config.h>
@@ -116,10 +117,10 @@ namespace polder
         auto operator^=(value_type other)
             -> gray_code&;
 
-        auto operator>>=(Unsigned other)
+        auto operator>>=(std::size_t pos)
             -> gray_code&;
 
-        auto operator<<=(Unsigned other)
+        auto operator<<=(std::size_t pos)
             -> gray_code&;
     };
 
@@ -175,15 +176,15 @@ namespace polder
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator~(gray_code<Unsigned> rhs)
+    auto operator~(gray_code<Unsigned> val)
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator>>(gray_code<Unsigned> lhs, Unsigned rhs)
+    auto operator>>(gray_code<Unsigned> val, std::size_t pos)
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator<<(gray_code<Unsigned> lhs, Unsigned rhs)
+    auto operator<<(gray_code<Unsigned> val, std::size_t pos)
         -> gray_code<Unsigned>;
 
     ////////////////////////////////////////////////////////////
