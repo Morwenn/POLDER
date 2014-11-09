@@ -24,7 +24,6 @@
 #include <ostream>
 #include <type_traits>
 #include <utility>
-#include <POLDER/exceptions.h>
 #include <POLDER/math/cmath.h>
 #include <POLDER/math/formula.h>
 
@@ -75,8 +74,9 @@ namespace polder
              * @brief Initialization constructor
              *
              * Constructs a new rational number with their numerator
-             * and denominator. Throws a division_by_zero exception if
-             * denominator == 0.
+             * and denominator.
+             *
+             * Precondition: denominator != 0.
              *
              * @param numerator Numerator of the fraction
              * @param denominator Denominator of the fraction
@@ -124,8 +124,19 @@ namespace polder
             auto operator*=(value_type other)
                 -> rational&;
 
+            /**
+             * @brief rational-rational division.
+             *
+             * Precondition: other.numer() != 0.
+             */
             auto operator/=(const rational& other)
                 -> rational&;
+
+            /**
+             * @brief rational-integer division.
+             *
+             * Precondition: other != 0.
+             */
             auto operator/=(value_type other)
                 -> rational&;
 
@@ -157,6 +168,15 @@ namespace polder
             auto swap(rational& other) noexcept
                 -> void;
 
+            /**
+             * @brief Inverts the numerator and the denominator.
+             *
+             * The numerator and the denominator are swapped, then
+             * the numerator acquires the sign information while
+             * abs is applied to the denominator.
+             *
+             * Precondition: numer() != 0.
+             */
             auto invert()
                 -> rational&;
 

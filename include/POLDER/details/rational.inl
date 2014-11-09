@@ -30,10 +30,7 @@ rational<T>::rational(value_type numerator, value_type denominator):
     _numer(numerator),
     _denom(denominator)
 {
-    if (_denom == 0)
-    {
-        throw division_by_zero();
-    }
+    POLDER_ASSERT(denominator != 0);
     normalize();
 }
 
@@ -147,10 +144,7 @@ template<typename T>
 auto rational<T>::operator/=(const rational& other)
     -> rational&
 {
-    if (other.numer() == 0)
-    {
-        throw division_by_zero();
-    }
+    POLDER_ASSERT(other.numer() != 0);
     _numer *= other.denom();
     _denom *= other.numer();
 
@@ -162,10 +156,7 @@ template<typename T>
 auto rational<T>::operator/=(value_type other)
     -> rational&
 {
-    if (other == 0)
-    {
-        throw division_by_zero();
-    }
+    POLDER_ASSERT(other != 0);
 
     using math::gcd;
     using math::sign;
@@ -265,10 +256,7 @@ template<typename T>
 auto rational<T>::invert()
     -> rational&
 {
-    if (_denom == 0)
-    {
-        throw division_by_zero();
-    }
+    POLDER_ASSERT(numer() != 0);
 
     using std::swap;
     using math::meta::abs;
