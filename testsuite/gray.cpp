@@ -138,13 +138,13 @@ TEST_CASE( "math operations for gray codes", "[gray][math]" )
 TEST_CASE( "gray code increment", "[gray]" )
 {
     unsigned i = 0u;
-    for (auto val = gray(0u) ; val < 10u ; ++val, ++i)
+    for (auto val = gray(0u) ; val != gray(10u) ; ++val, ++i)
     {
         REQUIRE( val == i );
     }
 
     i = 0u;
-    for (auto val = gray(0u) ; val < 10u ; val++, i++)
+    for (auto val = gray(0u) ; val != gray(10u) ; val++, i++)
     {
         REQUIRE( val == i );
     }
@@ -153,13 +153,13 @@ TEST_CASE( "gray code increment", "[gray]" )
 TEST_CASE( "gray code decrement", "[gray]" )
 {
     unsigned i = 35u;
-    for (auto val = gray(35u) ; val > 23u ; --val, --i)
+    for (auto val = gray(35u) ; val != gray(23u) ; --val, --i)
     {
         REQUIRE( val == i );
     }
 
     i = 35u;
-    for (auto val = gray(35u) ; val > 23u ; val--, i--)
+    for (auto val = gray(35u) ; val != gray(23u) ; val--, i--)
     {
         REQUIRE( val == i );
     }

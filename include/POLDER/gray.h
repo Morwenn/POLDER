@@ -84,7 +84,7 @@ namespace polder
         /**
          * @brief Conversion to the underlying type.
          */
-        operator value_type() const;
+        explicit operator value_type() const;
 
         ////////////////////////////////////////////////////////////
         // Increment/decrement operations
