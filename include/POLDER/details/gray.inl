@@ -279,6 +279,30 @@ auto operator<<(gray_code<Unsigned> val, std::size_t pos)
 }
 
 ////////////////////////////////////////////////////////////
+// Bitwise assignment operations
+
+template<typename Unsigned>
+auto operator&=(Unsigned& lhs, gray_code<Unsigned> rhs)
+    -> Unsigned&
+{
+    return lhs &= rhs.value;
+}
+
+template<typename Unsigned>
+auto operator|=(Unsigned& lhs, gray_code<Unsigned> rhs)
+    -> Unsigned&
+{
+    return lhs |= rhs.value;
+}
+
+template<typename Unsigned>
+auto operator^=(Unsigned& lhs, gray_code<Unsigned> rhs)
+    -> Unsigned&
+{
+    return lhs ^= rhs.value;
+}
+
+////////////////////////////////////////////////////////////
 // Mathematical functions
 
 template<typename Unsigned>

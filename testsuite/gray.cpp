@@ -110,6 +110,24 @@ TEST_CASE( "gray codes bitwise operations", "[gray]" )
     REQUIRE( (gr1 >> 2u).value == (gr1.value >> 2u) );
 }
 
+TEST_CASE( "unsigned-gray bitwise assignment operations", "[gray]" )
+{
+    unsigned a = 0b0110u;
+    unsigned b = 0b1001u;
+    unsigned c = 0b1101u;
+
+    a |= gray(0u);
+    REQUIRE( a == 0b0110u );
+    a &= gray(4u);
+    REQUIRE( a == 0b0110u );
+
+    b |= gray(9u);
+    REQUIRE( b == 0b1101u );
+
+    c ^= gray(5u);
+    REQUIRE( c == 0b1010u );
+}
+
 TEST_CASE( "gray() function type inference", "[gray]" )
 {
     auto llgr = gray(8ull);

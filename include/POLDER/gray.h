@@ -127,7 +127,7 @@ namespace polder
     /**
      * @brief Creates a gray_code instance.
      *
-     * The may advantage of this function is its ability to
+     * The advantage of this function is its ability to
      * deduce the type of its parameter.
      *
      * @param value Unsigned integer to convert to gray code.
@@ -186,6 +186,21 @@ namespace polder
     template<typename Unsigned>
     auto operator<<(gray_code<Unsigned> val, std::size_t pos)
         -> gray_code<Unsigned>;
+
+    ////////////////////////////////////////////////////////////
+    // Bitwise assignment operations
+
+    template<typename Unsigned>
+    auto operator&=(Unsigned& lhs, gray_code<Unsigned> rhs)
+        -> Unsigned&;
+
+    template<typename Unsigned>
+    auto operator|=(Unsigned& lhs, gray_code<Unsigned> rhs)
+        -> Unsigned&;
+
+    template<typename Unsigned>
+    auto operator^=(Unsigned& lhs, gray_code<Unsigned> rhs)
+        -> Unsigned&;
 
     ////////////////////////////////////////////////////////////
     // Mathematical functions
