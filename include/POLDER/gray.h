@@ -54,7 +54,7 @@ namespace polder
         // Constructors operations
 
         // Default constructor
-        constexpr gray_code();
+        constexpr gray_code() noexcept;
 
         /**
          * @brief Construction from an unsigned integer.
@@ -64,7 +64,7 @@ namespace polder
          *
          * @param value Unsigned integer to convert
          */
-        constexpr explicit gray_code(value_type value);
+        constexpr explicit gray_code(value_type value) noexcept;
 
         ////////////////////////////////////////////////////////////
         // Assignment operations
@@ -75,7 +75,7 @@ namespace polder
          * It works the same way as the equivalent
          * constructor does.
          */
-        auto operator=(value_type other) &
+        auto operator=(value_type other) & noexcept
             -> gray_code&;
 
         ////////////////////////////////////////////////////////////
@@ -84,43 +84,42 @@ namespace polder
         /**
          * @brief Conversion to the underlying type.
          */
-        explicit operator value_type() const;
+        explicit operator value_type() const noexcept;
 
         ////////////////////////////////////////////////////////////
         // Increment/decrement operations
 
-        auto operator++()
+        auto operator++() noexcept
             -> gray_code&;
-        auto operator++(int)
+        auto operator++(int) noexcept
             -> gray_code;
 
-        auto operator--()
+        auto operator--() noexcept
             -> gray_code&;
-        auto operator--(int)
+        auto operator--(int) noexcept
             -> gray_code;
 
         ////////////////////////////////////////////////////////////
         // Bitwise assignment operations
 
-        auto operator&=(gray_code other)
+        auto operator&=(gray_code other) noexcept
             -> gray_code&;
-        auto operator&=(value_type other)
-            -> gray_code&;
-
-        auto operator|=(gray_code other)
-            -> gray_code&;
-        auto operator|=(value_type other)
+        auto operator&=(value_type other) noexcept
             -> gray_code&;
 
-        auto operator^=(gray_code other)
+        auto operator|=(gray_code other) noexcept
             -> gray_code&;
-        auto operator^=(value_type other)
-            -> gray_code&;
-
-        auto operator>>=(std::size_t pos)
+        auto operator|=(value_type other) noexcept
             -> gray_code&;
 
-        auto operator<<=(std::size_t pos)
+        auto operator^=(gray_code other) noexcept
+            -> gray_code&;
+        auto operator^=(value_type other) noexcept
+            -> gray_code&;
+
+        auto operator>>=(std::size_t pos) noexcept
+            -> gray_code&;
+        auto operator<<=(std::size_t pos) noexcept
             -> gray_code&;
     };
 
@@ -133,84 +132,84 @@ namespace polder
      * @param value Unsigned integer to convert to gray code.
      */
     template<typename Unsigned>
-    constexpr auto gray(Unsigned value)
+    constexpr auto gray(Unsigned value) noexcept
         -> gray_code<Unsigned>;
 
     ////////////////////////////////////////////////////////////
     // Comparison operations
 
     template<typename Unsigned>
-    constexpr auto operator==(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+    constexpr auto operator==(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
         -> bool;
     template<typename Unsigned>
-    constexpr auto operator!=(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
-        -> bool;
-
-    template<typename Unsigned>
-    constexpr auto operator==(gray_code<Unsigned> lhs, Unsigned rhs)
-        -> bool;
-    template<typename Unsigned>
-    constexpr auto operator!=(gray_code<Unsigned> lhs, Unsigned rhs)
+    constexpr auto operator!=(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
         -> bool;
 
     template<typename Unsigned>
-    constexpr auto operator==(Unsigned lhs, gray_code<Unsigned> rhs)
+    constexpr auto operator==(gray_code<Unsigned> lhs, Unsigned rhs) noexcept
         -> bool;
     template<typename Unsigned>
-    constexpr auto operator!=(Unsigned lhs, gray_code<Unsigned> rhs)
+    constexpr auto operator!=(gray_code<Unsigned> lhs, Unsigned rhs) noexcept
+        -> bool;
+
+    template<typename Unsigned>
+    constexpr auto operator==(Unsigned lhs, gray_code<Unsigned> rhs) noexcept
+        -> bool;
+    template<typename Unsigned>
+    constexpr auto operator!=(Unsigned lhs, gray_code<Unsigned> rhs) noexcept
         -> bool;
 
     ////////////////////////////////////////////////////////////
     // Bitwise operations
 
     template<typename Unsigned>
-    auto operator&(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+    auto operator&(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator|(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+    auto operator|(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator^(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+    auto operator^(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator~(gray_code<Unsigned> val)
+    auto operator~(gray_code<Unsigned> val) noexcept
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator>>(gray_code<Unsigned> val, std::size_t pos)
+    auto operator>>(gray_code<Unsigned> val, std::size_t pos) noexcept
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator<<(gray_code<Unsigned> val, std::size_t pos)
+    auto operator<<(gray_code<Unsigned> val, std::size_t pos) noexcept
         -> gray_code<Unsigned>;
 
     ////////////////////////////////////////////////////////////
     // Bitwise assignment operations
 
     template<typename Unsigned>
-    auto operator&=(Unsigned& lhs, gray_code<Unsigned> rhs)
+    auto operator&=(Unsigned& lhs, gray_code<Unsigned> rhs) noexcept
         -> Unsigned&;
 
     template<typename Unsigned>
-    auto operator|=(Unsigned& lhs, gray_code<Unsigned> rhs)
+    auto operator|=(Unsigned& lhs, gray_code<Unsigned> rhs) noexcept
         -> Unsigned&;
 
     template<typename Unsigned>
-    auto operator^=(Unsigned& lhs, gray_code<Unsigned> rhs)
+    auto operator^=(Unsigned& lhs, gray_code<Unsigned> rhs) noexcept
         -> Unsigned&;
 
     ////////////////////////////////////////////////////////////
     // Mathematical functions
 
     template<typename Unsigned>
-    auto is_even(gray_code<Unsigned> code)
+    auto is_even(gray_code<Unsigned> code) noexcept
         -> bool;
 
     template<typename Unsigned>
-    auto is_odd(gray_code<Unsigned> code)
+    auto is_odd(gray_code<Unsigned> code) noexcept
         -> bool;
 
     #include "details/gray.inl"

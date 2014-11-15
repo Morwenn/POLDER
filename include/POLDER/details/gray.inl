@@ -20,12 +20,12 @@
 // Construction operations
 
 template<typename Unsigned>
-constexpr gray_code<Unsigned>::gray_code():
+constexpr gray_code<Unsigned>::gray_code() noexcept:
     value(0u)
 {}
 
 template<typename Unsigned>
-constexpr gray_code<Unsigned>::gray_code(value_type value):
+constexpr gray_code<Unsigned>::gray_code(value_type value) noexcept:
     value( (value >> 1) ^ value )
 {}
 
@@ -33,7 +33,7 @@ constexpr gray_code<Unsigned>::gray_code(value_type value):
 // Assignment operations
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator=(value_type other) &
+auto gray_code<Unsigned>::operator=(value_type other) & noexcept
     -> gray_code&
 {
     value = (other >> 1) ^ other;
@@ -44,7 +44,7 @@ auto gray_code<Unsigned>::operator=(value_type other) &
 // Conversion operations
 
 template<typename Unsigned>
-gray_code<Unsigned>::operator value_type() const
+gray_code<Unsigned>::operator value_type() const noexcept
 {
     value_type res = value;
     for (value_type mask = std::numeric_limits<value_type>::digits / 2
@@ -59,7 +59,7 @@ gray_code<Unsigned>::operator value_type() const
 // Increment/decrement operations
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator++()
+auto gray_code<Unsigned>::operator++() noexcept
     -> gray_code&
 {
     static constexpr value_type msb
@@ -86,7 +86,7 @@ auto gray_code<Unsigned>::operator++()
 }
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator++(int)
+auto gray_code<Unsigned>::operator++(int) noexcept
     -> gray_code
 {
     auto res = *this;
@@ -95,7 +95,7 @@ auto gray_code<Unsigned>::operator++(int)
 }
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator--()
+auto gray_code<Unsigned>::operator--() noexcept
     -> gray_code&
 {
     static constexpr value_type msb
@@ -122,7 +122,7 @@ auto gray_code<Unsigned>::operator--()
 }
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator--(int)
+auto gray_code<Unsigned>::operator--(int) noexcept
     -> gray_code
 {
     auto res = *this;
@@ -134,7 +134,7 @@ auto gray_code<Unsigned>::operator--(int)
 // Bitwise assignment operations
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator&=(gray_code other)
+auto gray_code<Unsigned>::operator&=(gray_code other) noexcept
     -> gray_code&
 {
     value &= other.value;
@@ -142,7 +142,7 @@ auto gray_code<Unsigned>::operator&=(gray_code other)
 }
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator&=(value_type other)
+auto gray_code<Unsigned>::operator&=(value_type other) noexcept
     -> gray_code&
 {
     value &= other;
@@ -150,7 +150,7 @@ auto gray_code<Unsigned>::operator&=(value_type other)
 }
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator|=(gray_code other)
+auto gray_code<Unsigned>::operator|=(gray_code other) noexcept
     -> gray_code&
 {
     value |= other.value;
@@ -158,7 +158,7 @@ auto gray_code<Unsigned>::operator|=(gray_code other)
 }
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator|=(value_type other)
+auto gray_code<Unsigned>::operator|=(value_type other) noexcept
     -> gray_code&
 {
     value |= other;
@@ -166,7 +166,7 @@ auto gray_code<Unsigned>::operator|=(value_type other)
 }
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator^=(gray_code other)
+auto gray_code<Unsigned>::operator^=(gray_code other) noexcept
     -> gray_code&
 {
     value ^= other.value;
@@ -174,7 +174,7 @@ auto gray_code<Unsigned>::operator^=(gray_code other)
 }
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator^=(value_type other)
+auto gray_code<Unsigned>::operator^=(value_type other) noexcept
     -> gray_code&
 {
     value ^= other;
@@ -182,7 +182,7 @@ auto gray_code<Unsigned>::operator^=(value_type other)
 }
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator>>=(std::size_t pos)
+auto gray_code<Unsigned>::operator>>=(std::size_t pos) noexcept
     -> gray_code&
 {
     value >>= pos;
@@ -190,7 +190,7 @@ auto gray_code<Unsigned>::operator>>=(std::size_t pos)
 }
 
 template<typename Unsigned>
-auto gray_code<Unsigned>::operator<<=(std::size_t pos)
+auto gray_code<Unsigned>::operator<<=(std::size_t pos) noexcept
     -> gray_code&
 {
     value <<= pos;
@@ -201,7 +201,7 @@ auto gray_code<Unsigned>::operator<<=(std::size_t pos)
 // Construction function
 
 template<typename Unsigned>
-constexpr auto gray(Unsigned value)
+constexpr auto gray(Unsigned value) noexcept
     -> gray_code<Unsigned>
 {
     return gray_code<Unsigned>(value);
@@ -211,42 +211,42 @@ constexpr auto gray(Unsigned value)
 // Comparison operations
 
 template<typename Unsigned>
-constexpr auto operator==(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+constexpr auto operator==(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
     -> bool
 {
     return lhs.value == rhs.value;
 }
 
 template<typename Unsigned>
-constexpr auto operator!=(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+constexpr auto operator!=(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
     -> bool
 {
     return lhs.value != rhs.value;
 }
 
 template<typename Unsigned>
-constexpr auto operator==(gray_code<Unsigned> lhs, Unsigned rhs)
+constexpr auto operator==(gray_code<Unsigned> lhs, Unsigned rhs) noexcept
     -> bool
 {
     return (rhs ^ (rhs >> 1)) == lhs.value;
 }
 
 template<typename Unsigned>
-constexpr auto operator!=(gray_code<Unsigned> lhs, Unsigned rhs)
+constexpr auto operator!=(gray_code<Unsigned> lhs, Unsigned rhs) noexcept
     -> bool
 {
     return (rhs ^ (rhs >> 1)) != lhs.value;
 }
 
 template<typename Unsigned>
-constexpr auto operator==(Unsigned lhs, gray_code<Unsigned> rhs)
+constexpr auto operator==(Unsigned lhs, gray_code<Unsigned> rhs) noexcept
     -> bool
 {
     return (lhs ^ (lhs >> 1)) == rhs.value;
 }
 
 template<typename Unsigned>
-constexpr auto operator!=(Unsigned lhs, gray_code<Unsigned> rhs)
+constexpr auto operator!=(Unsigned lhs, gray_code<Unsigned> rhs) noexcept
     -> bool
 {
     return (lhs ^ (lhs >> 1)) != rhs.value;
@@ -256,28 +256,28 @@ constexpr auto operator!=(Unsigned lhs, gray_code<Unsigned> rhs)
 // Bitwise operations
 
 template<typename Unsigned>
-auto operator&(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+auto operator&(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
     -> gray_code<Unsigned>
 {
     return lhs &= rhs;
 }
 
 template<typename Unsigned>
-auto operator|(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+auto operator|(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
     -> gray_code<Unsigned>
 {
     return lhs |= rhs;
 }
 
 template<typename Unsigned>
-auto operator^(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs)
+auto operator^(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
     -> gray_code<Unsigned>
 {
     return lhs ^= rhs;
 }
 
 template<typename Unsigned>
-auto operator~(gray_code<Unsigned> val)
+auto operator~(gray_code<Unsigned> val) noexcept
     -> gray_code<Unsigned>
 {
     val.value = ~val.value;
@@ -285,14 +285,14 @@ auto operator~(gray_code<Unsigned> val)
 }
 
 template<typename Unsigned>
-auto operator>>(gray_code<Unsigned> val, std::size_t pos)
+auto operator>>(gray_code<Unsigned> val, std::size_t pos) noexcept
     -> gray_code<Unsigned>
 {
     return val >>= pos;
 }
 
 template<typename Unsigned>
-auto operator<<(gray_code<Unsigned> val, std::size_t pos)
+auto operator<<(gray_code<Unsigned> val, std::size_t pos) noexcept
     -> gray_code<Unsigned>
 {
     return val <<= pos;
@@ -302,21 +302,21 @@ auto operator<<(gray_code<Unsigned> val, std::size_t pos)
 // Bitwise assignment operations
 
 template<typename Unsigned>
-auto operator&=(Unsigned& lhs, gray_code<Unsigned> rhs)
+auto operator&=(Unsigned& lhs, gray_code<Unsigned> rhs) noexcept
     -> Unsigned&
 {
     return lhs &= rhs.value;
 }
 
 template<typename Unsigned>
-auto operator|=(Unsigned& lhs, gray_code<Unsigned> rhs)
+auto operator|=(Unsigned& lhs, gray_code<Unsigned> rhs) noexcept
     -> Unsigned&
 {
     return lhs |= rhs.value;
 }
 
 template<typename Unsigned>
-auto operator^=(Unsigned& lhs, gray_code<Unsigned> rhs)
+auto operator^=(Unsigned& lhs, gray_code<Unsigned> rhs) noexcept
     -> Unsigned&
 {
     return lhs ^= rhs.value;
@@ -326,14 +326,14 @@ auto operator^=(Unsigned& lhs, gray_code<Unsigned> rhs)
 // Mathematical functions
 
 template<typename Unsigned>
-auto is_even(gray_code<Unsigned> code)
+auto is_even(gray_code<Unsigned> code) noexcept
     -> bool
 {
     return not is_odd(code);
 }
 
 template<typename Unsigned>
-auto is_odd(gray_code<Unsigned> code)
+auto is_odd(gray_code<Unsigned> code) noexcept
     -> bool
 {
     // A gray code is odd when the number
