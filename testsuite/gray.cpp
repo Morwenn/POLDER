@@ -166,6 +166,15 @@ TEST_CASE( "gray code increment", "[gray]" )
     {
         REQUIRE( val == i );
     }
+
+    SECTION( "circular overflow on increment" )
+    {
+        auto max_uint = std::numeric_limits<unsigned>::max();
+        auto gr = gray(max_uint);
+
+        ++gr;
+        REQUIRE( gr.value == 0u );
+    }
 }
 
 TEST_CASE( "gray code decrement", "[gray]" )
@@ -180,5 +189,14 @@ TEST_CASE( "gray code decrement", "[gray]" )
     for (auto val = gray(35u) ; val != gray(23u) ; val--, i--)
     {
         REQUIRE( val == i );
+    }
+
+    SECTION( "circular overflow on decrement" )
+    {
+        auto max_uint = std::numeric_limits<unsigned>::max();
+        auto gr = gray(0u);
+
+        --gr;
+        REQUIRE( gr == gray(max_uint) );
     }
 }

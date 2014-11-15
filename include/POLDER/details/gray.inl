@@ -62,10 +62,20 @@ template<typename Unsigned>
 auto gray_code<Unsigned>::operator++()
     -> gray_code&
 {
+    static constexpr value_type msb
+        = 1 << (std::numeric_limits<value_type>::digits - 1);
+
     if (is_odd(*this))
     {
-        auto y = value & -value;
-        value ^= (y << 1);
+        if (value == msb)
+        {
+            value = 0;
+        }
+        else
+        {
+            auto y = value & -value;
+            value ^= (y << 1);
+        }
     }
     else
     {
@@ -88,6 +98,9 @@ template<typename Unsigned>
 auto gray_code<Unsigned>::operator--()
     -> gray_code&
 {
+    static constexpr value_type msb
+        = 1 << (std::numeric_limits<value_type>::digits - 1);
+
     if (is_odd(*this))
     {
         // Flip rightmost bit
@@ -95,8 +108,15 @@ auto gray_code<Unsigned>::operator--()
     }
     else
     {
-        auto y = value & -value;
-        value ^= (y << 1);
+        if (value == 0)
+        {
+            value = msb;
+        }
+        else
+        {
+            auto y = value & -value;
+            value ^= (y << 1);
+        }
     }
     return *this;
 }
