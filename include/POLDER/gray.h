@@ -160,6 +160,13 @@ namespace polder
         -> bool;
 
     ////////////////////////////////////////////////////////////
+    // Arithmetic operations
+
+    template<typename Unsigned>
+    auto operator+(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
+        -> gray_code<Unsigned>;
+
+    ////////////////////////////////////////////////////////////
     // Bitwise operations
 
     template<typename Unsigned>

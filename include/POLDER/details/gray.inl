@@ -253,6 +253,31 @@ constexpr auto operator!=(Unsigned lhs, gray_code<Unsigned> rhs) noexcept
 }
 
 ////////////////////////////////////////////////////////////
+// Arithmetic operations
+
+template<typename Unsigned>
+auto operator+(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
+    -> gray_code<Unsigned>
+{
+    bool lhs_p = is_odd(lhs);
+    bool rhs_p = is_odd(rhs);
+
+    gray_code<Unsigned> res = lhs ^ rhs;
+    for (Unsigned i{} ; i < std::numeric_limits<Unsigned>::digits ; ++i)
+    {
+        Unsigned res_i = lhs_p & rhs_p;
+        res ^= res_i << i;
+
+        bool tmp = lhs_p;
+        bool lhs_i = (lhs.value >> i) & 1u;
+        bool rhs_i = (rhs.value >> i) & 1u;
+        lhs_p = (tmp & not rhs_p) ^ lhs_i;
+        rhs_p = (rhs_p & not tmp) ^ rhs_i;
+    }
+    return res;
+}
+
+////////////////////////////////////////////////////////////
 // Bitwise operations
 
 template<typename Unsigned>
