@@ -19,6 +19,7 @@
 #include <map>
 #include <tuple>
 #include <type_traits>
+#include <vector>
 #include <POLDER/compiler.h>
 #include <POLDER/iterator.h>
 #include "catch.hpp"
@@ -128,5 +129,26 @@ TEST_CASE( "get_iterator", "[iterator]" )
         value_it--;
         REQUIRE( *key_it == foo_it->first );
         REQUIRE( *value_it == foo_it->second );
+    }
+}
+
+TEST_CASE( "indirect_iterator", "[iterator]" )
+{
+    std::vector<int> vec = { 1, 2, 3, 4, 5, 6, 7 };
+
+    std::vector<int*> vec_ptr;
+    for (int& val: vec)
+    {
+        vec_ptr.push_back(&val);
+    }
+
+    using indirect_it_t = indirect_iterator<std::vector<int*>::iterator>;
+
+    auto int_it = std::begin(vec);
+    for (indirect_it_t indirect_it(std::begin(vec_ptr)) ;
+         int_it != std::end(vec) ;
+         ++int_it, ++indirect_it)
+    {
+        REQUIRE( *int_it == *indirect_it );
     }
 }

@@ -31,6 +31,16 @@ namespace details
             return std::get<N>(std::forward<T>(arg));
         }
     };
+
+    struct indirection
+    {
+        template<typename T>
+        auto operator()(T&& arg) const
+            -> decltype(auto)
+        {
+            return *std::forward<T>(arg);
+        }
+    };
 }
 
 ////////////////////////////////////////////////////////////

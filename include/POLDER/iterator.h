@@ -150,7 +150,7 @@ namespace polder
     #include "details/iterator.inl"
 
     /**
-     * @brief Iterator adapter.
+     * @brief Iterator adapter for std::get.
      *
      * Make an iterator which will get the nth
      * element of the object returned by the
@@ -159,10 +159,22 @@ namespace polder
      * for example.
      *
      * Useful to iterate through some specific std::pair
-     * or std::tuple elements.
+     * or std::tuple elements, for example only the keys
+     * or only the values of a std::map.
      */
     template<std::size_t N, typename Iterator>
     using get_iterator = transform_iterator<Iterator, details::getter<N>>;
+
+    /**
+     * @brief Iterator adapter for indirection.
+     *
+     * Make an iterator meant to iterate over a
+     * range of objects which can be dereferenced.
+     *
+     * Useful to iterate over a collection of pointers.
+     */
+    template<typename Iterator>
+    using indirect_iterator = transform_iterator<Iterator, details::indirection>;
 }
 
 #endif // POLDER_ITERATOR_H_
