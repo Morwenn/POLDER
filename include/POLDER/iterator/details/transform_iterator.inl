@@ -16,6 +16,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 
+////////////////////////////////////////////////////////////
+// Constructors
+
 template<typename Iterator, typename UnaryFunction>
 transform_iterator<Iterator, UnaryFunction>::transform_iterator()
     = default;
@@ -36,6 +39,9 @@ transform_iterator<Iterator, UnaryFunction>::transform_iterator(const transform_
     members{other.base(), std::get<1>(other.members)}
 {}
 
+////////////////////////////////////////////////////////////
+// Assignment operator
+
 template<typename Iterator, typename UnaryFunction>
 template<typename U>
 auto transform_iterator<Iterator, UnaryFunction>::operator=(const transform_iterator<U, UnaryFunction>& other)
@@ -51,12 +57,18 @@ auto transform_iterator<Iterator, UnaryFunction>::operator=(const transform_iter
     return *this;
 }
 
+////////////////////////////////////////////////////////////
+// Base iterator access
+
 template<typename Iterator, typename UnaryFunction>
 auto transform_iterator<Iterator, UnaryFunction>::base() const
     -> Iterator
 {
     return std::get<0>(members);
 }
+
+////////////////////////////////////////////////////////////
+// Element access
 
 template<typename Iterator, typename UnaryFunction>
 auto transform_iterator<Iterator, UnaryFunction>::operator*() const
@@ -71,6 +83,9 @@ auto transform_iterator<Iterator, UnaryFunction>::operator->() const
 {
     return &(operator*());
 }
+
+////////////////////////////////////////////////////////////
+// Increment/decrement operators
 
 template<typename Iterator, typename UnaryFunction>
 auto transform_iterator<Iterator, UnaryFunction>::operator++()
@@ -106,6 +121,9 @@ auto transform_iterator<Iterator, UnaryFunction>::operator--(int)
     return tmp;
 }
 
+////////////////////////////////////////////////////////////
+// Comparison operators
+
 template<typename Iterator1, typename Iterator2, typename UnaryFunction>
 auto operator==(const transform_iterator<Iterator1, UnaryFunction>& lhs,
                 const transform_iterator<Iterator2, UnaryFunction>& rhs)
@@ -121,6 +139,9 @@ auto operator!=(const transform_iterator<Iterator1, UnaryFunction>& lhs,
 {
     return lhs.base() != rhs.base();
 }
+
+////////////////////////////////////////////////////////////
+// Relational operators
 
 template<typename Iterator1, typename Iterator2, typename UnaryFunction>
 auto operator<(const transform_iterator<Iterator1, UnaryFunction>& lhs,
@@ -152,4 +173,14 @@ auto operator>=(const transform_iterator<Iterator1, UnaryFunction>& lhs,
     -> bool
 {
     return lhs.base() >= rhs.base();
+}
+
+////////////////////////////////////////////////////////////
+// Construction function
+
+template<typename Iterator, typename UnaryFunction>
+auto make_transform_iterator(Iterator it, UnaryFunction func)
+    -> transform_iterator<Iterator, UnaryFunction>
+{
+    return { it, func };
 }

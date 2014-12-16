@@ -93,8 +93,8 @@ TEST_CASE( "get_iterator", "[iterator]" )
     }
 
     auto foo_it = foo.begin();
-    key_it_t key_it(foo_it);
-    value_it_t value_it(foo_it);
+    auto key_it = make_get_iterator<0>(foo_it);
+    auto value_it = make_get_iterator<1>(foo_it);
 
     SECTION( "observers" )
     {
@@ -142,13 +142,10 @@ TEST_CASE( "indirect_iterator", "[iterator]" )
         vec_ptr.push_back(&val);
     }
 
-    using indirect_it_t = indirect_iterator<std::vector<int*>::iterator>;
-
-    auto int_it = std::begin(vec);
-    for (indirect_it_t indirect_it(std::begin(vec_ptr)) ;
-         int_it != std::end(vec) ;
-         ++int_it, ++indirect_it)
+    auto indirect_it = make_indirect_iterator(std::begin(vec_ptr));
+    for (int& val: vec)
     {
-        REQUIRE( *int_it == *indirect_it );
+        REQUIRE( val == *indirect_it );
+        ++indirect_it;
     }
 }

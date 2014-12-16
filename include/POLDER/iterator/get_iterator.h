@@ -57,6 +57,16 @@ namespace polder
      */
     template<std::size_t N, typename Iterator>
     using get_iterator = transform_iterator<Iterator, details::getter<N>>;
+
+    ////////////////////////////////////////////////////////////
+    // Construction function
+
+    template<std::size_t N, typename Iterator>
+    auto make_get_iterator(Iterator it)
+        -> get_iterator<N, Iterator>
+    {
+        return get_iterator<N, Iterator>(it);
+    }
 }
 
 #endif // POLDER_ITERATOR_GET_ITERATOR_H_

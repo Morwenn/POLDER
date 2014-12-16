@@ -50,6 +50,16 @@ namespace polder
      */
     template<typename Iterator>
     using indirect_iterator = transform_iterator<Iterator, details::indirection>;
+
+    ////////////////////////////////////////////////////////////
+    // Construction function
+
+    template<typename Iterator>
+    auto make_indirect_iterator(Iterator it)
+        -> indirect_iterator<Iterator>
+    {
+        return indirect_iterator<Iterator>(it);
+    }
 }
 
 #endif // POLDER_ITERATOR_INDIRECT_ITERATOR_H_
