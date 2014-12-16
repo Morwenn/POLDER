@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 Morwenn
+ * Copyright (C) 2014 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -15,81 +15,6 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-
-////////////////////////////////////////////////////////////
-// Global begin and end functions
-
-namespace details
-{
-    template<std::size_t N>
-    struct getter
-    {
-        template<typename T>
-        auto operator()(T&& arg) const
-            -> decltype(auto)
-        {
-            return std::get<N>(std::forward<T>(arg));
-        }
-    };
-
-    struct indirection
-    {
-        template<typename T>
-        auto operator()(T&& arg) const
-            -> decltype(auto)
-        {
-            return *std::forward<T>(arg);
-        }
-    };
-}
-
-////////////////////////////////////////////////////////////
-// Global begin and end functions
-
-template<typename T>
-auto rbegin(T& iterable)
-    -> decltype(iterable.rbegin())
-{
-    return iterable.rbegin();
-}
-
-template<typename T>
-auto rbegin(const T& iterable)
-    -> decltype(iterable.crbegin())
-{
-    return iterable.crbegin();
-}
-
-template<typename T, std::size_t N>
-auto rbegin(T (&array)[N])
-    -> std::reverse_iterator<T*>
-{
-    return std::reverse_iterator<T*>(std::end(array));
-}
-
-template<typename T>
-auto rend(T& iterable)
-    -> decltype(iterable.rend())
-{
-    return iterable.rend();
-}
-
-template<typename T>
-auto rend(const T& iterable)
-    -> decltype(iterable.crend())
-{
-    return iterable.crend();
-}
-
-template<typename T, std::size_t N>
-auto rend(T (&array)[N])
-    -> std::reverse_iterator<T*>
-{
-    return std::reverse_iterator<T*>(std::begin(array));
-}
-
-////////////////////////////////////////////////////////////
-// transform_iterator
 
 template<typename Iterator, typename UnaryFunction>
 transform_iterator<Iterator, UnaryFunction>::transform_iterator()

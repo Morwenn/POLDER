@@ -15,15 +15,41 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef POLDER_ITERATOR_H_
-#define POLDER_ITERATOR_H_
+#ifndef POLDER_ITERATOR_INDIRECT_ITERATOR_H_
+#define POLDER_ITERATOR_INDIRECT_ITERATOR_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <POLDER/iterator/get_iterator.h>
-#include <POLDER/iterator/indirect_iterator.h>
-#include <POLDER/iterator/range_access.h>
+#include <utility>
+#include <POLDER/details/config.h>
 #include <POLDER/iterator/transform_iterator.h>
 
-#endif // POLDER_ITERATOR_H_
+namespace polder
+{
+    namespace details
+    {
+        struct indirection
+        {
+            template<typename T>
+            auto operator()(T&& arg) const
+                -> decltype(auto)
+            {
+                return *std::forward<T>(arg);
+            }
+        };
+    }
+
+    /**
+     * @brief Iterator adapter for indirection.
+     *
+     * Make an iterator meant to iterate over a
+     * range of objects which can be dereferenced.
+     *
+     * Useful to iterate over a collection of pointers.
+     */
+    template<typename Iterator>
+    using indirect_iterator = transform_iterator<Iterator, details::indirection>;
+}
+
+#endif // POLDER_ITERATOR_INDIRECT_ITERATOR_H_
