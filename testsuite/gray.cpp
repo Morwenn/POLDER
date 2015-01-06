@@ -131,7 +131,7 @@ TEST_CASE( "unsigned-gray bitwise assignment operations", "[gray]" )
 TEST_CASE( "gray() function type inference", "[gray]" )
 {
     auto llgr = gray(8ull);
-    using value_type = typename decltype(llgr)::value_type;
+    using value_type = decltype(llgr)::value_type;
 
     static_assert(std::is_same<value_type, unsigned long long>::value, "");
 }
