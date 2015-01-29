@@ -255,6 +255,11 @@ constexpr auto operator!=(Unsigned lhs, gray_code<Unsigned> rhs) noexcept
 ////////////////////////////////////////////////////////////
 // Arithmetic operations
 
+// For details about the actual algorithm and the
+// hand-tuned optimizations, see this question:
+//
+//    http://codereview.stackexchange.com/q/69122/15094
+
 template<typename Unsigned>
 auto operator+(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
     -> gray_code<Unsigned>
@@ -263,16 +268,17 @@ auto operator+(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
     bool rhs_p = is_odd(rhs);
 
     gray_code<Unsigned> res = lhs ^ rhs;
-    for (Unsigned i{} ; i < std::numeric_limits<Unsigned>::digits ; ++i)
+    for (Unsigned i{} ;
+         i < std::numeric_limits<Unsigned>::digits ;
+         ++i, lhs >>= 1u, rhs >>= 1u)
     {
         Unsigned res_i = lhs_p & rhs_p;
         res ^= res_i << i;
 
-        bool tmp = lhs_p;
-        bool lhs_i = (lhs.value >> i) & 1u;
-        bool rhs_i = (rhs.value >> i) & 1u;
-        lhs_p = (tmp & not rhs_p) ^ lhs_i;
-        rhs_p = (rhs_p & not tmp) ^ rhs_i;
+        bool lhs_i = rhs.value & 1u;
+        bool rhs_i = lhs.value & 1u;
+        lhs_p = (lhs_p & not res_i) ^ lhs_i;
+        rhs_p = (rhs_p & not res_i) ^ rhs_i;
     }
     return res;
 }
