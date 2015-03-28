@@ -29,6 +29,11 @@ constexpr gray_code<Unsigned>::gray_code(value_type value) noexcept:
     value( (value >> 1) ^ value )
 {}
 
+template<typename Unsigned>
+constexpr gray_code<Unsigned>::gray_code(bool value) noexcept:
+    value(value)
+{}
+
 ////////////////////////////////////////////////////////////
 // Assignment operations
 
@@ -37,6 +42,14 @@ auto gray_code<Unsigned>::operator=(value_type other) & noexcept
     -> gray_code&
 {
     value = (other >> 1) ^ other;
+    return *this;
+}
+
+template<typename Unsigned>
+auto gray_code<Unsigned>::operator=(bool other) & noexcept
+    -> gray_code&
+{
+    value = other;
     return *this;
 }
 
@@ -53,6 +66,12 @@ gray_code<Unsigned>::operator value_type() const noexcept
         res ^= res >> mask;
     }
     return res;
+}
+
+template<typename Unsigned>
+constexpr gray_code<Unsigned>::operator bool() const noexcept
+{
+    return bool(value);
 }
 
 ////////////////////////////////////////////////////////////
@@ -150,6 +169,14 @@ auto gray_code<Unsigned>::operator&=(value_type other) noexcept
 }
 
 template<typename Unsigned>
+auto gray_code<Unsigned>::operator&=(bool other) noexcept
+    -> gray_code&
+{
+    value &= other;
+    return *this;
+}
+
+template<typename Unsigned>
 auto gray_code<Unsigned>::operator|=(gray_code other) noexcept
     -> gray_code&
 {
@@ -166,6 +193,14 @@ auto gray_code<Unsigned>::operator|=(value_type other) noexcept
 }
 
 template<typename Unsigned>
+auto gray_code<Unsigned>::operator|=(bool other) noexcept
+    -> gray_code&
+{
+    value |= other;
+    return *this;
+}
+
+template<typename Unsigned>
 auto gray_code<Unsigned>::operator^=(gray_code other) noexcept
     -> gray_code&
 {
@@ -175,6 +210,14 @@ auto gray_code<Unsigned>::operator^=(gray_code other) noexcept
 
 template<typename Unsigned>
 auto gray_code<Unsigned>::operator^=(value_type other) noexcept
+    -> gray_code&
+{
+    value ^= other;
+    return *this;
+}
+
+template<typename Unsigned>
+auto gray_code<Unsigned>::operator^=(bool other) noexcept
     -> gray_code&
 {
     value ^= other;
@@ -296,6 +339,51 @@ auto operator<<(gray_code<Unsigned> val, std::size_t pos) noexcept
     -> gray_code<Unsigned>
 {
     return val <<= pos;
+}
+
+////////////////////////////////////////////////////////////
+// Bitwise operations with bool
+
+template<typename Unsigned>
+auto operator&(gray_code<Unsigned> lhs, bool rhs)
+    -> gray_code<Unsigned>
+{
+    return lhs &= rhs;
+}
+
+template<typename Unsigned>
+auto operator&(bool lhs, gray_code<Unsigned> rhs)
+    -> gray_code<Unsigned>
+{
+    return rhs &= lhs;
+}
+
+template<typename Unsigned>
+auto operator|(gray_code<Unsigned> lhs, bool rhs)
+    -> gray_code<Unsigned>
+{
+    return lhs |= rhs;
+}
+
+template<typename Unsigned>
+auto operator|(bool lhs, gray_code<Unsigned> rhs)
+    -> gray_code<Unsigned>
+{
+    return rhs |= lhs;
+}
+
+template<typename Unsigned>
+auto operator^(gray_code<Unsigned> lhs, bool rhs)
+    -> gray_code<Unsigned>
+{
+    return lhs ^= rhs;
+}
+
+template<typename Unsigned>
+auto operator^(bool lhs, gray_code<Unsigned> rhs)
+    -> gray_code<Unsigned>
+{
+    return rhs ^= lhs;
 }
 
 ////////////////////////////////////////////////////////////

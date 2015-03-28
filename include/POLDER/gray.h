@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 Morwenn
+ * Copyright (C) 2011-2015 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -66,16 +66,23 @@ namespace polder
          */
         constexpr explicit gray_code(value_type value) noexcept;
 
+        /**
+         * @brief Construction from a boolean.
+         *
+         * Regular integers and Gray code have the same
+         * representation for 0 and 1, which are equivalent
+         * to the booleans false and true. Therefore, the
+         * construction from a boolean is a no-op.
+         */
+        constexpr gray_code(bool b) noexcept;
+
         ////////////////////////////////////////////////////////////
         // Assignment operations
 
-        /**
-         * @brief Assigns an unsigned integer.
-         *
-         * It works the same way as the equivalent
-         * constructor does.
-         */
         auto operator=(value_type other) & noexcept
+            -> gray_code&;
+
+        auto operator=(bool other) & noexcept
             -> gray_code&;
 
         ////////////////////////////////////////////////////////////
@@ -85,6 +92,8 @@ namespace polder
          * @brief Conversion to the underlying type.
          */
         explicit operator value_type() const noexcept;
+
+        constexpr operator bool() const noexcept;
 
         ////////////////////////////////////////////////////////////
         // Increment/decrement operations
@@ -106,15 +115,21 @@ namespace polder
             -> gray_code&;
         auto operator&=(value_type other) noexcept
             -> gray_code&;
+        auto operator&=(bool other) noexcept
+            -> gray_code&;
 
         auto operator|=(gray_code other) noexcept
             -> gray_code&;
         auto operator|=(value_type other) noexcept
             -> gray_code&;
+        auto operator|=(bool other) noexcept
+            -> gray_code&;
 
         auto operator^=(gray_code other) noexcept
             -> gray_code&;
         auto operator^=(value_type other) noexcept
+            -> gray_code&;
+        auto operator^=(bool other) noexcept
             -> gray_code&;
 
         auto operator>>=(std::size_t pos) noexcept
@@ -184,6 +199,33 @@ namespace polder
 
     template<typename Unsigned>
     auto operator<<(gray_code<Unsigned> val, std::size_t pos) noexcept
+        -> gray_code<Unsigned>;
+
+    ////////////////////////////////////////////////////////////
+    // Bitwise operations with bool
+
+    template<typename Unsigned>
+    auto operator&(gray_code<Unsigned> lhs, bool rhs)
+        -> gray_code<Unsigned>;
+
+    template<typename Unsigned>
+    auto operator&(bool lhs, gray_code<Unsigned> rhs)
+        -> gray_code<Unsigned>;
+
+    template<typename Unsigned>
+    auto operator|(gray_code<Unsigned> lhs, bool rhs)
+        -> gray_code<Unsigned>;
+
+    template<typename Unsigned>
+    auto operator|(bool lhs, gray_code<Unsigned> rhs)
+        -> gray_code<Unsigned>;
+
+    template<typename Unsigned>
+    auto operator^(gray_code<Unsigned> lhs, bool rhs)
+        -> gray_code<Unsigned>;
+
+    template<typename Unsigned>
+    auto operator^(bool lhs, gray_code<Unsigned> rhs)
         -> gray_code<Unsigned>;
 
     ////////////////////////////////////////////////////////////
