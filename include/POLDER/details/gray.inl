@@ -411,6 +411,16 @@ auto operator^=(Unsigned& lhs, gray_code<Unsigned> rhs) noexcept
 }
 
 ////////////////////////////////////////////////////////////
+// Utility functions
+
+template<typename Unsigned>
+auto swap(gray_code<Unsigned>& lhs, gray_code<Unsigned>& rhs) noexcept
+    -> void
+{
+    std::swap(lhs, rhs);
+}
+
+////////////////////////////////////////////////////////////
 // Mathematical functions
 
 template<typename Unsigned>

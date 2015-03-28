@@ -244,6 +244,13 @@ namespace polder
         -> Unsigned&;
 
     ////////////////////////////////////////////////////////////
+    // Utility functions
+
+    template<typename Unsigned>
+    auto swap(gray_code<Unsigned>& lhs, gray_code<Unsigned>& rhs) noexcept
+        -> void;
+
+    ////////////////////////////////////////////////////////////
     // Mathematical functions
 
     template<typename Unsigned>
