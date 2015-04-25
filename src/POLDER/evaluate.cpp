@@ -136,11 +136,11 @@ namespace
         { op_t::LT,     [](double a, double b) -> double { return a < b; } },
         { op_t::GT,     [](double a, double b) -> double { return a > b; } },
         { op_t::DIV,    [](double a, double b) -> double { return a / b; } },
-        { op_t::IDIV,   [](double a, double b) -> double { return (int) a / (int) b; } },
-        { op_t::MOD,    [](double a, double b) -> double { return (int) a % (int) b; } },
-        { op_t::BAND,   [](double a, double b) -> double { return (int) a & (int) b; } },
-        { op_t::BXOR,   [](double a, double b) -> double { return (int) a ^ (int) b; } },
-        { op_t::BOR,    [](double a, double b) -> double { return (int) a | (int) b; } },
+        { op_t::IDIV,   [](double a, double b) -> double { return (long long) a / (long long) b; } },
+        { op_t::MOD,    [](double a, double b) -> double { return (long long) a % (long long) b; } },
+        { op_t::BAND,   [](double a, double b) -> double { return (long long) a & (long long) b; } },
+        { op_t::BXOR,   [](double a, double b) -> double { return (long long) a ^ (long long) b; } },
+        { op_t::BOR,    [](double a, double b) -> double { return (long long) a | (long long) b; } },
         { op_t::EQ,     [](double a, double b) -> double { return a == b; } },
         { op_t::NE,     [](double a, double b) -> double { return a != b; } },
         { op_t::GE,     [](double a, double b) -> double { return a >= b; } },
@@ -150,8 +150,8 @@ namespace
         { op_t::OR,     [](double a, double b) -> double { return a || b; } },
         { op_t::POW,    [](double a, double b) -> double { return std::pow(a, b); } },
         { op_t::SPACE,  [](double a, double b) -> double { return (a < b) ? -1 : (a != b); } },
-        { op_t::LSHIFT, [](double a, double b) -> double { return (int) a << (int) b; } },
-        { op_t::RSHIFT, [](double a, double b) -> double { return (int) a >> (int) b; } }
+        { op_t::LSHIFT, [](double a, double b) -> double { return (long long) a << (long long) b; } },
+        { op_t::RSHIFT, [](double a, double b) -> double { return (long long) a >> (long long) b; } }
     };
 
     // Element types
