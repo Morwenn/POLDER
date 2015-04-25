@@ -25,6 +25,7 @@
 #include <limits>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <POLDER/details/config.h>
 #include <POLDER/math/details/cmath_base.h>
 
@@ -62,7 +63,7 @@ namespace polder
      */
     template<typename InputIt, typename UnaryOperation>
     auto range_map(InputIt first, InputIt last, UnaryOperation unary_op)
-        -> void;
+        -> UnaryOperation;
 
     /**
      * @brief Map a binary function to a range
@@ -77,7 +78,7 @@ namespace polder
      */
     template<typename InputIt1, typename InputIt2, typename BinaryOperation>
     auto range_map(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation binary_op)
-        -> void;
+        -> BinaryOperation;
 
     /**
      *
