@@ -84,6 +84,12 @@ namespace polder
     }
 
     ////////////////////////////////////////////////////////////
+    // Enum hasher type
+
+    template<typename Enum>
+    using enum_hash_t = std::hash<std::underlying_type_t<Enum>>;
+
+    ////////////////////////////////////////////////////////////
     // Static polymorphism tools
 
     /**
