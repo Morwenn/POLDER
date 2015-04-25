@@ -19,9 +19,11 @@
 #include <cmath>
 #include <sstream>
 #include <stack>
+#include <unordered_map>
 #include <vector>
 #include <POLDER/evaluate.h>
 #include <POLDER/math/factorial.h>
+#include <POLDER/utility.h>
 
 
 namespace polder
@@ -124,6 +126,32 @@ namespace
         8,   // <
         5,   // ^^
         11,  // //
+    };
+
+    // Operations corresponding to the operators
+    const std::unordered_map<op_t, double(*)(double, double), enum_hash_t<op_t>> _operation = {
+        { op_t::ADD,    [](double a, double b) -> double { return a + b; } },
+        { op_t::SUB,    [](double a, double b) -> double { return a - b; } },
+        { op_t::MUL,    [](double a, double b) -> double { return a * b; } },
+        { op_t::LT,     [](double a, double b) -> double { return a < b; } },
+        { op_t::GT,     [](double a, double b) -> double { return a > b; } },
+        { op_t::DIV,    [](double a, double b) -> double { return a / b; } },
+        { op_t::IDIV,   [](double a, double b) -> double { return (int) a / (int) b; } },
+        { op_t::MOD,    [](double a, double b) -> double { return (int) a % (int) b; } },
+        { op_t::BAND,   [](double a, double b) -> double { return (int) a & (int) b; } },
+        { op_t::BXOR,   [](double a, double b) -> double { return (int) a ^ (int) b; } },
+        { op_t::BOR,    [](double a, double b) -> double { return (int) a | (int) b; } },
+        { op_t::EQ,     [](double a, double b) -> double { return a == b; } },
+        { op_t::NE,     [](double a, double b) -> double { return a != b; } },
+        { op_t::GE,     [](double a, double b) -> double { return a >= b; } },
+        { op_t::LE,     [](double a, double b) -> double { return a <= b; } },
+        { op_t::AND,    [](double a, double b) -> double { return a && b; } },
+        { op_t::XOR,    [](double a, double b) -> double { return (a && !b) || (b && !a); } },
+        { op_t::OR,     [](double a, double b) -> double { return a || b; } },
+        { op_t::POW,    [](double a, double b) -> double { return std::pow(a, b); } },
+        { op_t::SPACE,  [](double a, double b) -> double { return (a < b) ? -1 : (a != b); } },
+        { op_t::LSHIFT, [](double a, double b) -> double { return (int) a << (int) b; } },
+        { op_t::RSHIFT, [](double a, double b) -> double { return (int) a >> (int) b; } }
     };
 
     // Element types
@@ -578,36 +606,12 @@ auto operation(double a, double b, op_t op)
     Token res;
     res.type = elem_t::OPERAND;
 
-    switch (op)
+    auto it = _operation.find(op);
+    if (it == _operation.end())
     {
-        case op_t::ADD: res.data = a + b; break;                     // +
-        case op_t::SUB: res.data = a - b; break;                     // -
-        case op_t::MUL: res.data = a * b; break;                     // *
-        case op_t::LT: res.data = a < b; break;                      // <
-        case op_t::GT: res.data = a > b; break;                      // >
-        case op_t::DIV: res.data = a / b; break;                     // /
-        case op_t::IDIV: res.data = (int) a / (int) b; break;        // //
-        case op_t::MOD: res.data = (int) a % (int) b; break;         // %
-        case op_t::BAND: res.data = (int) a & (int) b; break;        // &
-        case op_t::BXOR: res.data = (int) a ^ (int) b; break;        // ^
-        case op_t::BOR: res.data = (int) a | (int) b; break;         // |
-        case op_t::EQ: res.data = (a == b); break;                   // ==
-        case op_t::NE: res.data = (a != b); break;                   // != or <>
-        case op_t::GE: res.data = (a >= b); break;                   // >=
-        case op_t::LE: res.data = (a <= b); break;                   // <=
-        case op_t::AND: res.data = (a && b); break;                  // &&
-        case op_t::XOR: res.data = (a && !b) || (b && !a); break;    // ^^
-        case op_t::OR: res.data = (a || b); break;                   // ||
-        case op_t::POW: res.data = std::pow(a, b); break;            // **
-        case op_t::SPACE: res.data = (a < b) ? -1 : (a != b); break; // <=>
-        case op_t::LSHIFT: res.data = (int) a << (int) b; break;     // <<
-        case op_t::RSHIFT: res.data = (int) a >> (int) b; break;     // >>
-
-        // Should never happen
-        default:
-            throw evaluation_error();
+        throw evaluation_error(eval_error_code::UNKNOWN_OPERATOR, op);
     }
-    return res;
+    return it->second(a, b);
 }
 
 auto operation(double a, op_t op)
