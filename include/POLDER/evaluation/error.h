@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 Morwenn
+ * Copyright (C) 2011-2015 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -15,59 +15,61 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#ifndef POLDER_EVALUATE_H_
-#define POLDER_EVALUATE_H_
+#ifndef POLDER_EVALUATION_ERROR_H_
+#define POLDER_EVALUATION_ERROR_H_
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <cstdint>
 #include <exception>
 #include <string>
 #include <POLDER/details/config.h>
+#include <POLDER/evaluation/operator.h>
 
 namespace polder
 {
-    ////////////////////////////////////////////////////////////
-    // Functions
-    ////////////////////////////////////////////////////////////
-
+namespace evaluation
+{
     /**
-     * @brief Evaluates a mathematical/logical expression
-     *
-     * @param expr Expression to evaluate
-     * @return Result of the expression
+     * Error codes fed to the exceptions to specify
+     * which kind of error has been thrown.
      */
-    POLDER_API
-    auto evaluate(const std::string& expr)
-        -> double;
-
-    ////////////////////////////////////////////////////////////
-    // Errors/Exceptions handling
-    ////////////////////////////////////////////////////////////
-
-    // Evaluation error codes
-    enum struct eval_error_code;
+    enum struct error_code:
+        std::uint_fast8_t
+    {
+        unknown_operator,
+        unexpected_character,
+        not_enough_operands
+    };
 
     /**
      * Exceptions raised when a syntax error is
      * found in the expression to evaluate.
      */
-    class POLDER_API evaluation_error:
+    class POLDER_API error:
         public std::exception
     {
         public:
-            explicit evaluation_error();
-            explicit evaluation_error(const std::string& arg);
-            explicit evaluation_error(eval_error_code e, char c);
-            explicit evaluation_error(eval_error_code e, const std::string& arg);
-            virtual ~evaluation_error() noexcept override;
+
+            explicit error();
+            explicit error(const std::string& arg);
+            error(error_code err, char c);
+            error(error_code err, infix_t oper);
+            error(error_code err, prefix_t oper);
+            error(error_code err, postfix_t oper);
+            error(error_code err, const std::string& arg);
+
+            virtual ~error() override;
+
             virtual auto what() const noexcept
                 -> const char*
                 override;
 
         private:
+
             std::string msg; /**< Error message */
     };
-}
+}}
 
-#endif // POLDER_EVALUATE_H_
+#endif // POLDER_EVALUATION_ERROR_H_
