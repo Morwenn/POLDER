@@ -87,7 +87,18 @@ namespace polder
     // Enum hasher type
 
     template<typename Enum>
-    using enum_hash_t = std::hash<std::underlying_type_t<Enum>>;
+    struct enum_hash
+    {
+        auto operator()(Enum value) const
+            -> std::size_t
+        {
+            return std::hash<std::underlying_type_t<Enum>>()(
+                static_cast<std::underlying_type_t<Enum>>(
+                    value
+                )
+            );
+        }
+    };
 
     ////////////////////////////////////////////////////////////
     // Static polymorphism tools
