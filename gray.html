@@ -83,7 +83,7 @@ If any other type is passed, the compilation ill fail with an error message.</p>
 
 <dl class="member">
 <dt id="_CPPv2N9gray_codeI1TE5valueE">
-<span id="gray_code:T:::value__gray_code:T:::value_type"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt;::<a class="reference internal" href="#_CPPv2N9gray_codeI1TE10value_typeE" title="gray_code&lt;T&gt;::value_type">value_type</a> <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">value</code><a class="headerlink" href="#_CPPv2N9gray_codeI1TE5valueE" title="Permalink to this definition">¶</a></dt>
+<span id="gray_code:T:::value__gray_code:T:::value_type"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt;::<a class="reference internal" href="#_CPPv2N9gray_codeI1TE10value_typeE" title="gray_code&lt;T&gt;::value_type">value_type</a> <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">value</code><a class="headerlink" href="#_CPPv2N9gray_codeI1TE5valueE" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the underlying unsigned integer value whose bits are in Gray code order.</p>
 </dd></dl>
 
@@ -92,71 +92,128 @@ If any other type is passed, the compilation ill fail with an error message.</p>
 <p>Gray codes can be default-constructed or constructed from an instance of the underlying
 type or from a boolean. As of now, there isn&#8217;t any function to create a Gray code directly
 with its underlying value without a conversion.</p>
-<dl class="member">
-<dt>
-<code class="descname">gray_code&lt;T&gt;::gray_code() noexcept</code></dt>
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TE9gray_codeEv">
+<span id="gray_code:T:::gray_code"></span><code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">gray_code</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Default constructor. It initializes the underlying value with <span class="math">\(0\)</span>. There is no
 dedicated way to construct an uninitialized <code class="docutils literal"><span class="pre">gray_code</span></code> instance.</p>
 </dd></dl>
 
-<dl class="member">
-<dt>
-<code class="descname">explicit gray_code&lt;T&gt;::gray_code(value_type value) noexcept</code></dt>
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TE9gray_codeE10value_type">
+<span id="gray_code:T:::gray_code__value_type"></span><em class="property">explicit</em> <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">gray_code</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE10value_typeE" title="gray_code&lt;T&gt;::value_type">value_type</a> <em>value</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TE9gray_codeE10value_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes an instance of the underlying type and converts it to a Gray code. Note that
 <code class="docutils literal"><span class="pre">gray_code</span></code> is not meant to «&nbsp;be an integer&nbsp;», therefore all the conversions to and
 from the underlying type are <code class="docutils literal"><span class="pre">explicit</span></code> so that none of the types is considered more
 important than the other. It may sound quite philosophical, but that&#8217;s it.</p>
 </dd></dl>
 
-<dl class="member">
-<dt>
-<code class="descname">explicit gray_code&lt;T&gt;::gray_code(bool value) noexcept</code></dt>
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TE9gray_codeEb">
+<span id="gray_code:T:::gray_code__b"></span><em class="property">explicit</em> <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">gray_code</code><span class="sig-paren">(</span>bool <em>value</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TE9gray_codeEb" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Gray code and base <span class="math">\(2\)</span> representations for the numbers <span class="math">\(0\)</span> and <span class="math">\(1\)</span>
 are the same. Therefore, an <code class="docutils literal"><span class="pre">explicit</span></code> construction from a boolean type makes sense
 and is guaranteed not to perform any conversion.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="conversion-functions">
-<h2>2.2. Conversion functions<a class="headerlink" href="#conversion-functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="assignment-operations">
+<h2>2.2. Assignment operations<a class="headerlink" href="#assignment-operations" title="Permalink to this headline">¶</a></h2>
+<p>Basically, a <code class="docutils literal"><span class="pre">gray_code</span></code> can be assignment an instance from any type it can be constructed
+with. Moreover, the assignment operations that are not automatically generated by the compiler
+are lvalue-qualified so that expressions of the form <code class="docutils literal"><span class="pre">(a</span> <span class="pre">&amp;</span> <span class="pre">b)</span> <span class="pre">=</span> <span class="pre">c</span></code> are prohibited directly
+at compile time.</p>
+<dl class="function">
+<dt id="_CPPv2NRaSE10value_type">
+<span id="assign-operator__value_typeR"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; &amp; <code class="descclassname"></code><code class="descname">operator=</code><span class="sig-paren">(</span>value_type <em>other</em><span class="sig-paren">)</span> &amp; <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2NRaSE10value_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns an instance of its underlying type to the Gray code.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NRaSEb">
+<span id="assign-operator__bR"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; &amp; <code class="descclassname"></code><code class="descname">operator=</code><span class="sig-paren">(</span>bool <em>other</em><span class="sig-paren">)</span> &amp; <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2NRaSEb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns a boolean to the Gray code.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="conversion-operations">
+<h2>2.3. Conversion operations<a class="headerlink" href="#conversion-operations" title="Permalink to this headline">¶</a></h2>
 <p>Gray codes can be converted to their underlying type or to a boolean. Such a conversion is
 always explicit. Contrary to regular integers, there is no conversion allowed between a
 <code class="docutils literal"><span class="pre">gray_code&lt;unsigned&gt;</span></code> and a <code class="docutils literal"><span class="pre">gray_code&lt;unsigned</span> <span class="pre">long&gt;</span></code> for example. All conversions are
 <code class="docutils literal"><span class="pre">explicit</span></code> so that there are no unexpected conversions while trying to perform a bitwise
 operation between a Gray code and an instance of its underlying type for example.</p>
-<dl class="member">
-<dt>
-<code class="descname">explicit gray_code&lt;T&gt;::operator value_type() const noexcept</code></dt>
+<dl class="function">
+<dt id="_CPPv2NK9gray_codeI1TEcv10value_typeEv">
+<span id="gray_code:T:::castto-value_type-operatorC"></span><em class="property">explicit</em> <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator value_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2NK9gray_codeI1TEcv10value_typeEv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts the Gray code into its regular base <span class="math">\(2\)</span> representation.</p>
 </dd></dl>
 
-<dl class="member">
-<dt>
-<code class="descname">constexpr explicit gray_code&lt;T&gt;::operator bool() const noexcept</code></dt>
+<dl class="function">
+<dt id="_CPPv2NK9gray_codeI1TEcvbEv">
+<span id="gray_code:T:::castto-b-operatorCCE"></span><em class="property">explicit</em> <em class="property">constexpr</em> <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator bool</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">const</em> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2NK9gray_codeI1TEcvbEv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts the Gray code into a boolean. This function will return <code class="docutils literal"><span class="pre">false</span></code> if the Gray
 code is equal to <span class="math">\(0\)</span> and <code class="docutils literal"><span class="pre">true</span></code> otherwise.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="comparison-operations">
+<h2>2.4. Comparison operations<a class="headerlink" href="#comparison-operations" title="Permalink to this headline">¶</a></h2>
+<p>The equality operations are defined between Gray codes and between a Gray code and its
+underlying type. Those are arithmetic comparison operations, <em>not</em> bitwise comparison
+operations; a Gray is still an integer, albeit with a different bit representation.</p>
+<dl class="function">
+<dt id="_CPPv2eq9gray_codeI1TE9gray_codeI1TE">
+<span id="eq-operator__gray_code:T:.gray_code:T:CE"></span><em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">operator==</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2eq9gray_codeI1TE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2ne9gray_codeI1TE9gray_codeI1TE">
+<span id="neq-operator__gray_code:T:.gray_code:T:CE"></span><em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">operator!=</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2ne9gray_codeI1TE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2eq9gray_codeI1TE1T">
+<span id="eq-operator__gray_code:T:.TCE"></span><em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">operator==</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, T <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2eq9gray_codeI1TE1T" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2ne9gray_codeI1TE1T">
+<span id="neq-operator__gray_code:T:.TCE"></span><em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">operator!=</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, T <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2ne9gray_codeI1TE1T" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2eq1T9gray_codeI1TE">
+<span id="eq-operator__T.gray_code:T:CE"></span><em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">operator==</code><span class="sig-paren">(</span>T <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2eq1T9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2ne1T9gray_codeI1TE">
+<span id="neq-operator__T.gray_code:T:CE"></span><em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">operator!=</code><span class="sig-paren">(</span>T <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2ne1T9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>I don&#8217;t have a fast algorithm for Gray codes rich comparisons (<cite>&lt;</cite>, <cite>&lt;=</cite>, <cite>&gt;=</cite>, <cite>&gt;</cite>), so
+the richer comparison operators are not defined.</p>
+</div>
 <div class="section" id="bitwise-operations">
-<h2>2.3. Bitwise operations<a class="headerlink" href="#bitwise-operations" title="Permalink to this headline">¶</a></h2>
+<h2>2.5. Bitwise operations<a class="headerlink" href="#bitwise-operations" title="Permalink to this headline">¶</a></h2>
 <p>One of the main interests of Gray codes is their binary representation. Therefore,
 the class <code class="docutils literal"><span class="pre">gray_code</span></code> overloads the basic bitwise operators so that they work as
 expected in the most simple cases. First of all, these operators are overloaded to
 work between instances of the same <code class="docutils literal"><span class="pre">gray_code</span></code> specialization:</p>
 <dl class="function">
 <dt id="_CPPv2an9gray_codeI1TE9gray_codeI1TE">
-<span id="and-operator__gray_code:T:.gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator&amp;</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2an9gray_codeI1TE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<span id="and-operator__gray_code:T:.gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator&amp;</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2an9gray_codeI1TE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="_CPPv2or9gray_codeI1TE9gray_codeI1TE">
-<span id="or-operator__gray_code:T:.gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator|</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2or9gray_codeI1TE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<span id="or-operator__gray_code:T:.gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator|</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2or9gray_codeI1TE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="_CPPv2eo9gray_codeI1TE9gray_codeI1TE">
-<span id="xor-operator__gray_code:T:.gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator^</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2eo9gray_codeI1TE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<span id="xor-operator__gray_code:T:.gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator^</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2eo9gray_codeI1TE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
@@ -164,32 +221,194 @@ work between instances of the same <code class="docutils literal"><span class="p
 <span id="inv-operator__gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator~</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2co9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<p>The bitwise assignment operations are also overloaded between Gray codes:</p>
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEaNE9gray_codeI1TE">
+<span id="gray_code:T:::and-assign-operator__gray_code:T:"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator&amp;=</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; <em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEaNE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEoRE9gray_codeI1TE">
+<span id="gray_code:T:::or-assign-operator__gray_code:T:"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator|=</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; <em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEoRE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEeOE9gray_codeI1TE">
+<span id="gray_code:T:::xor-assign-operator__gray_code:T:"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator^=</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; <em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEeOE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Additionally, the bitwise assignment operations can be performed between a Gray code
+and its underlying type, in both directions:</p>
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEaNE10value_type">
+<span id="gray_code:T:::and-assign-operator__value_type"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator&amp;=</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE10value_typeE" title="gray_code&lt;T&gt;::value_type">value_type</a> <em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEaNE10value_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEoRE10value_type">
+<span id="gray_code:T:::or-assign-operator__value_type"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator|=</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE10value_typeE" title="gray_code&lt;T&gt;::value_type">value_type</a> <em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEoRE10value_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEeOE10value_type">
+<span id="gray_code:T:::xor-assign-operator__value_type"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator^=</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE10value_typeE" title="gray_code&lt;T&gt;::value_type">value_type</a> <em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEeOE10value_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2aNR1T9gray_codeI1TE">
+<span id="and-assign-operator__TR.gray_code:T:"></span>T &amp; <code class="descclassname"></code><code class="descname">operator&amp;=</code><span class="sig-paren">(</span>T &amp; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2aNR1T9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2oRR1T9gray_codeI1TE">
+<span id="or-assign-operator__TR.gray_code:T:"></span>T &amp; <code class="descclassname"></code><code class="descname">operator|=</code><span class="sig-paren">(</span>T &amp; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2oRR1T9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2eOR1T9gray_codeI1TE">
+<span id="xor-assign-operator__TR.gray_code:T:"></span>T &amp; <code class="descclassname"></code><code class="descname">operator^=</code><span class="sig-paren">(</span>T &amp; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2eOR1T9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Note that no type is more important than the other one between a <code class="docutils literal"><span class="pre">gray_code</span></code> and its
+underlying type, we don&#8217;t define <code class="docutils literal"><span class="pre">operator&amp;</span></code>, <code class="docutils literal"><span class="pre">operator|</span></code> and <code class="docutils literal"><span class="pre">operator^</span></code> between
+a Gray code and its underlying type. Since both types are equally important, there is
+no way we can choose a proper return type between the two of them without discrimination.
+If you want to perform a bitwise operation, either use two variables of the same type or
+use the compound assignment operators.</p>
+<p>However, the bitwise operations are defined with <code class="docutils literal"><span class="pre">bool</span></code> and make <code class="docutils literal"><span class="pre">gray_code</span></code> more
+important than <code class="docutils literal"><span class="pre">bool</span></code> (just like a bitwise operation between an <code class="docutils literal"><span class="pre">unsigned</span></code> and a
+<code class="docutils literal"><span class="pre">bool</span></code> will yield an <code class="docutils literal"><span class="pre">unsigned</span></code> instance). Compound assignment operations with a
+boolean on the left-hand side are not defined since they wouldn&#8217;t really make sense.
+The following bitwise operations are defined between <code class="docutils literal"><span class="pre">gray_code</span></code> and <code class="docutils literal"><span class="pre">bool</span></code>:</p>
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEaNEb">
+<span id="gray_code:T:::and-assign-operator__b"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator&amp;=</code><span class="sig-paren">(</span>bool <em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEaNEb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEoREb">
+<span id="gray_code:T:::or-assign-operator__b"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator|=</code><span class="sig-paren">(</span>bool <em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEoREb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEeOEb">
+<span id="gray_code:T:::xor-assign-operator__b"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator^=</code><span class="sig-paren">(</span>bool <em>other</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEeOEb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2an9gray_codeI1TEb">
+<span id="and-operator__gray_code:T:.b"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator&amp;</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, bool <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2an9gray_codeI1TEb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2anb9gray_codeI1TE">
+<span id="and-operator__b.gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator&amp;</code><span class="sig-paren">(</span>bool <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2anb9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2or9gray_codeI1TEb">
+<span id="or-operator__gray_code:T:.b"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator|</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, bool <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2or9gray_codeI1TEb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2orb9gray_codeI1TE">
+<span id="or-operator__b.gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator|</code><span class="sig-paren">(</span>bool <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2orb9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2eo9gray_codeI1TEb">
+<span id="xor-operator__gray_code:T:.b"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator^</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, bool <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2eo9gray_codeI1TEb" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2eob9gray_codeI1TE">
+<span id="xor-operator__b.gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator^</code><span class="sig-paren">(</span>bool <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2eob9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Finally, the bitwise shift operations are also defined for <code class="docutils literal"><span class="pre">gray_code</span></code>. Modelled after
+<code class="docutils literal"><span class="pre">std::bitset</span></code>, they can only take <code class="docutils literal"><span class="pre">std::size_t</span></code> on their right-hand side:</p>
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TErSENSt6size_tE">
+<span id="gray_code:T:::rshift-assign-operator__std::s"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator&gt;&gt;=</code><span class="sig-paren">(</span>std::size_t <em>shift</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TErSENSt6size_tE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TElSENSt6size_tE">
+<span id="gray_code:T:::lshift-assign-operator__std::s"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator&lt;&lt;=</code><span class="sig-paren">(</span>std::size_t <em>shift</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TElSENSt6size_tE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2rs9gray_codeI1TENSt6size_tE">
+<span id="rshift-operator__gray_code:T:.std::s"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator&gt;&gt;</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>value</em>, std::size_t <em>shift</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2rs9gray_codeI1TENSt6size_tE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2ls9gray_codeI1TENSt6size_tE">
+<span id="lshift-operator__gray_code:T:.std::s"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator&lt;&lt;</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>value</em>, std::size_t <em>shift</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2ls9gray_codeI1TENSt6size_tE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="arithmetic-operations">
-<h2>2.4. Arithmetic operations<a class="headerlink" href="#arithmetic-operations" title="Permalink to this headline">¶</a></h2>
+<h2>2.6. Arithmetic operations<a class="headerlink" href="#arithmetic-operations" title="Permalink to this headline">¶</a></h2>
 <p>As stated in the introduction, arithmetic operations are only implemented if they can
 be at least as fast if not even faster than converting the parameters to a base <span class="math">\(2\)</span>
 representation, performing an operation and converting the result back to a Gray code. The
 following arithmetic operations are defined on Gray codes:</p>
-<dl class="member">
-<dt>
-<code class="descname">gray_code&lt;T&gt;&amp; gray_code&lt;T&gt;::operator++() noexcept</code></dt>
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEppEv">
+<span id="gray_code:T:::inc-operator"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator++</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEppEv" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt>
-<code class="descname">gray_code&lt;T&gt; gray_code&lt;T&gt;::operator++(int) noexcept</code></dt>
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEppEi">
+<span id="gray_code:T:::inc-operator__i"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator++</code><span class="sig-paren">(</span>int<span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEppEi" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt>
-<code class="descname">gray_code&lt;T&gt;&amp; gray_code&lt;T&gt;::operator--() noexcept</code></dt>
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEmmEv">
+<span id="gray_code:T:::dec-operator"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; &amp; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator--</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEmmEv" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="member">
-<dt>
-<code class="descname">gray_code&lt;T&gt; gray_code&lt;T&gt;::operator--(int) noexcept</code></dt>
+<dl class="function">
+<dt id="_CPPv2N9gray_codeI1TEmmEi">
+<span id="gray_code:T:::dec-operator__i"></span><a class="reference internal" href="#_CPPv2N9gray_codeI1TE9gray_codeEv" title="gray_code&lt;T&gt;::gray_code">gray_code</a>&lt;T&gt; <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">operator--</code><span class="sig-paren">(</span>int<span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv2N9gray_codeI1TEmmEi" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<p>The incrementation and decrementation operators are circular, which means that if we try
+to increment the highest possible value for a type, we get the lowest possible value for
+this type, and it works the other way around for the decrementation.</p>
+<dl class="function">
+<dt id="_CPPv27is_even9gray_codeI1TE">
+<span id="is_even__gray_code:T:"></span>bool <code class="descclassname"></code><code class="descname">is_even</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>code</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv27is_even9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether a Gray code is even. A Gray code is even when its number of set bits
+is even. Therefore, when available, this function calls the <code class="docutils literal"><span class="pre">__builtin_parity</span></code> intrinsic
+which should be fast on architectures that store the parity bit. Generally speaking,
+some algorithms rely on this operation to beat the double conversion to base <span class="math">\(2\)</span> in
+some cases, so it is possible that the <code class="docutils literal"><span class="pre">gray_code</span></code> operations are slower than the naive
+ones on an architecture that does not store the parity bit.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv26is_odd9gray_codeI1TE">
+<span id="is_odd__gray_code:T:"></span>bool <code class="descclassname"></code><code class="descname">is_odd</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>code</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv26is_odd9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether a Gray code is odd.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="miscellaneous-functions">
+<h2>2.7. Miscellaneous functions<a class="headerlink" href="#miscellaneous-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="_CPPv24gray1T">
+<span id="gray__TCE"></span><em class="property">constexpr</em> <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">gray</code><span class="sig-paren">(</span>T <em>value</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv24gray1T" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construction function. Deduces the type of the parameter (only unsigned types are accepted)
+and returns a <code class="docutils literal"><span class="pre">gray_code</span></code> with the corresponding underlying type.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv24swapR9gray_codeI1TER9gray_codeI1TE">
+<span id="swap__gray_code:T:R.gray_code:T:R"></span>void <code class="descclassname"></code><code class="descname">swap</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; &amp; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; &amp; <em>rhs</em><span class="sig-paren">)</span> <em class="property">noexcept</em><a class="headerlink" href="#_CPPv24swapR9gray_codeI1TER9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Swaps two Gray codes by swapping their <code class="docutils literal"><span class="pre">value</span></code> member.</p>
+</dd></dl>
 
 </div>
 </div>
@@ -204,9 +423,12 @@ following arithmetic operations are defined on Gray codes:</p>
   <ul>
 <li><a class="reference internal" href="#">2. <code class="docutils literal"><span class="pre">gray</span></code> &#8212; Gray codes</a><ul>
 <li><a class="reference internal" href="#construction-functions">2.1. Construction functions</a></li>
-<li><a class="reference internal" href="#conversion-functions">2.2. Conversion functions</a></li>
-<li><a class="reference internal" href="#bitwise-operations">2.3. Bitwise operations</a></li>
-<li><a class="reference internal" href="#arithmetic-operations">2.4. Arithmetic operations</a></li>
+<li><a class="reference internal" href="#assignment-operations">2.2. Assignment operations</a></li>
+<li><a class="reference internal" href="#conversion-operations">2.3. Conversion operations</a></li>
+<li><a class="reference internal" href="#comparison-operations">2.4. Comparison operations</a></li>
+<li><a class="reference internal" href="#bitwise-operations">2.5. Bitwise operations</a></li>
+<li><a class="reference internal" href="#arithmetic-operations">2.6. Arithmetic operations</a></li>
+<li><a class="reference internal" href="#miscellaneous-functions">2.7. Miscellaneous functions</a></li>
 </ul>
 </li>
 </ul>
