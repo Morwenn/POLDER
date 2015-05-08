@@ -74,7 +74,7 @@ namespace polder
          * to the booleans false and true. Therefore, the
          * construction from a boolean is a no-op.
          */
-        constexpr gray_code(bool b) noexcept;
+        constexpr explicit gray_code(bool b) noexcept;
 
         ////////////////////////////////////////////////////////////
         // Assignment operations
@@ -93,7 +93,7 @@ namespace polder
          */
         explicit operator value_type() const noexcept;
 
-        constexpr operator bool() const noexcept;
+        constexpr explicit operator bool() const noexcept;
 
         ////////////////////////////////////////////////////////////
         // Increment/decrement operations
