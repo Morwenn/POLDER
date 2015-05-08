@@ -264,21 +264,43 @@ template<typename Unsigned>
 auto operator+(gray_code<Unsigned> lhs, gray_code<Unsigned> rhs) noexcept
     -> gray_code<Unsigned>
 {
+    if (lhs.value < rhs.value)
+    {
+        std::swap(lhs, rhs);
+    }
+
     bool lhs_p = is_odd(lhs);
     bool rhs_p = is_odd(rhs);
 
     gray_code<Unsigned> res = lhs ^ rhs;
-    for (Unsigned i{} ;
-         i < std::numeric_limits<Unsigned>::digits ;
-         ++i, lhs >>= 1u, rhs >>= 1u)
+    Unsigned i{};
+
+    // Algorithm until the smallest number is zero
+    while (rhs)
     {
         Unsigned res_i = lhs_p & rhs_p;
         res ^= res_i << i;
 
-        bool lhs_i = rhs.value & 1u;
-        bool rhs_i = lhs.value & 1u;
+        bool lhs_i = lhs.value & 1u;
+        bool rhs_i = rhs.value & 1u;
         lhs_p = (lhs_p & not res_i) ^ lhs_i;
         rhs_p = (rhs_p & not res_i) ^ rhs_i;
+
+        ++i;
+        lhs >>= 1u;
+        rhs >>= 1u;
+    }
+
+    // Algorithm until the largest number is zero
+    if (rhs_p)
+    {
+        while (not lhs_p)
+        {
+            lhs_p = lhs.value & 1u;
+            ++i;
+            lhs >>= 1u;
+        }
+        res ^= lhs_p << i;
     }
     return res;
 }

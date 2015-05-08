@@ -24,6 +24,7 @@
 #include <cstddef>
 #include <limits>
 #include <type_traits>
+#include <utility>
 #include <POLDER/details/config.h>
 
 namespace polder
