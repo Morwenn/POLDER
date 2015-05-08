@@ -6,9 +6,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>2.1. cmath — Common mathematical functions &mdash; POLDER 1.0.0 documentation</title>
+    <title>3.1. cmath — Common mathematical functions &mdash; POLDER 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,14 +23,18 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
-    <link rel="up" title="2. math — Mathematical module" href="math.html" />
-    <link rel="next" title="2.2. formula — Miscellaneous mathematical formula" href="math.formula.html" />
-    <link rel="prev" title="2. math — Mathematical module" href="math.html" /> 
+    <link rel="up" title="3. math — Mathematical module" href="math.html" />
+    <link rel="next" title="3.2. formula — Miscellaneous mathematical formula" href="math.formula.html" />
+    <link rel="prev" title="3. math — Mathematical module" href="math.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -40,96 +44,96 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="math.formula.html" title="2.2. formula — Miscellaneous mathematical formula"
+          <a href="math.formula.html" title="3.2. formula — Miscellaneous mathematical formula"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="math.html" title="2. math — Mathematical module"
+          <a href="math.html" title="3. math — Mathematical module"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
-          <li><a href="math.html" accesskey="U">2. <tt class="docutils literal"><span class="pre">math</span></tt> &#8212; Mathematical module</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="math.html" accesskey="U">3. <code class="docutils literal"><span class="pre">math</span></code> &#8212; Mathematical module</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-cmath">
-<span id="cmath-common-mathematical-functions"></span><h1>2.1. <a class="reference internal" href="#module-cmath" title="cmath"><tt class="xref py py-mod docutils literal"><span class="pre">cmath</span></tt></a> &#8212; Common mathematical functions<a class="headerlink" href="#module-cmath" title="Permalink to this headline">¶</a></h1>
-<p>The functions in the <a class="reference internal" href="#module-cmath" title="cmath"><tt class="xref py py-mod docutils literal"><span class="pre">cmath</span></tt></a> module are meant to mimic the ones from
-the <tt class="docutils literal"><span class="pre">&lt;cmath&gt;</span></tt> standard library header. The main difference is that they
-all live in the subnamespace <tt class="docutils literal"><span class="pre">polder::math::meta</span></tt> and are explicitly meant
+<span id="cmath-common-mathematical-functions"></span><h1>3.1. <a class="reference internal" href="#module-cmath" title="cmath"><code class="xref py py-mod docutils literal"><span class="pre">cmath</span></code></a> &#8212; Common mathematical functions<a class="headerlink" href="#module-cmath" title="Permalink to this headline">¶</a></h1>
+<p>The functions in the <a class="reference internal" href="#module-cmath" title="cmath"><code class="xref py py-mod docutils literal"><span class="pre">cmath</span></code></a> module are meant to mimic the ones from
+the <code class="docutils literal"><span class="pre">&lt;cmath&gt;</span></code> standard library header. The main difference is that they
+all live in the subnamespace <code class="docutils literal"><span class="pre">polder::math::meta</span></code> and are explicitly meant
 to be used at compile time.</p>
-<p>Some of the functions in this module are less versatile than their <tt class="docutils literal"><span class="pre">&lt;cmath&gt;</span></tt>
+<p>Some of the functions in this module are less versatile than their <code class="docutils literal"><span class="pre">&lt;cmath&gt;</span></code>
 counterparts (<em>e.g.</em> <em>pow</em>) while some of them are more versatile (<em>e.g</em>
 <em>min</em> and <em>max</em>). Since the functions are generic, the original names
 have been stripped from their type-specific prefixes and suffixes.</p>
 <div class="section" id="basic-functions">
-<h2>2.1.1. Basic functions<a class="headerlink" href="#basic-functions" title="Permalink to this headline">¶</a></h2>
+<h2>3.1.1. Basic functions<a class="headerlink" href="#basic-functions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="math::meta::abs__NumberCE">
-<em class="property">constexpr</em> Number <tt class="descclassname">math::meta::</tt><tt class="descname">abs</tt><big>(</big>Number <em>x</em><big>)</big><a class="headerlink" href="#math::meta::abs__NumberCE" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4meta3absE6Number">
+<span id="math::meta::abs__NumberCE"></span><em class="property">constexpr</em> Number <code class="descclassname">math::meta::</code><code class="descname">abs</code><span class="sig-paren">(</span>Number <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4math4meta3absE6Number" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the absolute value of <em>x</em>.</p>
 </dd></dl>
 
 <dl class="function">
-<dt>
-<tt class="descname">constexpr CommonType math::meta::min(T first, U second, Rest... rest)</tt></dt>
+<dt id="_CPPv2N4math4meta3minE1T1UDp4Rest">
+<span id="math::meta::min__T.U.RestDpCE"></span><em class="property">constexpr</em> CommonType <code class="descclassname">math::meta::</code><code class="descname">min</code><span class="sig-paren">(</span>T <em>first</em>, U <em>second</em>, Rest... <em>rest</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4math4meta3minE1T1UDp4Rest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the smallest of two or more arguments. If the arguments have different types,
 the result type will be the common type of the different arguments,
-<tt class="docutils literal"><span class="pre">std::common_type_t&lt;T,</span> <span class="pre">U,</span> <span class="pre">Rest...&gt;</span></tt>.</p>
+<code class="docutils literal"><span class="pre">std::common_type_t&lt;T,</span> <span class="pre">U,</span> <span class="pre">Rest...&gt;</span></code>.</p>
 </dd></dl>
 
 <dl class="function">
-<dt>
-<tt class="descname">constexpr CommonType math::meta::max(T first, U second, Rest... rest)</tt></dt>
+<dt id="_CPPv2N4math4meta3maxE1T1UDp4Rest">
+<span id="math::meta::max__T.U.RestDpCE"></span><em class="property">constexpr</em> CommonType <code class="descclassname">math::meta::</code><code class="descname">max</code><span class="sig-paren">(</span>T <em>first</em>, U <em>second</em>, Rest... <em>rest</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4math4meta3maxE1T1UDp4Rest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the largest of two or more arguments. If the arguments have different types,
 the result type will be the common type of the different arguments,
-<tt class="docutils literal"><span class="pre">std::common_type_t&lt;T,</span> <span class="pre">U,</span> <span class="pre">Rest...&gt;</span></tt>.</p>
+<code class="docutils literal"><span class="pre">std::common_type_t&lt;T,</span> <span class="pre">U,</span> <span class="pre">Rest...&gt;</span></code>.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="number-theoretic-and-representation-functions">
-<h2>2.1.2. Number-theoretic and representation functions<a class="headerlink" href="#number-theoretic-and-representation-functions" title="Permalink to this headline">¶</a></h2>
+<h2>3.1.2. Number-theoretic and representation functions<a class="headerlink" href="#number-theoretic-and-representation-functions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="math::meta::floor__FloatCE">
-<em class="property">constexpr</em> Float <tt class="descclassname">math::meta::</tt><tt class="descname">floor</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::floor__FloatCE" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4meta5floorE5Float">
+<span id="math::meta::floor__FloatCE"></span><em class="property">constexpr</em> Float <code class="descclassname">math::meta::</code><code class="descname">floor</code><span class="sig-paren">(</span>Float <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4math4meta5floorE5Float" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the nearest integer not greater than <em>x</em>.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="math::meta::ceil__FloatCE">
-<em class="property">constexpr</em> Float <tt class="descclassname">math::meta::</tt><tt class="descname">ceil</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::ceil__FloatCE" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4meta4ceilE5Float">
+<span id="math::meta::ceil__FloatCE"></span><em class="property">constexpr</em> Float <code class="descclassname">math::meta::</code><code class="descname">ceil</code><span class="sig-paren">(</span>Float <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4math4meta4ceilE5Float" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the nearest integer not less than <em>x</em>.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="math::meta::round__FloatCE">
-<em class="property">constexpr</em> Float <tt class="descclassname">math::meta::</tt><tt class="descname">round</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::round__FloatCE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the nearest integer, rounding away from zero in halfway cases.</p>
+<dt id="_CPPv2N4math4meta5roundE5Float">
+<span id="math::meta::round__FloatCE"></span><em class="property">constexpr</em> Float <code class="descclassname">math::meta::</code><code class="descname">round</code><span class="sig-paren">(</span>Float <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4math4meta5roundE5Float" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the nearest integer to <em>x</em>, rounding away from zero in halfway cases.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="math::meta::trunc__FloatCE">
-<em class="property">constexpr</em> Float <tt class="descclassname">math::meta::</tt><tt class="descname">trunc</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::trunc__FloatCE" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4meta5truncE5Float">
+<span id="math::meta::trunc__FloatCE"></span><em class="property">constexpr</em> Float <code class="descclassname">math::meta::</code><code class="descname">trunc</code><span class="sig-paren">(</span>Float <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4math4meta5truncE5Float" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the nearest integer not greater in magnitude than <em>x</em>.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="power-and-logarithmic-functions">
-<h2>2.1.3. Power and logarithmic functions<a class="headerlink" href="#power-and-logarithmic-functions" title="Permalink to this headline">¶</a></h2>
+<h2>3.1.3. Power and logarithmic functions<a class="headerlink" href="#power-and-logarithmic-functions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="math::meta::pow__T.IntegerCE">
-<em class="property">constexpr</em> CommonType <tt class="descclassname">math::meta::</tt><tt class="descname">pow</tt><big>(</big>T <em>value</em>, Integer <em>exponent</em><big>)</big><a class="headerlink" href="#math::meta::pow__T.IntegerCE" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4meta3powE1T7Integer">
+<span id="math::meta::pow__T.IntegerCE"></span><em class="property">constexpr</em> CommonType <code class="descclassname">math::meta::</code><code class="descname">pow</code><span class="sig-paren">(</span>T <em>value</em>, Integer <em>exponent</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4math4meta3powE1T7Integer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <em>value</em> raised to the power <em>exponent</em>.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="math::meta::sqrt__FloatCE">
-<em class="property">constexpr</em> Float <tt class="descclassname">math::meta::</tt><tt class="descname">sqrt</tt><big>(</big>Float <em>x</em><big>)</big><a class="headerlink" href="#math::meta::sqrt__FloatCE" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4meta4sqrtE5Float">
+<span id="math::meta::sqrt__FloatCE"></span><em class="property">constexpr</em> Float <code class="descclassname">math::meta::</code><code class="descname">sqrt</code><span class="sig-paren">(</span>Float <em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4math4meta4sqrtE5Float" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the square root of <em>x</em>.</p>
-<p><em>Precondition:</em> <tt class="docutils literal"><span class="pre">x</span> <span class="pre">&gt;=</span> <span class="pre">0</span></tt>.</p>
+<p><em>Precondition:</em> <code class="docutils literal"><span class="pre">x</span> <span class="pre">&gt;=</span> <span class="pre">0</span></code>.</p>
 </dd></dl>
 
 </div>
@@ -139,30 +143,32 @@ the result type will be the common type of the different arguments,
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">2.1. <tt class="docutils literal"><span class="pre">cmath</span></tt> &#8212; Common mathematical functions</a><ul>
-<li><a class="reference internal" href="#basic-functions">2.1.1. Basic functions</a></li>
-<li><a class="reference internal" href="#number-theoretic-and-representation-functions">2.1.2. Number-theoretic and representation functions</a></li>
-<li><a class="reference internal" href="#power-and-logarithmic-functions">2.1.3. Power and logarithmic functions</a></li>
+<li><a class="reference internal" href="#">3.1. <code class="docutils literal"><span class="pre">cmath</span></code> &#8212; Common mathematical functions</a><ul>
+<li><a class="reference internal" href="#basic-functions">3.1.1. Basic functions</a></li>
+<li><a class="reference internal" href="#number-theoretic-and-representation-functions">3.1.2. Number-theoretic and representation functions</a></li>
+<li><a class="reference internal" href="#power-and-logarithmic-functions">3.1.3. Power and logarithmic functions</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="math.html"
-                        title="previous chapter">2. <tt class="docutils literal"><span class="pre">math</span></tt> &#8212; Mathematical module</a></p>
+                        title="previous chapter">3. <code class="docutils literal"><span class="pre">math</span></code> &#8212; Mathematical module</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="math.formula.html"
-                        title="next chapter">2.2. <tt class="docutils literal"><span class="pre">formula</span></tt> &#8212; Miscellaneous mathematical formula</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/math.cmath.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+                        title="next chapter">3.2. <code class="docutils literal"><span class="pre">formula</span></code> &#8212; Miscellaneous mathematical formula</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/math.cmath.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -179,28 +185,20 @@ the result type will be the common type of the different arguments,
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="math.formula.html" title="2.2. formula — Miscellaneous mathematical formula"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="math.html" title="2. math — Mathematical module"
-             >previous</a> |</li>
-        <li><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
-          <li><a href="math.html" >2. <tt class="docutils literal"><span class="pre">math</span></tt> &#8212; Mathematical module</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2014, Morwenn.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      &copy;2015, Morwenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/math.cmath.txt"
+          rel="nofollow">Page source</a></li>
     </div>
+
+    
+
+    
   </body>
 </html>

@@ -47,7 +47,7 @@ Number-theoretic and representation functions
 
 .. cpp:function:: constexpr Float math::meta::round(Float x)
 
-    Return the nearest integer, rounding away from zero in halfway cases.
+    Return the nearest integer to *x*, rounding away from zero in halfway cases.
 
 .. cpp:function:: constexpr Float math::meta::trunc(Float x)
 

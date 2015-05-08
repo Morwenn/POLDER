@@ -6,9 +6,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>2.4. distnorm — Mathematical distances and norms &mdash; POLDER 1.0.0 documentation</title>
+    <title>3.4. distnorm — Mathematical distances and norms &mdash; POLDER 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,14 +23,18 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
-    <link rel="up" title="2. math — Mathematical module" href="math.html" />
-    <link rel="next" title="2.5. factorial — Factorial-related mathematical formula" href="math.factorial.html" />
-    <link rel="prev" title="2.3. constants — Mathematical constants" href="math.constants.html" /> 
+    <link rel="up" title="3. math — Mathematical module" href="math.html" />
+    <link rel="next" title="3.5. factorial — Factorial-related mathematical formula" href="math.factorial.html" />
+    <link rel="prev" title="3.3. constants — Mathematical constants" href="math.constants.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -40,95 +44,95 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="math.factorial.html" title="2.5. factorial — Factorial-related mathematical formula"
+          <a href="math.factorial.html" title="3.5. factorial — Factorial-related mathematical formula"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="math.constants.html" title="2.3. constants — Mathematical constants"
+          <a href="math.constants.html" title="3.3. constants — Mathematical constants"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
-          <li><a href="math.html" accesskey="U">2. <tt class="docutils literal"><span class="pre">math</span></tt> &#8212; Mathematical module</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="math.html" accesskey="U">3. <code class="docutils literal"><span class="pre">math</span></code> &#8212; Mathematical module</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-distnorm">
-<span id="distnorm-mathematical-distances-and-norms"></span><h1>2.4. <a class="reference internal" href="#module-distnorm" title="distnorm"><tt class="xref py py-mod docutils literal"><span class="pre">distnorm</span></tt></a> &#8212; Mathematical distances and norms<a class="headerlink" href="#module-distnorm" title="Permalink to this headline">¶</a></h1>
+<span id="distnorm-mathematical-distances-and-norms"></span><h1>3.4. <a class="reference internal" href="#module-distnorm" title="distnorm"><code class="xref py py-mod docutils literal"><span class="pre">distnorm</span></code></a> &#8212; Mathematical distances and norms<a class="headerlink" href="#module-distnorm" title="Permalink to this headline">¶</a></h1>
 <p>This module defines tag types that represent mathematical distances and norms.
 These tags can be used to specify which distance or norm should be used when
 computing functions such as a vector norm, a matrix norm or the distance between
-two geometric entities. The module is divided in two namespaces: <tt class="docutils literal"><span class="pre">math::dist</span></tt>
-and <tt class="docutils literal"><span class="pre">math::norm</span></tt>.</p>
+two geometric entities. The module is divided in two namespaces: <code class="docutils literal"><span class="pre">math::dist</span></code>
+and <code class="docutils literal"><span class="pre">math::norm</span></code>.</p>
 <div class="section" id="distance-tag-types">
-<h2>2.4.1. Distance tag types<a class="headerlink" href="#distance-tag-types" title="Permalink to this headline">¶</a></h2>
-<p>All of the following tag types live in the namespace <tt class="docutils literal"><span class="pre">math::dist</span></tt>:</p>
+<h2>3.4.1. Distance tag types<a class="headerlink" href="#distance-tag-types" title="Permalink to this headline">¶</a></h2>
+<p>All of the following tag types live in the namespace <code class="docutils literal"><span class="pre">math::dist</span></code>:</p>
 <dl class="type">
-<dt id="math::dist::manhattan">
-<em class="property">type </em><tt class="descclassname">math::dist::</tt><tt class="descname">manhattan</tt><a class="headerlink" href="#math::dist::manhattan" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4dist9manhattanE">
+<span id="math::dist::manhattan"></span><em class="property">type </em><code class="descclassname">math::dist::</code><code class="descname">manhattan</code><a class="headerlink" href="#_CPPv2N4math4dist9manhattanE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tag for the <a class="reference external" href="http://en.wikipedia.org/wiki/Taxicab_geometry#Formal_definition">Manhattan distance</a>: <span class="math">\(d(\mathbf{p}, \mathbf{q}) = \sum\limits_{i=1}^n |p_i - q_i|\)</span>.</p>
 </dd></dl>
 
 <dl class="type">
-<dt id="math::dist::euclidean">
-<em class="property">type </em><tt class="descclassname">math::dist::</tt><tt class="descname">euclidean</tt><a class="headerlink" href="#math::dist::euclidean" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4dist9euclideanE">
+<span id="math::dist::euclidean"></span><em class="property">type </em><code class="descclassname">math::dist::</code><code class="descname">euclidean</code><a class="headerlink" href="#_CPPv2N4math4dist9euclideanE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tag for the <a class="reference external" href="http://en.wikipedia.org/wiki/Euclidean_distance">Euclidean distance</a>: <span class="math">\(d(\mathbf{p}, \mathbf{q}) = \sqrt{\sum\limits_{i=1}^n (p_i - q_i)^2}\)</span>.</p>
 </dd></dl>
 
 <dl class="type">
-<dt id="math::dist::chebyshev">
-<em class="property">type </em><tt class="descclassname">math::dist::</tt><tt class="descname">chebyshev</tt><a class="headerlink" href="#math::dist::chebyshev" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4dist9chebyshevE">
+<span id="math::dist::chebyshev"></span><em class="property">type </em><code class="descclassname">math::dist::</code><code class="descname">chebyshev</code><a class="headerlink" href="#_CPPv2N4math4dist9chebyshevE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tag for the <a class="reference external" href="http://en.wikipedia.org/wiki/Chebyshev_distance">Chebyshev distance</a>: <span class="math">\(d(\mathbf{p}, \mathbf{q}) = \max_i(|p_i - q_i|)\)</span>.</p>
 </dd></dl>
 
 <dl class="type">
-<dt id="math::dist::minkowski">
-<em class="property">type </em><tt class="descclassname">math::dist::</tt><tt class="descname">minkowski</tt><a class="headerlink" href="#math::dist::minkowski" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4dist9minkowskiE">
+<span id="math::dist::minkowski"></span><em class="property">type </em><code class="descclassname">math::dist::</code><code class="descname">minkowski</code><a class="headerlink" href="#_CPPv2N4math4dist9minkowskiE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tag for the <a class="reference external" href="http://en.wikipedia.org/wiki/Minkowski_distance">Minkowski distance</a>: <span class="math">\(d(\mathbf{p}, \mathbf{q}) = \left(\sum\limits_{i=1}^n |p_i - q_i|^p\right)^{1/p}\)</span>.</p>
 </dd></dl>
 
 <dl class="type">
-<dt id="math::dist::canberra">
-<em class="property">type </em><tt class="descclassname">math::dist::</tt><tt class="descname">canberra</tt><a class="headerlink" href="#math::dist::canberra" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4dist8canberraE">
+<span id="math::dist::canberra"></span><em class="property">type </em><code class="descclassname">math::dist::</code><code class="descname">canberra</code><a class="headerlink" href="#_CPPv2N4math4dist8canberraE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tag for the <a class="reference external" href="http://en.wikipedia.org/wiki/Canberra_distance">Canberra distance</a>: <span class="math">\(d(\mathbf{p}, \mathbf{q}) = \sum_{i=1}^n \frac{|p_i-q_i|}{|p_i|+|q_i|}\)</span>.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="norm-tag-types">
-<h2>2.4.2. Norm tag types<a class="headerlink" href="#norm-tag-types" title="Permalink to this headline">¶</a></h2>
-<p>All of the following tag types live in the namespace <tt class="docutils literal"><span class="pre">math::norm</span></tt>:</p>
+<h2>3.4.2. Norm tag types<a class="headerlink" href="#norm-tag-types" title="Permalink to this headline">¶</a></h2>
+<p>All of the following tag types live in the namespace <code class="docutils literal"><span class="pre">math::norm</span></code>:</p>
 <dl class="type">
-<dt id="math::norm::manhattan">
-<em class="property">type </em><tt class="descclassname">math::norm::</tt><tt class="descname">manhattan</tt><a class="headerlink" href="#math::norm::manhattan" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4norm9manhattanE">
+<span id="math::norm::manhattan"></span><em class="property">type </em><code class="descclassname">math::norm::</code><code class="descname">manhattan</code><a class="headerlink" href="#_CPPv2N4math4norm9manhattanE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tag for the <a class="reference external" href="http://en.wikipedia.org/wiki/Norm_%28mathematics%29#Taxicab_norm_or_Manhattan_norm">Manhattan norm</a>: <span class="math">\(\|x\|_1 = \sum\limits_{i=1}^n |x_i|\)</span>.</p>
 </dd></dl>
 
 <dl class="type">
-<dt id="math::norm::euclidean">
-<em class="property">type </em><tt class="descclassname">math::norm::</tt><tt class="descname">euclidean</tt><a class="headerlink" href="#math::norm::euclidean" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4norm9euclideanE">
+<span id="math::norm::euclidean"></span><em class="property">type </em><code class="descclassname">math::norm::</code><code class="descname">euclidean</code><a class="headerlink" href="#_CPPv2N4math4norm9euclideanE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tag for the <a class="reference external" href="http://en.wikipedia.org/wiki/Norm_%28mathematics%29#Euclidean_norm">Euclidean norm</a>: <span class="math">\(\|x\|_2 = \sqrt{\sum\limits_{i=1}^n x_i^2}\)</span>.</p>
 </dd></dl>
 
 <dl class="type">
-<dt id="math::norm::uniform">
-<em class="property">type </em><tt class="descclassname">math::norm::</tt><tt class="descname">uniform</tt><a class="headerlink" href="#math::norm::uniform" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4norm7uniformE">
+<span id="math::norm::uniform"></span><em class="property">type </em><code class="descclassname">math::norm::</code><code class="descname">uniform</code><a class="headerlink" href="#_CPPv2N4math4norm7uniformE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tag for the <a class="reference external" href="http://en.wikipedia.org/wiki/Uniform_norm">uniform norm</a>: <span class="math">\(\|x\|_\infty  = \max \left(|x_1|, \ldots ,|x_n| \right)\)</span>.</p>
 </dd></dl>
 
 <dl class="type">
-<dt id="math::norm::p">
-<em class="property">type </em><tt class="descclassname">math::norm::</tt><tt class="descname">p</tt><a class="headerlink" href="#math::norm::p" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math4norm1pE">
+<span id="math::norm::p"></span><em class="property">type </em><code class="descclassname">math::norm::</code><code class="descname">p</code><a class="headerlink" href="#_CPPv2N4math4norm1pE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tag for the <a class="reference external" href="http://de.wikipedia.org/wiki/P-Norm">p norm</a>: <span class="math">\(\|x\|_p = \left(\sum\limits_{i=1}^n |x_i|^p\right)^{1/p}\)</span>.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="equivalence-of-tags">
-<h2>2.4.3. Equivalence of tags<a class="headerlink" href="#equivalence-of-tags" title="Permalink to this headline">¶</a></h2>
-<p>For every existing norm, there is an equivalent distance. Therefore, the tag types in <tt class="docutils literal"><span class="pre">math::norm</span></tt>
-are implemented as type aliases of the tag types in <tt class="docutils literal"><span class="pre">math::dist</span></tt>. Therefore, it is possible to use
-the <tt class="docutils literal"><span class="pre">math::dist</span></tt> and <tt class="docutils literal"><span class="pre">math::norm</span></tt> tag types can be used interchangeably. Here is a table of the
+<h2>3.4.3. Equivalence of tags<a class="headerlink" href="#equivalence-of-tags" title="Permalink to this headline">¶</a></h2>
+<p>For every existing norm, there is an equivalent distance. Therefore, the tag types in <code class="docutils literal"><span class="pre">math::norm</span></code>
+are implemented as type aliases of the tag types in <code class="docutils literal"><span class="pre">math::dist</span></code>. Therefore, it is possible to use
+the <code class="docutils literal"><span class="pre">math::dist</span></code> and <code class="docutils literal"><span class="pre">math::norm</span></code> tag types can be used interchangeably. Here is a table of the
 equivalent tag types:</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -141,17 +145,17 @@ equivalent tag types:</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><a class="reference internal" href="#math::norm::manhattan" title="math::norm::manhattan"><tt class="xref cpp cpp-type docutils literal"><span class="pre">math::norm::manhattan</span></tt></a></td>
-<td><a class="reference internal" href="#math::dist::manhattan" title="math::dist::manhattan"><tt class="xref cpp cpp-type docutils literal"><span class="pre">math::dist::manhattan</span></tt></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#_CPPv2N4math4norm9manhattanE" title="math::norm::manhattan"><code class="xref cpp cpp-type docutils literal"><span class="pre">math::norm::manhattan</span></code></a></td>
+<td><a class="reference internal" href="#_CPPv2N4math4dist9manhattanE" title="math::dist::manhattan"><code class="xref cpp cpp-type docutils literal"><span class="pre">math::dist::manhattan</span></code></a></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#math::norm::euclidean" title="math::norm::euclidean"><tt class="xref cpp cpp-type docutils literal"><span class="pre">math::norm::euclidean</span></tt></a></td>
-<td><a class="reference internal" href="#math::dist::euclidean" title="math::dist::euclidean"><tt class="xref cpp cpp-type docutils literal"><span class="pre">math::dist::euclidean</span></tt></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#_CPPv2N4math4norm9euclideanE" title="math::norm::euclidean"><code class="xref cpp cpp-type docutils literal"><span class="pre">math::norm::euclidean</span></code></a></td>
+<td><a class="reference internal" href="#_CPPv2N4math4dist9euclideanE" title="math::dist::euclidean"><code class="xref cpp cpp-type docutils literal"><span class="pre">math::dist::euclidean</span></code></a></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#math::norm::uniform" title="math::norm::uniform"><tt class="xref cpp cpp-type docutils literal"><span class="pre">math::norm::uniform</span></tt></a></td>
-<td><a class="reference internal" href="#math::dist::chebyshev" title="math::dist::chebyshev"><tt class="xref cpp cpp-type docutils literal"><span class="pre">math::dist::chebyshev</span></tt></a></td>
+<tr class="row-even"><td><a class="reference internal" href="#_CPPv2N4math4norm7uniformE" title="math::norm::uniform"><code class="xref cpp cpp-type docutils literal"><span class="pre">math::norm::uniform</span></code></a></td>
+<td><a class="reference internal" href="#_CPPv2N4math4dist9chebyshevE" title="math::dist::chebyshev"><code class="xref cpp cpp-type docutils literal"><span class="pre">math::dist::chebyshev</span></code></a></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#math::norm::p" title="math::norm::p"><tt class="xref cpp cpp-type docutils literal"><span class="pre">math::norm::p</span></tt></a></td>
-<td><a class="reference internal" href="#math::dist::minkowski" title="math::dist::minkowski"><tt class="xref cpp cpp-type docutils literal"><span class="pre">math::dist::minkowski</span></tt></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#_CPPv2N4math4norm1pE" title="math::norm::p"><code class="xref cpp cpp-type docutils literal"><span class="pre">math::norm::p</span></code></a></td>
+<td><a class="reference internal" href="#_CPPv2N4math4dist9minkowskiE" title="math::dist::minkowski"><code class="xref cpp cpp-type docutils literal"><span class="pre">math::dist::minkowski</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -162,30 +166,32 @@ equivalent tag types:</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">2.4. <tt class="docutils literal"><span class="pre">distnorm</span></tt> &#8212; Mathematical distances and norms</a><ul>
-<li><a class="reference internal" href="#distance-tag-types">2.4.1. Distance tag types</a></li>
-<li><a class="reference internal" href="#norm-tag-types">2.4.2. Norm tag types</a></li>
-<li><a class="reference internal" href="#equivalence-of-tags">2.4.3. Equivalence of tags</a></li>
+<li><a class="reference internal" href="#">3.4. <code class="docutils literal"><span class="pre">distnorm</span></code> &#8212; Mathematical distances and norms</a><ul>
+<li><a class="reference internal" href="#distance-tag-types">3.4.1. Distance tag types</a></li>
+<li><a class="reference internal" href="#norm-tag-types">3.4.2. Norm tag types</a></li>
+<li><a class="reference internal" href="#equivalence-of-tags">3.4.3. Equivalence of tags</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="math.constants.html"
-                        title="previous chapter">2.3. <tt class="docutils literal"><span class="pre">constants</span></tt> &#8212; Mathematical constants</a></p>
+                        title="previous chapter">3.3. <code class="docutils literal"><span class="pre">constants</span></code> &#8212; Mathematical constants</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="math.factorial.html"
-                        title="next chapter">2.5. <tt class="docutils literal"><span class="pre">factorial</span></tt> &#8212; Factorial-related mathematical formula</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/math.distnorm.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+                        title="next chapter">3.5. <code class="docutils literal"><span class="pre">factorial</span></code> &#8212; Factorial-related mathematical formula</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/math.distnorm.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -202,28 +208,20 @@ equivalent tag types:</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="math.factorial.html" title="2.5. factorial — Factorial-related mathematical formula"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="math.constants.html" title="2.3. constants — Mathematical constants"
-             >previous</a> |</li>
-        <li><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
-          <li><a href="math.html" >2. <tt class="docutils literal"><span class="pre">math</span></tt> &#8212; Mathematical module</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2014, Morwenn.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      &copy;2015, Morwenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/math.distnorm.txt"
+          rel="nofollow">Page source</a></li>
     </div>
+
+    
+
+    
   </body>
 </html>

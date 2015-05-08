@@ -12,8 +12,9 @@ Contents:
    :maxdepth: 2
    :numbered:
    
-   compiler.rst
-   math.rst
+   compiler
+   gray
+   math
 
 
 Indices and tables

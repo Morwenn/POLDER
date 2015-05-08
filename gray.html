@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. gray — Gray codes &mdash; POLDER 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="3. math — Mathematical module" href="math.html" />
+    <link rel="prev" title="1. compiler — Implementation information" href="compiler.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="math.html" title="3. math — Mathematical module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="compiler.html" title="1. compiler — Implementation information"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-gray">
+<span id="gray-gray-codes"></span><h1>2. <a class="reference internal" href="#module-gray" title="gray"><code class="xref py py-mod docutils literal"><span class="pre">gray</span></code></a> &#8212; Gray codes<a class="headerlink" href="#module-gray" title="Permalink to this headline">¶</a></h1>
+<p>This module defines a class that represents <a class="reference external" href="https://en.wikipedia.org/wiki/Gray_code">Gray code</a>. The Gray code, or binary
+reflected code is a binary numeral system invented by Frank Gray where every value
+differs from its neighbours by only one bit. Gray codes have several applications
+in computer programming and can notably be used in the field of genetic algorithms.</p>
+<dl class="class">
+<dt id="_CPPv29gray_codeI1TE">
+<span id="gray_code:T:"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">gray_code</code>&lt;T&gt;<a class="headerlink" href="#_CPPv29gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class takes a built-in unsigned integer type <code class="docutils literal"><span class="pre">T</span></code> as a template parameter.
+If any other type is passed, the compilation ill fail with an error message.</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv2N9gray_codeI1TE10value_typeE">
+<span id="gray_code:T:::value_type"></span><em class="property">type </em><code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">value_type</code><a class="headerlink" href="#_CPPv2N9gray_codeI1TE10value_typeE" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is an alias for the underlying unsigned integer type <code class="docutils literal"><span class="pre">T</span></code>.</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv2N9gray_codeI1TE5valueE">
+<span id="gray_code:T:::value__gray_code:T:::value_type"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt;::<a class="reference internal" href="#_CPPv2N9gray_codeI1TE10value_typeE" title="gray_code&lt;T&gt;::value_type">value_type</a> <code class="descclassname">gray_code&lt;T&gt;::</code><code class="descname">value</code><a class="headerlink" href="#_CPPv2N9gray_codeI1TE5valueE" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the underlying unsigned integer value whose bits are in Gray code order.</p>
+</dd></dl>
+
+<div class="section" id="conversion-between-gray-code-and-built-in-integers">
+<h2>2.1. Conversion between <code class="docutils literal"><span class="pre">gray_code</span></code> and built-in integers<a class="headerlink" href="#conversion-between-gray-code-and-built-in-integers" title="Permalink to this headline">¶</a></h2>
+<p>Gray codes are only interesting if it is possible to perform conversion to and from
+the underlying built-in unsigned integer type <code class="docutils literal"><span class="pre">T</span></code>. Therefore, a couple of functions
+exists in order to these conversions. Here are the main ones:</p>
+<dl class="member">
+<dt>
+<code class="descname">gray_code&lt;T&gt;::gray_code()</code></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt>
+<code class="descname">gray_code&lt;T&gt;::gray_code(value_type value)</code></dt>
+<dd></dd></dl>
+
+<dl class="member">
+<dt>
+<code class="descname">gray_code&lt;T&gt;::operator value_type() const</code></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv24gray1T">
+<span id="gray__T"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">gray</code><span class="sig-paren">(</span>T <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv24gray1T" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="bitwise-operations">
+<h2>2.2. Bitwise operations<a class="headerlink" href="#bitwise-operations" title="Permalink to this headline">¶</a></h2>
+<p>One of the main interests of Gray codes is their binary representation. Therefore,
+the class <code class="docutils literal"><span class="pre">gray_code</span></code> overloads the basic bitwise operators so that they work as
+expected in the most simple cases. First of all, these operators are overloaded to
+work between instances of the same <code class="docutils literal"><span class="pre">gray_code</span></code> specialization:</p>
+<dl class="function">
+<dt id="_CPPv2an9gray_codeI1TE9gray_codeI1TE">
+<span id="and-operator__gray_code:T:.gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator&amp;</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2an9gray_codeI1TE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2or9gray_codeI1TE9gray_codeI1TE">
+<span id="or-operator__gray_code:T:.gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator|</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2or9gray_codeI1TE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2eo9gray_codeI1TE9gray_codeI1TE">
+<span id="xor-operator__gray_code:T:.gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator^</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>lhs</em>, <a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2eo9gray_codeI1TE9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2co9gray_codeI1TE">
+<span id="inv-operator__gray_code:T:"></span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <code class="descclassname"></code><code class="descname">operator~</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv29gray_codeI1TE" title="gray_code&lt;T&gt;">gray_code</a>&lt;T&gt; <em>rhs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2co9gray_codeI1TE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="arithmetic-operations">
+<h2>2.3. Arithmetic operations<a class="headerlink" href="#arithmetic-operations" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2. <code class="docutils literal"><span class="pre">gray</span></code> &#8212; Gray codes</a><ul>
+<li><a class="reference internal" href="#conversion-between-gray-code-and-built-in-integers">2.1. Conversion between <code class="docutils literal"><span class="pre">gray_code</span></code> and built-in integers</a></li>
+<li><a class="reference internal" href="#bitwise-operations">2.2. Bitwise operations</a></li>
+<li><a class="reference internal" href="#arithmetic-operations">2.3. Arithmetic operations</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="compiler.html"
+                        title="previous chapter">1. <code class="docutils literal"><span class="pre">compiler</span></code> &#8212; Implementation information</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="math.html"
+                        title="next chapter">3. <code class="docutils literal"><span class="pre">math</span></code> &#8212; Mathematical module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/gray.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Morwenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/gray.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

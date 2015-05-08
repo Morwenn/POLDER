@@ -6,9 +6,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>2.5. factorial — Factorial-related mathematical formula &mdash; POLDER 1.0.0 documentation</title>
+    <title>3.5. factorial — Factorial-related mathematical formula &mdash; POLDER 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,13 +23,17 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
-    <link rel="up" title="2. math — Mathematical module" href="math.html" />
-    <link rel="prev" title="2.4. distnorm — Mathematical distances and norms" href="math.distnorm.html" /> 
+    <link rel="up" title="3. math — Mathematical module" href="math.html" />
+    <link rel="prev" title="3.4. distnorm — Mathematical distances and norms" href="math.distnorm.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -39,37 +43,37 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="math.distnorm.html" title="2.4. distnorm — Mathematical distances and norms"
+          <a href="math.distnorm.html" title="3.4. distnorm — Mathematical distances and norms"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
-          <li><a href="math.html" accesskey="U">2. <tt class="docutils literal"><span class="pre">math</span></tt> &#8212; Mathematical module</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="math.html" accesskey="U">3. <code class="docutils literal"><span class="pre">math</span></code> &#8212; Mathematical module</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-factorial">
-<span id="factorial-factorial-related-mathematical-formula"></span><h1>2.5. <a class="reference internal" href="#module-factorial" title="factorial"><tt class="xref py py-mod docutils literal"><span class="pre">factorial</span></tt></a> &#8212; Factorial-related mathematical formula<a class="headerlink" href="#module-factorial" title="Permalink to this headline">¶</a></h1>
+<span id="factorial-factorial-related-mathematical-formula"></span><h1>3.5. <a class="reference internal" href="#module-factorial" title="factorial"><code class="xref py py-mod docutils literal"><span class="pre">factorial</span></code></a> &#8212; Factorial-related mathematical formula<a class="headerlink" href="#module-factorial" title="Permalink to this headline">¶</a></h1>
 <p>Factorial-related mathematical functions.</p>
 <dl class="function">
-<dt id="math::factorial__Unsigned">
-Unsigned <tt class="descclassname">math::</tt><tt class="descname">factorial</tt><big>(</big>Unsigned <em>n</em><big>)</big><a class="headerlink" href="#math::factorial__Unsigned" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math9factorialE8Unsigned">
+<span id="math::factorial__Unsigned"></span>Unsigned <code class="descclassname">math::</code><code class="descname">factorial</code><span class="sig-paren">(</span>Unsigned <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4math9factorialE8Unsigned" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the factorial of <em>n</em>: <span class="math">\(n!\)</span>. This function also have an equivalent in
-<tt class="docutils literal"><span class="pre">math::meta</span></tt> that is intended to run at compile time.</p>
+<code class="docutils literal"><span class="pre">math::meta</span></code> that is intended to run at compile time.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="math::double_factorial__Unsigned">
-Unsigned <tt class="descclassname">math::</tt><tt class="descname">double_factorial</tt><big>(</big>Unsigned <em>n</em><big>)</big><a class="headerlink" href="#math::double_factorial__Unsigned" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math16double_factorialE8Unsigned">
+<span id="math::double_factorial__Unsigned"></span>Unsigned <code class="descclassname">math::</code><code class="descname">double_factorial</code><span class="sig-paren">(</span>Unsigned <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4math16double_factorialE8Unsigned" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the double factorial of <em>n</em>: <span class="math">\(n!! = \prod_{i=1}^{(n+1)/2} (2i-1)\)</span>.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="math::stirling__Unsigned">
-Unsigned <tt class="descclassname">math::</tt><tt class="descname">stirling</tt><big>(</big>Unsigned <em>n</em><big>)</big><a class="headerlink" href="#math::stirling__Unsigned" title="Permalink to this definition">¶</a></dt>
+<dt id="_CPPv2N4math8stirlingE8Unsigned">
+<span id="math::stirling__Unsigned"></span>Unsigned <code class="descclassname">math::</code><code class="descname">stirling</code><span class="sig-paren">(</span>Unsigned <em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4math8stirlingE8Unsigned" title="Permalink to this definition">¶</a></dt>
 <dd><p>Uses the Stirling formula to approach <span class="math">\(n!\)</span>: <span class="math">\(\sqrt{2\pi n}\,\left({n \over {\rm e}}\right)^n\)</span>.</p>
 </dd></dl>
 
@@ -79,17 +83,19 @@ Unsigned <tt class="descclassname">math::</tt><tt class="descname">stirling</tt>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="math.distnorm.html"
-                        title="previous chapter">2.4. <tt class="docutils literal"><span class="pre">distnorm</span></tt> &#8212; Mathematical distances and norms</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/math.factorial.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+                        title="previous chapter">3.4. <code class="docutils literal"><span class="pre">distnorm</span></code> &#8212; Mathematical distances and norms</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/math.factorial.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -106,25 +112,20 @@ Unsigned <tt class="descclassname">math::</tt><tt class="descname">stirling</tt>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="math.distnorm.html" title="2.4. distnorm — Mathematical distances and norms"
-             >previous</a> |</li>
-        <li><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
-          <li><a href="math.html" >2. <tt class="docutils literal"><span class="pre">math</span></tt> &#8212; Mathematical module</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2014, Morwenn.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      &copy;2015, Morwenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/math.factorial.txt"
+          rel="nofollow">Page source</a></li>
     </div>
+
+    
+
+    
   </body>
 </html>
