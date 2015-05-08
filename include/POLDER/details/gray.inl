@@ -345,42 +345,42 @@ auto operator<<(gray_code<Unsigned> val, std::size_t pos) noexcept
 // Bitwise operations with bool
 
 template<typename Unsigned>
-auto operator&(gray_code<Unsigned> lhs, bool rhs)
+auto operator&(gray_code<Unsigned> lhs, bool rhs) noexcept
     -> gray_code<Unsigned>
 {
     return lhs &= rhs;
 }
 
 template<typename Unsigned>
-auto operator&(bool lhs, gray_code<Unsigned> rhs)
+auto operator&(bool lhs, gray_code<Unsigned> rhs) noexcept
     -> gray_code<Unsigned>
 {
     return rhs &= lhs;
 }
 
 template<typename Unsigned>
-auto operator|(gray_code<Unsigned> lhs, bool rhs)
+auto operator|(gray_code<Unsigned> lhs, bool rhs) noexcept
     -> gray_code<Unsigned>
 {
     return lhs |= rhs;
 }
 
 template<typename Unsigned>
-auto operator|(bool lhs, gray_code<Unsigned> rhs)
+auto operator|(bool lhs, gray_code<Unsigned> rhs) noexcept
     -> gray_code<Unsigned>
 {
     return rhs |= lhs;
 }
 
 template<typename Unsigned>
-auto operator^(gray_code<Unsigned> lhs, bool rhs)
+auto operator^(gray_code<Unsigned> lhs, bool rhs) noexcept
     -> gray_code<Unsigned>
 {
     return lhs ^= rhs;
 }
 
 template<typename Unsigned>
-auto operator^(bool lhs, gray_code<Unsigned> rhs)
+auto operator^(bool lhs, gray_code<Unsigned> rhs) noexcept
     -> gray_code<Unsigned>
 {
     return rhs ^= lhs;

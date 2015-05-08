@@ -205,27 +205,27 @@ namespace polder
     // Bitwise operations with bool
 
     template<typename Unsigned>
-    auto operator&(gray_code<Unsigned> lhs, bool rhs)
+    auto operator&(gray_code<Unsigned> lhs, bool rhs) noexcept
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator&(bool lhs, gray_code<Unsigned> rhs)
+    auto operator&(bool lhs, gray_code<Unsigned> rhs) noexcept
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator|(gray_code<Unsigned> lhs, bool rhs)
+    auto operator|(gray_code<Unsigned> lhs, bool rhs) noexcept
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator|(bool lhs, gray_code<Unsigned> rhs)
+    auto operator|(bool lhs, gray_code<Unsigned> rhs) noexcept
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator^(gray_code<Unsigned> lhs, bool rhs)
+    auto operator^(gray_code<Unsigned> lhs, bool rhs) noexcept
         -> gray_code<Unsigned>;
 
     template<typename Unsigned>
-    auto operator^(bool lhs, gray_code<Unsigned> rhs)
+    auto operator^(bool lhs, gray_code<Unsigned> rhs) noexcept
         -> gray_code<Unsigned>;
 
     ////////////////////////////////////////////////////////////
