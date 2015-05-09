@@ -77,3 +77,54 @@ and it is the only one most people should care about.
 
     Disconnects the function corresponding to ``name`` from the the evaluator if such
     a function exists.
+
+Built-in operators
+------------------
+
+The evaluation module supports a wide range of infix operators out of the box as well
+as some prefix and postfix operators. The following infix operators are supported:
+
+================ ======================================
+Infix operator                Meaning
+================ ======================================
+a + b            :math:`a + b`
+a - b            :math:`a - b`
+a * b            :math:`a * b`
+a / b            :math:`\frac{a}{b}`
+a // b           :math:`\frac{a}{b}` (integer division)
+a % b            :math:`a \bmod b`
+a ** b           :math:`a^b`
+a = b            :math:`a = b`
+a != b           :math:`a \neq b`
+a <=> b          :math:`sign(a - b)`
+a < b            :math:`a < b`
+a > b            :math:`a > b`
+a <= b           :math:`a \le b`
+a >= b           :math:`a \ge b`
+a && b           :math:`a \wedge b`
+a || b           :math:`a \vee b`
+a ^^ b           :math:`a \oplus b`
+a & b            Bitwise AND
+a | b            Bitwise OR
+a ^ b            Bitwise XOR
+a << b           Left shift
+a >> b           Right shift
+================ ======================================
+
+The following prefix operators are supported:
+
+================ ======================================
+Prefix operator                Meaning
+================ ======================================
+-n               :math:`-n`
+!n               :math:`\neg n`
+~n               Bitwise NOT
+================ ======================================
+
+The following postfix operators are supported:
+
+================ ======================================
+Postfix operator                Meaning
+================ ======================================
+n!               :math:`n!`
+================ ======================================
