@@ -6,6 +6,16 @@
 Welcome to POLDER's documentation!
 ==================================
 
+POLDER is a random modern C++ library. It is based on C++14, but just in case this
+very is outdated, know that it may use any feature from the most recent C++ standard
+and from any approved TS. This is not a production library, it's an experimental
+library where are thrown together a wide range of things without a proper cohesion.
+
+You can use and reuse any part of the library you want, but be sure that any feature
+may be redesigned at any time and introduce breaking changes everywhere without
+worrying about who might actually use the feature. Now you're warned. If you still
+find some feature interesting, don't hesitate to take and use it though.
+
 Contents:
 
 .. toctree::
