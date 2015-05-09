@@ -138,6 +138,130 @@ a function exists.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="built-in-operators">
+<h2>2.2. Built-in operators<a class="headerlink" href="#built-in-operators" title="Permalink to this headline">¶</a></h2>
+<p>The evaluation module supports a wide range of infix operators out of the box as well
+as some prefix and postfix operators. The following infix operators are supported:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Infix&nbsp;operator</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>a + b</td>
+<td><span class="math">\(a + b\)</span></td>
+</tr>
+<tr class="row-odd"><td>a - b</td>
+<td><span class="math">\(a - b\)</span></td>
+</tr>
+<tr class="row-even"><td>a * b</td>
+<td><span class="math">\(a * b\)</span></td>
+</tr>
+<tr class="row-odd"><td>a / b</td>
+<td><span class="math">\(\frac{a}{b}\)</span></td>
+</tr>
+<tr class="row-even"><td>a // b</td>
+<td><span class="math">\(\frac{a}{b}\)</span> (integer division)</td>
+</tr>
+<tr class="row-odd"><td>a % b</td>
+<td><span class="math">\(a \bmod b\)</span></td>
+</tr>
+<tr class="row-even"><td>a ** b</td>
+<td><span class="math">\(a^b\)</span></td>
+</tr>
+<tr class="row-odd"><td>a = b</td>
+<td><span class="math">\(a = b\)</span></td>
+</tr>
+<tr class="row-even"><td>a != b</td>
+<td><span class="math">\(a \neq b\)</span></td>
+</tr>
+<tr class="row-odd"><td>a &lt;=&gt; b</td>
+<td><span class="math">\(sign(a - b)\)</span></td>
+</tr>
+<tr class="row-even"><td>a &lt; b</td>
+<td><span class="math">\(a &lt; b\)</span></td>
+</tr>
+<tr class="row-odd"><td>a &gt; b</td>
+<td><span class="math">\(a &gt; b\)</span></td>
+</tr>
+<tr class="row-even"><td>a &lt;= b</td>
+<td><span class="math">\(a \le b\)</span></td>
+</tr>
+<tr class="row-odd"><td>a &gt;= b</td>
+<td><span class="math">\(a \ge b\)</span></td>
+</tr>
+<tr class="row-even"><td>a &amp;&amp; b</td>
+<td><span class="math">\(a \wedge b\)</span></td>
+</tr>
+<tr class="row-odd"><td>a || b</td>
+<td><span class="math">\(a \vee b\)</span></td>
+</tr>
+<tr class="row-even"><td>a ^^ b</td>
+<td><span class="math">\(a \oplus b\)</span></td>
+</tr>
+<tr class="row-odd"><td>a &amp; b</td>
+<td>Bitwise AND</td>
+</tr>
+<tr class="row-even"><td>a | b</td>
+<td>Bitwise OR</td>
+</tr>
+<tr class="row-odd"><td>a ^ b</td>
+<td>Bitwise XOR</td>
+</tr>
+<tr class="row-even"><td>a &lt;&lt; b</td>
+<td>Left shift</td>
+</tr>
+<tr class="row-odd"><td>a &gt;&gt; b</td>
+<td>Right shift</td>
+</tr>
+</tbody>
+</table>
+<p>The following prefix operators are supported:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Prefix&nbsp;operator</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>-n</td>
+<td><span class="math">\(-n\)</span></td>
+</tr>
+<tr class="row-odd"><td>!n</td>
+<td><span class="math">\(\neg n\)</span></td>
+</tr>
+<tr class="row-even"><td>~n</td>
+<td>Bitwise NOT</td>
+</tr>
+</tbody>
+</table>
+<p>The following postfix operators are supported:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Postfix&nbsp;operator</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>n!</td>
+<td><span class="math">\(n!\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
 
@@ -150,6 +274,7 @@ a function exists.</p>
   <ul>
 <li><a class="reference internal" href="#">2. <code class="docutils literal"><span class="pre">evaluation</span></code> &#8212; Evaluation of mathematical expressions</a><ul>
 <li><a class="reference internal" href="#the-class-template-evaluator">2.1. The class template <code class="docutils literal"><span class="pre">evaluator</span></code></a></li>
+<li><a class="reference internal" href="#built-in-operators">2.2. Built-in operators</a></li>
 </ul>
 </li>
 </ul>
