@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. evaluation — Evaluation of mathematical expressions &mdash; POLDER 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="3. gray — Gray codes" href="gray.html" />
+    <link rel="prev" title="1. compiler — Implementation information" href="compiler.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="gray.html" title="3. gray — Gray codes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="compiler.html" title="1. compiler — Implementation information"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-evaluation">
+<span id="evaluation-evaluation-of-mathematical-expressions"></span><h1>2. <a class="reference internal" href="#module-evaluation" title="evaluation"><code class="xref py py-mod docutils literal"><span class="pre">evaluation</span></code></a> &#8212; Evaluation of mathematical expressions<a class="headerlink" href="#module-evaluation" title="Permalink to this headline">¶</a></h1>
+<p>This module defines a class template <code class="docutils literal"><span class="pre">evaluator</span></code> which can be used
+to evaluate mathematical expressions, and exposes as well many of the
+details of the implementation, which may be reused for other purposes,
+even though <code class="docutils literal"><span class="pre">evaluator</span></code> is the main component of the module. Every
+feature of this module lives in the namespace <code class="docutils literal"><span class="pre">polder::evaluation</span></code>,
+but the class template <code class="docutils literal"><span class="pre">evaluator</span></code> is also available directly from
+the <code class="docutils literal"><span class="pre">polder</span></code> namespace.</p>
+<p>Since there are many things to be said about this simple class, let&#8217;s
+start with a simple example:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;cstdlib&gt;</span>
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="cp">#include &lt;POLDER/evaluation.h&gt;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">polder</span><span class="o">::</span><span class="n">evaluator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">eval</span><span class="p">;</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">eval</span><span class="p">(</span><span class="s">&quot;2 + 5 * 3&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span> <span class="c1">// 17</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">eval</span><span class="p">(</span><span class="s">&quot;(4 + 2) * (2 ** 3)&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span> <span class="c1">// 48</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">eval</span><span class="p">(</span><span class="s">&quot;5!&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span> <span class="c1">// 120</span>
+
+    <span class="c1">// Connect the absolute value function</span>
+    <span class="n">eval</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&quot;abs&quot;</span><span class="p">,</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">abs</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">eval</span><span class="p">(</span><span class="s">&quot;2 * abs(2 - 8) + 4&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span> <span class="c1">// 16</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="the-class-template-evaluator">
+<h2>2.1. The class template <code class="docutils literal"><span class="pre">evaluator</span></code><a class="headerlink" href="#the-class-template-evaluator" title="Permalink to this headline">¶</a></h2>
+<p>As said above, the most important class in the module is <code class="docutils literal"><span class="pre">evaluator</span></code>
+and it is the only one most people should care about.</p>
+<dl class="class">
+<dt id="_CPPv29evaluatorI6NumberE">
+<span id="evaluator:Number:"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">evaluator</code>&lt;Number&gt;<a class="headerlink" href="#_CPPv29evaluatorI6NumberE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Engine for evaluating mathematical expressions. It handles by default
+a set of built-in operators and can be extended by connecting functions
+to it. The template parameter corresponds to the type of the operations
+performed by the engine and to the return type of an evaluation.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9evaluatorI6NumberE8evaluateERKNSt6stringE">
+<span id="evaluator:Number:::evaluate__ssCRC"></span>Number <code class="descclassname">evaluator&lt;Number&gt;::</code><code class="descname">evaluate</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp; <em>expression</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9evaluatorI6NumberE8evaluateERKNSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the expression string with the current rules of evaluation and
+returns the result of the evaluation.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2NK9evaluatorI6NumberEclERKNSt6stringE">
+<span id="evaluator:Number:::call-operator__ssCRC"></span>Number <code class="descclassname">evaluator&lt;Number&gt;::</code><code class="descname">operator()</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp; <em>expression</em><span class="sig-paren">)</span> <em class="property">const</em><a class="headerlink" href="#_CPPv2NK9evaluatorI6NumberEclERKNSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for the method <code class="docutils literal"><span class="pre">evaluate</span></code>. The aim is to give a function object
+feeling to the <code class="docutils literal"><span class="pre">evaluator</span></code> class.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9evaluatorI6NumberE7connectERKNSt6stringERR4Func">
+<span id="evaluator:Number:::connect__ssCR.FuncRR"></span>void <code class="descclassname">evaluator&lt;Number&gt;::</code><code class="descname">connect</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp; <em>name</em>, Func &amp; &amp; <em>function</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9evaluatorI6NumberE7connectERKNSt6stringERR4Func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connects the given <code class="docutils literal"><span class="pre">function</span></code> to the evaluator. When evaluating an expression,
+if <code class="docutils literal"><span class="pre">name</span></code> is found in the expression string, it is considered as a function
+and the evaluator will try to call <code class="docutils literal"><span class="pre">function</span></code> on the arguments. In order for
+things to work properly, <code class="docutils literal"><span class="pre">function</span></code> has to be callable which takes any number
+of <code class="docutils literal"><span class="pre">Number</span></code> parameters and returns an instance of <code class="docutils literal"><span class="pre">Number</span></code>.</p>
+<p>In its current form, the evaluator does not handle functions that have more than
+16 parameters and does not handle functions with a variable number of parameters
+either. Overloaded functions are not supported either, a name represents one and
+only one function, not an overload set.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N9evaluatorI6NumberE10disconnectERKNSt6stringE">
+<span id="evaluator:Number:::disconnect__ssCR"></span>void <code class="descclassname">evaluator&lt;Number&gt;::</code><code class="descname">disconnect</code><span class="sig-paren">(</span><em class="property">const</em> std::string &amp; <em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N9evaluatorI6NumberE10disconnectERKNSt6stringE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disconnects the function corresponding to <code class="docutils literal"><span class="pre">name</span></code> from the the evaluator if such
+a function exists.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2. <code class="docutils literal"><span class="pre">evaluation</span></code> &#8212; Evaluation of mathematical expressions</a><ul>
+<li><a class="reference internal" href="#the-class-template-evaluator">2.1. The class template <code class="docutils literal"><span class="pre">evaluator</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="compiler.html"
+                        title="previous chapter">1. <code class="docutils literal"><span class="pre">compiler</span></code> &#8212; Implementation information</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="gray.html"
+                        title="next chapter">3. <code class="docutils literal"><span class="pre">gray</span></code> &#8212; Gray codes</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/evaluation.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Morwenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/evaluation.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

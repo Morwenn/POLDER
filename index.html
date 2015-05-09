@@ -55,6 +55,19 @@
             
   <div class="section" id="welcome-to-polder-s-documentation">
 <h1>Welcome to POLDER&#8217;s documentation!<a class="headerlink" href="#welcome-to-polder-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>POLDER is a random modern C++ library. It is based on C++14, but just in case this
+very is outdated, know that it may use any feature from the most recent C++ standard
+and from any approved TS. This is not a production library, it&#8217;s an experimental
+library where are thrown together a wide range of things without a proper cohesion.</p>
+<p>You can use and reuse any part of the library you want, but be sure that any feature
+may be redesigned at any time and introduce breaking changes everywhere without
+worrying about who might actually use the feature. Now you&#8217;re warned. If you still
+find some feature interesting, don&#8217;t hesitate to take and use it though.</p>
+<p>Also, note that this library is kind of template-heavy, but Sphinx doesn&#8217;t have the
+nicest formatting for templates (yet?). Therefore, I use a «&nbsp;light&nbsp;» or «&nbsp;folded&nbsp;»
+syntax where the <code class="docutils literal"><span class="pre">template&lt;typename</span> <span class="pre">T&gt;</span></code> is dropped from the declarations. Generally
+speaking, if a type starts with a capital letter somewhere in this documentation, it
+tends to denote a template parameter.</p>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
@@ -63,22 +76,26 @@
 <li class="toctree-l2"><a class="reference internal" href="compiler.html#standard-library-related-functions">1.2. Standard library-related functions</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="gray.html">2. <code class="docutils literal"><span class="pre">gray</span></code> &#8212; Gray codes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="gray.html#construction-functions">2.1. Construction functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gray.html#assignment-operations">2.2. Assignment operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gray.html#conversion-operations">2.3. Conversion operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gray.html#comparison-operations">2.4. Comparison operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gray.html#bitwise-operations">2.5. Bitwise operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gray.html#arithmetic-operations">2.6. Arithmetic operations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gray.html#miscellaneous-functions">2.7. Miscellaneous functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="evaluation.html">2. <code class="docutils literal"><span class="pre">evaluation</span></code> &#8212; Evaluation of mathematical expressions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="evaluation.html#the-class-template-evaluator">2.1. The class template <code class="docutils literal"><span class="pre">evaluator</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="math.html">3. <code class="docutils literal"><span class="pre">math</span></code> &#8212; Mathematical module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="math.cmath.html">3.1. <code class="docutils literal"><span class="pre">cmath</span></code> &#8212; Common mathematical functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="math.formula.html">3.2. <code class="docutils literal"><span class="pre">formula</span></code> &#8212; Miscellaneous mathematical formula</a></li>
-<li class="toctree-l2"><a class="reference internal" href="math.constants.html">3.3. <code class="docutils literal"><span class="pre">constants</span></code> &#8212; Mathematical constants</a></li>
-<li class="toctree-l2"><a class="reference internal" href="math.distnorm.html">3.4. <code class="docutils literal"><span class="pre">distnorm</span></code> &#8212; Mathematical distances and norms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="math.factorial.html">3.5. <code class="docutils literal"><span class="pre">factorial</span></code> &#8212; Factorial-related mathematical formula</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gray.html">3. <code class="docutils literal"><span class="pre">gray</span></code> &#8212; Gray codes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gray.html#construction-functions">3.1. Construction functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gray.html#assignment-operations">3.2. Assignment operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gray.html#conversion-operations">3.3. Conversion operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gray.html#comparison-operations">3.4. Comparison operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gray.html#bitwise-operations">3.5. Bitwise operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gray.html#arithmetic-operations">3.6. Arithmetic operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gray.html#miscellaneous-functions">3.7. Miscellaneous functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="math.html">4. <code class="docutils literal"><span class="pre">math</span></code> &#8212; Mathematical module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="math.cmath.html">4.1. <code class="docutils literal"><span class="pre">cmath</span></code> &#8212; Common mathematical functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.formula.html">4.2. <code class="docutils literal"><span class="pre">formula</span></code> &#8212; Miscellaneous mathematical formula</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.constants.html">4.3. <code class="docutils literal"><span class="pre">constants</span></code> &#8212; Mathematical constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.distnorm.html">4.4. <code class="docutils literal"><span class="pre">distnorm</span></code> &#8212; Mathematical distances and norms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="math.factorial.html">4.5. <code class="docutils literal"><span class="pre">factorial</span></code> &#8212; Factorial-related mathematical formula</a></li>
 </ul>
 </li>
 </ul>

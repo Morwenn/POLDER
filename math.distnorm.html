@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3.4. distnorm — Mathematical distances and norms &mdash; POLDER 1.0.0 documentation</title>
+    <title>4.4. distnorm — Mathematical distances and norms &mdash; POLDER 1.0.0 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
-    <link rel="up" title="3. math — Mathematical module" href="math.html" />
-    <link rel="next" title="3.5. factorial — Factorial-related mathematical formula" href="math.factorial.html" />
-    <link rel="prev" title="3.3. constants — Mathematical constants" href="math.constants.html" />
+    <link rel="up" title="4. math — Mathematical module" href="math.html" />
+    <link rel="next" title="4.5. factorial — Factorial-related mathematical formula" href="math.factorial.html" />
+    <link rel="prev" title="4.3. constants — Mathematical constants" href="math.constants.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -44,13 +44,13 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="math.factorial.html" title="3.5. factorial — Factorial-related mathematical formula"
+          <a href="math.factorial.html" title="4.5. factorial — Factorial-related mathematical formula"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="math.constants.html" title="3.3. constants — Mathematical constants"
+          <a href="math.constants.html" title="4.3. constants — Mathematical constants"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="math.html" accesskey="U">3. <code class="docutils literal"><span class="pre">math</span></code> &#8212; Mathematical module</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="math.html" accesskey="U">4. <code class="docutils literal"><span class="pre">math</span></code> &#8212; Mathematical module</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -60,14 +60,14 @@
           <div class="body" role="main">
             
   <div class="section" id="module-distnorm">
-<span id="distnorm-mathematical-distances-and-norms"></span><h1>3.4. <a class="reference internal" href="#module-distnorm" title="distnorm"><code class="xref py py-mod docutils literal"><span class="pre">distnorm</span></code></a> &#8212; Mathematical distances and norms<a class="headerlink" href="#module-distnorm" title="Permalink to this headline">¶</a></h1>
+<span id="distnorm-mathematical-distances-and-norms"></span><h1>4.4. <a class="reference internal" href="#module-distnorm" title="distnorm"><code class="xref py py-mod docutils literal"><span class="pre">distnorm</span></code></a> &#8212; Mathematical distances and norms<a class="headerlink" href="#module-distnorm" title="Permalink to this headline">¶</a></h1>
 <p>This module defines tag types that represent mathematical distances and norms.
 These tags can be used to specify which distance or norm should be used when
 computing functions such as a vector norm, a matrix norm or the distance between
 two geometric entities. The module is divided in two namespaces: <code class="docutils literal"><span class="pre">math::dist</span></code>
 and <code class="docutils literal"><span class="pre">math::norm</span></code>.</p>
 <div class="section" id="distance-tag-types">
-<h2>3.4.1. Distance tag types<a class="headerlink" href="#distance-tag-types" title="Permalink to this headline">¶</a></h2>
+<h2>4.4.1. Distance tag types<a class="headerlink" href="#distance-tag-types" title="Permalink to this headline">¶</a></h2>
 <p>All of the following tag types live in the namespace <code class="docutils literal"><span class="pre">math::dist</span></code>:</p>
 <dl class="type">
 <dt id="_CPPv2N4math4dist9manhattanE">
@@ -101,7 +101,7 @@ and <code class="docutils literal"><span class="pre">math::norm</span></code>.</
 
 </div>
 <div class="section" id="norm-tag-types">
-<h2>3.4.2. Norm tag types<a class="headerlink" href="#norm-tag-types" title="Permalink to this headline">¶</a></h2>
+<h2>4.4.2. Norm tag types<a class="headerlink" href="#norm-tag-types" title="Permalink to this headline">¶</a></h2>
 <p>All of the following tag types live in the namespace <code class="docutils literal"><span class="pre">math::norm</span></code>:</p>
 <dl class="type">
 <dt id="_CPPv2N4math4norm9manhattanE">
@@ -129,7 +129,7 @@ and <code class="docutils literal"><span class="pre">math::norm</span></code>.</
 
 </div>
 <div class="section" id="equivalence-of-tags">
-<h2>3.4.3. Equivalence of tags<a class="headerlink" href="#equivalence-of-tags" title="Permalink to this headline">¶</a></h2>
+<h2>4.4.3. Equivalence of tags<a class="headerlink" href="#equivalence-of-tags" title="Permalink to this headline">¶</a></h2>
 <p>For every existing norm, there is an equivalent distance. Therefore, the tag types in <code class="docutils literal"><span class="pre">math::norm</span></code>
 are implemented as type aliases of the tag types in <code class="docutils literal"><span class="pre">math::dist</span></code>. Therefore, it is possible to use
 the <code class="docutils literal"><span class="pre">math::dist</span></code> and <code class="docutils literal"><span class="pre">math::norm</span></code> tag types can be used interchangeably. Here is a table of the
@@ -170,20 +170,20 @@ equivalent tag types:</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">3.4. <code class="docutils literal"><span class="pre">distnorm</span></code> &#8212; Mathematical distances and norms</a><ul>
-<li><a class="reference internal" href="#distance-tag-types">3.4.1. Distance tag types</a></li>
-<li><a class="reference internal" href="#norm-tag-types">3.4.2. Norm tag types</a></li>
-<li><a class="reference internal" href="#equivalence-of-tags">3.4.3. Equivalence of tags</a></li>
+<li><a class="reference internal" href="#">4.4. <code class="docutils literal"><span class="pre">distnorm</span></code> &#8212; Mathematical distances and norms</a><ul>
+<li><a class="reference internal" href="#distance-tag-types">4.4.1. Distance tag types</a></li>
+<li><a class="reference internal" href="#norm-tag-types">4.4.2. Norm tag types</a></li>
+<li><a class="reference internal" href="#equivalence-of-tags">4.4.3. Equivalence of tags</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="math.constants.html"
-                        title="previous chapter">3.3. <code class="docutils literal"><span class="pre">constants</span></code> &#8212; Mathematical constants</a></p>
+                        title="previous chapter">4.3. <code class="docutils literal"><span class="pre">constants</span></code> &#8212; Mathematical constants</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="math.factorial.html"
-                        title="next chapter">3.5. <code class="docutils literal"><span class="pre">factorial</span></code> &#8212; Factorial-related mathematical formula</a></p>
+                        title="next chapter">4.5. <code class="docutils literal"><span class="pre">factorial</span></code> &#8212; Factorial-related mathematical formula</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
