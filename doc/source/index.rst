@@ -16,6 +16,12 @@ may be redesigned at any time and introduce breaking changes everywhere without
 worrying about who might actually use the feature. Now you're warned. If you still
 find some feature interesting, don't hesitate to take and use it though.
 
+Also, note that this library is kind of template-heavy, but Sphinx doesn't have the
+nicest formatting for templates (yet?). Therefore, I use a « light » or « folded »
+syntax where the ``template<typename T>`` is dropped from the declarations. Generally
+speaking, if a type starts with a capital letter somewhere in this documentation, it
+tends to denote a template parameter.
+
 Contents:
 
 .. toctree::
@@ -23,6 +29,7 @@ Contents:
    :numbered:
    
    compiler
+   evaluation
    gray
    math
 
