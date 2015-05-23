@@ -48,6 +48,17 @@ TEST_CASE( "evaluation of mathematical expressions", "[evaluate]" )
         REQUIRE( eval("5!") == eval("5*4*3*2*1") );
     }
 
+    SECTION( "evaluation of bitwise operations" )
+    {
+        evaluator<unsigned> eval;
+
+        REQUIRE( eval("0 | 1") == 1u );
+        REQUIRE( eval("0 & 1") == 0u );
+        REQUIRE( eval("0 ^ 1") == 1u );
+
+        REQUIRE( eval("2 | 5") == 7u );
+    }
+
     SECTION( "evaluation of unary functions" )
     {
         evaluator<int> eval;

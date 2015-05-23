@@ -140,7 +140,7 @@ auto tokenize(const std::string& expr)
                 break;
 
             case '|': // | or ||
-                if (it[1] == '*')
+                if (it[1] == '|')
                 {
                     res.emplace_back(infix_t::OR);
                     ++it;
