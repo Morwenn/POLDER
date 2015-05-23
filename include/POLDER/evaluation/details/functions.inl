@@ -291,7 +291,7 @@ auto to_postfix(const std::vector<token<Number>>& tokens)
                 output.push(tok);
                 while (not operations.empty() && operations.top().is_prefix())
                 {
-                    output.push(operations.top());
+                    output.push(std::move(operations.top()));
                     operations.pop();
                 }
                 break;
@@ -309,7 +309,7 @@ auto to_postfix(const std::vector<token<Number>>& tokens)
                        && operations.top().is_infix()
                        && (priority(tok.infix) <= priority(operations.top().infix)))
                 {
-                    output.push(operations.top());
+                    output.push(std::move(operations.top()));
                     operations.pop();
                 }
                 operations.push(tok);
@@ -329,14 +329,14 @@ auto to_postfix(const std::vector<token<Number>>& tokens)
                 while (not operations.empty() &&
                        not operations.top().is_left_brace())
                 {
-                    output.push(operations.top());
+                    output.push(std::move(operations.top()));
                     operations.pop();
                 }
                 operations.pop();
                 while (not operations.empty()
                        && (operations.top().is_prefix() || operations.top().is_name()))
                 {
-                    output.push(operations.top());
+                    output.push(std::move(operations.top()));
                     operations.pop();
                 }
                 break;
@@ -347,7 +347,7 @@ auto to_postfix(const std::vector<token<Number>>& tokens)
                 while (not operations.empty() &&
                        not operations.top().is_left_brace())
                 {
-                    output.push(operations.top());
+                    output.push(std::move(operations.top()));
                     operations.pop();
                 }
                 break;
@@ -357,7 +357,7 @@ auto to_postfix(const std::vector<token<Number>>& tokens)
 
     while (not output.empty())
     {
-        operations.push(output.top());
+        operations.push(std::move(output.top()));
         output.pop();
     }
     return operations;

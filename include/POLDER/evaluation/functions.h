@@ -24,6 +24,7 @@
 #include <cctype>
 #include <stack>
 #include <string>
+#include <utility>
 #include <vector>
 #include <POLDER/details/config.h>
 #include <POLDER/evaluation/error.h>

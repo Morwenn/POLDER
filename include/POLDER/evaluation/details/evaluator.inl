@@ -58,7 +58,7 @@ auto evaluator<Number>::eval_postfix(std::stack<token<Number>>&& tokens) const
 
     while (not tokens.empty())
     {
-        token<Number> tok = tokens.top();
+        token<Number> tok = std::move(tokens.top());
         tokens.pop();
 
         switch (tok.type)
@@ -84,7 +84,7 @@ auto evaluator<Number>::eval_postfix(std::stack<token<Number>>&& tokens) const
 
                 for (std::size_t i = func.arity ; i > 0u ; --i)
                 {
-                    params[i-1u] = operands.top();
+                    params[i-1u] = std::move(operands.top());
                     operands.pop();
                 }
                 operands.push(func(params));
@@ -97,9 +97,9 @@ auto evaluator<Number>::eval_postfix(std::stack<token<Number>>&& tokens) const
                 {
                     throw error(error_code::not_enough_operands, to_string(tok.infix));
                 }
-                Number rhs = operands.top();
+                Number rhs = std::move(operands.top());
                 operands.pop();
-                Number lhs = operands.top();
+                Number lhs = std::move(operands.top());
                 operands.pop();
                 operands.push(operation(tok.infix, lhs, rhs));
                 break;
@@ -111,7 +111,7 @@ auto evaluator<Number>::eval_postfix(std::stack<token<Number>>&& tokens) const
                 {
                     throw error(error_code::not_enough_operands, to_string(tok.prefix));
                 }
-                Number arg = operands.top();
+                Number arg = std::move(operands.top());
                 operands.pop();
                 operands.push(operation(tok.prefix, arg));
                 break;
@@ -123,7 +123,7 @@ auto evaluator<Number>::eval_postfix(std::stack<token<Number>>&& tokens) const
                 {
                     throw error(error_code::not_enough_operands, to_string(tok.postfix));
                 }
-                Number arg = operands.top();
+                Number arg = std::move(operands.top());
                 operands.pop();
                 operands.push(operation(tok.postfix, arg));
                 break;
