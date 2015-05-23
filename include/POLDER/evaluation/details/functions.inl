@@ -179,7 +179,6 @@ auto tokenize(const std::string& expr)
                 if (res.empty())
                 {
                     res.emplace_back(prefix_t::USUB);
-                    break;
                 }
                 else
                 {
@@ -194,8 +193,8 @@ auto tokenize(const std::string& expr)
                     {
                         res.emplace_back(prefix_t::USUB);
                     }
-                    break;
                 }
+                break;
 
             case '<': // <, <=, <=>, << and <>
                 if (it[1] == '<')
@@ -245,7 +244,6 @@ auto tokenize(const std::string& expr)
                 if (it[1] == '=' && it[1] != '=')
                 {
                     res.emplace_back(infix_t::NE);
-                    break;
                 }
                 else
                 {
@@ -258,8 +256,8 @@ auto tokenize(const std::string& expr)
                         break;
                     }
                     res.emplace_back(prefix_t::NOT);
-                    break;
                 }
+                break;
 
             default:
                 throw error(error_code::unknown_operator, *it);
