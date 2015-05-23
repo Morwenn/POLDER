@@ -128,7 +128,7 @@ namespace evaluation
         msg = oss.str();
     }
 
-    error::~error() noexcept
+    error::~error()
         = default;
 
     auto error::what() const noexcept
