@@ -32,6 +32,7 @@ Contents:
    evaluation
    gray
    math
+   polymorphic
 
 
 Indices and tables
