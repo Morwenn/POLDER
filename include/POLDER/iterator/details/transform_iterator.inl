@@ -36,7 +36,7 @@ transform_iterator<Iterator, UnaryFunction>::transform_iterator(Iterator it, Una
 template<typename Iterator, typename UnaryFunction>
 template<typename U>
 transform_iterator<Iterator, UnaryFunction>::transform_iterator(const transform_iterator<U, UnaryFunction>& other):
-    members{other.base(), std::get<1>(other.members)}
+    members{other.base(), other.function()}
 {}
 
 ////////////////////////////////////////////////////////////
@@ -58,13 +58,20 @@ auto transform_iterator<Iterator, UnaryFunction>::operator=(const transform_iter
 }
 
 ////////////////////////////////////////////////////////////
-// Base iterator access
+// Members access
 
 template<typename Iterator, typename UnaryFunction>
 auto transform_iterator<Iterator, UnaryFunction>::base() const
     -> Iterator
 {
     return std::get<0>(members);
+}
+
+template<typename Iterator, typename UnaryFunction>
+auto transform_iterator<Iterator, UnaryFunction>::function() const
+    -> UnaryFunction
+{
+    return std::get<1>(members);
 }
 
 ////////////////////////////////////////////////////////////

@@ -77,10 +77,12 @@ namespace polder
                 -> transform_iterator&;
 
             ////////////////////////////////////////////////////////////
-            // Base iterator access
+            // Members access
 
             auto base() const
                 -> Iterator;
+            auto function() const
+                -> UnaryFunction;
 
             ////////////////////////////////////////////////////////////
             // Element access
