@@ -20,31 +20,31 @@
 // Element access operations
 
 template<typename Interface, template<typename> class Adapter>
-auto vector<Interface, Adapter>::at(size_type pos)
+auto vector<Interface, Adapter>::at(size_type position)
     -> reference
 {
-    return *_entities.at(pos);
+    return *_entities.at(position);
 }
 
 template<typename Interface, template<typename> class Adapter>
-auto vector<Interface, Adapter>::at(size_type pos) const
+auto vector<Interface, Adapter>::at(size_type position) const
     -> const_reference
 {
-    return *_entities.at(pos);
+    return *_entities.at(position);
 }
 
 template<typename Interface, template<typename> class Adapter>
-auto vector<Interface, Adapter>::operator[](size_type pos)
+auto vector<Interface, Adapter>::operator[](size_type position)
     -> reference
 {
-    return *_entities[pos];
+    return *_entities[position];
 }
 
 template<typename Interface, template<typename> class Adapter>
-auto vector<Interface, Adapter>::operator[](size_type pos) const
+auto vector<Interface, Adapter>::operator[](size_type position) const
     -> const_reference
 {
-    return *_entities[pos];
+    return *_entities[position];
 }
 
 template<typename Interface, template<typename> class Adapter>
@@ -163,6 +163,51 @@ auto vector<Interface, Adapter>::crend() const
 }
 
 ////////////////////////////////////////////////////////////
+// Capacity operations
+
+template<typename Interface, template<typename> class Adapter>
+auto vector<Interface, Adapter>::is_empty() const
+    -> bool
+{
+    return _entities.empty();
+}
+
+template<typename Interface, template<typename> class Adapter>
+auto vector<Interface, Adapter>::size() const
+    -> size_type
+{
+    return _entities.size();
+}
+
+template<typename Interface, template<typename> class Adapter>
+auto vector<Interface, Adapter>::max_size() const
+    -> size_type
+{
+    return _entities.max_size();
+}
+
+template<typename Interface, template<typename> class Adapter>
+auto vector<Interface, Adapter>::reserve(size_type new_capacity)
+    -> void
+{
+    _entities.reserve(new_capacity);
+}
+
+template<typename Interface, template<typename> class Adapter>
+auto vector<Interface, Adapter>::capacity() const
+    -> size_type
+{
+    return _entities.capacity();
+}
+
+template<typename Interface, template<typename> class Adapter>
+auto vector<Interface, Adapter>::shrink_to_fit()
+    -> void
+{
+    _entities.shrink_to_fit();
+}
+
+////////////////////////////////////////////////////////////
 // Modifying operations
 
 template<typename Interface, template<typename> class Adapter>
@@ -174,32 +219,32 @@ auto vector<Interface, Adapter>::clear()
 
 template<typename Interface, template<typename> class Adapter>
 template<typename T>
-auto vector<Interface, Adapter>::insert(const_iterator pos, T&& value)
+auto vector<Interface, Adapter>::insert(const_iterator position, T&& value)
     -> iterator
 {
     auto ptr = std::make_unique<Adapter<T>>(std::forward<T>(value));
     return make_indirect_iterator(
-        _entities.insert(pos.base(), std::move(ptr))
+        _entities.insert(position.base(), std::move(ptr))
     );
 }
 
 template<typename Interface, template<typename> class Adapter>
 template<typename T, typename... Args>
-auto vector<Interface, Adapter>::emplace(const_iterator pos, Args&&... args)
+auto vector<Interface, Adapter>::emplace(const_iterator position, Args&&... args)
     -> iterator
 {
     auto ptr = std::make_unique<Adapter<T>>(std::forward<Args>(args)...);
     return make_indirect_iterator(
-        _entities.emplace(pos.base(), std::move(ptr))
+        _entities.emplace(position.base(), std::move(ptr))
     );
 }
 
 template<typename Interface, template<typename> class Adapter>
-auto vector<Interface, Adapter>::erase(const_iterator pos)
+auto vector<Interface, Adapter>::erase(const_iterator position)
     -> iterator
 {
     return make_indirect_iterator(
-        _entities.erase(pos.base())
+        _entities.erase(position.base())
     );
 }
 
@@ -226,4 +271,11 @@ auto vector<Interface, Adapter>::pop_back()
     -> void
 {
     _entities.pop_back();
+}
+
+template<typename Interface, template<typename> class Adapter>
+auto vector<Interface, Adapter>::resize(size_type count)
+    -> void
+{
+    _entities.resize(count);
 }
