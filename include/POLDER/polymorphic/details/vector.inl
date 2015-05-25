@@ -17,27 +17,6 @@
  */
 
 ////////////////////////////////////////////////////////////
-// Modifying operations
-
-template<typename Interface, template<typename> class Adapter>
-template<typename T, typename... Args>
-auto vector<Interface, Adapter>::emplace_back(Args&&... args)
-    -> void
-{
-    auto ptr = std::make_unique<Adapter<T>>(std::forward<Args>(args)...);
-    _entities.push_back(std::move(ptr));
-}
-
-template<typename Interface, template<typename> class Adapter>
-template<typename T>
-auto vector<Interface, Adapter>::push_back(T&& other)
-    -> void
-{
-    auto ptr = new Adapter<T>{ std::forward<T>(other) };
-    _entities.emplace_back(ptr);
-}
-
-////////////////////////////////////////////////////////////
 // Element access operations
 
 template<typename Interface, template<typename> class Adapter>
@@ -181,4 +160,70 @@ auto vector<Interface, Adapter>::crend() const
     -> const_reverse_iterator
 {
     return make_indirect_iterator(_entities.crend());
+}
+
+////////////////////////////////////////////////////////////
+// Modifying operations
+
+template<typename Interface, template<typename> class Adapter>
+auto vector<Interface, Adapter>::clear()
+    -> void
+{
+    _entities.clear();
+}
+
+template<typename Interface, template<typename> class Adapter>
+template<typename T>
+auto vector<Interface, Adapter>::insert(const_iterator pos, T&& value)
+    -> iterator
+{
+    auto ptr = std::make_unique<Adapter<T>>(std::forward<T>(value));
+    return make_indirect_iterator(
+        _entities.insert(pos.base(), std::move(ptr))
+    );
+}
+
+template<typename Interface, template<typename> class Adapter>
+template<typename T, typename... Args>
+auto vector<Interface, Adapter>::emplace(const_iterator pos, Args&&... args)
+    -> iterator
+{
+    auto ptr = std::make_unique<Adapter<T>>(std::forward<Args>(args)...);
+    return make_indirect_iterator(
+        _entities.emplace(pos.base(), std::move(ptr))
+    );
+}
+
+template<typename Interface, template<typename> class Adapter>
+auto vector<Interface, Adapter>::erase(const_iterator pos)
+    -> iterator
+{
+    return make_indirect_iterator(
+        _entities.erase(pos.base())
+    );
+}
+
+template<typename Interface, template<typename> class Adapter>
+template<typename T>
+auto vector<Interface, Adapter>::push_back(T&& value)
+    -> void
+{
+    auto ptr = std::make_unique<Adapter<T>>(std::forward<T>(value));
+    _entities.emplace_back(std::move(ptr));
+}
+
+template<typename Interface, template<typename> class Adapter>
+template<typename T, typename... Args>
+auto vector<Interface, Adapter>::emplace_back(Args&&... args)
+    -> void
+{
+    auto ptr = std::make_unique<Adapter<T>>(std::forward<Args>(args)...);
+    _entities.push_back(std::move(ptr));
+}
+
+template<typename Interface, template<typename> class Adapter>
+auto vector<Interface, Adapter>::pop_back()
+    -> void
+{
+    _entities.pop_back();
 }

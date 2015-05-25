@@ -52,17 +52,6 @@ namespace polymorphic
             using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
             ////////////////////////////////////////////////////////////
-            // Modifying operations
-
-            template<typename T, typename... Args>
-            auto emplace_back(Args&&... args)
-                -> void;
-
-            template<typename T>
-            auto push_back(T&& other)
-                -> void;
-
-            ////////////////////////////////////////////////////////////
             // Element access operations
 
             auto at(size_type pos)
@@ -113,6 +102,34 @@ namespace polymorphic
                 -> const_reverse_iterator;
             auto crend() const
                 -> const_reverse_iterator;
+
+            ////////////////////////////////////////////////////////////
+            // Modifying operations
+
+            auto clear()
+                -> void;
+
+            template<typename T>
+            auto insert(const_iterator pos, T&& value)
+                -> iterator;
+
+            template<typename T, typename... Args>
+            auto emplace(const_iterator pos, Args&&... args)
+                -> iterator;
+
+            auto erase(const_iterator pos)
+                -> iterator;
+
+            template<typename T>
+            auto push_back(T&& value)
+                -> void;
+
+            template<typename T, typename... Args>
+            auto emplace_back(Args&&... args)
+                -> void;
+
+            auto pop_back()
+                -> void;
 
         private:
 
