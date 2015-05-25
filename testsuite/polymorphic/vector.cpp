@@ -22,6 +22,9 @@
 using namespace std::string_literals;
 using namespace polder;
 
+////////////////////////////////////////////////////////////
+// Non-polymorphic shapes
+
 struct Shape
 {
     virtual std::string name() const = 0;
@@ -49,6 +52,9 @@ struct Rectangle
     }
 };
 
+////////////////////////////////////////////////////////////
+// Polymorphic shape adapter
+
 template<typename T>
 struct ShapeAdapter:
     Shape
@@ -66,6 +72,9 @@ struct ShapeAdapter:
     T data;
 };
 
+////////////////////////////////////////////////////////////
+// Actual tests
+
 SCENARIO( "vector of shapes", "[polymorphic][vector]" )
 {
     GIVEN( "an empty vector of shapes" )
@@ -78,6 +87,10 @@ SCENARIO( "vector of shapes", "[polymorphic][vector]" )
 
             THEN( "the first shape is a Circle" )
             {
+                REQUIRE( shapes.at(0).name() == "Circle" );
+                REQUIRE( shapes[0].name() == "Circle" );
+                REQUIRE( shapes.front().name() == "Circle" );
+                REQUIRE( shapes.back().name() == "Circle" );
                 REQUIRE( shapes.begin()->name() == "Circle" );
                 REQUIRE( shapes.cbegin()->name() == "Circle" );
             }
@@ -96,6 +109,9 @@ SCENARIO( "vector of shapes", "[polymorphic][vector]" )
 
             THEN( "the second shape is a Rectangle" )
             {
+                REQUIRE( shapes.at(1).name() == "Rectangle" );
+                REQUIRE( shapes[1].name() == "Rectangle" );
+                REQUIRE( shapes.back().name() == "Rectangle" );
                 REQUIRE( (++shapes.begin())->name() == "Rectangle" );
                 REQUIRE( (++shapes.cbegin())->name() == "Rectangle" );
             }

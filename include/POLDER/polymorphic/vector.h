@@ -44,6 +44,8 @@ namespace polymorphic
             using pointer = Interface*;
             using const_pointer = const Interface*;
 
+            using size_type = typename std::vector<std::unique_ptr<Interface>>::size_type;
+
             using iterator = indirect_iterator<typename std::vector<std::unique_ptr<Interface>>::iterator>;
             using const_iterator = indirect_iterator<typename std::vector<std::unique_ptr<Interface>>::const_iterator>;
             using reverse_iterator = std::reverse_iterator<iterator>;
@@ -59,6 +61,29 @@ namespace polymorphic
             template<typename T>
             auto push_back(T&& other)
                 -> void;
+
+            ////////////////////////////////////////////////////////////
+            // Element access operations
+
+            auto at(size_type pos)
+                -> reference;
+            auto at(size_type pos) const
+                -> const_reference;
+
+            auto operator[](size_type pos)
+                -> reference;
+            auto operator[](size_type pos) const
+                -> const_reference;
+
+            auto front()
+                -> reference;
+            auto front() const
+                -> const_reference;
+
+            auto back()
+                -> reference;
+            auto back() const
+                -> const_reference;
 
             ////////////////////////////////////////////////////////////
             // Iterator operations
