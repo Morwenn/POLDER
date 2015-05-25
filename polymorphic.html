@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>5. polymorphic — Concept-based polymorphic collections &mdash; POLDER 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
+    <link rel="prev" title="4.5. factorial — Factorial-related mathematical formula" href="math.factorial.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="math.factorial.html" title="4.5. factorial — Factorial-related mathematical formula"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-polymorphic">
+<span id="polymorphic-concept-based-polymorphic-collections"></span><h1>5. <a class="reference internal" href="#module-polymorphic" title="polymorphic"><code class="xref py py-mod docutils literal"><span class="pre">polymorphic</span></code></a> &#8212; Concept-based polymorphic collections<a class="headerlink" href="#module-polymorphic" title="Permalink to this headline">¶</a></h1>
+<p>This module contains collection classes based on the standard library collections
+which implement concept-based polymorphism, a powerful mechanism that allows to
+call functions in unrelated classes in a polymorphic way even though they don&#8217;t
+inherit frm a common base.</p>
+<div class="section" id="concept-based-polymorphism-example">
+<h2>5.1. Concept-based polymorphism example<a class="headerlink" href="#concept-based-polymorphism-example" title="Permalink to this headline">¶</a></h2>
+<p>There&#8217;s nothing better than a simple example to introduce a new topic. Let&#8217;s say
+you have a basic class <code class="docutils literal"><span class="pre">Shape</span></code> and two derived classes <code class="docutils literal"><span class="pre">Circle</span></code> and <code class="docutils literal"><span class="pre">Rectangle</span></code>
+that have some <code class="docutils literal"><span class="pre">virtual</span></code> functions for the sake of the example:</p>
+<blockquote>
+<div><div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">Shape</span>
+<span class="p">{</span>
+    <span class="k">virtual</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">virtual</span> <span class="o">~</span><span class="n">Shape</span><span class="p">()</span> <span class="p">{};</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nl">Circle</span><span class="p">:</span>
+    <span class="n">Shape</span>
+<span class="p">{</span>
+    <span class="n">Circle</span><span class="p">(</span><span class="kt">int</span> <span class="cm">/* x */</span><span class="p">,</span> <span class="kt">int</span> <span class="cm">/* y */</span><span class="p">,</span> <span class="kt">int</span> <span class="cm">/* radius */</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="k">virtual</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;Circle&quot;</span><span class="n">s</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nl">Rectangle</span><span class="p">:</span>
+    <span class="n">Shape</span>
+<span class="p">{</span>
+    <span class="n">Rectangle</span><span class="p">(</span><span class="kt">int</span> <span class="cm">/* x */</span><span class="p">,</span> <span class="kt">int</span> <span class="cm">/* y */</span><span class="p">,</span> <span class="kt">int</span> <span class="cm">/* height */</span><span class="p">,</span> <span class="kt">int</span> <span class="cm">/* width */</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="k">virtual</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;Rectangle&quot;</span><span class="n">s</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Now if you want to store these classes in a sequence and call the right functions,
+you would have to store pointers in the first place or use a class such as <code class="docutils literal"><span class="pre">boost::ptr_vector</span></code>.
+The collections proposed in this module allow not only to have reference semantics
+instead of pointer semantics but they don&#8217;t even require that <code class="docutils literal"><span class="pre">Circle</span></code> and <code class="docutils literal"><span class="pre">Rectangle</span></code>
+inherit from <code class="docutils literal"><span class="pre">Shape</span></code>. They only require that these classes have consistent names
+and that you write a small adapter class so that everything works fine. Let&#8217;s keep our
+<code class="docutils literal"><span class="pre">Shape</span></code> class and reimplement <code class="docutils literal"><span class="pre">Circle</span></code> and <code class="docutils literal"><span class="pre">Rectangle</span></code>:</p>
+<blockquote>
+<div><div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">Circle</span>
+<span class="p">{</span>
+    <span class="n">Circle</span><span class="p">(</span><span class="kt">int</span> <span class="cm">/* x */</span><span class="p">,</span> <span class="kt">int</span> <span class="cm">/* y */</span><span class="p">,</span> <span class="kt">int</span> <span class="cm">/* radius */</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;Circle&quot;</span><span class="n">s</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">Rectangle</span>
+<span class="p">{</span>
+    <span class="n">Rectangle</span><span class="p">(</span><span class="kt">int</span> <span class="cm">/* x */</span><span class="p">,</span> <span class="kt">int</span> <span class="cm">/* y */</span><span class="p">,</span> <span class="kt">int</span> <span class="cm">/* height */</span><span class="p">,</span> <span class="kt">int</span> <span class="cm">/* width */</span><span class="p">)</span> <span class="p">{}</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;Rectangle&quot;</span><span class="n">s</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Now let&#8217;s write a <code class="docutils literal"><span class="pre">ShapeAdapter</span></code> which will tell how to adapt any class satisfying
+the <code class="docutils literal"><span class="pre">Shape</span></code> concept or interface into a real <code class="docutils literal"><span class="pre">Shape</span></code>:</p>
+<blockquote>
+<div><div class="highlight-cpp"><div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="nl">ShapeAdapter</span><span class="p">:</span>
+    <span class="n">Shape</span>
+<span class="p">{</span>
+    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">...</span> <span class="n">Args</span><span class="o">&gt;</span>
+    <span class="n">ShapeAdapter</span><span class="p">(</span><span class="n">Args</span><span class="o">&amp;&amp;</span><span class="p">...</span> <span class="n">args</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">data</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">Args</span><span class="o">&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">)...)</span>
+    <span class="p">{}</span>
+
+    <span class="k">virtual</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">.</span><span class="n">name</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">T</span> <span class="n">data</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>As you can see, this very basic adapter simply wraps any class and calls the method
+<code class="docutils literal"><span class="pre">name</span></code> from this class whenever its own method <code class="docutils literal"><span class="pre">name</span></code> is called. While this is
+the most simple behaviour, it might be changed to do more complicated things if needed.
+Now, we can use a polymorphic collection which will actually store instances of this
+<code class="docutils literal"><span class="pre">ShapeAdapter</span></code> and make it look like <code class="docutils literal"><span class="pre">Circle</span></code> and <code class="docutils literal"><span class="pre">Rectangle</span></code> actually inherit
+from <code class="docutils literal"><span class="pre">Shape</span></code>:</p>
+<blockquote>
+<div><div class="highlight-cpp"><div class="highlight"><pre><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// Create a collection, feed it the class to be used as</span>
+    <span class="c1">// an interface and the class to adapt ther classes to</span>
+    <span class="c1">// this interface</span>
+    <span class="n">polymorphic</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Shape</span><span class="p">,</span> <span class="n">ShapeAdapter</span><span class="o">&gt;</span> <span class="n">shapes</span><span class="p">;</span>
+
+    <span class="c1">// Add elements at the end</span>
+    <span class="n">shapes</span><span class="p">.</span><span class="n">emplace_back</span><span class="o">&lt;</span><span class="n">Circle</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="n">shapes</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Rectangle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">));</span>
+
+    <span class="c1">// Add elements wherever we want to</span>
+    <span class="n">shapes</span><span class="p">.</span><span class="n">emplace</span><span class="o">&lt;</span><span class="n">Rectangle</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shapes</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">);</span>
+    <span class="n">shapes</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">shapes</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">Circle</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">));</span>
+
+    <span class="c1">// Print the name of the wrapped classes, effectively</span>
+    <span class="c1">// calling Circle::name and Rectangle::name when needed</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">Shape</span><span class="o">&amp;</span> <span class="nl">shape</span><span class="p">:</span> <span class="n">shapes</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">shape</span><span class="p">.</span><span class="n">name</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>While the underlying class actually uses and <code class="docutils literal"><span class="pre">std::vector&lt;std::unique_ptr&lt;Shape&gt;&gt;</span></code>,
+it is totally hidden to users of the class which can use it with nice reference
+semantics. One thing to remember though is that these collections do not have a
+<code class="docutils literal"><span class="pre">value_type</span></code> type since there would be no sane way to pick such a type without
+creating confusion.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">5. <code class="docutils literal"><span class="pre">polymorphic</span></code> &#8212; Concept-based polymorphic collections</a><ul>
+<li><a class="reference internal" href="#concept-based-polymorphism-example">5.1. Concept-based polymorphism example</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="math.factorial.html"
+                        title="previous chapter">4.5. <code class="docutils literal"><span class="pre">factorial</span></code> &#8212; Factorial-related mathematical formula</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/polymorphic.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Morwenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/polymorphic.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>
