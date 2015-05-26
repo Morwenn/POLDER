@@ -25,13 +25,18 @@
 #include <memory>
 #include <utility>
 #include <vector>
+#include <POLDER/details/config.h>
 #include <POLDER/iterator/indirect_iterator.h>
+#include <POLDER/polymorphic/default_adapter.h>
 
 namespace polder
 {
 namespace polymorphic
 {
-    template<typename Interface, template<typename> class Adapter>
+    template<
+        typename Interface,
+        template<typename> class Adapter = default_adapter
+    >
     class vector
     {
         public:
