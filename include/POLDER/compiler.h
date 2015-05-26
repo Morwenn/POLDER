@@ -31,6 +31,7 @@
 ////////////////////////////////////////////////////////////
 #include <memory>
 #include <tuple>
+#include <POLDER/details/config.h>
 
 namespace polder
 {
