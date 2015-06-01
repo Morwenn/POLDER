@@ -86,10 +86,36 @@ TEST_CASE( "evaluation of mathematical expressions", "[evaluate]" )
         REQUIRE( eval("less(5, -1)") == false );
 
         eval.disconnect("less");
-        eval.connect("less", std::less<int>());
+        eval.connect("less", std::less<int>{});
 
         REQUIRE( eval("less(1, 2)") == true );
         REQUIRE( eval("less(-3, 5)") == true );
         REQUIRE( eval("less(5, -1)") == false );
+    }
+
+    SECTION( "fun with parenthesis" )
+    {
+        evaluator<int> eval;
+
+        REQUIRE( eval("(0)") == 0 );
+        REQUIRE( eval("((1))") == 1 );
+        REQUIRE( eval("(((2)))") == 2 );
+        REQUIRE( eval("((((((42))))))") == 42 );
+
+        eval.connect("abs", [](int n) {
+            return std::abs(n);
+        });
+
+        REQUIRE( eval("abs((2))") == 2 );
+        REQUIRE( eval("abs((-3))") == 3 );
+
+        eval.connect("add", std::plus<int>{});
+
+        REQUIRE( eval("(add(2, 3))") == 5 );
+        REQUIRE( eval("add((2), 3)") == 5 );
+        REQUIRE( eval("add(2, (3))") == 5 );
+        REQUIRE( eval("add((2), (3))") == 5 );
+        REQUIRE( eval("add(add(2, 5), 3)") == 10 );
+        REQUIRE( eval("add(2, add(5, 3))") == 10 );
     }
 }
