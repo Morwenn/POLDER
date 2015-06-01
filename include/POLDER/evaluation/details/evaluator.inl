@@ -75,7 +75,15 @@ auto evaluator<Number>::eval_postfix(std::stack<token<Number>>&& tokens) const
 
                 if (operands.size() < func.arity)
                 {
-                    throw error(std::string("not enough operands for function") + tok.name);
+                    std::stringstream sstr;
+                    sstr << "not enough operands for function "
+                         << tok.name
+                         << ": expected "
+                         << func.arity
+                         << ", got "
+                         << operands.size();
+
+                    throw error(sstr.str());
                 }
 
                 // Only 16 parameters for now
