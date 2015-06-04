@@ -37,27 +37,31 @@ namespace polder
 {
 namespace compiler
 {
+    #include "details/compiler.inl"
+
     /**
      * @brief Empty base class optimization check.
-     * @return Whether the compiler does the empty base class optimization.
+     *
+     * This variable contains \c true if the compiler performs the empty
+     * base class optimization.
      */
-    constexpr auto has_ebco()
-        -> bool;
+    constexpr bool has_ebco =
+        sizeof(details::ebco_check) < sizeof(details::not_empty);
 
     /**
      * @brief Empty base class optimization check for a given template.
      *
-     * This function is specialized for some specific templates and
-     * will always return \c false for the other ones. It may return
+     * This variable template is specialized for some specific templates
+     * and will always contain \c false for the other ones. It may contain
      * \c true for the following templates: std::tuple, std::unique_ptr.
      *
-     * @return Whether the given template performs EBCO.
+     * It will contain \c true for the specialized template if and only
+     * if the implementation optimizes these templates so that they can
+     * benefit from the empty base class optimization.
      */
     template<template<typename...> class TT>
-    constexpr auto has_ebco_for()
-        -> bool;
-
-    #include "details/compiler.inl"
+    constexpr bool has_ebco_for =
+        details::has_ebco_for_helper<TT>;
 }}
 
 #endif // POLDER_COMPILER_H_

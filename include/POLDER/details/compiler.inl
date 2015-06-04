@@ -46,38 +46,13 @@ namespace details
     };
 
     template<template<typename...> class>
-    struct has_ebco_for_helper
-    {
-        static constexpr bool value = false;
-    };
+    constexpr bool has_ebco_for_helper = false;
 
     template<>
-    struct has_ebco_for_helper<std::tuple>
-    {
-        static constexpr bool value =
-            sizeof(std::tuple<int, empty>) == sizeof(std::tuple<int>);
-    };
+    constexpr bool has_ebco_for_helper<std::tuple> =
+        sizeof(std::tuple<int, empty>) == sizeof(std::tuple<int>);
 
     template<>
-    struct has_ebco_for_helper<std::unique_ptr>
-    {
-        static constexpr bool value =
-            sizeof(std::unique_ptr<int, functor>) < sizeof(std::unique_ptr<int, void(*)(int*)>);
-    };
-}
-
-////////////////////////////////////////////////////////////
-// Interface functions
-
-constexpr auto has_ebco()
-    -> bool
-{
-    return sizeof(details::ebco_check) < sizeof(details::not_empty);
-}
-
-template<template<typename...> class TT>
-constexpr auto has_ebco_for()
-    -> bool
-{
-    return details::has_ebco_for_helper<TT>::value;
+    constexpr bool has_ebco_for_helper<std::unique_ptr> =
+        sizeof(std::unique_ptr<int, functor>) < sizeof(std::unique_ptr<int, void(*)(int*)>);
 }

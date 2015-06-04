@@ -35,7 +35,7 @@ TEST_CASE( "EBCO for transform_iterator", "[iterator][compiler]" )
         return dummy;
     };
 
-    if (compiler::has_ebco_for<std::tuple>())
+    if (compiler::has_ebco_for<std::tuple>)
     {
         REQUIRE(
             sizeof(transform_iterator<iterator, decltype(lambda)>) <
