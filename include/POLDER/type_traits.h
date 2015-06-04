@@ -29,7 +29,6 @@ namespace polder
 {
     ////////////////////////////////////////////////////////////
     // Function traits
-    ////////////////////////////////////////////////////////////
 
     template<typename T>
     struct function_traits:
@@ -121,6 +120,12 @@ namespace polder
         function_traits<T>
     {};
 
+    ////////////////////////////////////////////////////////////
+    // Function traits terse interface
+
+    template<typename T>
+    constexpr std::size_t arity = function_traits<T>::arity;
+
     template<typename T>
     using result_type = typename function_traits<T>::result_type;
 
@@ -132,7 +137,6 @@ namespace polder
     //
     // These functions are meant to help the parsing
     // of integer literals.
-    ////////////////////////////////////////////////////////////
 
     /**
      * @brief Unsigned integer fit.
@@ -142,6 +146,7 @@ namespace polder
      */
     template<typename Integer>
     constexpr auto can_fit(unsigned long long n)
+        -> bool
     {
         return n <= std::numeric_limits<Integer>::max();
     }
@@ -213,7 +218,6 @@ namespace polder
 
     ////////////////////////////////////////////////////////////
     // Size traits
-    ////////////////////////////////////////////////////////////
 
     template<typename T, typename U>
     using greater_of = std::conditional<
@@ -231,7 +235,6 @@ namespace polder
 
     ////////////////////////////////////////////////////////////
     // Variadic is_same trait
-    ////////////////////////////////////////////////////////////
 
     template<typename T, typename...>
     struct is_same;
@@ -252,7 +255,6 @@ namespace polder
 
     ////////////////////////////////////////////////////////////
     // disable_if
-    ////////////////////////////////////////////////////////////
 
     template<bool B, typename T=void>
     using disable_if = std::enable_if<not B, T>;
@@ -262,7 +264,6 @@ namespace polder
 
     ////////////////////////////////////////////////////////////
     // Iterable/traversable traits
-    ////////////////////////////////////////////////////////////
 
     template<typename T>
     struct is_iterable_impl

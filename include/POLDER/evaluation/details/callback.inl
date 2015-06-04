@@ -22,7 +22,7 @@ callback<Number>::callback(Func&& function):
     callback(
         std::forward<Func>(function),
         std::make_index_sequence<
-            function_traits<Func>::arity
+            polder::arity<Func>
         >{}
     )
 {}

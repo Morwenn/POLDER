@@ -61,7 +61,7 @@ auto memoized_impl(Function&& func, std::index_sequence<Ind...>)
 template<typename Function>
 auto memoized(Function&& func)
 {
-    using Indices = std::make_index_sequence<function_traits<Function>::arity>;
+    using Indices = std::make_index_sequence<arity<Function>>;
     return memoized_impl(std::forward<Function>(func), Indices{});
 }
 
@@ -85,7 +85,7 @@ auto curried(Function&& func, First&& first)
     static_assert(std::is_convertible<First, FirstArg>::value,
                   "the value to be tied should be convertible to the type of the function's first parameter");
 
-    using Indices = index_range<1, function_traits<Function>::arity>;
+    using Indices = index_range<1, arity<Function>>;
     return curried_impl(std::forward<Function>(func), std::forward<First>(first), Indices{});
 }
 
@@ -105,7 +105,7 @@ auto compose_impl(First first, Second second, std::index_sequence<Ind...>)
 template<typename First, typename Second>
 auto compose(First&& first, Second&& second)
 {
-    static_assert(function_traits<First>::arity == 1u,
+    static_assert(arity<First> == 1u,
                   "all the functions passed to compose, except the last one, must take exactly one parameter");
 
     using Ret       = result_type<Second>;
@@ -113,6 +113,6 @@ auto compose(First&& first, Second&& second)
     static_assert(std::is_convertible<Ret, FirstArg>::value,
                   "incompatible return types in compose");
 
-    using Indices = std::make_index_sequence<function_traits<Second>::arity>;
+    using Indices = std::make_index_sequence<arity<Second>>;
     return compose_impl(std::forward<First>(first), std::forward<Second>(second), Indices{});
 }
