@@ -117,5 +117,6 @@ TEST_CASE( "evaluation of mathematical expressions", "[evaluate]" )
         REQUIRE( eval("add((2), (3))") == 5 );
         REQUIRE( eval("add(add(2, 5), 3)") == 10 );
         REQUIRE( eval("add(2, add(5, 3))") == 10 );
+        REQUIRE( eval("add(add(1, 2), add(3, 4))") == 10 );
     }
 }
