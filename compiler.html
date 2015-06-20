@@ -59,33 +59,35 @@
             
   <div class="section" id="module-compiler">
 <span id="compiler-implementation-information"></span><h1>1. <a class="reference internal" href="#module-compiler" title="compiler"><code class="xref py py-mod docutils literal"><span class="pre">compiler</span></code></a> &#8212; Implementation information<a class="headerlink" href="#module-compiler" title="Permalink to this headline">¶</a></h1>
-<p>This module contains functions to query properties of the compiler or of the
+<p>This module contains features to query properties of the compiler or of the
 standard library implementation. It is mainly used by the test files to check
 whether compiler-specific optimizations work.</p>
-<div class="section" id="compiler-related-functions">
-<h2>1.1. Compiler-related functions<a class="headerlink" href="#compiler-related-functions" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="_CPPv2N8compiler8has_ebcoEv">
-<span id="compiler::has_ebcoCE"></span><em class="property">constexpr</em> bool <code class="descclassname">compiler::</code><code class="descname">has_ebco</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N8compiler8has_ebcoEv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns whether the compiler is able to perform <a class="reference external" href="http://en.cppreference.com/w/cpp/language/ebo">empty base class optimization</a>.</p>
+<div class="section" id="compiler-related-features">
+<h2>1.1. Compiler-related features<a class="headerlink" href="#compiler-related-features" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="_CPPv2N8compiler8has_ebcoE">
+<span id="compiler::has_ebco__b"></span><em class="property">constexpr</em> bool <code class="descclassname">compiler::</code><code class="descname">has_ebco</code><a class="headerlink" href="#_CPPv2N8compiler8has_ebcoE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains <code class="docutils literal"><span class="pre">true</span></code> if the compiler is able to perform the <a class="reference external" href="http://en.cppreference.com/w/cpp/language/ebo">empty base class optimization</a>.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="standard-library-related-functions">
-<h2>1.2. Standard library-related functions<a class="headerlink" href="#standard-library-related-functions" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="_CPPv2N8compiler12has_ebco_forEv">
-<span id="compiler::has_ebco_forCE"></span><em class="property">constexpr</em> bool <code class="descclassname">compiler::</code><code class="descname">has_ebco_for</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N8compiler12has_ebco_forEv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns whether the given template from the standard library is optimized to take
-advantage of the empty base class optimization. This function has specializations
-for some of the standard library templates and always return <code class="docutils literal"><span class="pre">false</span></code> otherwise.</p>
-<p>It has specializations for the following standard library templates:</p>
+<div class="section" id="standard-library-related-features">
+<h2>1.2. Standard library-related features<a class="headerlink" href="#standard-library-related-features" title="Permalink to this headline">¶</a></h2>
+<dl class="var">
+<dt id="_CPPv2N8compiler12has_ebco_forE">
+<span id="compiler::has_ebco_for__b"></span><em class="property">constexpr</em> bool <code class="descclassname">compiler::</code><code class="descname">has_ebco_for</code><a class="headerlink" href="#_CPPv2N8compiler12has_ebco_forE" title="Permalink to this definition">¶</a></dt>
+<dd><p>This variable template is specialized for some specific templates and
+will always contain <code class="docutils literal"><span class="pre">false</span></code> for the other ones. It will contain
+<code class="docutils literal"><span class="pre">true</span></code> for the specialized template if and only if the implementation
+optimizes these templates so that they can benefit from the empty base
+class optimization.</p>
+<p>It is specialized for the following standard library templates:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">std::unique_ptr</span></code></li>
 <li><code class="docutils literal"><span class="pre">std::tuple</span></code></li>
 </ul>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// Example usage</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">compiler</span><span class="o">::</span><span class="n">has_ebco_for</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&gt;</span><span class="p">())</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">compiler</span><span class="o">::</span><span class="n">has_ebco_for</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&gt;</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">assert</span><span class="p">(</span>
         <span class="k">sizeof</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">&lt;</span>
@@ -108,8 +110,8 @@ for some of the standard library templates and always return <code class="docuti
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">1. <code class="docutils literal"><span class="pre">compiler</span></code> &#8212; Implementation information</a><ul>
-<li><a class="reference internal" href="#compiler-related-functions">1.1. Compiler-related functions</a></li>
-<li><a class="reference internal" href="#standard-library-related-functions">1.2. Standard library-related functions</a></li>
+<li><a class="reference internal" href="#compiler-related-features">1.1. Compiler-related features</a></li>
+<li><a class="reference internal" href="#standard-library-related-features">1.2. Standard library-related features</a></li>
 </ul>
 </li>
 </ul>

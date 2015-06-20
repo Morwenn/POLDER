@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>5. polymorphic — Concept-based polymorphic collections &mdash; POLDER 1.0.0 documentation</title>
+    <title>5. polymorphic — Polymorphic collections &mdash; POLDER 1.0.0 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -54,18 +54,52 @@
           <div class="body" role="main">
             
   <div class="section" id="module-polymorphic">
-<span id="polymorphic-concept-based-polymorphic-collections"></span><h1>5. <a class="reference internal" href="#module-polymorphic" title="polymorphic"><code class="xref py py-mod docutils literal"><span class="pre">polymorphic</span></code></a> &#8212; Concept-based polymorphic collections<a class="headerlink" href="#module-polymorphic" title="Permalink to this headline">¶</a></h1>
+<span id="polymorphic-polymorphic-collections"></span><h1>5. <a class="reference internal" href="#module-polymorphic" title="polymorphic"><code class="xref py py-mod docutils literal"><span class="pre">polymorphic</span></code></a> &#8212; Polymorphic collections<a class="headerlink" href="#module-polymorphic" title="Permalink to this headline">¶</a></h1>
 <p>This module contains collection classes based on the standard library collections
-which implement concept-based polymorphism, a powerful mechanism that allows to
-call functions in unrelated classes in a polymorphic way even though they don&#8217;t
-inherit frm a common base.</p>
-<div class="section" id="concept-based-polymorphism-example">
-<h2>5.1. Concept-based polymorphism example<a class="headerlink" href="#concept-based-polymorphism-example" title="Permalink to this headline">¶</a></h2>
-<p>There&#8217;s nothing better than a simple example to introduce a new topic. Let&#8217;s say
-you have a basic class <code class="docutils literal"><span class="pre">Shape</span></code> and two derived classes <code class="docutils literal"><span class="pre">Circle</span></code> and <code class="docutils literal"><span class="pre">Rectangle</span></code>
-that have some <code class="docutils literal"><span class="pre">virtual</span></code> functions for the sake of the example:</p>
-<blockquote>
-<div><div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">Shape</span>
+which are meant to store instances of polymorphic types. Through the <code class="docutils literal"><span class="pre">Adapter</span></code>
+template template parameter, they allow to use regular polymorphism but also to
+automagically adapt the stored types and implement concept-based polymorphism.</p>
+<p>Every class in this module lives in the namespace <code class="docutils literal"><span class="pre">polder::polymorphism</span></code>. The
+collection classes all follow the same general design:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span>
+    <span class="k">typename</span> <span class="n">Interface</span><span class="p">,</span>
+    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="o">&gt;</span> <span class="k">class</span> <span class="nc">Adapter</span> <span class="o">=</span> <span class="n">default_adapter</span>
+<span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">collection</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>In this class, the template parameter <code class="docutils literal"><span class="pre">Interface</span></code> corresponds to the class
+describing the concept or interface that the stored types must satisfy. With the
+default adapter, it means that every type whose instances are stored in the
+collection must derive from <code class="docutils literal"><span class="pre">Interface</span></code>. It becomes a bit more subtle when we
+use custom adapters, so we will come back to this in the part about concept-based
+polymorphism.</p>
+<p>The collection classes are design to be as close as possible from the standard
+library collection classes, so learning how to use them should be straightforward
+for anyone already using the standard library. There are however a few differences
+that you should know about:</p>
+<ul class="simple">
+<li>There is no <code class="docutils literal"><span class="pre">value_type</span></code> member in the polymorphic collections. That is because
+it would be impossible to sanely alias any type. We don&#8217;t want to alias <code class="docutils literal"><span class="pre">Interface</span></code>
+because it is generally an abstract class but it wouldn&#8217;t mean anything to alias
+<code class="docutils literal"><span class="pre">Interface&amp;</span></code> or <code class="docutils literal"><span class="pre">Interface*</span></code> either. We decided to avoid any surprise due to
+one assumption or another and to simply remove <code class="docutils literal"><span class="pre">value_type</span></code>.</li>
+<li>The <code class="docutils literal"><span class="pre">emplace_*</span></code> family of functions takes an additional template parameter so
+it knows which type it has to construct and add to the collection. We generally
+want to construct an instance of a derived type and this additional type parameter
+is there for that.</li>
+<li>The collections currently don&#8217;t handle custom allocators but that could be a future
+direction for the module.</li>
+</ul>
+<div class="section" id="regular-polymorphism">
+<h2>5.1. Regular polymorphism<a class="headerlink" href="#regular-polymorphism" title="Permalink to this headline">¶</a></h2>
+<p>At first, we will ignore the <code class="docutils literal"><span class="pre">Adapter</span></code> template template parameter and focus on
+the first use case of polymorphic collections: store instances of polymorphic types.
+So, let&#8217;s write a simple hierarchy of shapes:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">Shape</span>
 <span class="p">{</span>
     <span class="k">virtual</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
@@ -79,7 +113,7 @@ that have some <code class="docutils literal"><span class="pre">virtual</span></
 
     <span class="k">virtual</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span>
     <span class="p">{</span>
-        <span class="k">return</span> <span class="s">&quot;Circle&quot;</span><span class="n">s</span><span class="p">;</span>
+        <span class="k">return</span> <span class="s">&quot;Circle&quot;</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
@@ -90,27 +124,58 @@ that have some <code class="docutils literal"><span class="pre">virtual</span></
 
     <span class="k">virtual</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span> <span class="k">override</span>
     <span class="p">{</span>
-        <span class="k">return</span> <span class="s">&quot;Rectangle&quot;</span><span class="n">s</span><span class="p">;</span>
+        <span class="k">return</span> <span class="s">&quot;Rectangle&quot;</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </pre></div>
 </div>
-</div></blockquote>
-<p>Now if you want to store these classes in a sequence and call the right functions,
-you would have to store pointers in the first place or use a class such as <code class="docutils literal"><span class="pre">boost::ptr_vector</span></code>.
-The collections proposed in this module allow not only to have reference semantics
-instead of pointer semantics but they don&#8217;t even require that <code class="docutils literal"><span class="pre">Circle</span></code> and <code class="docutils literal"><span class="pre">Rectangle</span></code>
-inherit from <code class="docutils literal"><span class="pre">Shape</span></code>. They only require that these classes have consistent names
-and that you write a small adapter class so that everything works fine. Let&#8217;s keep our
-<code class="docutils literal"><span class="pre">Shape</span></code> class and reimplement <code class="docutils literal"><span class="pre">Circle</span></code> and <code class="docutils literal"><span class="pre">Rectangle</span></code>:</p>
-<blockquote>
-<div><div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">Circle</span>
+<p>Nothing new here: we have a very simple hierarchy with a base class <code class="docutils literal"><span class="pre">Shape</span></code>
+and two subclasses that reimplement the method <code class="docutils literal"><span class="pre">name</span></code>. Here is an example
+using a <code class="docutils literal"><span class="pre">polymorphic::vector&lt;Shape&gt;</span></code> to demonstrate how simple it is to
+add anything derived from <code class="docutils literal"><span class="pre">Shape</span></code> into it:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// Create a collection, feed it the base class used by every</span>
+    <span class="c1">// type whose instances will be stored</span>
+    <span class="n">polder</span><span class="o">::</span><span class="n">polymorphic</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Shape</span><span class="o">&gt;</span> <span class="n">shapes</span><span class="p">;</span>
+
+    <span class="c1">// Add elements at the end of the collection</span>
+    <span class="n">shapes</span><span class="p">.</span><span class="n">emplace_back</span><span class="o">&lt;</span><span class="n">Circle</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="n">shapes</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Rectangle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">));</span>
+
+    <span class="c1">// Insert elements wherever we want to</span>
+    <span class="n">shapes</span><span class="p">.</span><span class="n">emplace</span><span class="o">&lt;</span><span class="n">Rectangle</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shapes</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">);</span>
+    <span class="n">shapes</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">shapes</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">Circle</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">));</span>
+
+    <span class="c1">// Print the name of the class of the stored instances, effectively</span>
+    <span class="c1">// calling Circle::name and Rectangle::name when needed</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">Shape</span><span class="o">&amp;</span> <span class="nl">shape</span><span class="p">:</span> <span class="n">shapes</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">shape</span><span class="p">.</span><span class="n">name</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>As you can see, using such a class is merely as easy as using a standard library
+collection. Be careful however that you always use reference or pointer semantics.
+Raw value semantics don&#8217;t well with polymorphism so you could be up to get unlucky.</p>
+</div>
+<div class="section" id="concept-based-polymorphism">
+<h2>5.2. Concept-based polymorphism<a class="headerlink" href="#concept-based-polymorphism" title="Permalink to this headline">¶</a></h2>
+<p>Concept-based polymorphism is a powerful mechanism that allows to store instances
+of several types in our polymorphic collections as long as they satisfy the concept
+of the <code class="docutils literal"><span class="pre">Interface</span></code> class. In other words, you can store them as long as you know
+how to adapt them so that they are compatible with the <code class="docutils literal"><span class="pre">virtual</span></code> methods of the
+<code class="docutils literal"><span class="pre">Interface</span></code> class without even having them actually derive from <code class="docutils literal"><span class="pre">Interface</span></code>.
+To make it easier to understand, let&#8217;s take our shapes from before and strip them
+from their base class:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">Circle</span>
 <span class="p">{</span>
     <span class="n">Circle</span><span class="p">(</span><span class="kt">int</span> <span class="cm">/* x */</span><span class="p">,</span> <span class="kt">int</span> <span class="cm">/* y */</span><span class="p">,</span> <span class="kt">int</span> <span class="cm">/* radius */</span><span class="p">)</span> <span class="p">{}</span>
 
     <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span>
     <span class="p">{</span>
-        <span class="k">return</span> <span class="s">&quot;Circle&quot;</span><span class="n">s</span><span class="p">;</span>
+        <span class="k">return</span> <span class="s">&quot;Circle&quot;</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
@@ -120,16 +185,15 @@ and that you write a small adapter class so that everything works fine. Let&#821
 
     <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">()</span> <span class="k">const</span>
     <span class="p">{</span>
-        <span class="k">return</span> <span class="s">&quot;Rectangle&quot;</span><span class="n">s</span><span class="p">;</span>
+        <span class="k">return</span> <span class="s">&quot;Rectangle&quot;</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </pre></div>
 </div>
-</div></blockquote>
-<p>Now let&#8217;s write a <code class="docutils literal"><span class="pre">ShapeAdapter</span></code> which will tell how to adapt any class satisfying
-the <code class="docutils literal"><span class="pre">Shape</span></code> concept or interface into a real <code class="docutils literal"><span class="pre">Shape</span></code>:</p>
-<blockquote>
-<div><div class="highlight-cpp"><div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<p>The <code class="docutils literal"><span class="pre">polymorphic</span></code> module will still allow you to store instances of these classes into
+its collections as long as you know how to write the corresponding adapter. Fortunately,
+it&#8217;s quite easy to write for such a simple <code class="docutils literal"><span class="pre">Interface</span></code> class. Here is a <code class="docutils literal"><span class="pre">ShapeAdapter</span></code>:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="k">struct</span> <span class="nl">ShapeAdapter</span><span class="p">:</span>
     <span class="n">Shape</span>
 <span class="p">{</span>
@@ -147,30 +211,33 @@ the <code class="docutils literal"><span class="pre">Shape</span></code> concept
 <span class="p">};</span>
 </pre></div>
 </div>
-</div></blockquote>
-<p>As you can see, this very basic adapter simply wraps any class and calls the method
-<code class="docutils literal"><span class="pre">name</span></code> from this class whenever its own method <code class="docutils literal"><span class="pre">name</span></code> is called. While this is
-the most simple behaviour, it might be changed to do more complicated things if needed.
-Now, we can use a polymorphic collection which will actually store instances of this
-<code class="docutils literal"><span class="pre">ShapeAdapter</span></code> and make it look like <code class="docutils literal"><span class="pre">Circle</span></code> and <code class="docutils literal"><span class="pre">Rectangle</span></code> actually inherit
-from <code class="docutils literal"><span class="pre">Shape</span></code>:</p>
-<blockquote>
-<div><div class="highlight-cpp"><div class="highlight"><pre><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<p>This <code class="docutils literal"><span class="pre">ShapeAdapter</span></code> does three things:</p>
+<ul class="simple">
+<li>It stores an instance of <code class="docutils literal"><span class="pre">T</span></code>, which would be an instance of <code class="docutils literal"><span class="pre">Rectangle</span></code> or <code class="docutils literal"><span class="pre">Circle</span></code>
+in our case.</li>
+<li>It forwards everything it is constructed with to the constructor of the wrapped type so
+that the <code class="docutils literal"><span class="pre">emplace_*</span></code> family of functions work like a charm.</li>
+<li>It It reimplements the <code class="docutils literal"><span class="pre">virtual</span></code> functions from <code class="docutils literal"><span class="pre">Shape</span></code> so that every reimplemented
+function calls the function with the same name in the wrapped class.</li>
+</ul>
+<p>Now, we can rewrite the first examples with our new <code class="docutils literal"><span class="pre">Circle</span></code> and <code class="docutils literal"><span class="pre">Rectangle</span></code> classes
+and let the <code class="docutils literal"><span class="pre">ShapeAdapter</span></code> do its job to call the appropriate functions:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="c1">// Create a collection, feed it the class to be used as</span>
-    <span class="c1">// an interface and the class to adapt ther classes to</span>
+    <span class="c1">// an interface and the class to adapt other classes to</span>
     <span class="c1">// this interface</span>
-    <span class="n">polymorphic</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Shape</span><span class="p">,</span> <span class="n">ShapeAdapter</span><span class="o">&gt;</span> <span class="n">shapes</span><span class="p">;</span>
+    <span class="n">polder</span><span class="o">::</span><span class="n">polymorphic</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Shape</span><span class="p">,</span> <span class="n">ShapeAdapter</span><span class="o">&gt;</span> <span class="n">shapes</span><span class="p">;</span>
 
-    <span class="c1">// Add elements at the end</span>
+    <span class="c1">// Add elements at the end of the collection</span>
     <span class="n">shapes</span><span class="p">.</span><span class="n">emplace_back</span><span class="o">&lt;</span><span class="n">Circle</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
     <span class="n">shapes</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Rectangle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">));</span>
 
-    <span class="c1">// Add elements wherever we want to</span>
+    <span class="c1">// Insert elements wherever we want to</span>
     <span class="n">shapes</span><span class="p">.</span><span class="n">emplace</span><span class="o">&lt;</span><span class="n">Rectangle</span><span class="o">&gt;</span><span class="p">(</span><span class="n">shapes</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">);</span>
     <span class="n">shapes</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">shapes</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">Circle</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">));</span>
 
-    <span class="c1">// Print the name of the wrapped classes, effectively</span>
+    <span class="c1">// Print the name of the class of the stored instances, effectively</span>
     <span class="c1">// calling Circle::name and Rectangle::name when needed</span>
     <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="n">Shape</span><span class="o">&amp;</span> <span class="nl">shape</span><span class="p">:</span> <span class="n">shapes</span><span class="p">)</span>
     <span class="p">{</span>
@@ -179,12 +246,11 @@ from <code class="docutils literal"><span class="pre">Shape</span></code>:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-</div></blockquote>
-<p>While the underlying class actually uses and <code class="docutils literal"><span class="pre">std::vector&lt;std::unique_ptr&lt;Shape&gt;&gt;</span></code>,
-it is totally hidden to users of the class which can use it with nice reference
-semantics. One thing to remember though is that these collections do not have a
-<code class="docutils literal"><span class="pre">value_type</span></code> type since there would be no sane way to pick such a type without
-creating confusion.</p>
+<p>With a single adapter, we managed to transform a non-polymorphic but consistent family
+of classes so that they can be stored and used <em>as if</em> they all derived from a same
+given base class. While adapters were originally design to implement concept-based
+polymorphism, they are actually a much more powerful mechanism and allow to add some
+common features to a consistent family of classes.</p>
 </div>
 </div>
 
@@ -196,8 +262,9 @@ creating confusion.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">5. <code class="docutils literal"><span class="pre">polymorphic</span></code> &#8212; Concept-based polymorphic collections</a><ul>
-<li><a class="reference internal" href="#concept-based-polymorphism-example">5.1. Concept-based polymorphism example</a></li>
+<li><a class="reference internal" href="#">5. <code class="docutils literal"><span class="pre">polymorphic</span></code> &#8212; Polymorphic collections</a><ul>
+<li><a class="reference internal" href="#regular-polymorphism">5.1. Regular polymorphism</a></li>
+<li><a class="reference internal" href="#concept-based-polymorphism">5.2. Concept-based polymorphism</a></li>
 </ul>
 </li>
 </ul>

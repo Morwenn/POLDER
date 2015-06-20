@@ -4,28 +4,30 @@
 
 .. module:: compiler
 
-This module contains functions to query properties of the compiler or of the
+This module contains features to query properties of the compiler or of the
 standard library implementation. It is mainly used by the test files to check
 whether compiler-specific optimizations work.
 
 
-Compiler-related functions
---------------------------
+Compiler-related features
+-------------------------
 
-.. cpp:function:: constexpr bool compiler::has_ebco()
+.. cpp:var:: constexpr bool compiler::has_ebco
 
-    Returns whether the compiler is able to perform `empty base class optimization`_.
+    Contains ``true`` if the compiler is able to perform the `empty base class optimization`_.
 
-Standard library-related functions
-----------------------------------
+Standard library-related features
+---------------------------------
 
-.. cpp:function:: constexpr bool compiler::has_ebco_for()
+.. cpp:var:: constexpr bool compiler::has_ebco_for
 
-    Returns whether the given template from the standard library is optimized to take
-    advantage of the empty base class optimization. This function has specializations
-    for some of the standard library templates and always return ``false`` otherwise.
+    This variable template is specialized for some specific templates and
+    will always contain ``false`` for the other ones. It will contain
+    ``true`` for the specialized template if and only if the implementation
+    optimizes these templates so that they can benefit from the empty base
+    class optimization.
     
-    It has specializations for the following standard library templates:
+    It is specialized for the following standard library templates:
     
     * ``std::unique_ptr``
     * ``std::tuple``
@@ -33,7 +35,7 @@ Standard library-related functions
     .. code-block:: cpp
 
         // Example usage
-        if (compiler::has_ebco_for<std::unique_ptr>())
+        if (compiler::has_ebco_for<std::unique_ptr>)
         {
             assert(
                 sizeof(std::unique_ptr<int>) <

@@ -63,11 +63,16 @@
 to evaluate mathematical expressions, and exposes as well many of the
 details of the implementation, which may be reused for other purposes,
 even though <code class="docutils literal"><span class="pre">evaluator</span></code> is the main component of the module. Every
-feature of this module lives in the namespace <code class="docutils literal"><span class="pre">polder::evaluation</span></code>,
-but the class template <code class="docutils literal"><span class="pre">evaluator</span></code> is also available directly from
-the <code class="docutils literal"><span class="pre">polder</span></code> namespace.</p>
-<p>Since there are many things to be said about this simple class, let&#8217;s
-start with a simple example:</p>
+feature of this module lives in the namespace <code class="docutils literal"><span class="pre">polder::evaluation</span></code>.
+While most of the internals can be included separately, the whole module
+can also be included at once with the following line of code:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;POLDER/evaluation.h&gt;</span>
+</pre></div>
+</div>
+<p>The class template <code class="docutils literal"><span class="pre">evaluator</span></code>, the main component of this module, is
+also available directly from the <code class="docutils literal"><span class="pre">polder</span></code> namespace. Since there are
+many things to be said about this simple class, let&#8217;s start with a simple
+example:</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;cstdlib&gt;</span>
 <span class="cp">#include &lt;iostream&gt;</span>
 <span class="cp">#include &lt;POLDER/evaluation.h&gt;</span>

@@ -8,12 +8,18 @@ This module defines a class template ``evaluator`` which can be used
 to evaluate mathematical expressions, and exposes as well many of the
 details of the implementation, which may be reused for other purposes,
 even though ``evaluator`` is the main component of the module. Every
-feature of this module lives in the namespace ``polder::evaluation``,
-but the class template ``evaluator`` is also available directly from
-the ``polder`` namespace.
+feature of this module lives in the namespace ``polder::evaluation``.
+While most of the internals can be included separately, the whole module
+can also be included at once with the following line of code:
 
-Since there are many things to be said about this simple class, let's
-start with a simple example:
+.. code-block:: cpp
+
+    #include <POLDER/evaluation.h>
+
+The class template ``evaluator``, the main component of this module, is
+also available directly from the ``polder`` namespace. Since there are
+many things to be said about this simple class, let's start with a simple
+example:
 
 .. code-block:: cpp
 
