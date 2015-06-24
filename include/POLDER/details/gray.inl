@@ -446,13 +446,11 @@ auto is_odd(gray_code<Unsigned> code) noexcept
 
     #else
 
-        unsigned nb_bits{};
-        for (auto val = code.value ; val ; ++nb_bits)
+        for (std::size_t i = std::numeric_limits<Unsigned>::digits / 2u ; i ; i >>= 1u)
         {
-            // clear the least significant bit set
-            val &= val - 1;
+            code.value ^= (code.value >> i);
         }
-        return bool(nb_bits % 2);
+        return bool(code.value & 1u);
 
     #endif
 }
