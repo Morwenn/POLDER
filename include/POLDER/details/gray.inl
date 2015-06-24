@@ -86,7 +86,7 @@ auto gray_code<Unsigned>::operator++() noexcept
 
     if (is_odd(*this))
     {
-        if (value == msb)
+        if (POLDER_UNLIKELY(value == msb))
         {
             value = 0;
         }
@@ -127,7 +127,7 @@ auto gray_code<Unsigned>::operator--() noexcept
     }
     else
     {
-        if (value == 0)
+        if (POLDER_UNLIKELY(value == 0))
         {
             value = msb;
         }
