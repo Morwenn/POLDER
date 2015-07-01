@@ -83,7 +83,7 @@ auto evaluator<Number>::eval_postfix(std::stack<token<Number>>&& tokens) const
                          << ", got "
                          << operands.size();
 
-                    throw error(sstr.str());
+                    throw error(error_type::not_enough_operands, sstr.str());
                 }
 
                 // Only 16 parameters for now
@@ -103,7 +103,13 @@ auto evaluator<Number>::eval_postfix(std::stack<token<Number>>&& tokens) const
             {
                 if (operands.size() < 2)
                 {
-                    throw error(error_code::not_enough_operands, to_string(tok.infix));
+                    std::stringstream sstr;
+                    sstr << "not enough operands for infix operator "
+                         << to_string(tok.infix)
+                         << ": expected 2, got "
+                         << operands.size();
+
+                    throw error(error_type::not_enough_operands, sstr.str());
                 }
                 Number rhs = std::move(operands.top());
                 operands.pop();
@@ -117,7 +123,13 @@ auto evaluator<Number>::eval_postfix(std::stack<token<Number>>&& tokens) const
             {
                 if (operands.empty())
                 {
-                    throw error(error_code::not_enough_operands, to_string(tok.prefix));
+                    std::stringstream sstr;
+                    sstr << "not enough operands for prefix operator "
+                         << to_string(tok.prefix)
+                         << ": expected 1, got "
+                         << operands.size();
+
+                    throw error(error_type::not_enough_operands, sstr.str());
                 }
                 Number arg = std::move(operands.top());
                 operands.pop();
@@ -129,7 +141,13 @@ auto evaluator<Number>::eval_postfix(std::stack<token<Number>>&& tokens) const
             {
                 if (operands.empty())
                 {
-                    throw error(error_code::not_enough_operands, to_string(tok.postfix));
+                    std::stringstream sstr;
+                    sstr << "not enough operands for postfix operator "
+                         << to_string(tok.postfix)
+                         << ": expected 1, got "
+                         << operands.size();
+
+                    throw error(error_type::not_enough_operands, sstr.str());
                 }
                 Number arg = std::move(operands.top());
                 operands.pop();
@@ -138,7 +156,13 @@ auto evaluator<Number>::eval_postfix(std::stack<token<Number>>&& tokens) const
             }
 
             default:
-                throw error("unexpected token in postfix evaluation: " + to_string(tok));
+            {
+                std::stringstream sstr;
+                sstr << "unexpected token in postfix evaluation: "
+                     << to_string(tok);
+
+                throw error(error_type::unexpected_token, sstr.str());
+            }
         }
     }
     return operands.top();

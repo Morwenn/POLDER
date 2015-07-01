@@ -22,6 +22,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <cmath>
+#include <sstream>
 #include <unordered_map>
 #include <POLDER/details/config.h>
 #include <POLDER/evaluation/error.h>

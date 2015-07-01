@@ -15,7 +15,7 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include <sstream>
+#include <type_traits>
 #include <POLDER/evaluation/error.h>
 
 namespace polder
@@ -24,116 +24,39 @@ namespace evaluation
 {
     using namespace std::string_literals;
 
-    error::error():
-        msg("polder::evaluation::error: undocumented error")
+    namespace
+    {
+        // Default error messages for error codes
+        const char* const messages[] = {
+            "unknown operator in the expression",
+            "unexpected character in the expression",
+            "unexpected token in the expression",
+            "not enough operands for the operation",
+            "several dots in the same number",
+            "stray comma outside of a function's parameter list",
+            "trying to close a non-opened parenthesis",
+            "mismatched parenthesis in the expression"
+        };
+    }
+
+    error::error(error_type ecode):
+        std::runtime_error(
+            "polder::evaluation::error: "s +=
+            messages[std::underlying_type_t<error_type>(ecode)]
+        ),
+        ecode(ecode)
     {}
 
-    error::error(const std::string& arg):
-        msg("polder::evaluation::error: "s += arg)
+    error::error(error_type ecode, const std::string& arg):
+        std::runtime_error(
+            "polder::evaluation::error: "s += arg
+        ),
+        ecode(ecode)
     {}
 
-    error::error(error_code err, char c)
+    auto error::code() const noexcept
+        -> error_type
     {
-        std::ostringstream oss;
-        oss << "polder::evaluation::error: ";
-
-        switch (err)
-        {
-            case error_code::unknown_operator:
-                oss << "unknown operator '" << c << "' in the expression";
-                break;
-            case error_code::unexpected_character:
-                oss << "unexpected character '" << c <<"' in the expression";
-                break;
-            default:
-                oss << "unknown error in the expression";
-                break;
-        }
-
-        msg = oss.str();
-    }
-
-    error::error(error_code err, infix_t oper)
-    {
-        std::ostringstream oss;
-        oss << "polder::evaluation::error: ";
-
-        switch (err)
-        {
-            case error_code::unknown_operator:
-                oss << "unknown operator '" << to_string(oper) << "' in the expression";
-                break;
-            default:
-                oss << "unknown error in the expression";
-                break;
-        }
-
-        msg = oss.str();
-    }
-
-    error::error(error_code err, prefix_t oper)
-    {
-        std::ostringstream oss;
-        oss << "polder::evaluation::error: ";
-
-        switch (err)
-        {
-            case error_code::unknown_operator:
-                oss << "unknown operator '" << to_string(oper) << "' in the expression";
-                break;
-            default:
-                oss << "unknown error in the expression";
-                break;
-        }
-
-        msg = oss.str();
-    }
-
-    error::error(error_code err, postfix_t oper)
-    {
-        std::ostringstream oss;
-        oss << "polder::evaluation::error: ";
-
-        switch (err)
-        {
-            case error_code::unknown_operator:
-                oss << "unknown operator '" << to_string(oper) << "' in the expression";
-                break;
-            default:
-                oss << "unknown error in the expression";
-                break;
-        }
-
-        msg = oss.str();
-    }
-
-    error::error(error_code err, const std::string& arg)
-    {
-        std::ostringstream oss;
-        oss << "polder::evaluation::error: ";
-
-        switch (err)
-        {
-            case error_code::unknown_operator:
-                oss << "unknown operator '" << arg << "' in the expression";
-                break;
-            case error_code::not_enough_operands:
-                oss << "not enough operands for operator '" << arg << "'.";
-                break;
-            default:
-                oss << "unknown error in the expression";
-                break;
-        }
-
-        msg = oss.str();
-    }
-
-    error::~error()
-        = default;
-
-    auto error::what() const noexcept
-        -> const char*
-    {
-        return msg.c_str();
+        return ecode;
     }
 }}

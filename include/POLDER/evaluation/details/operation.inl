@@ -48,7 +48,11 @@ auto operation(infix_t oper, Number lhs, Number rhs)
     auto it = operations.find(oper);
     if (it == operations.end())
     {
-        throw error(error_code::unknown_operator, oper);
+        std::stringstream sstr;
+        sstr << "unknown operator in the expression: "
+             << to_string(oper);
+
+        throw error(error_type::unknown_operator, sstr.str());
     }
     return it->second(lhs, rhs);
 }
@@ -66,7 +70,11 @@ auto operation(prefix_t oper, Number arg)
     auto it = operations.find(oper);
     if (it == operations.end())
     {
-        throw error(error_code::unknown_operator, oper);
+        std::stringstream sstr;
+        sstr << "unknown operator in the expression: "
+             << to_string(oper);
+
+        throw error(error_type::unknown_operator, sstr.str());
     }
     return it->second(arg);
 }
@@ -82,7 +90,11 @@ auto operation(postfix_t oper, Number arg)
     auto it = operations.find(oper);
     if (it == operations.end())
     {
-        throw error(error_code::unknown_operator, oper);
+        std::stringstream sstr;
+        sstr << "unknown operator in the expression: "
+             << to_string(oper);
+
+        throw error(error_type::unknown_operator, sstr.str());
     }
     return it->second(arg);
 }

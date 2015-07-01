@@ -22,6 +22,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <cctype>
+#include <sstream>
 #include <stack>
 #include <string>
 #include <utility>

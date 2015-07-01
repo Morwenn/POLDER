@@ -22,7 +22,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <cstdint>
-#include <exception>
+#include <stdexcept>
 #include <string>
 #include <POLDER/details/config.h>
 #include <POLDER/evaluation/operator.h>
@@ -35,12 +35,17 @@ namespace evaluation
      * Error codes fed to the exceptions to specify
      * which kind of error has been thrown.
      */
-    enum struct error_code:
+    enum struct error_type:
         std::uint_fast8_t
     {
         unknown_operator,
         unexpected_character,
-        not_enough_operands
+        unexpected_token,
+        not_enough_operands,
+        several_dots,
+        stray_comma,
+        closed_parenthesis,
+        mismatched_parenthesis
     };
 
     /**
@@ -48,27 +53,31 @@ namespace evaluation
      * found in the expression to evaluate.
      */
     class POLDER_API error:
-        public std::exception
+        public std::runtime_error
     {
         public:
 
-            explicit error();
-            explicit error(const std::string& arg);
-            error(error_code err, char c);
-            error(error_code err, infix_t oper);
-            error(error_code err, prefix_t oper);
-            error(error_code err, postfix_t oper);
-            error(error_code err, const std::string& arg);
+            /**
+             * Constructs a default error message for the exception
+             * thanks to its error code.
+             */
+            explicit error(error_type ecode);
 
-            virtual ~error() override;
+            /**
+             * Constructs an exception with an error code and a custom
+             * error message.
+             */
+            error(error_type ecode, const std::string& arg);
 
-            virtual auto what() const noexcept
-                -> const char*
-                override;
+            /**
+             * Returns the exception's error code.
+             */
+            auto code() const noexcept
+                -> error_type;
 
         private:
 
-            std::string msg; /**< Error message */
+            error_type ecode;   /**< Error code */
     };
 }}
 

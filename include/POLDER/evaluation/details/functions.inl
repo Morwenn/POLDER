@@ -49,7 +49,7 @@ auto tokenize(const std::string& expr)
                     if (has_dot)
                     {
                         // Two dots in the same number: error
-                        throw error(error_code::unexpected_character, '.');
+                        throw error(error_type::several_dots);
                     }
                     else
                     {
@@ -83,7 +83,7 @@ auto tokenize(const std::string& expr)
             case ',':
                 if (nmb_parenthesis == 0)
                 {
-                    throw error("a comma can not appear outside of a function's parameter list");
+                    throw error(error_type::stray_comma);
                 }
                 res.emplace_back(token_t::comma);
                 break;
@@ -91,7 +91,7 @@ auto tokenize(const std::string& expr)
             case ')':
                 if (nmb_parenthesis == 0)
                 {
-                    throw error("trying to close a non-opened parenthesis");
+                    throw error(error_type::closed_parenthesis);
                 }
                 --nmb_parenthesis;
                 res.emplace_back(token_t::right_brace);
@@ -260,13 +260,19 @@ auto tokenize(const std::string& expr)
                 break;
 
             default:
-                throw error(error_code::unknown_operator, *it);
+            {
+                std::stringstream sstr;
+                sstr << "unknown operator in the expression: "
+                     << *it;
+
+                throw error(error_type::unknown_operator, sstr.str());
+            }
         }
     }
 
     if (nmb_parenthesis)
     {
-        throw error("mismatched parenthesis in the expression");
+        throw error(error_type::mismatched_parenthesis);
     }
 
     return res;
