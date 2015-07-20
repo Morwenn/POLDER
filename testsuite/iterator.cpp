@@ -37,7 +37,7 @@ TEST_CASE( "EBCO for transform_iterator", "[iterator][compiler]" )
 
     if (compiler::has_ebco_for<std::tuple>)
     {
-        REQUIRE(
+        CHECK(
             sizeof(transform_iterator<iterator, decltype(lambda)>) <
             sizeof(transform_iterator<iterator, int(*)(int)>)
         );
@@ -98,10 +98,10 @@ TEST_CASE( "get_iterator", "[iterator]" )
 
     SECTION( "observers" )
     {
-        REQUIRE( key_it.base() == foo_it );
-        REQUIRE( value_it.base() == foo_it );
-        REQUIRE( *key_it == foo_it->first );
-        REQUIRE( *value_it == foo_it->second );
+        CHECK( key_it.base() == foo_it );
+        CHECK( value_it.base() == foo_it );
+        CHECK( *key_it == foo_it->first );
+        CHECK( *value_it == foo_it->second );
     }
 
     SECTION( "increment/decrement operators" )
@@ -109,26 +109,26 @@ TEST_CASE( "get_iterator", "[iterator]" )
         ++foo_it;
         ++key_it;
         ++value_it;
-        REQUIRE( *key_it == foo_it->first );
-        REQUIRE( *value_it == foo_it->second );
+        CHECK( *key_it == foo_it->first );
+        CHECK( *value_it == foo_it->second );
 
         foo_it++;
         key_it++;
         value_it++;
-        REQUIRE( *key_it == foo_it->first );
-        REQUIRE( *value_it == foo_it->second );
+        CHECK( *key_it == foo_it->first );
+        CHECK( *value_it == foo_it->second );
 
         --foo_it;
         --key_it;
         --value_it;
-        REQUIRE( *key_it == foo_it->first );
-        REQUIRE( *value_it == foo_it->second );
+        CHECK( *key_it == foo_it->first );
+        CHECK( *value_it == foo_it->second );
 
         foo_it--;
         key_it--;
         value_it--;
-        REQUIRE( *key_it == foo_it->first );
-        REQUIRE( *value_it == foo_it->second );
+        CHECK( *key_it == foo_it->first );
+        CHECK( *value_it == foo_it->second );
     }
 }
 
@@ -145,7 +145,7 @@ TEST_CASE( "indirect_iterator", "[iterator]" )
     auto indirect_it = make_indirect_iterator(std::begin(vec_ptr));
     for (int& val: vec)
     {
-        REQUIRE( val == *indirect_it );
+        CHECK( val == *indirect_it );
         ++indirect_it;
     }
 }

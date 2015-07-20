@@ -26,16 +26,16 @@ TEST_CASE( "rational construction", "[rational]" )
 {
     // Default initialization
     rational<int> r0;
-    REQUIRE( r0.numer() == 0 );
-    REQUIRE( r0.denom() == 1 );
+    CHECK( r0.numer() == 0 );
+    CHECK( r0.denom() == 1 );
 
     auto ratio = make_rational(4, 3);
-    REQUIRE( ratio.numer() == 4 );
-    REQUIRE( ratio.denom() == 3 );
+    CHECK( ratio.numer() == 4 );
+    CHECK( ratio.denom() == 3 );
 
     auto ratio2 = make_rational(5);
-    REQUIRE( ratio2.numer() == 5 );
-    REQUIRE( ratio2.denom() == 1 );
+    CHECK( ratio2.numer() == 5 );
+    CHECK( ratio2.denom() == 1 );
 }
 
 TEST_CASE( "rational comparison operators", "[rational]" )
@@ -49,17 +49,17 @@ TEST_CASE( "rational comparison operators", "[rational]" )
 
     SECTION( "rational-rational comparison" )
     {
-        REQUIRE( r1 == r2 );
-        REQUIRE( r1 != r3 );
-        REQUIRE( r5 == r6 );
+        CHECK( r1 == r2 );
+        CHECK( r1 != r3 );
+        CHECK( r5 == r6 );
     }
 
     SECTION( "rational-integer comparison" )
     {
-        REQUIRE( r4 == 5 );
-        REQUIRE( 5 == r4 );
-        REQUIRE( r1 != 3 );
-        REQUIRE( 8 != r2 );
+        CHECK( r4 == 5 );
+        CHECK( 5 == r4 );
+        CHECK( r1 != 3 );
+        CHECK( 8 != r2 );
     }
 }
 
@@ -74,24 +74,24 @@ TEST_CASE( "rational relational operators", "[rational]" )
 
     SECTION( "rational-rational comparison" )
     {
-        REQUIRE( r1 > r3 );
-        REQUIRE( r3 < r2 );
-        REQUIRE( r1 >= r2 );
-        REQUIRE( r3 <= r2 );
+        CHECK( r1 > r3 );
+        CHECK( r3 < r2 );
+        CHECK( r1 >= r2 );
+        CHECK( r3 <= r2 );
     }
 
     SECTION( "rational-integer comparison" )
     {
-        REQUIRE( 0 < r1 );
-        REQUIRE( r2 < 1 );
-        REQUIRE( 8 > r4 );
-        REQUIRE( r2 > -1 );
-        REQUIRE( 5 <= r4 );
-        REQUIRE( r3 <= 1 );
-        REQUIRE( 1 >= r3 );
-        REQUIRE( r1 >= -8 );
-        REQUIRE( r5 <= 0 );
-        REQUIRE( r6 <= 0 );
+        CHECK( 0 < r1 );
+        CHECK( r2 < 1 );
+        CHECK( 8 > r4 );
+        CHECK( r2 > -1 );
+        CHECK( 5 <= r4 );
+        CHECK( r3 <= 1 );
+        CHECK( 1 >= r3 );
+        CHECK( r1 >= -8 );
+        CHECK( r5 <= 0 );
+        CHECK( r6 <= 0 );
     }
 }
 
@@ -104,39 +104,39 @@ TEST_CASE( "rational arithmetic operators", "[rational]" )
 
     SECTION( "rational-rational arithmetic operators" )
     {
-        REQUIRE( r1 + r2 == 1 );
-        REQUIRE( r4 - r1 == make_rational(9, 2) );
-        REQUIRE( r2 * r3 == make_rational(1, 6) );
-        REQUIRE( r1 / r3 == make_rational(3, 2) );
+        CHECK( r1 + r2 == 1 );
+        CHECK( r4 - r1 == make_rational(9, 2) );
+        CHECK( r2 * r3 == make_rational(1, 6) );
+        CHECK( r1 / r3 == make_rational(3, 2) );
     }
 
     SECTION( "rational-integral arithmetic operators" )
     {
-        REQUIRE( r1 + 1 == make_rational(3, 2) );
-        REQUIRE( 2 + r2 == make_rational(5, 2) );
-        REQUIRE( r3 - 3 == make_rational(-8, 3) );
-        REQUIRE( 2 - r1 == make_rational(3, 2) );
-        REQUIRE( r4 * 2 == 10 );
-        REQUIRE( 6 * r2 == r1 * 6 );
-        REQUIRE( 1 / r2 == 2 );
-        REQUIRE( r3 / 3 == make_rational(1, 9) );
-        REQUIRE( r1 / -2 == -1/4_r );
+        CHECK( r1 + 1 == make_rational(3, 2) );
+        CHECK( 2 + r2 == make_rational(5, 2) );
+        CHECK( r3 - 3 == make_rational(-8, 3) );
+        CHECK( 2 - r1 == make_rational(3, 2) );
+        CHECK( r4 * 2 == 10 );
+        CHECK( 6 * r2 == r1 * 6 );
+        CHECK( 1 / r2 == 2 );
+        CHECK( r3 / 3 == make_rational(1, 9) );
+        CHECK( r1 / -2 == -1/4_r );
     }
 }
 
 TEST_CASE( "rational increment and decrement operators", "[rational]" )
 {
     auto r1 = 2/5_r;
-    REQUIRE( (r1++).numer() == 2 );
-    REQUIRE( r1.numer() == 7 );
-    REQUIRE( r1.denom() == 5 );
-    REQUIRE( (--r1).numer() == 2 );
+    CHECK( (r1++).numer() == 2 );
+    CHECK( r1.numer() == 7 );
+    CHECK( r1.denom() == 5 );
+    CHECK( (--r1).numer() == 2 );
 
     auto r2 = 15/7_r;
-    REQUIRE( (r2--).numer() == 15 );
-    REQUIRE( r2.numer() == 8 );
-    REQUIRE( r2.denom() == 7 );
-    REQUIRE( (++r2).numer() == 15 );
+    CHECK( (r2--).numer() == 15 );
+    CHECK( r2.numer() == 8 );
+    CHECK( r2.denom() == 7 );
+    CHECK( (++r2).numer() == 15 );
 }
 
 TEST_CASE( "math operations for rational", "[rational][math]" )
@@ -150,89 +150,89 @@ TEST_CASE( "math operations for rational", "[rational][math]" )
     {
         using math::meta::abs;
 
-        REQUIRE( abs(r1) == make_rational(1, 2) );
-        REQUIRE( abs(r2) == make_rational(1, 2) );
-        REQUIRE( abs(r1) == abs(r2) );
+        CHECK( abs(r1) == make_rational(1, 2) );
+        CHECK( abs(r2) == make_rational(1, 2) );
+        CHECK( abs(r1) == abs(r2) );
     }
 
     SECTION( "pow" )
     {
         using math::meta::pow;
 
-        REQUIRE( pow(r1, 0) == make_rational(1, 1) );
-        REQUIRE( pow(r2, 1) == r2 );
-        REQUIRE( pow(r3, 3) == make_rational(64, 125) );
-        REQUIRE( pow(r3, -3) == make_rational(pow(5, 3), pow(4, 3)) );
+        CHECK( pow(r1, 0) == make_rational(1, 1) );
+        CHECK( pow(r2, 1) == r2 );
+        CHECK( pow(r3, 3) == make_rational(64, 125) );
+        CHECK( pow(r3, -3) == make_rational(pow(5, 3), pow(4, 3)) );
     }
 
     SECTION( "sign" )
     {
         using math::meta::sign;
 
-        REQUIRE( sign(r0) == 0 );
-        REQUIRE( sign(r1) == -1 );
-        REQUIRE( sign(r2) == -1 );
-        REQUIRE( sign(r3) == 1 );
-        REQUIRE( sign(r1) == sign(r1.numer()) );
-        REQUIRE( sign(r2) == sign(r2.numer()) );
+        CHECK( sign(r0) == 0 );
+        CHECK( sign(r1) == -1 );
+        CHECK( sign(r2) == -1 );
+        CHECK( sign(r3) == 1 );
+        CHECK( sign(r1) == sign(r1.numer()) );
+        CHECK( sign(r2) == sign(r2.numer()) );
     }
 
     SECTION( "reciprocal" )
     {
-        REQUIRE( reciprocal(r1) == reciprocal(r2) );
+        CHECK( reciprocal(r1) == reciprocal(r2) );
     }
 
     SECTION( "invert" )
     {
-        REQUIRE( r1.invert() == r2.invert() );
-        REQUIRE( r1.numer() == -2 );
-        REQUIRE( r2.denom() == 1 );
+        CHECK( r1.invert() == r2.invert() );
+        CHECK( r1.numer() == -2 );
+        CHECK( r2.denom() == 1 );
     }
 }
 
 TEST_CASE( "rational implicit casts", "[rational]" )
 {
     REQUIRE_FALSE( 0_r );
-    REQUIRE( bool(1_r) );
-    REQUIRE( not not 8_r );
+    CHECK( bool(1_r) );
+    CHECK( not not 8_r );
 
-    REQUIRE( make_rational(1, 2) == make_rational(1L, 2L) );
-    REQUIRE( make_rational(3ULL, 2ULL) == rational<unsigned short>(3, 2) );
+    CHECK( make_rational(1, 2) == make_rational(1L, 2L) );
+    CHECK( make_rational(3ULL, 2ULL) == rational<unsigned short>(3, 2) );
 }
 
 TEST_CASE( "rational automatic normalization", "[rational]" )
 {
     auto r0 = make_rational(1, -2);
-    REQUIRE( r0.numer() == -1 );
-    REQUIRE( r0.denom() == 2 );
+    CHECK( r0.numer() == -1 );
+    CHECK( r0.denom() == 2 );
 
     auto r1 = 1/2_r + 1/2_r;
-    REQUIRE( r1.numer() == 1 );
-    REQUIRE( r1.denom() == 1 );
+    CHECK( r1.numer() == 1 );
+    CHECK( r1.denom() == 1 );
 
     auto r2 = 3/2_r - 1/2_r;
-    REQUIRE( r2.numer() == 1 );
-    REQUIRE( r2.denom() == 1 );
+    CHECK( r2.numer() == 1 );
+    CHECK( r2.denom() == 1 );
 
     auto r3 = (2/3_r) * (3/2_r);
-    REQUIRE( r3.numer() == 1 );
-    REQUIRE( r3.denom() == 1 );
+    CHECK( r3.numer() == 1 );
+    CHECK( r3.denom() == 1 );
 
     auto r4 = 1/2_r * 2;
-    REQUIRE( r4.numer() == 1 );
-    REQUIRE( r4.denom() == 1 );
+    CHECK( r4.numer() == 1 );
+    CHECK( r4.denom() == 1 );
 
     auto r5 = (3/4_r) / (3/5_r);
-    REQUIRE( r5.numer() == 5 );
-    REQUIRE( r5.denom() == 4 );
+    CHECK( r5.numer() == 5 );
+    CHECK( r5.denom() == 4 );
 
     auto r6 = (3/4_r) / 3;
-    REQUIRE( r6.numer() == 1 );
-    REQUIRE( r6.denom() == 4 );
+    CHECK( r6.numer() == 1 );
+    CHECK( r6.denom() == 4 );
 
     auto r7 = make_rational(2, 4);
-    REQUIRE( r7.numer() == 1 );
-    REQUIRE( r7.denom() == 2 );
+    CHECK( r7.numer() == 1 );
+    CHECK( r7.denom() == 2 );
 }
 
 TEST_CASE( "rational integer overflow avoidance", "[rational]" )
@@ -240,8 +240,8 @@ TEST_CASE( "rational integer overflow avoidance", "[rational]" )
     auto max = std::numeric_limits<int>::max();
 
     auto r1 = max/2_r;
-    REQUIRE( r1 * 2 == max );
+    CHECK( r1 * 2 == max );
 
     auto r2 = 2_r / max;
-    REQUIRE( r2 / 2 == 1_r / max );
+    CHECK( r2 / 2 == 1_r / max );
 }

@@ -52,10 +52,10 @@ TEST_CASE( "gray codes convert to and from unsigned integers", "[gray]" )
 TEST_CASE( "gray codes value construction", "[gray]" )
 {
     gray_code<unsigned> gr1{};
-    REQUIRE( gr1.value == 0u );
+    CHECK( gr1.value == 0u );
 
     gray_code<unsigned long long> gr2{};
-    REQUIRE( gr2.value == 0ull );
+    CHECK( gr2.value == 0ull );
 }
 
 TEST_CASE( "gray codes operator=", "[gray]" )
@@ -67,10 +67,10 @@ TEST_CASE( "gray codes operator=", "[gray]" )
         gr1 = gray(58u);
         gr2 = gray(22u);
 
-        REQUIRE( gr1 == gray(58u) );
-        REQUIRE( gr2 == gray(22u) );
-        REQUIRE( gr1 == 58u );
-        REQUIRE( 22u == gr2 );
+        CHECK( gr1 == gray(58u) );
+        CHECK( gr2 == gray(22u) );
+        CHECK( gr1 == 58u );
+        CHECK( 22u == gr2 );
     }
 
     SECTION( "assignment from unsigned integers" )
@@ -78,10 +78,10 @@ TEST_CASE( "gray codes operator=", "[gray]" )
         gr1 = 73u;
         gr2 = 194u;
 
-        REQUIRE( gr1 == gray(73u) );
-        REQUIRE( gr2 == gray(194u) );
-        REQUIRE( gr1 == 73u );
-        REQUIRE( 194u == gr2 );
+        CHECK( gr1 == gray(73u) );
+        CHECK( gr2 == gray(194u) );
+        CHECK( gr1 == 73u );
+        CHECK( 194u == gr2 );
     }
 }
 
@@ -102,12 +102,12 @@ TEST_CASE( "gray codes bitwise operations", "[gray]" )
     auto gr1 = gray(42u);
     auto gr2 = gray(28u);
 
-    REQUIRE( (gr1 & gr2).value == (gr1.value & gr2.value) );
-    REQUIRE( (gr1 | gr2).value == (gr1.value | gr2.value) );
-    REQUIRE( (gr1 ^ gr2).value == (gr1.value ^ gr2.value) );
-    REQUIRE( (~gr1).value == ~(gr1.value) );
-    REQUIRE( (gr1 << 3u).value == (gr1.value << 3u) );
-    REQUIRE( (gr1 >> 2u).value == (gr1.value >> 2u) );
+    CHECK( (gr1 & gr2).value == (gr1.value & gr2.value) );
+    CHECK( (gr1 | gr2).value == (gr1.value | gr2.value) );
+    CHECK( (gr1 ^ gr2).value == (gr1.value ^ gr2.value) );
+    CHECK( (~gr1).value == ~(gr1.value) );
+    CHECK( (gr1 << 3u).value == (gr1.value << 3u) );
+    CHECK( (gr1 >> 2u).value == (gr1.value >> 2u) );
 }
 
 TEST_CASE( "unsigned-gray bitwise assignment operations", "[gray]" )
@@ -117,15 +117,15 @@ TEST_CASE( "unsigned-gray bitwise assignment operations", "[gray]" )
     unsigned c = 0b1101u;
 
     a |= gray(0u);
-    REQUIRE( a == 0b0110u );
+    CHECK( a == 0b0110u );
     a &= gray(4u);
-    REQUIRE( a == 0b0110u );
+    CHECK( a == 0b0110u );
 
     b |= gray(9u);
-    REQUIRE( b == 0b1101u );
+    CHECK( b == 0b1101u );
 
     c ^= gray(5u);
-    REQUIRE( c == 0b1010u );
+    CHECK( c == 0b1010u );
 }
 
 TEST_CASE( "gray() function type inference", "[gray]" )
@@ -141,15 +141,15 @@ TEST_CASE( "math operations for gray codes", "[gray][math]" )
     SECTION( "is_even" )
     {
         REQUIRE_FALSE( is_even(gray(5u)) );
-        REQUIRE( is_even(gray(4u)) );
-        REQUIRE( is_even(gray(0u)) );
+        CHECK( is_even(gray(4u)) );
+        CHECK( is_even(gray(0u)) );
     }
 
     SECTION( "is_odd" )
     {
         REQUIRE_FALSE( is_odd(gray(8u)) );
         REQUIRE_FALSE( is_odd(gray(0u)) );
-        REQUIRE( is_odd(gray(5u)) );
+        CHECK( is_odd(gray(5u)) );
     }
 }
 
@@ -158,13 +158,13 @@ TEST_CASE( "gray code increment", "[gray]" )
     unsigned i = 0u;
     for (auto val = gray(0u) ; val != gray(10u) ; ++val, ++i)
     {
-        REQUIRE( val == i );
+        CHECK( val == i );
     }
 
     i = 0u;
     for (auto val = gray(0u) ; val != gray(10u) ; val++, i++)
     {
-        REQUIRE( val == i );
+        CHECK( val == i );
     }
 
     SECTION( "circular overflow on increment" )
@@ -173,7 +173,7 @@ TEST_CASE( "gray code increment", "[gray]" )
         auto gr = gray(max_uint);
 
         ++gr;
-        REQUIRE( gr.value == 0u );
+        CHECK( gr.value == 0u );
     }
 }
 
@@ -182,13 +182,13 @@ TEST_CASE( "gray code decrement", "[gray]" )
     unsigned i = 35u;
     for (auto val = gray(35u) ; val != gray(23u) ; --val, --i)
     {
-        REQUIRE( val == i );
+        CHECK( val == i );
     }
 
     i = 35u;
     for (auto val = gray(35u) ; val != gray(23u) ; val--, i--)
     {
-        REQUIRE( val == i );
+        CHECK( val == i );
     }
 
     SECTION( "circular overflow on decrement" )
@@ -197,6 +197,6 @@ TEST_CASE( "gray code decrement", "[gray]" )
         auto gr = gray(0u);
 
         --gr;
-        REQUIRE( gr == gray(max_uint) );
+        CHECK( gr == gray(max_uint) );
     }
 }

@@ -25,21 +25,21 @@ TEST_CASE( "compare algorithm", "[algorithm]" )
 {
     SECTION( "scalar types" )
     {
-        REQUIRE( compare(-8, 2) == -1 );
-        REQUIRE( compare(3, 3) == 0 );
-        REQUIRE( compare(8u, 3u) == 1 );
-        REQUIRE( compare(0.0, -0.0) == 0 );
+        CHECK( compare(-8, 2) == -1 );
+        CHECK( compare(3, 3) == 0 );
+        CHECK( compare(8u, 3u) == 1 );
+        CHECK( compare(0.0, -0.0) == 0 );
     }
 
     SECTION( "std::string" )
     {
         using namespace std::string_literals;
 
-        REQUIRE( compare("hello"s, "world"s) == -1 );
-        REQUIRE( compare("kinky"s, "kinko"s) == 1 );
-        REQUIRE( compare("animals"s, "animals"s) == 0 );
-        REQUIRE( compare(""s, "foo"s) == -1 );
-        REQUIRE( compare("bar"s, ""s) == 1 );
-        REQUIRE( compare(""s, ""s) == 0 );
+        CHECK( compare("hello"s, "world"s) == -1 );
+        CHECK( compare("kinky"s, "kinko"s) == 1 );
+        CHECK( compare("animals"s, "animals"s) == 0 );
+        CHECK( compare(""s, "foo"s) == -1 );
+        CHECK( compare("bar"s, ""s) == 1 );
+        CHECK( compare(""s, ""s) == 0 );
     }
 }
