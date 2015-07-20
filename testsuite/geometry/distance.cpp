@@ -26,15 +26,15 @@ TEST_CASE( "Manhattan distance", "[geometry][distnorm]" )
 {
     Point<int> x = { 1, -5 };
     Point<int> y = { -2, 3 };
-    REQUIRE( distance<manhattan>(x, y) == distance<manhattan>(y, x) );
-    REQUIRE( distance<manhattan>(x, y) == 11 );
+    CHECK( distance<manhattan>(x, y) == distance<manhattan>(y, x) );
+    CHECK( distance<manhattan>(x, y) == 11 );
 }
 
 TEST_CASE( "Euclidean distance", "[geometry][distnorm]" )
 {
     Point<int> x = { 2, -1 };
     Point<int> y = { -2, 2 };
-    REQUIRE( distance(x, y) == distance(y, x) );
-    REQUIRE( distance(x, y) == distance<euclidean>(x, y) );
-    REQUIRE( distance(x, y) == 5 );
+    CHECK( distance(x, y) == distance(y, x) );
+    CHECK( distance(x, y) == distance<euclidean>(x, y) );
+    CHECK( distance(x, y) == 5 );
 }

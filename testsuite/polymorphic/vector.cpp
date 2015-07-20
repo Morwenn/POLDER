@@ -87,12 +87,12 @@ SCENARIO( "vector of shapes", "[polymorphic][vector]" )
 
             THEN( "the first shape is a Circle" )
             {
-                REQUIRE( shapes.at(0).name() == "Circle" );
-                REQUIRE( shapes[0].name() == "Circle" );
-                REQUIRE( shapes.front().name() == "Circle" );
-                REQUIRE( shapes.back().name() == "Circle" );
-                REQUIRE( shapes.begin()->name() == "Circle" );
-                REQUIRE( shapes.cbegin()->name() == "Circle" );
+                CHECK( shapes.at(0).name() == "Circle" );
+                CHECK( shapes[0].name() == "Circle" );
+                CHECK( shapes.front().name() == "Circle" );
+                CHECK( shapes.back().name() == "Circle" );
+                CHECK( shapes.begin()->name() == "Circle" );
+                CHECK( shapes.cbegin()->name() == "Circle" );
             }
         }
 
@@ -103,17 +103,17 @@ SCENARIO( "vector of shapes", "[polymorphic][vector]" )
 
             THEN( "the first shape is a Circle" )
             {
-                REQUIRE( shapes.begin()->name() == "Circle" );
-                REQUIRE( shapes.cbegin()->name() == "Circle" );
+                CHECK( shapes.begin()->name() == "Circle" );
+                CHECK( shapes.cbegin()->name() == "Circle" );
             }
 
             THEN( "the second shape is a Rectangle" )
             {
-                REQUIRE( shapes.at(1).name() == "Rectangle" );
-                REQUIRE( shapes[1].name() == "Rectangle" );
-                REQUIRE( shapes.back().name() == "Rectangle" );
-                REQUIRE( (++shapes.begin())->name() == "Rectangle" );
-                REQUIRE( (++shapes.cbegin())->name() == "Rectangle" );
+                CHECK( shapes.at(1).name() == "Rectangle" );
+                CHECK( shapes[1].name() == "Rectangle" );
+                CHECK( shapes.back().name() == "Rectangle" );
+                CHECK( (++shapes.begin())->name() == "Rectangle" );
+                CHECK( (++shapes.cbegin())->name() == "Rectangle" );
             }
         }
 
@@ -124,8 +124,8 @@ SCENARIO( "vector of shapes", "[polymorphic][vector]" )
 
             THEN( "the first shape is a Rectangle" )
             {
-                REQUIRE( shapes.begin()->name() == "Rectangle" );
-                REQUIRE( shapes.cbegin()->name() == "Rectangle" );
+                CHECK( shapes.begin()->name() == "Rectangle" );
+                CHECK( shapes.cbegin()->name() == "Rectangle" );
             }
         }
     }

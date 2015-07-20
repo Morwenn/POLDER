@@ -32,10 +32,10 @@ TEST_CASE( "direction basic operations", "[geometry][direction]" )
 
     Vector vec = { 5.0, 8.0, -2.0 };
     Direction dir(vec);
-    REQUIRE( dir == vec.direction() );
+    CHECK( dir == vec.direction() );
 
     auto tmp = vec / vec.norm();
-    REQUIRE( std::equal(tmp.begin(), tmp.end(), dir.begin(),
+    CHECK( std::equal(tmp.begin(), tmp.end(), dir.begin(),
         [](double a, double b)
         {
             return std::abs(a) == Approx(b);
@@ -56,10 +56,10 @@ TEST_CASE( "direction constructors", "[geometry][direction]" )
     Point origin;
     Point pt = { 6.0, -2.0, 3.0 };
     Vector vec = { 6.0, -2.0, 3.0 };
-    REQUIRE( Direction(pt) == Direction(vec) );
-    REQUIRE( Direction(pt) == Direction(origin, pt) );
+    CHECK( Direction(pt) == Direction(vec) );
+    CHECK( Direction(pt) == Direction(origin, pt) );
 
     Line li = { pt, vec };
-    REQUIRE( Direction(li) == li.direction() );
-    REQUIRE( Direction(li) == Direction(pt, pt+vec) );
+    CHECK( Direction(li) == li.direction() );
+    CHECK( Direction(li) == Direction(pt, pt+vec) );
 }

@@ -33,24 +33,24 @@ TEST_CASE( "hypersphere basic operations", "[geometry][hypersphere]" )
     Vector vec = { 8.5, 7.528 };
 
     Circle c1 = { pt2, 2.16333 };
-    REQUIRE( c1.centre == pt2 );
-    REQUIRE( c1.radius == 2.16333 );
+    CHECK( c1.centre == pt2 );
+    CHECK( c1.radius == 2.16333 );
 
     Circle c2 = { pt1, vec };
-    REQUIRE( c2.centre == pt1 );
-    REQUIRE( c2.radius == Approx(vec.norm()) );
+    CHECK( c2.centre == pt1 );
+    CHECK( c2.radius == Approx(vec.norm()) );
 
     Circle c3 = { pt1, pt2 };
-    REQUIRE( c3.centre == pt1 );
-    REQUIRE( c3.radius ==  Approx((pt2 - pt1).norm()) );
+    CHECK( c3.centre == pt1 );
+    CHECK( c3.radius ==  Approx((pt2 - pt1).norm()) );
 
     SECTION( "comparison operators" )
     {
         Circle c4 = { pt1, pt2 - pt1 };
 
-        REQUIRE( c4 == c3 );
-        REQUIRE( c2 != c3 );
-        REQUIRE( c1 != c2 );
+        CHECK( c4 == c3 );
+        CHECK( c2 != c3 );
+        CHECK( c1 != c2 );
         REQUIRE_FALSE( c1 == c3 );
     }
 }
@@ -65,7 +65,7 @@ TEST_CASE( "hypersphere includes method", "[geometry][hypersphere]" )
     Point pt2 = { 0.0, 2.0 };
 
     Circle c1 = { origin, pt1 };
-    REQUIRE( c1.includes(pt1) );
-    REQUIRE( c1.includes(pt2) );
-    REQUIRE( not c1.includes(origin) );
+    CHECK( c1.includes(pt1) );
+    CHECK( c1.includes(pt2) );
+    CHECK( not c1.includes(origin) );
 }

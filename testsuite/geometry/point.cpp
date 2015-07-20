@@ -32,30 +32,30 @@ TEST_CASE( "point basic operations", "[geometry][point]" )
     SECTION( "indexing and basic observers" )
     {
         // default construction
-        REQUIRE( origin[0] == 0 );
-        REQUIRE( origin[1] == 0 );
-        REQUIRE( origin.x() == 0 );
-        REQUIRE( origin.y() == 0 );
-        REQUIRE( *(origin.begin()) == 0 );
+        CHECK( origin[0] == 0 );
+        CHECK( origin[1] == 0 );
+        CHECK( origin.x() == 0 );
+        CHECK( origin.y() == 0 );
+        CHECK( *(origin.begin()) == 0 );
 
-        REQUIRE( a[0] == 48 );
-        REQUIRE( a[1] == 23 );
-        REQUIRE( a.x() == 48 );
-        REQUIRE( a.y() == 23 );
-        REQUIRE( *(a.begin()) == 48 );
+        CHECK( a[0] == 48 );
+        CHECK( a[1] == 23 );
+        CHECK( a.x() == 48 );
+        CHECK( a.y() == 23 );
+        CHECK( *(a.begin()) == 48 );
 
-        REQUIRE( b[0] == 48 );
-        REQUIRE( b[1] == 23 );
-        REQUIRE( b.x() == 48 );
-        REQUIRE( b.y() == 23 );
-        REQUIRE( *(b.begin()) == 48 );
+        CHECK( b[0] == 48 );
+        CHECK( b[1] == 23 );
+        CHECK( b.x() == 48 );
+        CHECK( b.y() == 23 );
+        CHECK( *(b.begin()) == 48 );
     }
 
     SECTION( "comparison operators" )
     {
-        REQUIRE( a == b );
+        CHECK( a == b );
         REQUIRE_FALSE( a != b );
-        REQUIRE( Point(2, 3) != a );
+        CHECK( Point(2, 3) != a );
     }
 }
 
@@ -69,16 +69,16 @@ TEST_CASE( "point relational operators", "[geometry][point]" )
     Point pt3 = { 1, 3, 4 };
     Point pt4 = { -5, 2, 6 };
 
-    REQUIRE( origin < pt1 );
-    REQUIRE( origin < pt2 );
-    REQUIRE( origin > pt4 );
-    REQUIRE( origin >= origin );
-    REQUIRE( origin <= origin );
+    CHECK( origin < pt1 );
+    CHECK( origin < pt2 );
+    CHECK( origin > pt4 );
+    CHECK( origin >= origin );
+    CHECK( origin <= origin );
 
-    REQUIRE( pt2 >= pt3 );
-    REQUIRE( pt3 <= pt2 );
-    REQUIRE( pt2 > pt3 );
-    REQUIRE( pt3 < pt2 );
+    CHECK( pt2 >= pt3 );
+    CHECK( pt3 <= pt2 );
+    CHECK( pt2 > pt3 );
+    CHECK( pt3 < pt2 );
 }
 
 TEST_CASE( "point-vector arithmetic", "[geometry][point][vector]" )
@@ -93,21 +93,21 @@ TEST_CASE( "point-vector arithmetic", "[geometry][point][vector]" )
 
     SECTION( "point-point subtraction" )
     {
-        REQUIRE( b - a == Vector(4, 5) );
-        REQUIRE( a - b == Vector(-4, -5) );
-        REQUIRE( b - a == -(a - b) );
+        CHECK( b - a == Vector(4, 5) );
+        CHECK( a - b == Vector(-4, -5) );
+        CHECK( b - a == -(a - b) );
     }
 
     SECTION( "point-vector addition" )
     {
-        REQUIRE( c + vec == Point(4, 5) );
-        REQUIRE( b + vec == vec + b );
+        CHECK( c + vec == Point(4, 5) );
+        CHECK( b + vec == vec + b );
     }
 
     SECTION( "point-vector subtraction" )
     {
-        REQUIRE( a - vec == Point(3, -5) );
-        REQUIRE( b - vec == Point(7, 0) );
-        REQUIRE( c - vec == Point(6, -11) );
+        CHECK( a - vec == Point(3, -5) );
+        CHECK( b - vec == Point(7, 0) );
+        CHECK( c - vec == Point(6, -11) );
     }
 }

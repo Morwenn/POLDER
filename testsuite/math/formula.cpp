@@ -25,96 +25,96 @@ TEST_CASE( "runtime math formula", "[math]" )
 {
     SECTION( "sign" )
     {
-        REQUIRE( sign(5) == 1 );
-        REQUIRE( sign(-3) == -1 );
-        REQUIRE( sign(2.0) == 1 );
-        REQUIRE( sign(-5.8) == -1 );
-        REQUIRE( sign(0) == 0 );
-        REQUIRE( sign(0.0) == 0 );
+        CHECK( sign(5) == 1 );
+        CHECK( sign(-3) == -1 );
+        CHECK( sign(2.0) == 1 );
+        CHECK( sign(-5.8) == -1 );
+        CHECK( sign(0) == 0 );
+        CHECK( sign(0.0) == 0 );
     }
 
     SECTION( "sum" )
     {
-        REQUIRE( sum(1, 2, 3, 4, 5) == 15 );
-        REQUIRE( sum(1.0, 2.0, 3, 4, 5) == 15.0 );
+        CHECK( sum(1, 2, 3, 4, 5) == 15 );
+        CHECK( sum(1.0, 2.0, 3, 4, 5) == 15.0 );
     }
 
     SECTION( "mean" )
     {
-        REQUIRE( mean(2, 2, 2) == 2 );
-        REQUIRE( mean(2, 4, 3) == 3 );
+        CHECK( mean(2, 2, 2) == 2 );
+        CHECK( mean(2, 4, 3) == 3 );
     }
 
     SECTION( "clamp" )
     {
-        REQUIRE( clamp(3, 2, 4) == 3 );
-        REQUIRE( clamp(1, 2, 4) == 2 );
-        REQUIRE( clamp(5, 2, 4) == 4 );
+        CHECK( clamp(3, 2, 4) == 3 );
+        CHECK( clamp(1, 2, 4) == 2 );
+        CHECK( clamp(5, 2, 4) == 4 );
     }
 
     SECTION( "is_even" )
     {
-        REQUIRE( is_even(5) == false );
-        REQUIRE( is_even(-4) == true );
-        REQUIRE( is_even(0) == true );
+        CHECK( is_even(5) == false );
+        CHECK( is_even(-4) == true );
+        CHECK( is_even(0) == true );
     }
 
     SECTION( "is_odd" )
     {
-        REQUIRE( is_odd(8) == false );
-        REQUIRE( is_odd(0) == false );
-        REQUIRE( is_odd(-5) == true );
+        CHECK( is_odd(8) == false );
+        CHECK( is_odd(0) == false );
+        CHECK( is_odd(-5) == true );
     }
 
     SECTION( "is_prime" )
     {
-        REQUIRE( is_prime(0) == false );
-        REQUIRE( is_prime(1) == false );
-        REQUIRE( is_prime(2) == true );
-        REQUIRE( is_prime(3) == true );
-        REQUIRE( is_prime(4) == false );
-        REQUIRE( is_prime(5) == true );
-        REQUIRE( is_prime(7) == true );
-        REQUIRE( is_prime(8) == false );
-        REQUIRE( is_prime(9) == false );
-        REQUIRE( is_prime(128) == false );
+        CHECK( is_prime(0) == false );
+        CHECK( is_prime(1) == false );
+        CHECK( is_prime(2) == true );
+        CHECK( is_prime(3) == true );
+        CHECK( is_prime(4) == false );
+        CHECK( is_prime(5) == true );
+        CHECK( is_prime(7) == true );
+        CHECK( is_prime(8) == false );
+        CHECK( is_prime(9) == false );
+        CHECK( is_prime(128) == false );
     }
 
     SECTION( "fibonacci" )
     {
-        REQUIRE( fibonacci(0) == 0 );
-        REQUIRE( fibonacci(1) == 1 );
-        REQUIRE( fibonacci(2) == 1 );
-        REQUIRE( fibonacci(3) == 2 );
-        REQUIRE( fibonacci(4) == 3 );
-        REQUIRE( fibonacci(5) == 5 );
-        REQUIRE( fibonacci(6) == 8 );
-        REQUIRE( fibonacci(7) == 13 );
-        REQUIRE( fibonacci(8) == 21 );
+        CHECK( fibonacci(0) == 0 );
+        CHECK( fibonacci(1) == 1 );
+        CHECK( fibonacci(2) == 1 );
+        CHECK( fibonacci(3) == 2 );
+        CHECK( fibonacci(4) == 3 );
+        CHECK( fibonacci(5) == 5 );
+        CHECK( fibonacci(6) == 8 );
+        CHECK( fibonacci(7) == 13 );
+        CHECK( fibonacci(8) == 21 );
     }
 
     SECTION( "gcd" )
     {
-        REQUIRE( gcd(1071, 1029) == 21 );
-        REQUIRE( gcd(1029, 1071) == 21 );
-        REQUIRE( gcd(270, 84) == 6 );
-        REQUIRE( gcd(84, 270) == 6 );
+        CHECK( gcd(1071, 1029) == 21 );
+        CHECK( gcd(1029, 1071) == 21 );
+        CHECK( gcd(270, 84) == 6 );
+        CHECK( gcd(84, 270) == 6 );
 
-        REQUIRE( gcd(3, 6) == 3 );
-        REQUIRE( gcd(-3, 6) == 3 );
-        REQUIRE( gcd(3, -6) == 3 );
-        REQUIRE( gcd(-3, -6) == 3 );
+        CHECK( gcd(3, 6) == 3 );
+        CHECK( gcd(-3, 6) == 3 );
+        CHECK( gcd(3, -6) == 3 );
+        CHECK( gcd(-3, -6) == 3 );
     }
 
     SECTION( "lcm" )
     {
-        REQUIRE( lcm(60, 168) == 840 );
-        REQUIRE( lcm(168, 60) == 840 );
+        CHECK( lcm(60, 168) == 840 );
+        CHECK( lcm(168, 60) == 840 );
     }
 
     SECTION( "modpow" )
     {
-        REQUIRE( modpow(4, 13, 497) == 445 );
+        CHECK( modpow(4, 13, 497) == 445 );
     }
 }
 

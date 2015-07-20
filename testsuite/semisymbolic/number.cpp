@@ -49,9 +49,9 @@ TEST_CASE( "Number and type equivalence", "[semisymbolic][number]" )
     Float b = a;
     float c = b;
 
-    REQUIRE( a == b );
-    REQUIRE( b == c );
-    REQUIRE( a == c );
+    CHECK( a == b );
+    CHECK( b == c );
+    CHECK( a == c );
 }
 
 TEST_CASE( "Number relational operators", "[semisymbolic][number]" )
@@ -60,16 +60,16 @@ TEST_CASE( "Number relational operators", "[semisymbolic][number]" )
     Float f2 = 5.0f;
     auto f3 = f1;
 
-    REQUIRE( f1 != f2 );
-    REQUIRE( f1 == f3 );
-    REQUIRE( f3 != f2 );
-    REQUIRE_FALSE( f1 == f2 );
+    CHECK( f1 != f2 );
+    CHECK( f1 == f3 );
+    CHECK( f3 != f2 );
+    CHECK_FALSE( f1 == f2 );
 
-    REQUIRE( f1 < f2 );
-    REQUIRE( f1 <= f3 );
-    REQUIRE( f2 > f3 );
-    REQUIRE( f3 >= f3 );
-    REQUIRE( f2 >= f1 );
+    CHECK( f1 < f2 );
+    CHECK( f1 <= f3 );
+    CHECK( f2 > f3 );
+    CHECK( f3 >= f3 );
+    CHECK( f2 >= f1 );
 
     static_assert(
         std::is_same<
@@ -95,12 +95,12 @@ TEST_CASE( "Number arithmetic operators", "[semisymbolic][number]" )
     Float f1 = 2.5f;
     Float f2 = 5.0f;
 
-    REQUIRE( f1 + f2 == 2.5f + 5.0f );
-    REQUIRE( f1 - f2 == 2.5f - 5.0f );
-    REQUIRE( f2 - f1 == 5.0f - 2.5f );
-    REQUIRE( f1 * f2 == 2.5f * 5.0f );
-    REQUIRE( f1 / f2 == 2.5f / 5.0f );
-    REQUIRE( f2 / f1 == 5.0f / 2.5f );
+    CHECK( f1 + f2 == 2.5f + 5.0f );
+    CHECK( f1 - f2 == 2.5f - 5.0f );
+    CHECK( f2 - f1 == 5.0f - 2.5f );
+    CHECK( f1 * f2 == 2.5f * 5.0f );
+    CHECK( f1 / f2 == 2.5f / 5.0f );
+    CHECK( f2 / f1 == 5.0f / 2.5f );
 
-    REQUIRE( f1 + f2 - f1 == f2 );
+    CHECK( f1 + f2 - f1 == f2 );
 }

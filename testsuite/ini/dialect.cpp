@@ -27,35 +27,35 @@ TEST_CASE( "function ini::to_dialect", "[ini][dialect]" )
     SECTION( "default dialect" )
     {
         Dialect default_dial;
-        REQUIRE( default_dial.delimiter == '=' );
-        REQUIRE( default_dial.commentchar == ';' );
-        REQUIRE( default_dial.escapechar == '\\' );
-        REQUIRE( default_dial.lineterminator == '\n' );
-        REQUIRE( default_dial.quotechar == '"' );
-        REQUIRE( default_dial.doublequote == false );
+        CHECK( default_dial.delimiter == '=' );
+        CHECK( default_dial.commentchar == ';' );
+        CHECK( default_dial.escapechar == '\\' );
+        CHECK( default_dial.lineterminator == '\n' );
+        CHECK( default_dial.quotechar == '"' );
+        CHECK( default_dial.doublequote == false );
 
-        REQUIRE(
+        CHECK(
             to_dialect("", default_dial)
             == R"("")" );
-        REQUIRE(
+        CHECK(
             to_dialect("foo", default_dial)
             == R"("foo")" );
-        REQUIRE(
+        CHECK(
             to_dialect("\\", default_dial)
             == R"("\\")" );
-        REQUIRE(
+        CHECK(
             to_dialect("foo\"bar", default_dial)
             == R"("foo\"bar")" );
-        REQUIRE(
+        CHECK(
             to_dialect("foo\\bar", default_dial)
             == R"("foo\\bar")" );
-        REQUIRE(
+        CHECK(
             to_dialect("foo\\\"bar", default_dial)
             == R"("foo\\\"bar")" );
-        REQUIRE(
+        CHECK(
             to_dialect("foo\\\\bar", default_dial)
             == R"("foo\\\\bar")" );
-        REQUIRE(
+        CHECK(
             to_dialect("a=;tref", default_dial)
             == R"("a=;tref")" );
     }
@@ -65,28 +65,28 @@ TEST_CASE( "function ini::to_dialect", "[ini][dialect]" )
         Dialect dbquote_dial;
         dbquote_dial.doublequote = true;
 
-        REQUIRE(
+        CHECK(
             to_dialect("", dbquote_dial)
             == R"("")" );
-        REQUIRE(
+        CHECK(
             to_dialect("foo", dbquote_dial)
             == R"("foo")" );
-        REQUIRE(
+        CHECK(
             to_dialect("\"", dbquote_dial)
             == R"("""")" );
-        REQUIRE(
+        CHECK(
             to_dialect("foo\"bar", dbquote_dial)
             == R"("foo""bar")" );
-        REQUIRE(
+        CHECK(
             to_dialect("foo\\bar", dbquote_dial)
             == R"("foo\bar")" );
-        REQUIRE(
+        CHECK(
             to_dialect("foo\\\"bar", dbquote_dial)
             == R"("foo\""bar")" );
-        REQUIRE(
+        CHECK(
             to_dialect("foo\\\\bar", dbquote_dial)
             == R"("foo\\bar")" );
-        REQUIRE(
+        CHECK(
             to_dialect("a=;tref", dbquote_dial)
             == R"("a=;tref")" );
     }

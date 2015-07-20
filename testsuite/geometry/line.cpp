@@ -39,21 +39,21 @@ TEST_CASE( "line basic operations", "[geometry][line]" )
 
     SECTION( "inclusion" )
     {
-        REQUIRE( li1.includes(origin) );
-        REQUIRE( li1.includes(pt1) );
-        REQUIRE( li1.includes(pt2) );
-        REQUIRE( not li1.includes(pt3) );
-        REQUIRE( li3.includes(li3.point()) );
-        REQUIRE( li1.includes(li2.point()) );
-        REQUIRE( li2.includes(li1.point()) );
+        CHECK( li1.includes(origin) );
+        CHECK( li1.includes(pt1) );
+        CHECK( li1.includes(pt2) );
+        CHECK( not li1.includes(pt3) );
+        CHECK( li3.includes(li3.point()) );
+        CHECK( li1.includes(li2.point()) );
+        CHECK( li2.includes(li1.point()) );
     }
 
     SECTION( "comparison operators" )
     {
-        REQUIRE( li1 == li1 );
-        REQUIRE( li1 == li2 );
-        REQUIRE( li1 != li3 );
-        REQUIRE( li3 == li3 );
+        CHECK( li1 == li1 );
+        CHECK( li1 == li2 );
+        CHECK( li1 != li3 );
+        CHECK( li3 == li3 );
         REQUIRE_FALSE( li1 == li3 );
     }
 }
@@ -74,11 +74,11 @@ TEST_CASE( "line inclusion method, tricky corner case", "[geometry][line]" )
     Line li1 = { origin, pt1 };
     Line li2 = { origin, pt2 };
 
-    REQUIRE( li1.includes(pt1) );
-    REQUIRE( li2.includes(pt2) );
+    CHECK( li1.includes(pt1) );
+    CHECK( li2.includes(pt2) );
 
-    REQUIRE( not li1.includes(pt2) );
-    REQUIRE( not li2.includes(pt1) );
+    CHECK( not li1.includes(pt2) );
+    CHECK( not li2.includes(pt1) );
 }
 
 TEST_CASE( "line constructors", "[geometry][line]" )
@@ -97,7 +97,7 @@ TEST_CASE( "line constructors", "[geometry][line]" )
     Line li2 = { pt1, vec };
     Line li3 = { pt1, dir };
 
-    REQUIRE( li1 == li2 );
-    REQUIRE( li1 == li3 );
-    REQUIRE( li2 == li3 );
+    CHECK( li1 == li2 );
+    CHECK( li1 == li3 );
+    CHECK( li2 == li3 );
 }
