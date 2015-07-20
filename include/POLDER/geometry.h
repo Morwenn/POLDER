@@ -31,6 +31,7 @@
 #include <POLDER/geometry/distance.h>
 #include <POLDER/geometry/hypersphere.h>
 #include <POLDER/geometry/intersection.h>
+#include <POLDER/geometry/intersects.h>
 #include <POLDER/geometry/line.h>
 #include <POLDER/geometry/point.h>
 #include <POLDER/geometry/vector.h>

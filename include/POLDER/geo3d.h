@@ -57,6 +57,7 @@ namespace polder
         // Aliases for function
         using geometry::distance;
         using geometry::intersection;
+        using geometry::intersects;
     }
 }
 
