@@ -42,10 +42,11 @@
 #include <array>
 #include <experimental/optional>
 #include <POLDER/algorithm.h>
-#include <POLDER/math.h>
+#include <POLDER/details/config.h>
 #include <POLDER/geometry/hypersphere.h>
 #include <POLDER/geometry/line.h>
 #include <POLDER/geometry/point.h>
+#include <POLDER/math/formula.h>
 
 namespace polder
 {
