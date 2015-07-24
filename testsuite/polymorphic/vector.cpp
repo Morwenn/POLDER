@@ -142,9 +142,25 @@ SCENARIO( "moving a vector of shapes", "[polymorphic][vector]" )
         shapes.emplace_back<Rectangle>(2, 2, 8, 5);
         shapes.emplace_back<Circle>(2, 2, 8);
 
-        WHEN( "we move it to another vector" )
+        WHEN( "we move-construct another vector from it" )
         {
             polymorphic::vector<Shape, ShapeAdapter> new_shapes = std::move(shapes);
+
+            THEN( "the elements are moved into the new vector" )
+            {
+                CHECK( new_shapes[0].name() == "Circle" );
+                CHECK( new_shapes[1].name() == "Rectangle" );
+                CHECK( new_shapes[2].name() == "Circle" );
+
+                CHECK( new_shapes.size() == 3 );
+                CHECK( shapes.is_empty() );
+            }
+        }
+
+        WHEN( "we move-assign it to another vector" )
+        {
+            polymorphic::vector<Shape, ShapeAdapter> new_shapes;
+            new_shapes = std::move(shapes);
 
             THEN( "the elements are moved into the new vector" )
             {
