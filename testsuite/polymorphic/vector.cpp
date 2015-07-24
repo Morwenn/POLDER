@@ -15,6 +15,7 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include <utility>
 #include <POLDER/polymorphic/vector.h>
 #include "catch.hpp"
 #include "shapes.h"
@@ -75,6 +76,35 @@ SCENARIO( "insertion in a vector of shapes", "[polymorphic][vector]" )
             {
                 CHECK( shapes.begin()->name() == "Rectangle" );
                 CHECK( shapes.cbegin()->name() == "Rectangle" );
+            }
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////
+// Assignment tests
+
+SCENARIO( "moving a vector of shapes", "[polymorphic][vector]" )
+{
+    GIVEN( "a non-empty vector of shapes" )
+    {
+        polymorphic::vector<Shape, ShapeAdapter> shapes;
+        shapes.emplace_back<Circle>(2, 2, 8);
+        shapes.emplace_back<Rectangle>(2, 2, 8, 5);
+        shapes.emplace_back<Circle>(2, 2, 8);
+
+        WHEN( "we move it to another vector" )
+        {
+            polymorphic::vector<Shape, ShapeAdapter> new_shapes = std::move(shapes);
+
+            THEN( "the elements are moved into the new vector" )
+            {
+                CHECK( new_shapes.at(0).name() == "Circle" );
+                CHECK( new_shapes.at(1).name() == "Rectangle" );
+                CHECK( new_shapes.at(2).name() == "Circle" );
+
+                CHECK( new_shapes.size() == 3 );
+                CHECK( shapes.is_empty() );
             }
         }
     }
