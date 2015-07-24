@@ -159,10 +159,20 @@ namespace polymorphic
             auto pop_back()
                 -> void;
 
+            auto swap(vector& other)
+                -> void;
+
         private:
 
             std::vector<std::unique_ptr<Interface>> _entities;
     };
+
+    ////////////////////////////////////////////////////////////
+    // Non-member functions
+
+    template<typename Interface, template<typename> class Adapter>
+    auto swap(vector<Interface, Adapter>& lhs, vector<Interface, Adapter>& rhs)
+        -> void;
 
     #include "details/vector.inl"
 }}

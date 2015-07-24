@@ -281,3 +281,20 @@ auto vector<Interface, Adapter>::pop_back()
 {
     _entities.pop_back();
 }
+
+template<typename Interface, template<typename> class Adapter>
+auto vector<Interface, Adapter>::swap(vector& other)
+    -> void
+{
+    _entities.swap(other._entities);
+}
+
+////////////////////////////////////////////////////////////
+// Non-member functions
+
+template<typename Interface, template<typename> class Adapter>
+auto swap(vector<Interface, Adapter>& lhs, vector<Interface, Adapter>& rhs)
+    -> void
+{
+    lhs.swap(rhs);
+}

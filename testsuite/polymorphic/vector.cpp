@@ -174,3 +174,39 @@ SCENARIO( "moving a vector of shapes", "[polymorphic][vector]" )
         }
     }
 }
+
+////////////////////////////////////////////////////////////
+// Swapping tests
+
+SCENARIO( "swapping two vectors of shapes", "[polymorphic][vector]" )
+{
+    GIVEN( "two vectors of shapes" )
+    {
+        polymorphic::vector<Shape, ShapeAdapter> shapes1;
+        shapes1.emplace_back<Circle>(2, 2, 8);
+        shapes1.emplace_back<Rectangle>(2, 2, 8, 5);
+        shapes1.emplace_back<Circle>(2, 2, 8);
+
+        polymorphic::vector<Shape, ShapeAdapter> shapes2;
+        shapes2.emplace_back<Rectangle>(2, 2, 8, 1);
+        shapes2.emplace_back<Circle>(2, 2, 8);
+        shapes2.emplace_back<Rectangle>(2, 2, 8, 48);
+
+        WHEN( "we swap the vectors" )
+        {
+            using polymorphic::swap;
+            swap(shapes1, shapes2);
+
+            THEN( "the elements are swapped" )
+            {
+                CHECK( shapes1[0].name() == "Rectangle" );
+                CHECK( shapes1[1].name() == "Circle" );
+                CHECK( shapes1[2].name() == "Rectangle" );
+
+                CHECK( shapes2[0].name() == "Circle" );
+                CHECK( shapes2[1].name() == "Rectangle" );
+                CHECK( shapes2[2].name() == "Circle" );
+            }
+        }
+    }
+}
