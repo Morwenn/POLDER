@@ -145,6 +145,8 @@ namespace polymorphic
 
             auto erase(const_iterator position)
                 -> iterator;
+            auto erase(const_iterator first, const_iterator last)
+                -> iterator;
 
             template<typename T>
             auto push_back(T&& value)
@@ -155,9 +157,6 @@ namespace polymorphic
                 -> void;
 
             auto pop_back()
-                -> void;
-
-            auto resize(size_type count)
                 -> void;
 
         private:

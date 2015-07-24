@@ -249,6 +249,15 @@ auto vector<Interface, Adapter>::erase(const_iterator position)
 }
 
 template<typename Interface, template<typename> class Adapter>
+auto vector<Interface, Adapter>::erase(const_iterator first, const_iterator last)
+    -> iterator
+{
+    return make_indirect_iterator(
+        _entities.erase(first.base(), last.base())
+    );
+}
+
+template<typename Interface, template<typename> class Adapter>
 template<typename T>
 auto vector<Interface, Adapter>::push_back(T&& value)
     -> void
@@ -271,11 +280,4 @@ auto vector<Interface, Adapter>::pop_back()
     -> void
 {
     _entities.pop_back();
-}
-
-template<typename Interface, template<typename> class Adapter>
-auto vector<Interface, Adapter>::resize(size_type count)
-    -> void
-{
-    _entities.resize(count);
 }

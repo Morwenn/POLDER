@@ -82,7 +82,56 @@ SCENARIO( "insertion in a vector of shapes", "[polymorphic][vector]" )
 }
 
 ////////////////////////////////////////////////////////////
-// Assignment tests
+// Deletion tests
+
+SCENARIO( "deletion from a vector of shapes", "[polymorphic][vector]" )
+{
+    GIVEN( "a non-empty vector of shapes" )
+    {
+        polymorphic::vector<Shape, ShapeAdapter> shapes;
+        shapes.emplace_back<Circle>(2, 2, 8);
+        shapes.emplace_back<Rectangle>(2, 2, 8, 5);
+        shapes.emplace_back<Circle>(2, 2, 8);
+
+        WHEN( "we remove the first element" )
+        {
+            shapes.erase(shapes.begin());
+
+            THEN( "there are less elements" )
+            {
+                CHECK( shapes.size() == 2 );
+                CHECK( shapes[0].name() == "Rectangle" );
+                CHECK( shapes[1].name() == "Circle" );
+            }
+        }
+
+        WHEN( "we remove the last element" )
+        {
+            shapes.pop_back();
+
+            THEN( "there are less elements" )
+            {
+                CHECK( shapes.size() == 2 );
+                CHECK( shapes[0].name() == "Circle" );
+                CHECK( shapes[1].name() == "Rectangle" );
+            }
+        }
+
+        WHEN( "we remove every element" )
+        {
+            shapes.erase(shapes.begin(), shapes.end());
+
+            THEN( "the vector becomes empty" )
+            {
+                CHECK( shapes.is_empty() );
+                CHECK( shapes.size() == 0 );
+            }
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////
+// Moving tests
 
 SCENARIO( "moving a vector of shapes", "[polymorphic][vector]" )
 {
@@ -99,9 +148,9 @@ SCENARIO( "moving a vector of shapes", "[polymorphic][vector]" )
 
             THEN( "the elements are moved into the new vector" )
             {
-                CHECK( new_shapes.at(0).name() == "Circle" );
-                CHECK( new_shapes.at(1).name() == "Rectangle" );
-                CHECK( new_shapes.at(2).name() == "Circle" );
+                CHECK( new_shapes[0].name() == "Circle" );
+                CHECK( new_shapes[1].name() == "Rectangle" );
+                CHECK( new_shapes[2].name() == "Circle" );
 
                 CHECK( new_shapes.size() == 3 );
                 CHECK( shapes.is_empty() );
