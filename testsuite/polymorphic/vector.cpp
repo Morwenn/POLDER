@@ -15,67 +15,16 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include <string>
 #include <POLDER/polymorphic/vector.h>
 #include "catch.hpp"
+#include "shapes.h"
 
-using namespace std::string_literals;
 using namespace polder;
 
 ////////////////////////////////////////////////////////////
-// Non-polymorphic shapes
+// Insertion tests
 
-struct Shape
-{
-    virtual std::string name() const = 0;
-
-    virtual ~Shape() {};
-};
-
-struct Circle
-{
-    Circle(int /* x */, int /* y */, int /* radius */) {}
-
-    std::string name() const
-    {
-        return "Circle"s;
-    }
-};
-
-struct Rectangle
-{
-    Rectangle(int /* x */, int /* y */, int /* height */, int /* width */) {}
-
-    std::string name() const
-    {
-        return "Rectangle"s;
-    }
-};
-
-////////////////////////////////////////////////////////////
-// Polymorphic shape adapter
-
-template<typename T>
-struct ShapeAdapter:
-    Shape
-{
-    template<typename... Args>
-    ShapeAdapter(Args&&... args):
-        data(std::forward<Args>(args)...)
-    {}
-
-    virtual std::string name() const override
-    {
-        return data.name();
-    }
-
-    T data;
-};
-
-////////////////////////////////////////////////////////////
-// Actual tests
-
-SCENARIO( "vector of shapes", "[polymorphic][vector]" )
+SCENARIO( "insertion in a vector of shapes", "[polymorphic][vector]" )
 {
     GIVEN( "an empty vector of shapes" )
     {
