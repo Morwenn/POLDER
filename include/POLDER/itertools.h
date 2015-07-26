@@ -26,7 +26,6 @@
 #include <utility>
 #include <tuple>
 #include <POLDER/details/config.h>
-#include <POLDER/iterator.h>
 #include <POLDER/type_traits.h>
 
 namespace polder

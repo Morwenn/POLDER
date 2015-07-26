@@ -23,7 +23,6 @@
 ////////////////////////////////////////////////////////////
 #include <POLDER/iterator/get_iterator.h>
 #include <POLDER/iterator/indirect_iterator.h>
-#include <POLDER/iterator/range_access.h>
 #include <POLDER/iterator/transform_iterator.h>
 
 #endif // POLDER_ITERATOR_H_

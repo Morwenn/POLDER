@@ -120,25 +120,25 @@ class ReversedObject
         using value_type                = std::decay_t<decltype(*std::begin(_iterable))>;
         using reference                 = value_type&;
         using pointer                   = value_type*;
-        using iterator                  = std::remove_reference_t<decltype(polder::rbegin(_iterable))>;
-        using const_iterator            = std::remove_reference_t<decltype(polder::rbegin(_iterable))>;
+        using iterator                  = std::remove_reference_t<decltype(std::rbegin(_iterable))>;
+        using const_iterator            = std::remove_reference_t<decltype(std::rbegin(_iterable))>;
         using reverse_iterator          = decltype(std::begin(_iterable));
         using const_reverse_iterator    = decltype(std::begin(_iterable));
         using iterator_category         = typename std::iterator_traits<iterator>::iterator_category;
 
         // Iterator functions
         auto begin() -> iterator
-            { return polder::rbegin(_iterable); }
+            { return std::rbegin(_iterable); }
         auto begin() const -> const_iterator
-            { return polder::rbegin(_iterable); }
+            { return std::rbegin(_iterable); }
         auto cbegin() const -> const_iterator
-            { return polder::rbegin(_iterable); }
+            { return std::rbegin(_iterable); }
         auto end() -> iterator
-            { return polder::rend(_iterable); }
+            { return std::rend(_iterable); }
         auto end() const -> const_iterator
-            { return polder::rend(_iterable); }
+            { return std::rend(_iterable); }
         auto cend() const -> const_iterator
-            { return polder::rend(_iterable); }
+            { return std::rend(_iterable); }
 
         // Reverse iterator functions
         auto rbegin() -> reverse_iterator
@@ -332,13 +332,13 @@ class MapObject<T, Iterable, true>:
         using super::_end;
 
         mutable bool _forward = true;
-        decltype(polder::rbegin(_iterable)) _rbegin;
-        const decltype(polder::rend(_iterable)) _rend;
+        decltype(std::rbegin(_iterable)) _rbegin;
+        const decltype(std::rend(_iterable)) _rend;
 
         MapObject(T (*function)(const T&), Iterable&& iterable):
             super(function, iterable),
-            _rbegin(polder::rbegin(_iterable)),
-            _rend(polder::rend(_iterable))
+            _rbegin(std::rbegin(_iterable)),
+            _rend(std::rend(_iterable))
         {}
 
     public:
