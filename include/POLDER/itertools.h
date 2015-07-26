@@ -43,24 +43,24 @@ namespace itertools
 {
     // Forward declarations
     template<typename Integer>
-    class RangeObject;
+    class range_object;
     template<typename BidirectionalIterable>
-    class ReversedObject;
+    class reversed_object;
     template<typename FlatIterable, bool IsReverseIterable>
-    class FlatObject;
+    class flat_object;
     template<typename T, typename Iterable, bool IsReverseIterable>
-    class MapObject;
+    class map_object;
     template<typename T, typename Iterable>
-    class FilterObject;
+    class filter_object;
     template<typename First, typename... Iterables>
-    class ChainObject;
+    class chain_object;
     template<typename First, typename... Iterables>
-    class ZipObject;
+    class zip_object;
 
     /**
      * @brief Range of integers
      *
-     * Generates a RangeObject, which is a generator
+     * Generates a range_object, which is a generator
      * which will yield values from 0 to \a end with a
      * step of 1 or -1 depending on the value of
      * \a end.
@@ -70,12 +70,12 @@ namespace itertools
      */
     template<typename Integer>
     constexpr auto range(Integer end) noexcept
-        -> RangeObject<Integer>;
+        -> range_object<Integer>;
 
     /**
      * @brief Versatile range of integers
      *
-     * Generates a RangeObject, which is a generator
+     * Generates a range_object, which is a generator
      * which will yield values from \a begin to \a end
      * with a given \a step. The direction of the
      * iteration depends on \a begin and \a end.
@@ -87,7 +87,7 @@ namespace itertools
      */
     template<typename Integer>
     constexpr auto range(Integer begin, Integer end, Integer step=1) noexcept
-        -> RangeObject<Integer>;
+        -> range_object<Integer>;
 
     /**
      * @brief Reversed iterable
@@ -101,7 +101,7 @@ namespace itertools
      */
     template<typename BidirectionalIterable>
     auto reversed(BidirectionalIterable&& iterable)
-        -> ReversedObject<BidirectionalIterable>;
+        -> reversed_object<BidirectionalIterable>;
 
     /**
      * @brief Flat iterable
@@ -115,12 +115,12 @@ namespace itertools
      */
     template<typename FlatIterable>
     auto flat(FlatIterable&& iterable)
-        -> FlatObject<FlatIterable, is_reverse_iterable<FlatIterable>::value>;
+        -> flat_object<FlatIterable, is_reverse_iterable<FlatIterable>::value>;
 
     /**
      * @brief Apply function to iterable
      *
-     * Generates a MapObject. It's a generator that
+     * Generates a map_object. It's a generator that
      * yields the values of \a iterable one by one
      * after \a function has been applied to them.
      *
@@ -130,12 +130,12 @@ namespace itertools
      */
     template<typename T, typename Iterable>
     auto map(T (*function)(const T&) , Iterable&& iterable)
-        -> MapObject<T, Iterable, is_reverse_iterable<Iterable>::value>;
+        -> map_object<T, Iterable, is_reverse_iterable<Iterable>::value>;
 
     /**
      * @brief Filter elements from an iterable
      *
-     * Generates a FilterObject. It's a generator that
+     * Generates a filter_object. It's a generator that
      * yields the values of \a iterable one by one if
      * \a function returns true.
      *
@@ -145,7 +145,7 @@ namespace itertools
      */
     template<typename T, typename Iterable>
     auto filter(bool (*function)(const T&) , Iterable&& iterable)
-        -> FilterObject<T, Iterable>;
+        -> filter_object<T, Iterable>;
 
     /**
      * @brief Iter through many containers
@@ -160,7 +160,7 @@ namespace itertools
      */
     template<typename... Iterables>
     auto chain(Iterables&&... iterables)
-        -> ChainObject<Iterables...>;
+        -> chain_object<Iterables...>;
 
     /**
      * @brief Aggregates elements from iterables
@@ -172,7 +172,7 @@ namespace itertools
      */
     template<typename... Iterables>
     auto zip(Iterables&&... iterables)
-        -> ZipObject<Iterables...>;
+        -> zip_object<Iterables...>;
 
     #include "details/itertools.inl"
 }}
