@@ -25,15 +25,15 @@ class RangeObject
         constexpr RangeObject(Integer end) noexcept:
             _i(0),
             _end(end),
-            _step(1),
-            _sup(end >= 0)
+            _sup(end >= 0),
+            _step(1)
         {}
 
         constexpr RangeObject(Integer begin, Integer end, Integer step) noexcept:
             _i(begin),
             _end(end),
-            _step(step),
-            _sup(end >= begin)
+            _sup(end >= begin),
+            _step(_sup ? step : -step)
         {}
 
     public:
@@ -56,17 +56,10 @@ class RangeObject
             return _sup ? (_i < _end) : (_i > _end);
         }
 
-        inline auto operator++() noexcept
+        auto operator++() noexcept
             -> void
         {
-            if (_sup)
-            {
-                _i += _step;
-            }
-            else
-            {
-                _i -= _step;
-            }
+            _i += _step;
         }
 
         constexpr auto operator*() const noexcept
@@ -79,8 +72,8 @@ class RangeObject
 
         Integer _i;
         const Integer _end;
-        const Integer _step;
         const bool _sup;
+        const Integer _step;
 
     friend auto range<>(Integer) noexcept
         -> RangeObject;
