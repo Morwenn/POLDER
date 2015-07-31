@@ -131,14 +131,14 @@ namespace polder
      * @warning It only works with pure functions.
      */
     template<typename Callable>
-    class MemoizedFunction;
+    class memoized_function;
 
     template<typename Ret, typename... Args>
-    class MemoizedFunction<Ret(Args...)>
+    class memoized_function<Ret(Args...)>
     {
         public:
 
-            MemoizedFunction(const std::function<Ret(Args...)>& func);
+            memoized_function(const std::function<Ret(Args...)>& func);
 
             /**
              * @brief Gets the result
