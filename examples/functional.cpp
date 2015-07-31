@@ -64,27 +64,4 @@ int main()
                   << memo_lambda(8.5, 44) << '\n'
                   << memo_lambda(8.5, 42) << '\n';
     }
-
-    ////////////////////////////////////////////////////////////
-    // curried
-    {
-        auto curry_foo = curried(foo, 10.8);
-        std::cout << curry_foo(8) << '\n';
-
-        auto curry2 = curried(curry_foo, 5);
-        std::cout << curry2() << '\n';
-    }
-
-    ////////////////////////////////////////////////////////////
-    // compose
-    {
-        auto add = [](int a, int b)
-        {
-            return a + b;
-        };
-        auto add5 = curried(add, 5);
-
-        auto composed = compose(add5, foo);
-        std::cout << composed(15, 5) << '\n';
-    }
 }

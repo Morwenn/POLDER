@@ -180,19 +180,6 @@ namespace polder
     auto memoized(Function&& func)
         -> decltype(auto);
 
-    ////////////////////////////////////////////////////////////
-    // curried
-
-    /**
-     * @brief Ties the first argument of a function to a value
-     *
-     * @param func Function to curry
-     * @param first Value to tie to \a func
-     * @return \a func curried with \a first
-     */
-    template<typename Function, typename First>
-    auto curried(Function&& func, First&& first);
-
     #include "details/functional.inl"
 }
 
