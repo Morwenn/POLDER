@@ -21,12 +21,12 @@
 ////////////////////////////////////////////////////////////
 
 template<typename Ret, typename... Args>
-MemoizedFunction<Ret, Args...>::MemoizedFunction(const std::function<Ret(Args...)>& func):
+MemoizedFunction<Ret(Args...)>::MemoizedFunction(const std::function<Ret(Args...)>& func):
     _func(func)
 {}
 
 template<typename Ret, typename... Args>
-auto MemoizedFunction<Ret, Args...>::operator()(Args&&... args)
+auto MemoizedFunction<Ret(Args...)>::operator()(Args&&... args)
     -> Ret
 {
     const auto t_args = std::make_tuple(std::forward<Args>(args)...);
@@ -42,7 +42,7 @@ auto MemoizedFunction<Ret, Args...>::operator()(Args&&... args)
 }
 
 template<typename Ret, typename... Args>
-auto MemoizedFunction<Ret, Args...>::clear() noexcept
+auto MemoizedFunction<Ret(Args...)>::clear() noexcept
     -> void
 {
     _cache.clear();
@@ -51,8 +51,8 @@ auto MemoizedFunction<Ret, Args...>::clear() noexcept
 template<typename Function, std::size_t... Ind>
 auto memoized_impl(Function&& func, std::index_sequence<Ind...>)
     -> MemoizedFunction<
-        result_type<Function>,
-        argument_type<Function, Ind>...>
+        result_type<Function>(argument_type<Function, Ind>...)
+    >
 {
     using Ret = result_type<Function>;
     return { std::function<Ret(argument_type<Function, Ind>...)>(func) };
@@ -60,6 +60,7 @@ auto memoized_impl(Function&& func, std::index_sequence<Ind...>)
 
 template<typename Function>
 auto memoized(Function&& func)
+    -> decltype(auto)
 {
     using Indices = std::make_index_sequence<arity<Function>>;
     return memoized_impl(std::forward<Function>(func), Indices{});

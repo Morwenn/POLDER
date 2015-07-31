@@ -128,10 +128,13 @@ namespace polder
      * seen, this class calls the underlying function to
      * compute the result, stores it and returns it.
      *
-     * @warning Only works for pure functions
+     * @warning It only works with pure functions.
      */
+    template<typename Callable>
+    class MemoizedFunction;
+
     template<typename Ret, typename... Args>
-    class MemoizedFunction
+    class MemoizedFunction<Ret(Args...)>
     {
         public:
 
@@ -174,7 +177,8 @@ namespace polder
      * @return Memoized function corresponding to \a func
      */
     template<typename Function>
-    auto memoized(Function&& func);
+    auto memoized(Function&& func)
+        -> decltype(auto);
 
     ////////////////////////////////////////////////////////////
     // curried
