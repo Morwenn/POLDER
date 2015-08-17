@@ -21,19 +21,19 @@ namespace details
     ////////////////////////////////////////////////////////////
     // std::integer_sequence tools
 
-    template<typename Int, typename, Int Begin, bool Increasing>
+    template<typename Int, typename, Int Begin, Int Step, bool IsIncreasing>
     struct integer_range_impl;
 
-    template<typename Int, Int... N, Int Begin>
-    struct integer_range_impl<Int, std::integer_sequence<Int, N...>, Begin, true>
+    template<typename Int, Int... N, Int Begin, Int Step>
+    struct integer_range_impl<Int, std::integer_sequence<Int, N...>, Begin, Step, true>
     {
-        using type = std::integer_sequence<Int, N+Begin...>;
+        using type = std::integer_sequence<Int, (N * Step + Begin)...>;
     };
 
-    template<typename Int, Int... N, Int Begin>
-    struct integer_range_impl<Int, std::integer_sequence<Int, N...>, Begin, false>
+    template<typename Int, Int... N, Int Begin, Int Step>
+    struct integer_range_impl<Int, std::integer_sequence<Int, N...>, Begin, Step, false>
     {
-        using type = std::integer_sequence<Int, Begin-N...>;
+        using type = std::integer_sequence<Int, (Begin - N * Step)...>;
     };
 
     ////////////////////////////////////////////////////////////

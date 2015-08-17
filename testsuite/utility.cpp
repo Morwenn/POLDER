@@ -20,40 +20,45 @@
 #include <POLDER/utility.h>
 #include "catch.hpp"
 
-TEST_CASE( "integer_range", "[utility]" )
+TEST_CASE( "make_integer_range", "[utility]" )
 {
     static_assert(std::is_same<
-        polder::integer_range<int, 8, 8>,
+        polder::make_integer_range<int, 8, 8>,
         std::integer_sequence<int>
     >::value, "");
 
     static_assert(std::is_same<
-        polder::integer_range<int, 0, 5>,
-        std::integer_sequence<int, 0, 1, 2, 3, 4>
+        polder::make_integer_range<int, 0, 5>,
+        std::make_integer_sequence<int, 5>
     >::value, "");
 
     static_assert(std::is_same<
-        polder::integer_range<int, 5, 0>,
+        polder::make_integer_range<int, 5, 0>,
         std::integer_sequence<int, 5, 4, 3, 2, 1>
     >::value, "");
 
     static_assert(std::is_same<
-        polder::integer_range<int, -3, 2>,
+        polder::make_integer_range<int, -3, 2>,
         std::integer_sequence<int, -3, -2, -1, 0, 1>
     >::value, "");
 
     static_assert(std::is_same<
-        polder::integer_range<int, -1, -4>,
+        polder::make_integer_range<int, -1, -4>,
         std::integer_sequence<int, -1, -2, -3>
     >::value, "");
 
     static_assert(std::is_same<
-        polder::integer_range<int, 3, -8>,
+        polder::make_integer_range<int, 3, -8>,
         std::integer_sequence<int, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6, -7>
     >::value, "");
 
     static_assert(std::is_same<
-        polder::index_range<2, 6>,
-        std::index_sequence<2, 3, 4, 5>
+        polder::make_index_range<2u, 6u>,
+        std::index_sequence<2u, 3u, 4u, 5u>
+    >::value, "");
+
+    static_assert(std::is_same<
+        polder::make_index_range<2u, 15u, 3u>,
+        std::index_sequence<2u, 5u, 8u, 11u, 14u>
     >::value, "");
 }

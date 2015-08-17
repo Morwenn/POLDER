@@ -21,6 +21,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <cstddef>
 #include <tuple>
 #include <type_traits>
 #include <utility>
@@ -34,16 +35,20 @@ namespace polder
     // std::integer_sequence tools
 
 
-    template<typename Int, Int Begin, Int End>
-    using integer_range = typename details::integer_range_impl<
+    template<typename Int, Int Begin, Int End, Int Step=1>
+    using make_integer_range = typename details::integer_range_impl<
         Int,
-        std::make_integer_sequence<Int, (Begin<End) ? End-Begin : Begin-End>,
+        std::make_integer_sequence<
+            Int,
+            ((Begin < End ? End - Begin : Begin - End) - 1) / (Step ? Step : 1) + 1
+        >,
         Begin,
-        (Begin<End)
+        (Step ? Step : 1),
+        (Begin < End)
     >::type;
 
-    template<std::size_t Begin, std::size_t End>
-    using index_range = integer_range<std::size_t, Begin, End>;
+    template<std::size_t Begin, std::size_t End, std::size_t Step=1u>
+    using make_index_range = make_integer_range<std::size_t, Begin, End, Step>;
 
     template<typename T>
     using to_index_sequence =
