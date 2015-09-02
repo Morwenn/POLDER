@@ -109,6 +109,35 @@ namespace polder
     auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp={})
         -> std::pair<ForwardIt, bool>;
 
+
+    /**
+     * @brief Fused std::min_element and std::is_sorted_until.
+     *
+     * Returns an iterator to the min element of a range and
+     * the iterator one past the last sorted element.
+     *
+     * @param first First element of the range
+     * @param last Last element of the range
+     * @return Min element and past sorted element
+     */
+    template<typename ForwardIt, typename Compare=std::less<>>
+    auto min_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp={})
+        -> std::pair<ForwardIt, ForwardIt>;
+
+    /**
+     * @brief Fused std::max_element and std::is_sorted_until.
+     *
+     * Returns an iterator to the max element of a range and
+     * the iterator one past the last sorted element.
+     *
+     * @param first First element of the range
+     * @param last Last element of the range
+     * @return Max element and past sorted element
+     */
+    template<typename ForwardIt, typename Compare=std::less<>>
+    auto max_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp={})
+        -> std::pair<ForwardIt, ForwardIt>;
+
     #include "details/algorithm.inl"
 }
 

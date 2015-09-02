@@ -88,3 +88,40 @@ auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
     auto greatest = std::max_element(--first, last);
     return { greatest, sorted };
 }
+
+template<class ForwardIt, class Compare>
+auto min_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp)
+    -> std::pair<ForwardIt, ForwardIt>
+{
+    if (first == last)
+    {
+        return { last, last };
+    }
+
+    ForwardIt smallest = first;
+    auto res = std::is_sorted_until(first, last, comp);
+    first = res;
+    while (first != last)
+    {
+        if (comp(*first, *smallest))
+        {
+            smallest = first;
+        }
+        ++first;
+    }
+    return { smallest, res };
+}
+
+template<class ForwardIt, class Compare>
+auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
+    -> std::pair<ForwardIt, ForwardIt>
+{
+    if (first == last)
+    {
+        return { last, last };
+    }
+
+    first = std::is_sorted_until(first, last, comp);
+    auto greatest = std::max_element(first-1, last);
+    return { greatest, first };
+}
