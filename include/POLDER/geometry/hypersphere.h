@@ -23,6 +23,7 @@
 ////////////////////////////////////////////////////////////
 #include <POLDER/geometry/point.h>
 #include <POLDER/geometry/details/types.h>
+#include <POLDER/math/formula.h>
 
 namespace polder
 {

@@ -75,9 +75,9 @@ auto Line<N, T>::includes(const Point<N, T>& pt) const
     {
         // Handle the case where the line is
         // parallel to an axis
-        if (float_equal(_dir[i], T{0}))
+        if (math::is_close(_dir[i], T{0}))
         {
-            if (float_equal(vec[i], T{0}))
+            if (math::is_close(vec[i], T{0}))
             {
                 continue;
             }
@@ -85,14 +85,14 @@ auto Line<N, T>::includes(const Point<N, T>& pt) const
         }
 
         // Regular case
-        if (float_equal(t, T{0}))
+        if (math::is_close(t, T{0}))
         {
             t = vec[i] / _dir[i];
         }
         else
         {
             T tmp = vec[i] / _dir[i];
-            if (not float_equal(tmp, t))
+            if (not math::is_close(tmp, t))
             {
                 return false;
             }

@@ -68,7 +68,7 @@ auto Hypersphere<N, T>::includes(const Point<N, T>& pt) const
         value_type tmp = pt[i] - centre[i];
         res += tmp * tmp;
     }
-    return float_equal(res, radius*radius);
+    return math::is_close(res, radius*radius);
 }
 
 ////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ auto operator==(const Hypersphere<N, T>& lhs, const Hypersphere<N, T>& rhs)
     -> bool
 {
     return lhs.centre == rhs.centre
-        && float_equal(lhs.radius, rhs.radius);
+        && math::is_close(lhs.radius, rhs.radius);
 }
 
 template<std::size_t N, typename T>

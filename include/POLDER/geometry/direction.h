@@ -25,9 +25,10 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
-#include <POLDER/algorithm.h>
+#include <iterator>
 #include <POLDER/geometry/details/types.h>
 #include <POLDER/geometry/details/vector_base.h>
+#include <POLDER/math/formula.h>
 
 namespace polder
 {

@@ -88,29 +88,3 @@ auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
     auto greatest = std::max_element(--first, last);
     return { greatest, sorted };
 }
-
-template<typename Float>
-constexpr auto float_equal(std::true_type, Float lhs, Float rhs)
-    -> bool
-{
-    using math::meta::details::abs;
-    using math::meta::details::max;
-
-    return abs(lhs-rhs) <=
-        std::numeric_limits<Float>::epsilon() *
-        max(abs(lhs), abs(rhs));
-}
-
-template<typename T>
-constexpr auto float_equal(std::false_type, T lhs, T rhs)
-    -> bool
-{
-    return lhs == rhs;
-}
-
-template<typename T>
-constexpr auto float_equal(T lhs, T rhs)
-    -> bool
-{
-    return float_equal(std::is_floating_point<T>{}, lhs, rhs);
-}

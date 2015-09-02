@@ -78,7 +78,7 @@ auto operator==(const Point<N, T>& lhs, const Point<N, T>& rhs)
     return std::equal(std::begin(lhs), std::end(lhs), std::begin(rhs),
                       [](T a, T b)
                       {
-                          return float_equal(a, b);
+                          return math::is_close(a, b);
                       });
 }
 

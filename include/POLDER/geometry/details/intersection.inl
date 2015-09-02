@@ -69,7 +69,7 @@ auto intersection(const Line<N, T>& line, const Hypersphere<N, T>& hs)
     auto t1 = t[0].real();
     auto t2 = t[1].real();
 
-    if (float_equal(t1, t2))
+    if (math::is_close(t1, t2))
     {
         // The solution is a single point
         Point<N, T> res;

@@ -24,6 +24,7 @@
 #include <array>
 #include <cmath>
 #include <complex>
+#include <limits>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -233,6 +234,24 @@ namespace math
     auto quadratic(Float a, Float b, Float c)
         -> std::array<std::complex<Float>, 2u>;
 
+    /**
+     *
+     * @brief Approximative comparison.
+     *
+     * Compares two numbers by checking whether the difference
+     * between the two of them is small enough.
+     *
+     * If the types are not floating point types, a regular
+     * comparison is performed instead.
+     *
+     * @param lhs First value to compare
+     * @param rhs Second value to compare
+     * @return true if the values compare equal
+     */
+    template<typename T>
+    auto is_close(T lhs, T rhs)
+        -> bool;
+
     namespace meta
     {
         template<typename Number>
@@ -290,6 +309,10 @@ namespace math
         template<typename Float>
         constexpr auto radians(Float degrees)
             -> Float;
+
+        template<typename T>
+        constexpr auto is_close(T lhs, T rhs)
+            -> bool;
     }
 
     #include "details/formula.inl"

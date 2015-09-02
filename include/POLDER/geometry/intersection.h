@@ -40,8 +40,8 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <array>
+#include <cstddef>
 #include <experimental/optional>
-#include <POLDER/algorithm.h>
 #include <POLDER/details/config.h>
 #include <POLDER/geometry/hypersphere.h>
 #include <POLDER/geometry/line.h>

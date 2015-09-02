@@ -90,7 +90,7 @@ auto operator==(const Direction<N, T>& lhs, const Direction<N, T>& rhs)
     return std::equal(std::begin(lhs), std::end(lhs), std::begin(rhs),
                       [](T a, T b)
                       {
-                          return float_equal(a, b);
+                          return math::is_close(a, b);
                       });
 }
 

@@ -262,6 +262,13 @@ auto quadratic(Float a, Float b, Float c)
     }
 }
 
+template<typename T>
+auto is_close(T lhs, T rhs)
+    -> bool
+{
+    return meta::is_close(lhs, rhs);
+}
+
 namespace meta
 {
     ////////////////////////////////////////////////////////////
@@ -414,5 +421,15 @@ namespace meta
         -> Float
     {
         return x * M_PI_180;
+    }
+
+    ////////////////////////////////////////////////////////////
+    // Miscellaneous functions
+
+    template<typename T>
+    constexpr auto is_close(T lhs, T rhs)
+        -> bool
+    {
+        return meta::is_close(lhs, rhs);
     }
 }

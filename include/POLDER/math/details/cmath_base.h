@@ -69,6 +69,32 @@ namespace details
             details::max(first, rest...) :
             details::max(second, rest...);
     }
+
+    template<typename Float>
+    constexpr auto is_close(std::true_type, Float lhs, Float rhs)
+        -> bool
+    {
+        using math::meta::details::abs;
+        using math::meta::details::max;
+
+        return abs(lhs-rhs) <=
+            std::numeric_limits<Float>::epsilon() *
+            max(abs(lhs), abs(rhs));
+    }
+
+    template<typename T>
+    constexpr auto is_close(std::false_type, T lhs, T rhs)
+        -> bool
+    {
+        return lhs == rhs;
+    }
+
+    template<typename T>
+    constexpr auto is_close(T lhs, T rhs)
+        -> bool
+    {
+        return is_close(std::is_floating_point<T>{}, lhs, rhs);
+    }
 }}}}
 
 #endif // POLDER_MATH_CMATH_BASE_H_

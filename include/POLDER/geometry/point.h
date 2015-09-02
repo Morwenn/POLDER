@@ -28,6 +28,7 @@
 #include <POLDER/functional.h>
 #include <POLDER/geometry/details/types.h>
 #include <POLDER/geometry/details/vector_base.h>
+#include <POLDER/math/formula.h>
 
 namespace polder
 {

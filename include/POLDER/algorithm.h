@@ -109,25 +109,6 @@ namespace polder
     auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp={})
         -> std::pair<ForwardIt, bool>;
 
-    /**
-     *
-     * @brief Floating point comparison
-     *
-     * Compares two floating point numbers by checking whether
-     * the difference between the two of them is lower than a
-     * given value.
-     *
-     * If the types are not floating point types, a regular
-     * comparison is performed instead.
-     *
-     * @param lhs First value to compare
-     * @param rhs Second value to compare
-     * @return true if the values compare equal
-     */
-    template<typename T>
-    constexpr auto float_equal(T lhs, T rhs)
-        -> bool;
-
     #include "details/algorithm.inl"
 }
 
