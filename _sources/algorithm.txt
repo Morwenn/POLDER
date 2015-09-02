@@ -15,7 +15,7 @@ These algorithms generally operate on pairs of iterators.
 
 .. cpp:function:: UnaryOperation for_each(InputIt first, InputIt last, UnaryOperation unary_op)
 
-    This function is a mere wrapper around ```std::for_each`_`` which works
+    This function is a mere wrapper around ``std::for_each`` which works
     exactly the same way. It is provided for consistency with its binary
     version.
 
@@ -44,6 +44,3 @@ Miscellaneous algorithms, not range-based:
     :math:`|lhs-rhs| \le \epsilon * max(|lhs|, |rhs|)`
 
     Where :math:`\epsilon` is ``std::numeric_limits<T>::epsilon()``.
-
-
-.. std::for_each: http://en.cppreference.com/w/cpp/algorithm/for_each
