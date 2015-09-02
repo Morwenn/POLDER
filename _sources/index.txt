@@ -28,6 +28,7 @@ Contents:
    :maxdepth: 2
    :numbered:
    
+   algorithm
    compiler
    evaluation
    gray

@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. algorithm — Generic algorithms &mdash; POLDER 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="2. compiler — Implementation information" href="compiler.html" />
+    <link rel="prev" title="Welcome to POLDER’s documentation!" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="compiler.html" title="2. compiler — Implementation information"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to POLDER’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-algorithm">
+<span id="algorithm-generic-algorithms"></span><h1>1. <a class="reference internal" href="#module-algorithm" title="algorithm"><code class="xref py py-mod docutils literal"><span class="pre">algorithm</span></code></a> &#8212; Generic algorithms<a class="headerlink" href="#module-algorithm" title="Permalink to this headline">¶</a></h1>
+<p>This module contains generic algorithms. Someof them are modeled on the
+algorithms in the standard library header <code class="docutils literal"><span class="pre">&lt;algorithm&gt;</span></code> while some other
+ones work on specific objects.</p>
+<div class="section" id="range-algorithms">
+<h2>1.1. Range algorithms<a class="headerlink" href="#range-algorithms" title="Permalink to this headline">¶</a></h2>
+<p>These algorithms generally operate on pairs of iterators.</p>
+<dl class="function">
+<dt id="_CPPv28for_each7InputIt7InputIt14UnaryOperation">
+<span id="for_each__InputIt.InputIt.UnaryOperation"></span>UnaryOperation <code class="descclassname"></code><code class="descname">for_each</code><span class="sig-paren">(</span>InputIt <em>first</em>, InputIt <em>last</em>, UnaryOperation <em>unary_op</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv28for_each7InputIt7InputIt14UnaryOperation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is a mere wrapper around <code class="docutils literal"><span class="pre">`std::for_each`_</span></code> which works
+exactly the same way. It is provided for consistency with its binary
+version.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv28for_each8InputIt18InputIt18InputIt215BinaryOperation">
+<span id="for_each__InputIt1.InputIt1.InputIt2.BinaryOperation"></span>BinaryOperation <code class="descclassname"></code><code class="descname">for_each</code><span class="sig-paren">(</span>InputIt1 <em>first1</em>, InputIt1 <em>last1</em>, InputIt2 <em>first2</em>, BinaryOperation <em>binary_op</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv28for_each8InputIt18InputIt18InputIt215BinaryOperation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is a binary equivalent to <code class="docutils literal"><span class="pre">std::for_each</span></code>. It applies a
+given operation to the elements obtained by dereferencing the iterators
+in the ranges <code class="docutils literal"><span class="pre">[first1,</span> <span class="pre">last1)</span></code> and <code class="docutils literal"><span class="pre">[first2,</span> <span class="pre">first2</span> <span class="pre">+</span> <span class="pre">last1</span> <span class="pre">-</span> <span class="pre">first1)</span></code>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="other-algorithms">
+<h2>1.2. Other algorithms<a class="headerlink" href="#other-algorithms" title="Permalink to this headline">¶</a></h2>
+<p>Miscellaneous algorithms, not range-based:</p>
+<dl class="function">
+<dt id="_CPPv27compareRK1TRK1U">
+<span id="compare__TCR.UCR"></span>int <code class="descclassname"></code><code class="descname">compare</code><span class="sig-paren">(</span><em class="property">const</em> T &amp;<em>lhs</em>, <em class="property">const</em> U &amp;<em>rhs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv27compareRK1TRK1U" title="Permalink to this definition">¶</a></dt>
+<dd><p>This functions compares the values <code class="docutils literal"><span class="pre">lhs</span></code> and <code class="docutils literal"><span class="pre">rhs</span></code> and returns either
+0, 1 or -1 when the values are respectively in order, equal or in reverse
+order. It has efficient specializations for some standard types.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv211float_equal1T1T">
+<span id="float_equal__T.TCE"></span><em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">float_equal</code><span class="sig-paren">(</span>T <em>lhs</em>, T <em>rhs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv211float_equal1T1T" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function uses a mathematical function to check whether two values are
+close from each other. The returns whether the following relation holds:</p>
+<p><span class="math">\(|lhs-rhs| \le \epsilon * max(|lhs|, |rhs|)\)</span></p>
+<p>Where <span class="math">\(\epsilon\)</span> is <code class="docutils literal"><span class="pre">std::numeric_limits&lt;T&gt;::epsilon()</span></code>.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1. <code class="docutils literal"><span class="pre">algorithm</span></code> &#8212; Generic algorithms</a><ul>
+<li><a class="reference internal" href="#range-algorithms">1.1. Range algorithms</a></li>
+<li><a class="reference internal" href="#other-algorithms">1.2. Other algorithms</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to POLDER&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="compiler.html"
+                        title="next chapter">2. <code class="docutils literal"><span class="pre">compiler</span></code> &#8212; Implementation information</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/algorithm.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Morwenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+      |
+      <a href="_sources/algorithm.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>
