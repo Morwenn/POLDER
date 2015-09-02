@@ -130,7 +130,7 @@ template<std::size_t N, typename T>
 auto Vector<N, T>::operator+=(const Vector& other)
     -> Vector&
 {
-    range_map(
+    for_each(
         std::begin(coordinates),
         std::end(coordinates),
         std::begin(other.coordinates),
@@ -143,7 +143,7 @@ template<std::size_t N, typename T>
 auto Vector<N, T>::operator-=(const Vector& other)
     -> Vector&
 {
-    range_map(
+    for_each(
         std::begin(coordinates),
         std::end(coordinates),
         std::begin(other.coordinates),

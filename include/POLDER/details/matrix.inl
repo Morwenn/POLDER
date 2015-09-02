@@ -257,7 +257,7 @@ auto Matrix<T>::operator+=(const Matrix<T>& other)
 {
     POLDER_ASSERT(width() == other.width());
     POLDER_ASSERT(height() == other.height());
-    range_map(fbegin(), fend(), other.fbegin(), plus_assign());
+    for_each(fbegin(), fend(), other.fbegin(), plus_assign());
     return *this;
 }
 
@@ -267,7 +267,7 @@ auto Matrix<T>::operator-=(const Matrix<T>& other)
 {
     POLDER_ASSERT(width() == other.width());
     POLDER_ASSERT(height() == other.height());
-    range_map(fbegin(), fend(), other.fbegin(), minus_assign());
+    for_each(fbegin(), fend(), other.fbegin(), minus_assign());
     return *this;
 }
 

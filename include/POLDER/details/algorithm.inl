@@ -34,25 +34,21 @@ auto compare(const std::basic_string<CharT, Traits1, Alloc1>& lhs,
 }
 
 template<typename InputIt, typename UnaryOperation>
-auto range_map(InputIt first, InputIt last, UnaryOperation unary_op)
+auto for_each(InputIt first, InputIt last, UnaryOperation unary_op)
     -> UnaryOperation
 {
-    while (first != last)
-    {
-        unary_op(*first++);
-    }
-    return std::move(unary_op);
+    return std::for_each(first, last, unary_op);
 }
 
 template<typename InputIt1, typename InputIt2, typename BinaryOperation>
-auto range_map(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation binary_op)
+auto for_each(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation binary_op)
     -> BinaryOperation
 {
     while (first1 != last1)
     {
         binary_op(*first1++, *first2++);
     }
-    return std::move(binary_op);
+    return binary_op;
 }
 
 template<typename Float>

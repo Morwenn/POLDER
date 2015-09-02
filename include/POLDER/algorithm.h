@@ -52,9 +52,9 @@ namespace polder
         -> int;
 
     /**
-     * @brief Map an unary function to a range
+     * @brief Applies an unary function to a range.
      *
-     * Apply a given unary function to a given
+     * Applies a given unary function to a given
      * range of iterators element-wise.
      *
      * @param first First element of the range
@@ -62,13 +62,13 @@ namespace polder
      * @param unary_op Operation to apply to the range
      */
     template<typename InputIt, typename UnaryOperation>
-    auto range_map(InputIt first, InputIt last, UnaryOperation unary_op)
+    auto for_each(InputIt first, InputIt last, UnaryOperation unary_op)
         -> UnaryOperation;
 
     /**
-     * @brief Map a binary function to a range
+     * @brief Applies a binary function to a range.
      *
-     * Apply a given binary function element-wise
+     * Applies a given binary function element-wise
      * taking two ranges as argument.
      *
      * @param first1 First element of the first range
@@ -77,7 +77,7 @@ namespace polder
      * @param binary_op Operation to apply to the range
      */
     template<typename InputIt1, typename InputIt2, typename BinaryOperation>
-    auto range_map(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation binary_op)
+    auto for_each(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation binary_op)
         -> BinaryOperation;
 
     /**

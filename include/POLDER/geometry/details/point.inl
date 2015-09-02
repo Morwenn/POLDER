@@ -45,7 +45,7 @@ template<std::size_t N, typename T>
 auto Point<N, T>::operator+=(const Vector<N, T>& vec)
     -> Point&
 {
-    range_map(
+    for_each(
         std::begin(coordinates),
         std::end(coordinates),
         std::begin(vec),
@@ -58,7 +58,7 @@ template<std::size_t N, typename T>
 auto Point<N, T>::operator-=(const Vector<N, T>& vec)
     -> Point&
 {
-    range_map(
+    for_each(
         std::begin(coordinates),
         std::end(coordinates),
         std::begin(vec),
