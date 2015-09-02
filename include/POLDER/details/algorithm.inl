@@ -113,7 +113,7 @@ auto min_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare co
 }
 
 template<class ForwardIt, class Compare>
-auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
+auto max_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp)
     -> std::pair<ForwardIt, ForwardIt>
 {
     if (first == last)
