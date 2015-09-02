@@ -430,6 +430,6 @@ namespace meta
     constexpr auto is_close(T lhs, T rhs)
         -> bool
     {
-        return meta::is_close(lhs, rhs);
+        return details::is_close(lhs, rhs);
     }
 }
