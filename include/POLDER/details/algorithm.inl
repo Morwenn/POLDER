@@ -51,6 +51,44 @@ auto for_each(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation 
     return binary_op;
 }
 
+template<class ForwardIt, class Compare>
+auto min_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
+    -> std::pair<ForwardIt, bool>
+{
+    if (first == last)
+    {
+        return { last, true };
+    }
+
+    ForwardIt smallest = first;
+    first = std::is_sorted_until(first, last, comp);
+    bool sorted = first == last;
+    while (first != last)
+    {
+        if (comp(*first, *smallest))
+        {
+            smallest = first;
+        }
+        ++first;
+    }
+    return { smallest, sorted };
+}
+
+template<class ForwardIt, class Compare>
+auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
+    -> std::pair<ForwardIt, bool>
+{
+    if (first == last)
+    {
+        return { last, true };
+    }
+
+    first = std::is_sorted_until(first, last, comp);
+    bool sorted = first == last;
+    auto greatest = std::max_element(--first, last);
+    return { greatest, sorted };
+}
+
 template<typename Float>
 constexpr auto float_equal(std::true_type, Float lhs, Float rhs)
     -> bool

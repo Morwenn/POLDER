@@ -22,6 +22,7 @@
 ////////////////////////////////////////////////////////////
 #include <algorithm>
 #include <cmath>
+#include <functional>
 #include <limits>
 #include <string>
 #include <type_traits>
@@ -79,6 +80,34 @@ namespace polder
     template<typename InputIt1, typename InputIt2, typename BinaryOperation>
     auto for_each(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation binary_op)
         -> BinaryOperation;
+
+    /**
+     * @brief Fused std::min_element and std::is_sorted.
+     *
+     * Returns the min element of a range and whether
+     * this range is sorted.
+     *
+     * @param first First element of the range
+     * @param last Last element of the range
+     * @return Min element and whether the range is sorted
+     */
+    template<typename ForwardIt, typename Compare=std::less<>>
+    auto min_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp={})
+        -> std::pair<ForwardIt, bool>;
+
+    /**
+     * @brief Fused std::max_element and std::is_sorted.
+     *
+     * Returns the max element of a range and whether
+     * this range is sorted.
+     *
+     * @param first First element of the range
+     * @param last Last element of the range
+     * @return Max element and whether the range is sorted
+     */
+    template<typename ForwardIt, typename Compare=std::less<>>
+    auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp={})
+        -> std::pair<ForwardIt, bool>;
 
     /**
      *

@@ -25,6 +25,26 @@ These algorithms generally operate on pairs of iterators.
     given operation to the elements obtained by dereferencing the iterators
     in the ranges ``[first1, last1)`` and ``[first2, first2 + last1 - first1)``.
 
+.. cpp:function:: std::pair<ForwardIt, bool> min_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
+
+    This function is a fused algorithm which computes the smallest element in
+    a range of iterators and returns the corresponding iterator as well as a
+    boolean value corresponding to whether the range is sorted or not. It should
+    perform ``last - first`` comparisons.
+
+    If ``comp`` is omitted, the algorithm uses a default-constructed instance of
+    ``std::less<>``.
+
+.. cpp:function:: std::pair<ForwardIt, bool> max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
+
+    This function is a fused algorithm which computes the greatest element in
+    a range of iterators and returns the corresponding iterator as well as a
+    boolean value corresponding to whether the range is sorted or not. It should
+    perform ``last - first`` comparisons.
+
+    If ``comp`` is omitted, the algorithm uses a default-constructed instance of
+    ``std::less<>``.
+
 Other algorithms
 ----------------
 
