@@ -847,7 +847,8 @@ auto operator==(const Matrix<T>& lhs, const Matrix<T>& rhs)
     {
         return false;
     }
-    return std::equal(lhs.fbegin(), lhs.fend(), rhs.fbegin());
+    return std::equal(lhs.fbegin(), lhs.fend(),
+                      rhs.fbegin(), rhs.fend());
 }
 
 template<typename T>

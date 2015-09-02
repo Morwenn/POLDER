@@ -87,7 +87,8 @@ template<std::size_t N, typename T>
 auto operator==(const Direction<N, T>& lhs, const Direction<N, T>& rhs)
     -> bool
 {
-    return std::equal(std::begin(lhs), std::end(lhs), std::begin(rhs),
+    return std::equal(std::begin(lhs), std::end(lhs),
+                      std::begin(rhs), std::end(rhs),
                       [](T a, T b)
                       {
                           return math::is_close(a, b);
