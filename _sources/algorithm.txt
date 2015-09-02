@@ -28,7 +28,7 @@ These algorithms generally operate on pairs of iterators.
 .. cpp:function:: std::pair<ForwardIt, bool> min_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
 
     This function is a fused algorithm which computes the smallest element in
-    a range of iterators and returns the corresponding iterator as well as a
+    a range of elements and returns the corresponding iterator as well as a
     boolean value corresponding to whether the range is sorted or not. It should
     perform ``last - first`` comparisons.
 
@@ -38,9 +38,29 @@ These algorithms generally operate on pairs of iterators.
 .. cpp:function:: std::pair<ForwardIt, bool> max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
 
     This function is a fused algorithm which computes the greatest element in
-    a range of iterators and returns the corresponding iterator as well as a
+    a range of elements and returns the corresponding iterator as well as a
     boolean value corresponding to whether the range is sorted or not. It should
     perform ``last - first`` comparisons.
+
+    If ``comp`` is omitted, the algorithm uses a default-constructed instance of
+    ``std::less<>``.
+
+.. cpp:function:: std::pair<ForwardIt, ForwardIt> min_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp)
+
+    This function is a fused algorithm which computes the smallest element in
+    a range of elements and returns the corresponding iterator as well as another
+    one corresponding to one past the last sorted element. It should perform
+    ``last - first`` comparisons.
+
+    If ``comp`` is omitted, the algorithm uses a default-constructed instance of
+    ``std::less<>``.
+
+.. cpp:function:: std::pair<ForwardIt, ForwardIt> max_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp)
+
+    This function is a fused algorithm which computes the greatest element in
+    a range of elements and returns the corresponding iterator as well as another
+    one corresponding to one past the last sorted element. It should perform
+    ``last - first`` comparisons.
 
     If ``comp`` is omitted, the algorithm uses a default-constructed instance of
     ``std::less<>``.
