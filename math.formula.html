@@ -191,6 +191,15 @@ types, the result type will be the common type of the different arguments,
 <p><span class="math">\(x = \frac{-b\pm\sqrt{b^2-4ac\ }}{2a}\)</span>.</p>
 </dd></dl>
 
+<dl class="function">
+<dt id="_CPPv28is_close1T1T">
+<span id="is_close__T.TCE"></span><em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">is_close</code><span class="sig-paren">(</span>T <em>lhs</em>, T <em>rhs</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv28is_close1T1T" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function uses a mathematical formula to check whether two values are
+close from each other. It returns whether the following relation holds:</p>
+<p><span class="math">\(|lhs-rhs| \le \epsilon * max(|lhs|, |rhs|)\)</span></p>
+<p>Where <span class="math">\(\epsilon\)</span> is <code class="docutils literal"><span class="pre">std::numeric_limits&lt;T&gt;::epsilon()</span></code>.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="compile-time-functions">
 <h2>5.2.6. Compile-time functions<a class="headerlink" href="#compile-time-functions" title="Permalink to this headline">¶</a></h2>
@@ -211,6 +220,7 @@ that can be executed at compile time:</p>
 <li><code class="docutils literal"><span class="pre">math::meta::modpow</span></code></li>
 <li><code class="docutils literal"><span class="pre">math::meta::degrees</span></code></li>
 <li><code class="docutils literal"><span class="pre">math::meta::radians</span></code></li>
+<li><code class="docutils literal"><span class="pre">math::meta::is_close</span></code></li>
 </ul>
 </div>
 </div>

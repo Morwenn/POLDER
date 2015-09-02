@@ -55,12 +55,3 @@ Miscellaneous algorithms, not range-based:
     This functions compares the values ``lhs`` and ``rhs`` and returns either
     0, 1 or -1 when the values are respectively in order, equal or in reverse
     order. It has efficient specializations for some standard types.
-
-.. cpp:function:: constexpr bool float_equal(T lhs, T rhs)
-
-    This function uses a mathematical function to check whether two values are
-    close from each other. The returns whether the following relation holds:
-
-    :math:`|lhs-rhs| \le \epsilon * max(|lhs|, |rhs|)`
-
-    Where :math:`\epsilon` is ``std::numeric_limits<T>::epsilon()``.

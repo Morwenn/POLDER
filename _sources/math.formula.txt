@@ -103,6 +103,14 @@ Miscellaneous functions
     
     :math:`x = \frac{-b\pm\sqrt{b^2-4ac\ }}{2a}`.
 
+.. cpp:function:: constexpr bool is_close(T lhs, T rhs)
+
+    This function uses a mathematical formula to check whether two values are
+    close from each other. It returns whether the following relation holds:
+
+    :math:`|lhs-rhs| \le \epsilon * max(|lhs|, |rhs|)`
+
+    Where :math:`\epsilon` is ``std::numeric_limits<T>::epsilon()``.
 
 Compile-time functions
 ----------------------
@@ -124,6 +132,7 @@ that can be executed at compile time:
 * ``math::meta::modpow``
 * ``math::meta::degrees``
 * ``math::meta::radians``
+* ``math::meta::is_close``
 
 
 .. _clamped: http://en.wikipedia.org/wiki/Clamping_%28graphics%29
