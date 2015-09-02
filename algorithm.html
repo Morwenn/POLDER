@@ -81,6 +81,28 @@ given operation to the elements obtained by dereferencing the iterators
 in the ranges <code class="docutils literal"><span class="pre">[first1,</span> <span class="pre">last1)</span></code> and <code class="docutils literal"><span class="pre">[first2,</span> <span class="pre">first2</span> <span class="pre">+</span> <span class="pre">last1</span> <span class="pre">-</span> <span class="pre">first1)</span></code>.</p>
 </dd></dl>
 
+<dl class="function">
+<dt id="_CPPv225min_element_and_is_sorted9ForwardIt9ForwardIt7Compare">
+<span id="min_element_and_is_sorted__ForwardIt.ForwardIt.Compare"></span>std::pair&lt;ForwardIt, bool&gt; <code class="descclassname"></code><code class="descname">min_element_and_is_sorted</code><span class="sig-paren">(</span>ForwardIt <em>first</em>, ForwardIt <em>last</em>, Compare <em>comp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv225min_element_and_is_sorted9ForwardIt9ForwardIt7Compare" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is a fused algorithm which computes the smallest element in
+a range of iterators and returns the corresponding iterator as well as a
+boolean value corresponding to whether the range is sorted or not. It should
+perform <code class="docutils literal"><span class="pre">last</span> <span class="pre">-</span> <span class="pre">first</span></code> comparisons.</p>
+<p>If <code class="docutils literal"><span class="pre">comp</span></code> is omitted, the algorithm uses a default-constructed instance of
+<code class="docutils literal"><span class="pre">std::less&lt;&gt;</span></code>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv225max_element_and_is_sorted9ForwardIt9ForwardIt7Compare">
+<span id="max_element_and_is_sorted__ForwardIt.ForwardIt.Compare"></span>std::pair&lt;ForwardIt, bool&gt; <code class="descclassname"></code><code class="descname">max_element_and_is_sorted</code><span class="sig-paren">(</span>ForwardIt <em>first</em>, ForwardIt <em>last</em>, Compare <em>comp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv225max_element_and_is_sorted9ForwardIt9ForwardIt7Compare" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is a fused algorithm which computes the greatest element in
+a range of iterators and returns the corresponding iterator as well as a
+boolean value corresponding to whether the range is sorted or not. It should
+perform <code class="docutils literal"><span class="pre">last</span> <span class="pre">-</span> <span class="pre">first</span></code> comparisons.</p>
+<p>If <code class="docutils literal"><span class="pre">comp</span></code> is omitted, the algorithm uses a default-constructed instance of
+<code class="docutils literal"><span class="pre">std::less&lt;&gt;</span></code>.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="other-algorithms">
 <h2>1.2. Other algorithms<a class="headerlink" href="#other-algorithms" title="Permalink to this headline">¶</a></h2>
