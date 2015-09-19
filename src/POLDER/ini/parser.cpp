@@ -15,9 +15,13 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
-#include <iostream>
+#include <cstddef>
+#include <istream>
+#include <iterator>
+#include <ostream>
 #include <typeindex>
 #include <utility>
+#include <vector>
 #include <POLDER/ini/details/token.h>
 #include <POLDER/ini/error.h>
 #include <POLDER/ini/parser.h>
@@ -166,7 +170,6 @@ namespace ini
                             && it->type != token_t::FLOATING_POINT
                             && it->type != token_t::STRING)
                         {
-                            std::cout << int(it->type) << std::endl;
                             throw Error(line_number, "non-literal token after delimiter");
                         }
 
