@@ -31,6 +31,7 @@ Contents:
    algorithm
    compiler
    evaluation
+   functional
    gray
    math
    polymorphic

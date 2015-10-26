@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. functional — Function objects &mdash; POLDER 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="5. gray — Gray codes" href="gray.html" />
+    <link rel="prev" title="3. evaluation — Evaluation of mathematical expressions" href="evaluation.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="gray.html" title="5. gray — Gray codes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="evaluation.html" title="3. evaluation — Evaluation of mathematical expressions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-functional">
+<span id="functional-function-objects"></span><h1>4. <a class="reference internal" href="#module-functional" title="functional"><code class="xref py py-mod docutils literal"><span class="pre">functional</span></code></a> &#8212; Function objects<a class="headerlink" href="#module-functional" title="Permalink to this headline">¶</a></h1>
+<p>This module contains generic function objects. Some of them are inspired by the
+ones found in the standard library header <code class="docutils literal"><span class="pre">&lt;functional</span></code> while others are slightly
+different in the way they work.</p>
+<div class="section" id="function-objects">
+<h2>4.1. Function objects<a class="headerlink" href="#function-objects" title="Permalink to this headline">¶</a></h2>
+<p>Just like the standard library, POLDER provides function objects that represent
+common operators. However, these classes are not templated, only their function
+call operators are. When possible, they are defined as alias for the equivalent
+<code class="docutils literal"><span class="pre">void</span></code> specialization in the standard library. For example, <code class="docutils literal"><span class="pre">plus</span></code> is defined
+as follows:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">using</span> <span class="n">plus</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">plus</span><span class="o">&lt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>POLDER completes this set of function objects with the ones used to represent the
+missing shift and assignement operators. Here is the full list of function objects
+provided by POLDER:</p>
+<dl class="class">
+<dt id="_CPPv24plus">
+<span id="plus"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">plus</code><a class="headerlink" href="#_CPPv24plus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv25minus">
+<span id="minus"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">minus</code><a class="headerlink" href="#_CPPv25minus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv210multiplies">
+<span id="multiplies"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">multiplies</code><a class="headerlink" href="#_CPPv210multiplies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv27divides">
+<span id="divides"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">divides</code><a class="headerlink" href="#_CPPv27divides" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv27modulus">
+<span id="modulus"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">modulus</code><a class="headerlink" href="#_CPPv27modulus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv26negate">
+<span id="negate"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">negate</code><a class="headerlink" href="#_CPPv26negate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv28equal_to">
+<span id="equal_to"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">equal_to</code><a class="headerlink" href="#_CPPv28equal_to" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv212not_equal_to">
+<span id="not_equal_to"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">not_equal_to</code><a class="headerlink" href="#_CPPv212not_equal_to" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv27greater">
+<span id="greater"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">greater</code><a class="headerlink" href="#_CPPv27greater" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv24less">
+<span id="less"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">less</code><a class="headerlink" href="#_CPPv24less" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv213greater_equal">
+<span id="greater_equal"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">greater_equal</code><a class="headerlink" href="#_CPPv213greater_equal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv210less_equal">
+<span id="less_equal"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">less_equal</code><a class="headerlink" href="#_CPPv210less_equal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv211logical_and">
+<span id="logical_and"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">logical_and</code><a class="headerlink" href="#_CPPv211logical_and" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv210logical_or">
+<span id="logical_or"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">logical_or</code><a class="headerlink" href="#_CPPv210logical_or" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv211logical_not">
+<span id="logical_not"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">logical_not</code><a class="headerlink" href="#_CPPv211logical_not" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv27bit_and">
+<span id="bit_and"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">bit_and</code><a class="headerlink" href="#_CPPv27bit_and" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv26bit_or">
+<span id="bit_or"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">bit_or</code><a class="headerlink" href="#_CPPv26bit_or" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv27bit_xor">
+<span id="bit_xor"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">bit_xor</code><a class="headerlink" href="#_CPPv27bit_xor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv27bit_not">
+<span id="bit_not"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">bit_not</code><a class="headerlink" href="#_CPPv27bit_not" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv210left_shift">
+<span id="left_shift"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">left_shift</code><a class="headerlink" href="#_CPPv210left_shift" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv211right_shift">
+<span id="right_shift"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">right_shift</code><a class="headerlink" href="#_CPPv211right_shift" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv26assign">
+<span id="assign"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">assign</code><a class="headerlink" href="#_CPPv26assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv211plus_assign">
+<span id="plus_assign"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">plus_assign</code><a class="headerlink" href="#_CPPv211plus_assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv212minus_assign">
+<span id="minus_assign"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">minus_assign</code><a class="headerlink" href="#_CPPv212minus_assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv217multiplies_assign">
+<span id="multiplies_assign"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">multiplies_assign</code><a class="headerlink" href="#_CPPv217multiplies_assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv214divides_assign">
+<span id="divides_assign"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">divides_assign</code><a class="headerlink" href="#_CPPv214divides_assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv214modulus_assign">
+<span id="modulus_assign"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">modulus_assign</code><a class="headerlink" href="#_CPPv214modulus_assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv214bit_and_assign">
+<span id="bit_and_assign"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">bit_and_assign</code><a class="headerlink" href="#_CPPv214bit_and_assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv213bit_or_assign">
+<span id="bit_or_assign"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">bit_or_assign</code><a class="headerlink" href="#_CPPv213bit_or_assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv214bit_xor_assign">
+<span id="bit_xor_assign"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">bit_xor_assign</code><a class="headerlink" href="#_CPPv214bit_xor_assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv217left_shift_assign">
+<span id="left_shift_assign"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">left_shift_assign</code><a class="headerlink" href="#_CPPv217left_shift_assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="_CPPv218right_shift_assign">
+<span id="right_shift_assign"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">right_shift_assign</code><a class="headerlink" href="#_CPPv218right_shift_assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">4. <code class="docutils literal"><span class="pre">functional</span></code> &#8212; Function objects</a><ul>
+<li><a class="reference internal" href="#function-objects">4.1. Function objects</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="evaluation.html"
+                        title="previous chapter">3. <code class="docutils literal"><span class="pre">evaluation</span></code> &#8212; Evaluation of mathematical expressions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="gray.html"
+                        title="next chapter">5. <code class="docutils literal"><span class="pre">gray</span></code> &#8212; Gray codes</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/functional.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Morwenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+      |
+      <a href="_sources/functional.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>
