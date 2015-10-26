@@ -31,87 +31,214 @@
 
 namespace polder
 {
+    namespace detail
+    {
+        using is_transparent_t = std::plus<>::is_transparent;
+    }
+
     ////////////////////////////////////////////////////////////
-    // Function objects for compound assignment
+    // Function objects from the standard library
+
+    // Arithmetic operations
+    using plus = std::plus<>;
+    using minus = std::minus<>;
+    using multiplies = std::multiplies<>;
+    using divides = std::divides<>;
+    using modulus = std::modulus<>;
+    using negate = std::negate<>;
+
+    // Comparisons
+    using equal_to = std::equal_to<>;
+    using not_equal_to = std::not_equal_to<>;
+    using greater = std::greater<>;
+    using less = std::less<>;
+    using greater_equal= std::greater_equal<>;
+    using less_equal = std::less_equal<>;
+
+    // Logical operations
+    using logical_and = std::logical_and<>;
+    using logical_or = std::logical_or<>;
+    using logical_not = std::logical_not<>;
+
+    // Bitwise operations
+    using bit_and = std::bit_and<>;
+    using bit_or = std::bit_or<>;
+    using bit_xor = std::bit_xor<>;
+    using bit_not = std::bit_not<>;
+
+    ////////////////////////////////////////////////////////////
+    // Missing function objects for shift operators
+
+    struct left_shift
+    {
+        template<typename T, typename U>
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) << std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) << std::forward<U>(rhs))
+        {
+            return std::forward<T>(lhs) << std::forward<U>(rhs);
+        }
+
+        using is_transparent = detail::is_transparent_t;
+    };
+
+    struct right_shift
+    {
+        template<typename T, typename U>
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) >> std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) >> std::forward<U>(rhs))
+        {
+            return std::forward<T>(lhs) >> std::forward<U>(rhs);
+        }
+
+        using is_transparent = detail::is_transparent_t;
+    };
+
+    ////////////////////////////////////////////////////////////
+    // Missing function objects for assignment operators
+
+    struct assign
+    {
+        template<typename T, typename U>
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) = std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) = std::forward<U>(rhs))
+        {
+            return std::forward<T>(lhs) = std::forward<U>(rhs);
+        }
+
+        using is_transparent = detail::is_transparent_t;
+    };
 
     struct plus_assign
     {
         template<typename T, typename U>
-        auto operator()(T& lhs, U&& rhs) const
-            -> T
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) += std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) += std::forward<U>(rhs))
         {
-            return lhs += rhs;
+            return std::forward<T>(lhs) += std::forward<U>(rhs);
         }
+
+        using is_transparent = detail::is_transparent_t;
     };
 
     struct minus_assign
     {
         template<typename T, typename U>
-        auto operator()(T& lhs, U&& rhs) const
-            -> T
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) -= std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) -= std::forward<U>(rhs))
         {
-            return lhs -= rhs;
+            return std::forward<T>(lhs) -= std::forward<U>(rhs);
         }
+
+        using is_transparent = detail::is_transparent_t;
     };
 
     struct multiplies_assign
     {
         template<typename T, typename U>
-        auto operator()(T& lhs, U&& rhs) const
-            -> T
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) *= std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) *= std::forward<U>(rhs))
         {
-            return lhs *= rhs;
+            return std::forward<T>(lhs) *= std::forward<U>(rhs);
         }
+
+        using is_transparent = detail::is_transparent_t;
     };
 
     struct divides_assign
     {
         template<typename T, typename U>
-        auto operator()(T& lhs, U&& rhs) const
-            -> T
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) /= std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) /= std::forward<U>(rhs))
         {
-            return lhs /= rhs;
+            return std::forward<T>(lhs) /= std::forward<U>(rhs);
         }
+
+        using is_transparent = detail::is_transparent_t;
     };
 
     struct modulus_assign
     {
         template<typename T, typename U>
-        auto operator()(T& lhs, U&& rhs) const
-            -> T
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) %= std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) %= std::forward<U>(rhs))
         {
-            return lhs %= rhs;
+            return std::forward<T>(lhs) %= std::forward<U>(rhs);
         }
+
+        using is_transparent = detail::is_transparent_t;
     };
 
     struct bit_and_assign
     {
         template<typename T, typename U>
-        auto operator()(T& lhs, U&& rhs) const
-            -> T
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) &= std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) &= std::forward<U>(rhs))
         {
-            return lhs &= rhs;
+            return std::forward<T>(lhs) &= std::forward<U>(rhs);
         }
+
+        using is_transparent = detail::is_transparent_t;
     };
 
     struct bit_or_assign
     {
         template<typename T, typename U>
-        auto operator()(T& lhs, U&& rhs) const
-            -> T
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) |= std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) |= std::forward<U>(rhs))
         {
-            return lhs |= rhs;
+            return std::forward<T>(lhs) |= std::forward<U>(rhs);
         }
+
+        using is_transparent = detail::is_transparent_t;
     };
 
     struct bit_xor_assign
     {
         template<typename T, typename U>
-        auto operator()(T& lhs, U&& rhs) const
-            -> T
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) ^= std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) ^= std::forward<U>(rhs))
         {
-            return lhs ^= rhs;
+            return std::forward<T>(lhs) ^= std::forward<U>(rhs);
         }
+
+        using is_transparent = detail::is_transparent_t;
+    };
+
+    struct left_shift_assign
+    {
+        template<typename T, typename U>
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) <<= std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) <<= std::forward<U>(rhs))
+        {
+            return std::forward<T>(lhs) <<= std::forward<U>(rhs);
+        }
+
+        using is_transparent = detail::is_transparent_t;
+    };
+
+    struct right_shift_assign
+    {
+        template<typename T, typename U>
+        constexpr auto operator()(T&& lhs, U&& rhs) const
+            noexcept(noexcept(std::forward<T>(lhs) >>= std::forward<U>(rhs)))
+            -> decltype(std::forward<T>(lhs) >>= std::forward<U>(rhs))
+        {
+            return std::forward<T>(lhs) >>= std::forward<U>(rhs);
+        }
+
+        using is_transparent = detail::is_transparent_t;
     };
 
     ////////////////////////////////////////////////////////////
