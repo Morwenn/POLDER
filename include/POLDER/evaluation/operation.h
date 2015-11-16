@@ -22,6 +22,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <cmath>
+#include <cstdint>
 #include <sstream>
 #include <unordered_map>
 #include <POLDER/details/config.h>

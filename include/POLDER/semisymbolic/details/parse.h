@@ -21,6 +21,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <cstdint>
 #include <POLDER/type_traits.h>
 
 namespace polder
@@ -46,15 +47,15 @@ namespace details
             && is_decimal_digit(digits...);
     }
 
-    constexpr auto combine(unsigned long long value)
-        -> unsigned long long
+    constexpr auto combine(std::uintmax_t value)
+        -> std::uintmax_t
     {
         return value;
     }
 
     template<typename... ULL>
-    constexpr auto combine(unsigned long long value, unsigned long long first, ULL... digits)
-        -> unsigned long long
+    constexpr auto combine(std::uintmax_t value, std::uintmax_t first, ULL... digits)
+        -> std::uintmax_t
     {
         return combine(value*10 + first, digits...);
     }
@@ -73,7 +74,7 @@ namespace details
 
         private:
 
-            static constexpr unsigned long long raw_value =
+            static constexpr std::uintmax_t raw_value =
                 combine(0, C-'0', Digits-'0'...);
 
         public:

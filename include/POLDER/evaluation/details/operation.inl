@@ -27,11 +27,11 @@ auto operation(infix_t oper, Number lhs, Number rhs)
         { infix_t::LT,     [](Number a, Number b) -> Number { return a < b; } },
         { infix_t::GT,     [](Number a, Number b) -> Number { return a > b; } },
         { infix_t::DIV,    [](Number a, Number b) -> Number { return a / b; } },
-        { infix_t::IDIV,   [](Number a, Number b) -> Number { return (long long) a / (long long) b; } },
-        { infix_t::MOD,    [](Number a, Number b) -> Number { return (long long) a % (long long) b; } },
-        { infix_t::BAND,   [](Number a, Number b) -> Number { return (long long) a & (long long) b; } },
-        { infix_t::BXOR,   [](Number a, Number b) -> Number { return (long long) a ^ (long long) b; } },
-        { infix_t::BOR,    [](Number a, Number b) -> Number { return (long long) a | (long long) b; } },
+        { infix_t::IDIV,   [](Number a, Number b) -> Number { return (std::intmax_t) a / (std::intmax_t) b; } },
+        { infix_t::MOD,    [](Number a, Number b) -> Number { return (std::intmax_t) a % (std::intmax_t) b; } },
+        { infix_t::BAND,   [](Number a, Number b) -> Number { return (std::intmax_t) a & (std::intmax_t) b; } },
+        { infix_t::BXOR,   [](Number a, Number b) -> Number { return (std::intmax_t) a ^ (std::intmax_t) b; } },
+        { infix_t::BOR,    [](Number a, Number b) -> Number { return (std::intmax_t) a | (std::intmax_t) b; } },
         { infix_t::EQ,     [](Number a, Number b) -> Number { return a == b; } },
         { infix_t::NE,     [](Number a, Number b) -> Number { return a != b; } },
         { infix_t::GE,     [](Number a, Number b) -> Number { return a >= b; } },
@@ -41,8 +41,8 @@ auto operation(infix_t oper, Number lhs, Number rhs)
         { infix_t::OR,     [](Number a, Number b) -> Number { return a || b; } },
         { infix_t::POW,    [](Number a, Number b) -> Number { return std::pow(a, b); } },
         { infix_t::SPACE,  [](Number a, Number b) -> Number { return (a < b) ? -1 : (a != b); } },
-        { infix_t::LSHIFT, [](Number a, Number b) -> Number { return (long long) a << (long long) b; } },
-        { infix_t::RSHIFT, [](Number a, Number b) -> Number { return (long long) a >> (long long) b; } }
+        { infix_t::LSHIFT, [](Number a, Number b) -> Number { return (std::intmax_t) a << (std::intmax_t) b; } },
+        { infix_t::RSHIFT, [](Number a, Number b) -> Number { return (std::intmax_t) a >> (std::intmax_t) b; } }
     };
 
     auto it = operations.find(oper);
@@ -64,7 +64,7 @@ auto operation(prefix_t oper, Number arg)
     static const std::unordered_map<prefix_t, Number(*)(Number), enum_hash<prefix_t>> operations = {
         { prefix_t::USUB,  [](Number a) -> Number { return -a; } },
         { prefix_t::NOT,   [](Number a) -> Number { return !a; } },
-        { prefix_t::BNOT,  [](Number a) -> Number { return ~ (long long) a; } }
+        { prefix_t::BNOT,  [](Number a) -> Number { return ~ (std::intmax_t) a; } }
     };
 
     auto it = operations.find(oper);
@@ -84,7 +84,7 @@ auto operation(postfix_t oper, Number arg)
     -> Number
 {
     static const std::unordered_map<postfix_t, Number(*)(Number), enum_hash<postfix_t>> operations = {
-        { postfix_t::FAC,    [](Number a) -> Number { return math::factorial((unsigned long long) a); } }
+        { postfix_t::FAC,    [](Number a) -> Number { return math::factorial((std::uintmax_t) a); } }
     };
 
     auto it = operations.find(oper);

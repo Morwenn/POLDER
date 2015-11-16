@@ -141,11 +141,11 @@ namespace polder
     /**
      * @brief Unsigned integer fit.
      *
-     * This functions checks whether a given unsigned long long
+     * This functions checks whether a given integer
      * value can fit in a given type of integer.
      */
     template<typename Integer>
-    constexpr auto can_fit(unsigned long long n)
+    constexpr auto can_fit(std::uintmax_t n)
         -> bool
     {
         return n <= std::numeric_limits<Integer>::max();
