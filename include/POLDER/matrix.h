@@ -29,7 +29,7 @@
 #include <vector>
 #include <POLDER/algorithm.h>
 #include <POLDER/functional.h>
-#include <POLDER/matrix/details/base.h>
+#include <POLDER/matrix/base.h>
 
 namespace polder
 {
