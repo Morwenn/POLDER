@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7. polymorphic — Polymorphic collections &mdash; POLDER 1.0.0 documentation</title>
+    <title>8. polymorphic — Polymorphic collections &mdash; POLDER 1.0.0 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
-    <link rel="prev" title="6.5. factorial — Factorial-related mathematical formula" href="math.factorial.html" />
+    <link rel="prev" title="7.5. factorial — Factorial-related mathematical formula" href="math.factorial.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -42,7 +42,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="math.factorial.html" title="6.5. factorial — Factorial-related mathematical formula"
+          <a href="math.factorial.html" title="7.5. factorial — Factorial-related mathematical formula"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li> 
       </ul>
@@ -54,7 +54,7 @@
           <div class="body" role="main">
             
   <div class="section" id="module-polymorphic">
-<span id="polymorphic-polymorphic-collections"></span><h1>7. <a class="reference internal" href="#module-polymorphic" title="polymorphic"><code class="xref py py-mod docutils literal"><span class="pre">polymorphic</span></code></a> &#8212; Polymorphic collections<a class="headerlink" href="#module-polymorphic" title="Permalink to this headline">¶</a></h1>
+<span id="polymorphic-polymorphic-collections"></span><h1>8. <a class="reference internal" href="#module-polymorphic" title="polymorphic"><code class="xref py py-mod docutils literal"><span class="pre">polymorphic</span></code></a> &#8212; Polymorphic collections<a class="headerlink" href="#module-polymorphic" title="Permalink to this headline">¶</a></h1>
 <p>This module contains collection classes based on the standard library collections
 which are meant to store instances of polymorphic types. Through the <code class="docutils literal"><span class="pre">Adapter</span></code>
 template template parameter, they allow to use regular polymorphism but also to
@@ -95,7 +95,7 @@ is there for that.</li>
 direction for the module.</li>
 </ul>
 <div class="section" id="regular-polymorphism">
-<h2>7.1. Regular polymorphism<a class="headerlink" href="#regular-polymorphism" title="Permalink to this headline">¶</a></h2>
+<h2>8.1. Regular polymorphism<a class="headerlink" href="#regular-polymorphism" title="Permalink to this headline">¶</a></h2>
 <p>At first, we will ignore the <code class="docutils literal"><span class="pre">Adapter</span></code> template template parameter and focus on
 the first use case of polymorphic collections: store instances of polymorphic types.
 So, let&#8217;s write a simple hierarchy of shapes:</p>
@@ -161,7 +161,7 @@ collection. Be careful however that you always use reference or pointer semantic
 Raw value semantics don&#8217;t well with polymorphism so you could be up to get unlucky.</p>
 </div>
 <div class="section" id="concept-based-polymorphism">
-<h2>7.2. Concept-based polymorphism<a class="headerlink" href="#concept-based-polymorphism" title="Permalink to this headline">¶</a></h2>
+<h2>8.2. Concept-based polymorphism<a class="headerlink" href="#concept-based-polymorphism" title="Permalink to this headline">¶</a></h2>
 <p>Concept-based polymorphism is a powerful mechanism that allows to store instances
 of several types in our polymorphic collections as long as they satisfy the concept
 of the <code class="docutils literal"><span class="pre">Interface</span></code> class. In other words, you can store them as long as you know
@@ -262,16 +262,16 @@ common features to a consistent family of classes.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7. <code class="docutils literal"><span class="pre">polymorphic</span></code> &#8212; Polymorphic collections</a><ul>
-<li><a class="reference internal" href="#regular-polymorphism">7.1. Regular polymorphism</a></li>
-<li><a class="reference internal" href="#concept-based-polymorphism">7.2. Concept-based polymorphism</a></li>
+<li><a class="reference internal" href="#">8. <code class="docutils literal"><span class="pre">polymorphic</span></code> &#8212; Polymorphic collections</a><ul>
+<li><a class="reference internal" href="#regular-polymorphism">8.1. Regular polymorphism</a></li>
+<li><a class="reference internal" href="#concept-based-polymorphism">8.2. Concept-based polymorphism</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="math.factorial.html"
-                        title="previous chapter">6.5. <code class="docutils literal"><span class="pre">factorial</span></code> &#8212; Factorial-related mathematical formula</a></p>
+                        title="previous chapter">7.5. <code class="docutils literal"><span class="pre">factorial</span></code> &#8212; Factorial-related mathematical formula</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">

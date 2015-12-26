@@ -5,7 +5,7 @@
 .. module:: functional
 
 This module contains generic function objects. Some of them are inspired by the
-ones found in the standard library header ``<functional`` while others are slightly
+ones found in the standard library header ``<functional>`` while others are slightly
 different in the way they work.
 
 Function objects

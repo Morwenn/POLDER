@@ -33,6 +33,7 @@ Contents:
    evaluation
    functional
    gray
+   iterator
    math
    polymorphic
 

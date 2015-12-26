@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6. iterator — Fancy iterators &mdash; POLDER 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="POLDER 1.0.0 documentation" href="index.html" />
+    <link rel="next" title="7. math — Mathematical module" href="math.html" />
+    <link rel="prev" title="5. gray — Gray codes" href="gray.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="math.html" title="7. math — Mathematical module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gray.html" title="5. gray — Gray codes"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-iterator">
+<span id="iterator-fancy-iterators"></span><h1>6. <a class="reference internal" href="#module-iterator" title="iterator"><code class="xref py py-mod docutils literal"><span class="pre">iterator</span></code></a> &#8212; Fancy iterators<a class="headerlink" href="#module-iterator" title="Permalink to this headline">¶</a></h1>
+<p>This module contains additional iterators modeled after the ones found in the standard
+library. New kinds of iterators are added to the library when there is a need for them
+in the library itself. While they are not fully documented here, every new iterator has
+a corresponding <code class="docutils literal"><span class="pre">make_*</span></code> factory function to hide away the template parameters.</p>
+<div class="section" id="transforming-iterator">
+<h2>6.1. Transforming iterator<a class="headerlink" href="#transforming-iterator" title="Permalink to this headline">¶</a></h2>
+<p>This iterator is close to its equivalent in Boost: it takes an iterator and a function,
+and applies the function to the dereferenced original iterators whenever it is itself
+dereferenced. It allows to apply a small transformation on-the-fly whenever it comes in
+handy.</p>
+<dl class="class">
+<dt id="_CPPv218transform_iteratorI8Iterator13UnaryFunctionE">
+<span id="transform_iterator:Iterator.UnaryFunction:"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">transform_iterator</code>&lt;Iterator, UnaryFunction&gt;<a class="headerlink" href="#_CPPv218transform_iteratorI8Iterator13UnaryFunctionE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>The interface is almost exactly the same, so if you need additional documentation for
+this iterator, you can refer to the <a class="reference external" href="http://www.boost.org/doc/libs/1_60_0/libs/iterator/doc/transform_iterator.html">Boost documentation</a>, but be careful: POLDER&#8217;s
+implementation contains a bit less tricks and the order of the template parameters is
+not the same (it is iterator first). Unlike Boost, we perform the empty base class
+optimization when the function is an empty object.</p>
+<p><code class="docutils literal"><span class="pre">transform_iterator</span></code> has two sepcializations in the same module: <code class="docutils literal"><span class="pre">indirect_iterator</span></code>
+to iterator over a collection of pointers, and <code class="docutils literal"><span class="pre">get_iterator</span></code> to iterator over
+collections of tuple-like objects while we only care about one of the returned values.
+Here are the corresponding implementations (the structures <code class="docutils literal"><span class="pre">indirection</span></code> and <code class="docutils literal"><span class="pre">getter</span></code>
+are not available):</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span> <span class="n">indirection</span>
+<span class="p">{</span>
+    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+    <span class="k">auto</span> <span class="k">operator</span><span class="p">()(</span><span class="n">T</span><span class="o">&amp;&amp;</span> <span class="n">arg</span><span class="p">)</span> <span class="k">const</span>
+        <span class="o">-&gt;</span> <span class="k">decltype</span><span class="p">(</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">arg</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Iterator</span><span class="o">&gt;</span>
+<span class="k">using</span> <span class="n">indirect_iterator</span> <span class="o">=</span> <span class="n">transform_iterator</span><span class="o">&lt;</span><span class="n">Iterator</span><span class="p">,</span> <span class="n">indirection</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">N</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">getter</span>
+<span class="p">{</span>
+    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+    <span class="k">auto</span> <span class="k">operator</span><span class="p">()(</span><span class="n">T</span><span class="o">&amp;&amp;</span> <span class="n">arg</span><span class="p">)</span> <span class="k">const</span>
+        <span class="o">-&gt;</span> <span class="k">decltype</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">arg</span><span class="p">)))</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">forward</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">arg</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">N</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Iterator</span><span class="o">&gt;</span>
+<span class="k">using</span> <span class="n">get_iterator</span> <span class="o">=</span> <span class="n">transform_iterator</span><span class="o">&lt;</span><span class="n">Iterator</span><span class="p">,</span> <span class="n">getter</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="strided-iterator">
+<h2>6.2. Strided iterator<a class="headerlink" href="#strided-iterator" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">stride_iterator</span></code> takes an iterator and a stride which will be used so that incrementing
+or decrementing the iterator by 1 will actually increment or decrement it by the stride.
+It is the user&#8217;s responsability to make sure that the stride won&#8217;t ever pass the <code class="docutils literal"><span class="pre">end</span></code>
+iterator.</p>
+<dl class="class">
+<dt id="_CPPv215stride_iteratorI8Iterator8DistanceE">
+<span id="stride_iterator:Iterator.Distance:"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">stride_iterator</code>&lt;Iterator, Distance&gt;<a class="headerlink" href="#_CPPv215stride_iteratorI8Iterator8DistanceE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">6. <code class="docutils literal"><span class="pre">iterator</span></code> &#8212; Fancy iterators</a><ul>
+<li><a class="reference internal" href="#transforming-iterator">6.1. Transforming iterator</a></li>
+<li><a class="reference internal" href="#strided-iterator">6.2. Strided iterator</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="gray.html"
+                        title="previous chapter">5. <code class="docutils literal"><span class="pre">gray</span></code> &#8212; Gray codes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="math.html"
+                        title="next chapter">7. <code class="docutils literal"><span class="pre">math</span></code> &#8212; Mathematical module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/iterator.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Morwenn.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+      |
+      <a href="_sources/iterator.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>
