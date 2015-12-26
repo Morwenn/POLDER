@@ -15,8 +15,8 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include <catch.hpp>
 #include <POLDER/geo2d.h>
-#include "catch.hpp"
 
 using namespace polder::geo2d;
 

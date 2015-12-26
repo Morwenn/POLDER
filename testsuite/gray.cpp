@@ -17,8 +17,8 @@
  */
 #include <limits>
 #include <type_traits>
+#include <catch.hpp>
 #include <POLDER/gray.h>
-#include "catch.hpp"
 
 using namespace polder;
 

@@ -16,9 +16,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include <type_traits>
+#include <catch.hpp>
 #include <POLDER/math/cmath.h>
 #include <POLDER/semisymbolic/constant.h>
-#include "catch.hpp"
 
 using namespace polder::semisymbolic;
 

@@ -17,8 +17,8 @@
  */
 #include <cstdlib>
 #include <functional>
+#include <catch.hpp>
 #include <POLDER/evaluation.h>
-#include "catch.hpp"
 
 using namespace polder;
 

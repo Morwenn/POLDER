@@ -15,9 +15,9 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include <catch.hpp>
 #include <POLDER/geo2d.h>
 #include <POLDER/math/distnorm.h>
-#include "catch.hpp"
 
 using namespace polder::geo2d;
 using namespace polder::math::dist;

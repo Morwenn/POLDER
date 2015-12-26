@@ -16,8 +16,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include <string>
+#include <catch.hpp>
 #include <POLDER/algorithm.h>
-#include "catch.hpp"
 
 using namespace polder;
 

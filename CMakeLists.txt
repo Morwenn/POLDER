@@ -1,8 +1,4 @@
-# Version
-cmake_minimum_required(VERSION 2.6.3)
-
-# C++ version check
-include("cmake/set_cxx_norm.cmake")
+cmake_minimum_required(VERSION 2.8.7)
 
 # .a output directory
 set(LIBRARY_OUTPUT_PATH lib/)
@@ -25,9 +21,9 @@ if (NOT DEFINED CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-	if(COMPILE_MODE STREQUAL "Dynamic") # Build a dll
+	if (COMPILE_MODE STREQUAL "Dynamic") # Build a dll
 
 		project(polder-d)
 
@@ -42,7 +38,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 		set_target_properties(polder-d PROPERTIES PREFIX "")
 		set_target_properties(polder-d PROPERTIES IMPORT_SUFFIX ".a")
 
-	elseif(COMPILE_MODE STREQUAL "Static") # Build a static library
+	elseif (COMPILE_MODE STREQUAL "Static") # Build a static library
 
 		project(polder-d-s)
 
@@ -54,9 +50,9 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 	endif()
 
-elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
 
-	if(COMPILE_MODE STREQUAL "Dynamic") # Build a dll
+	if (COMPILE_MODE STREQUAL "Dynamic") # Build a dll
 
 		project(polder)
 
@@ -71,7 +67,7 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 		set_target_properties(polder PROPERTIES PREFIX "")
 		set_target_properties(polder PROPERTIES IMPORT_SUFFIX ".a")
 
-	elseif(COMPILE_MODE STREQUAL "Static") # Build a static library
+	elseif (COMPILE_MODE STREQUAL "Static") # Build a static library
 
 		project(polder-s)
 
@@ -85,11 +81,12 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 
 endif()
 
-# Compiler flags
-set_cxx_norm(CXX_NORM_CXX11)
-if(CMAKE_COMPILER_IS_GNUCXX OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-	add_definitions("-pedantic -Wall")
-	set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+# POLDER requires C++14 in order to compile
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+
+# Conditional flags
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR
+    "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 endif()
 
 # Do not compile deprecated C++03 features
@@ -97,3 +94,6 @@ endif()
 # NOTE: Commented for now, should work with SVN libstc++ or coming GCC 4.8
 # add_definitions("-D_GLIBCXX_USE_DEPRECATED=0")
 
+# Include Catch in the project and build the testsuite
+add_subdirectory(external/catch)
+add_subdirectory(testsuite)

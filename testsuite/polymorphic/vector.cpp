@@ -16,8 +16,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include <utility>
+#include <catch.hpp>
 #include <POLDER/polymorphic/vector.h>
-#include "catch.hpp"
 #include "shapes.h"
 
 using namespace polder;

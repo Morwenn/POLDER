@@ -17,8 +17,8 @@
  */
 #include <type_traits>
 #include <utility>
+#include <catch.hpp>
 #include <POLDER/utility.h>
-#include "catch.hpp"
 
 TEST_CASE( "make_integer_range", "[utility]" )
 {

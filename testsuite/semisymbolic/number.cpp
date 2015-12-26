@@ -16,8 +16,8 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include <type_traits>
+#include <catch.hpp>
 #include <POLDER/semisymbolic/number.h>
-#include "catch.hpp"
 
 using namespace polder;
 using namespace semisymbolic;

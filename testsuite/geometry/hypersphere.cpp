@@ -15,10 +15,10 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include <catch.hpp>
 #include <POLDER/geometry/hypersphere.h>
 #include <POLDER/geometry/point.h>
 #include <POLDER/geometry/vector.h>
-#include "catch.hpp"
 
 using namespace polder;
 

@@ -20,9 +20,9 @@
 #include <tuple>
 #include <type_traits>
 #include <vector>
+#include <catch.hpp>
 #include <POLDER/compiler.h>
 #include <POLDER/iterator.h>
-#include "catch.hpp"
 
 using namespace polder;
 

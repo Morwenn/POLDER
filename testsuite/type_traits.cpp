@@ -22,8 +22,8 @@
 #include <list>
 #include <type_traits>
 #include <vector>
+#include <catch.hpp>
 #include <POLDER/type_traits.h>
-#include "catch.hpp"
 
 using namespace polder;
 

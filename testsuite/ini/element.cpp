@@ -17,8 +17,8 @@
  */
 #include <string>
 #include <typeindex>
+#include <catch.hpp>
 #include <POLDER/ini/element.h>
-#include "catch.hpp"
 
 using namespace polder;
 using namespace ini;

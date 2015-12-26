@@ -16,9 +16,9 @@
  * see <http://www.gnu.org/licenses/>.
  */
 #include <limits>
+#include <catch.hpp>
 #include <POLDER/rational.h>
 #include <POLDER/math/cmath.h>
-#include "catch.hpp"
 
 using namespace polder;
 
