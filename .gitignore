@@ -24,13 +24,21 @@
 CMakeCache.txt
 CMakeFiles
 Makefile
-cmake_install.cmake
+*.cmake
 install_manifest.txt
 
 # Code::Blocks files
 *.cbp
 *.depend
 *.layout
+*.save-failed
 
-# Doxygen
-doxygen
+# Documentation build files
+doc/build
+doc/make.bat
+
+# Static analyzer files
+CppCheckResults.xml
+
+# Downloaded Catch files
+catch
