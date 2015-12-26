@@ -409,22 +409,22 @@ namespace polder
     {
     inline namespace rational_literals
     {
-        auto operator "" _r(std::uintmax_t n)
+        constexpr auto operator "" _r(std::uintmax_t n)
             -> rational<int>;
 
-        auto operator "" _rl(std::uintmax_t n)
+        constexpr auto operator "" _rl(std::uintmax_t n)
             -> rational<long>;
 
-        auto operator "" _rll(std::uintmax_t n)
+        constexpr auto operator "" _rll(std::uintmax_t n)
             -> rational<long long>;
 
-        auto operator "" _ru(std::uintmax_t n)
+        constexpr auto operator "" _ru(std::uintmax_t n)
             -> rational<unsigned>;
 
-        auto operator "" _rul(std::uintmax_t n)
+        constexpr auto operator "" _rul(std::uintmax_t n)
             -> rational<unsigned long>;
 
-        auto operator "" _rull(std::uintmax_t n)
+        constexpr auto operator "" _rull(std::uintmax_t n)
             -> rational<unsigned long long>;
     }}
 
