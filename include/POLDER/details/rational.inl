@@ -646,37 +646,37 @@ inline namespace literals
 {
 inline namespace rational_literals
 {
-    auto operator "" _r(unsigned long long n)
+    auto operator "" _r(std::uintmax_t n)
         -> rational<int>
     {
         return rational<int>{ static_cast<int>(n) };
     }
 
-    auto operator "" _rl(unsigned long long n)
+    auto operator "" _rl(std::uintmax_t n)
         -> rational<long>
     {
         return rational<long>{ static_cast<long>(n) };
     }
 
-    auto operator "" _rll(unsigned long long n)
+    auto operator "" _rll(std::uintmax_t n)
         -> rational<long long>
     {
         return rational<long long>{ static_cast<long long>(n) };
     }
 
-    auto operator "" _ru(unsigned long long n)
+    auto operator "" _ru(std::uintmax_t n)
         -> rational<unsigned>
     {
         return rational<unsigned>{ static_cast<unsigned>(n) };
     }
 
-    auto operator "" _rul(unsigned long long n)
+    auto operator "" _rul(std::uintmax_t n)
         -> rational<unsigned long>
     {
         return rational<unsigned long>{ static_cast<unsigned long>(n) };
     }
 
-    auto operator "" _rull(unsigned long long n)
+    auto operator "" _rull(std::uintmax_t n)
         -> rational<unsigned long long>
     {
         return rational<unsigned long long>{ n };

@@ -21,6 +21,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <cstdint>
 #include <ostream>
 #include <type_traits>
 #include <utility>
@@ -408,22 +409,22 @@ namespace polder
     {
     inline namespace rational_literals
     {
-        auto operator "" _r(unsigned long long n)
+        auto operator "" _r(std::uintmax_t n)
             -> rational<int>;
 
-        auto operator "" _rl(unsigned long long n)
+        auto operator "" _rl(std::uintmax_t n)
             -> rational<long>;
 
-        auto operator "" _rll(unsigned long long n)
+        auto operator "" _rll(std::uintmax_t n)
             -> rational<long long>;
 
-        auto operator "" _ru(unsigned long long n)
+        auto operator "" _ru(std::uintmax_t n)
             -> rational<unsigned>;
 
-        auto operator "" _rul(unsigned long long n)
+        auto operator "" _rul(std::uintmax_t n)
             -> rational<unsigned long>;
 
-        auto operator "" _rull(unsigned long long n)
+        auto operator "" _rull(std::uintmax_t n)
             -> rational<unsigned long long>;
     }}
 
