@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Morwenn
+ * Copyright (C) 2014-2015 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -23,6 +23,7 @@
 ////////////////////////////////////////////////////////////
 #include <POLDER/iterator/get_iterator.h>
 #include <POLDER/iterator/indirect_iterator.h>
+#include <POLDER/iterator/stride_iterator.h>
 #include <POLDER/iterator/transform_iterator.h>
 
 #endif // POLDER_ITERATOR_H_

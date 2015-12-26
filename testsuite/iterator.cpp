@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Morwenn
+ * Copyright (C) 2014-2015 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -148,4 +148,22 @@ TEST_CASE( "indirect_iterator", "[iterator]" )
         CHECK( val == *indirect_it );
         ++indirect_it;
     }
+}
+
+TEST_CASE( "stride_iterator", "[iterator]" )
+{
+    std::vector<int> vec = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+    auto stride_it = make_stride_iterator(std::begin(vec), 3);
+    CHECK( stride_it.base() == std::begin(vec) );
+    CHECK( stride_it.stride() == 3 );
+    CHECK( *stride_it == 0 );
+
+    ++stride_it;
+    CHECK( stride_it.base() == std::begin(vec) + 3 );
+    CHECK( *stride_it == 3 );
+
+    --stride_it;
+    CHECK( stride_it.base() == std::begin(vec) );
+    CHECK( *stride_it == 0 );
 }
