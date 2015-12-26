@@ -33,7 +33,7 @@ namespace polder
         {
             template<typename T>
             auto operator()(T&& arg) const
-                -> decltype(auto)
+                -> decltype(*std::forward<T>(arg))
             {
                 return *std::forward<T>(arg);
             }
