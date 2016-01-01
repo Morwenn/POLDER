@@ -83,9 +83,15 @@ auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
         return { last, true };
     }
 
-    first = std::is_sorted_until(first, last, comp);
-    bool sorted = first == last;
-    auto greatest = std::max_element(--first, last);
+    ForwardIt next = first;
+    while (++next != last)
+    {
+        if (comp(*next, *first)) break;
+        first = next;
+    }
+
+    bool sorted = std::next(first) == last;
+    auto greatest = std::max_element(first, last, comp);
     return { greatest, sorted };
 }
 
@@ -121,7 +127,13 @@ auto max_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare co
         return { last, last };
     }
 
-    first = std::is_sorted_until(first, last, comp);
-    auto greatest = std::max_element(first-1, last);
-    return { greatest, first };
+    ForwardIt next = first;
+    while (++next != last)
+    {
+        if (comp(*next, *first)) break;
+        first = next;
+    }
+
+    auto greatest = std::max_element(first, last, comp);
+    return { greatest, ++first };
 }

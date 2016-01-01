@@ -15,6 +15,7 @@
  * License along with this program. If not,
  * see <http://www.gnu.org/licenses/>.
  */
+#include <forward_list>
 #include <string>
 #include <catch.hpp>
 #include <POLDER/algorithm.h>
@@ -41,5 +42,66 @@ TEST_CASE( "compare algorithm", "[algorithm]" )
         CHECK( compare(""s, "foo"s) == -1 );
         CHECK( compare("bar"s, ""s) == 1 );
         CHECK( compare(""s, ""s) == 0 );
+    }
+}
+
+TEST_CASE( "is_sorted algorithms", "[algorithm]" )
+{
+    SECTION( "min_element_and_is_sorted" )
+    {
+        std::forward_list<int> li1 = { 1, 4, 5, 8, 9 };
+        auto res1 = min_element_and_is_sorted(li1.begin(), li1.end());
+        CHECK( res1.first == li1.begin() );
+        CHECK( *(res1.first) == 1 );
+        CHECK( res1.second );
+
+        std::forward_list<int> li2 = { 4, 8, 3, 2, 1, 5, 6 };
+        auto res2 = min_element_and_is_sorted(li2.begin(), li2.end());
+        CHECK( *(res2.first) == 1 );
+        CHECK( not res2.second );
+    }
+
+    SECTION( "max_element_and_is_sorted" )
+    {
+        std::forward_list<int> li1 = { 1, 4, 5, 8, 9 };
+        auto res1 = max_element_and_is_sorted(li1.begin(), li1.end());
+        CHECK( std::next(res1.first) == li1.end() );
+        CHECK( *(res1.first) == 9 );
+        CHECK( res1.second );
+
+        std::forward_list<int> li2 = { 4, 8, 3, 2, 1, 5, 6 };
+        auto res2 = max_element_and_is_sorted(li2.begin(), li2.end());
+        CHECK( res2.first == std::next(li2.begin()) );
+        CHECK( *(res2.first) == 8 );
+        CHECK( not res2.second );
+    }
+
+    SECTION( "min_element_and_is_sorted_until" )
+    {
+        std::forward_list<int> li1 = { 1, 4, 5, 8, 9 };
+        auto res1 = min_element_and_is_sorted_until(li1.begin(), li1.end());
+        CHECK( res1.first == li1.begin() );
+        CHECK( *(res1.first) == 1 );
+        CHECK( res1.second == li1.end() );
+
+        std::forward_list<int> li2 = { 4, 8, 3, 2, 1, 5, 6 };
+        auto res2 = min_element_and_is_sorted_until(li2.begin(), li2.end());
+        CHECK( *(res2.first) == 1 );
+        CHECK( *(res2.second) == 3 );
+    }
+
+    SECTION( "max_element_and_is_sorted_until" )
+    {
+        std::forward_list<int> li1 = { 1, 4, 5, 8, 9 };
+        auto res1 = max_element_and_is_sorted_until(li1.begin(), li1.end());
+        CHECK( std::next(res1.first) == li1.end() );
+        CHECK( *(res1.first) == 9 );
+        CHECK( res1.second == li1.end() );
+
+        std::forward_list<int> li2 = { 4, 8, 3, 2, 1, 5, 6 };
+        auto res2 = max_element_and_is_sorted_until(li2.begin(), li2.end());
+        CHECK( res2.first == std::next(li2.begin()) );
+        CHECK( *(res2.first) == 8 );
+        CHECK( *(res2.second) == 3 );
     }
 }
