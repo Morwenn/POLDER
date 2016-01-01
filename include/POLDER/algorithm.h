@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 Morwenn
+ * Copyright (C) 2011-2016 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -93,7 +93,7 @@ namespace polder
      */
     template<typename ForwardIt, typename Compare=std::less<>>
     auto min_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp={})
-        -> std::pair<ForwardIt, bool>;
+        -> decltype(auto);
 
     /**
      * @brief Fused std::max_element and std::is_sorted.
@@ -107,7 +107,7 @@ namespace polder
      */
     template<typename ForwardIt, typename Compare=std::less<>>
     auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp={})
-        -> std::pair<ForwardIt, bool>;
+        -> decltype(auto);
 
 
     /**
@@ -122,7 +122,7 @@ namespace polder
      */
     template<typename ForwardIt, typename Compare=std::less<>>
     auto min_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp={})
-        -> std::pair<ForwardIt, ForwardIt>;
+        -> decltype(auto);
 
     /**
      * @brief Fused std::max_element and std::is_sorted_until.
@@ -136,7 +136,7 @@ namespace polder
      */
     template<typename ForwardIt, typename Compare=std::less<>>
     auto max_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp={})
-        -> std::pair<ForwardIt, ForwardIt>;
+        -> decltype(auto);
 
     #include "details/algorithm.inl"
 }

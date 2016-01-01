@@ -25,45 +25,79 @@ These algorithms generally operate on pairs of iterators.
     given operation to the elements obtained by dereferencing the iterators
     in the ranges ``[first1, last1)`` and ``[first2, first2 + last1 - first1)``.
 
-.. cpp:function:: std::pair<ForwardIt, bool> min_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
+.. cpp:function:: auto min_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
 
     This function is a fused algorithm which computes the smallest element in
     a range of elements and returns the corresponding iterator as well as a
-    boolean value corresponding to whether the range is sorted or not. It should
-    perform ``last - first`` comparisons.
+    boolean value corresponding to whether the range is sorted or not. The
+    return type is an unnamed ``struct`` with the following structure:
 
-    If ``comp`` is omitted, the algorithm uses a default-constructed instance of
-    ``std::less<>``.
+    .. code-block:: cpp
 
-.. cpp:function:: std::pair<ForwardIt, bool> max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
+        struct
+        {
+            ForwardIt min;
+            bool is_sorted;
+        };
+
+    The algorithm should perform exactly ``last - first`` comparisons. If the
+    comparator ``comp`` is omitted, the algorithm uses a default-constructed
+    instance of ``std::less<>``.
+
+.. cpp:function:: auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
 
     This function is a fused algorithm which computes the greatest element in
     a range of elements and returns the corresponding iterator as well as a
-    boolean value corresponding to whether the range is sorted or not. It should
-    perform ``last - first`` comparisons.
+    boolean value corresponding to whether the range is sorted or not.  The
+    return type is an unnamed ``struct`` with the following structure:
 
-    If ``comp`` is omitted, the algorithm uses a default-constructed instance of
-    ``std::less<>``.
+    .. code-block:: cpp
 
-.. cpp:function:: std::pair<ForwardIt, ForwardIt> min_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp)
+        struct
+        {
+            ForwardIt max;
+            bool is_sorted;
+        };
+
+    The algorithm should perform exactly ``last - first`` comparisons. If the
+    comparator ``comp`` is omitted, the algorithm uses a default-constructed
+    instance of ``std::less<>``.
+
+.. cpp:function:: auto min_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp)
 
     This function is a fused algorithm which computes the smallest element in
     a range of elements and returns the corresponding iterator as well as another
-    one corresponding to one past the last sorted element. It should perform
-    ``last - first`` comparisons.
+    one corresponding to one past the last sorted element. The return type is an
+    unnamed ``struct`` with the following structure:
 
-    If ``comp`` is omitted, the algorithm uses a default-constructed instance of
-    ``std::less<>``.
+    .. code-block:: cpp
 
-.. cpp:function:: std::pair<ForwardIt, ForwardIt> max_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp)
+        struct
+        {
+            ForwardIt min;
+            ForwardIt until;
+        };
+
+    The algorithm should perform exactly ``last - first`` comparisons. If ``comp``
+    is omitted, the algorithm uses a default-constructed instance of ``std::less<>``.
+
+.. cpp:function:: auto max_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp)
 
     This function is a fused algorithm which computes the greatest element in
     a range of elements and returns the corresponding iterator as well as another
-    one corresponding to one past the last sorted element. It should perform
-    ``last - first`` comparisons.
+    one corresponding to one past the last sorted element. The return type is an
+    unnamed ``struct`` with the following structure:
 
-    If ``comp`` is omitted, the algorithm uses a default-constructed instance of
-    ``std::less<>``.
+    .. code-block:: cpp
+
+        struct
+        {
+            ForwardIt max;
+            ForwardIt until;
+        };
+
+    The algorithm should perform exactly ``last - first`` comparisons. If ``comp``
+    is omitted, the algorithm uses a default-constructed instance of ``std::less<>``.
 
 Other algorithms
 ----------------

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 Morwenn
+ * Copyright (C) 2011-2016 Morwenn
  *
  * POLDER is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,11 +53,13 @@ auto for_each(InputIt1 first1, InputIt1 last1, InputIt2 first2, BinaryOperation 
 
 template<class ForwardIt, class Compare>
 auto min_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
-    -> std::pair<ForwardIt, bool>
+    -> decltype(auto)
 {
+    struct res_t { ForwardIt min; bool is_sorted; };
+
     if (first == last)
     {
-        return { last, true };
+        return res_t { last, true };
     }
 
     ForwardIt smallest = first;
@@ -71,16 +73,18 @@ auto min_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
         }
         ++first;
     }
-    return { smallest, sorted };
+    return res_t { smallest, sorted };
 }
 
 template<class ForwardIt, class Compare>
 auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
-    -> std::pair<ForwardIt, bool>
+    -> decltype(auto)
 {
+    struct res_t { ForwardIt max; bool is_sorted; };
+
     if (first == last)
     {
-        return { last, true };
+        return res_t { last, true };
     }
 
     ForwardIt next = first;
@@ -92,16 +96,18 @@ auto max_element_and_is_sorted(ForwardIt first, ForwardIt last, Compare comp)
 
     bool sorted = std::next(first) == last;
     auto greatest = std::max_element(first, last, comp);
-    return { greatest, sorted };
+    return res_t { greatest, sorted };
 }
 
 template<class ForwardIt, class Compare>
 auto min_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp)
-    -> std::pair<ForwardIt, ForwardIt>
+    -> decltype(auto)
 {
+    struct res_t { ForwardIt min; ForwardIt until; };
+
     if (first == last)
     {
-        return { last, last };
+        return res_t { last, last };
     }
 
     ForwardIt smallest = first;
@@ -115,16 +121,18 @@ auto min_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare co
         }
         ++first;
     }
-    return { smallest, res };
+    return res_t { smallest, res };
 }
 
 template<class ForwardIt, class Compare>
 auto max_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare comp)
-    -> std::pair<ForwardIt, ForwardIt>
+    -> decltype(auto)
 {
+    struct res_t { ForwardIt max; ForwardIt until; };
+
     if (first == last)
     {
-        return { last, last };
+        return res_t { last, last };
     }
 
     ForwardIt next = first;
@@ -135,5 +143,5 @@ auto max_element_and_is_sorted_until(ForwardIt first, ForwardIt last, Compare co
     }
 
     auto greatest = std::max_element(first, last, comp);
-    return { greatest, ++first };
+    return res_t { greatest, ++first };
 }
