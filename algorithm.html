@@ -29,28 +29,10 @@
     <link rel="prev" title="Welcome to POLDER’s documentation!" href="index.html" />
    
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="compiler.html" title="2. compiler — Implementation information"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to POLDER’s documentation!"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">POLDER 1.0.0 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -83,46 +65,76 @@ in the ranges <code class="docutils literal"><span class="pre">[first1,</span> <
 
 <dl class="function">
 <dt id="_CPPv225min_element_and_is_sorted9ForwardIt9ForwardIt7Compare">
-<span id="min_element_and_is_sorted__ForwardIt.ForwardIt.Compare"></span>std::pair&lt;ForwardIt, bool&gt; <code class="descclassname"></code><code class="descname">min_element_and_is_sorted</code><span class="sig-paren">(</span>ForwardIt <em>first</em>, ForwardIt <em>last</em>, Compare <em>comp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv225min_element_and_is_sorted9ForwardIt9ForwardIt7Compare" title="Permalink to this definition">¶</a></dt>
+<span id="min_element_and_is_sorted__ForwardIt.ForwardIt.Compare"></span>auto <code class="descclassname"></code><code class="descname">min_element_and_is_sorted</code><span class="sig-paren">(</span>ForwardIt <em>first</em>, ForwardIt <em>last</em>, Compare <em>comp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv225min_element_and_is_sorted9ForwardIt9ForwardIt7Compare" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is a fused algorithm which computes the smallest element in
 a range of elements and returns the corresponding iterator as well as a
-boolean value corresponding to whether the range is sorted or not. It should
-perform <code class="docutils literal"><span class="pre">last</span> <span class="pre">-</span> <span class="pre">first</span></code> comparisons.</p>
-<p>If <code class="docutils literal"><span class="pre">comp</span></code> is omitted, the algorithm uses a default-constructed instance of
-<code class="docutils literal"><span class="pre">std::less&lt;&gt;</span></code>.</p>
+boolean value corresponding to whether the range is sorted or not. The
+return type is an unnamed <code class="docutils literal"><span class="pre">struct</span></code> with the following structure:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span>
+<span class="p">{</span>
+    <span class="n">ForwardIt</span> <span class="n">min</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="n">is_sorted</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The algorithm should perform exactly <code class="docutils literal"><span class="pre">last</span> <span class="pre">-</span> <span class="pre">first</span></code> comparisons. If the
+comparator <code class="docutils literal"><span class="pre">comp</span></code> is omitted, the algorithm uses a default-constructed
+instance of <code class="docutils literal"><span class="pre">std::less&lt;&gt;</span></code>.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv225max_element_and_is_sorted9ForwardIt9ForwardIt7Compare">
-<span id="max_element_and_is_sorted__ForwardIt.ForwardIt.Compare"></span>std::pair&lt;ForwardIt, bool&gt; <code class="descclassname"></code><code class="descname">max_element_and_is_sorted</code><span class="sig-paren">(</span>ForwardIt <em>first</em>, ForwardIt <em>last</em>, Compare <em>comp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv225max_element_and_is_sorted9ForwardIt9ForwardIt7Compare" title="Permalink to this definition">¶</a></dt>
+<span id="max_element_and_is_sorted__ForwardIt.ForwardIt.Compare"></span>auto <code class="descclassname"></code><code class="descname">max_element_and_is_sorted</code><span class="sig-paren">(</span>ForwardIt <em>first</em>, ForwardIt <em>last</em>, Compare <em>comp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv225max_element_and_is_sorted9ForwardIt9ForwardIt7Compare" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is a fused algorithm which computes the greatest element in
 a range of elements and returns the corresponding iterator as well as a
-boolean value corresponding to whether the range is sorted or not. It should
-perform <code class="docutils literal"><span class="pre">last</span> <span class="pre">-</span> <span class="pre">first</span></code> comparisons.</p>
-<p>If <code class="docutils literal"><span class="pre">comp</span></code> is omitted, the algorithm uses a default-constructed instance of
-<code class="docutils literal"><span class="pre">std::less&lt;&gt;</span></code>.</p>
+boolean value corresponding to whether the range is sorted or not.  The
+return type is an unnamed <code class="docutils literal"><span class="pre">struct</span></code> with the following structure:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span>
+<span class="p">{</span>
+    <span class="n">ForwardIt</span> <span class="n">max</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="n">is_sorted</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The algorithm should perform exactly <code class="docutils literal"><span class="pre">last</span> <span class="pre">-</span> <span class="pre">first</span></code> comparisons. If the
+comparator <code class="docutils literal"><span class="pre">comp</span></code> is omitted, the algorithm uses a default-constructed
+instance of <code class="docutils literal"><span class="pre">std::less&lt;&gt;</span></code>.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv231min_element_and_is_sorted_until9ForwardIt9ForwardIt7Compare">
-<span id="min_element_and_is_sorted_until__ForwardIt.ForwardIt.Compare"></span>std::pair&lt;ForwardIt, ForwardIt&gt; <code class="descclassname"></code><code class="descname">min_element_and_is_sorted_until</code><span class="sig-paren">(</span>ForwardIt <em>first</em>, ForwardIt <em>last</em>, Compare <em>comp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv231min_element_and_is_sorted_until9ForwardIt9ForwardIt7Compare" title="Permalink to this definition">¶</a></dt>
+<span id="min_element_and_is_sorted_until__ForwardIt.ForwardIt.Compare"></span>auto <code class="descclassname"></code><code class="descname">min_element_and_is_sorted_until</code><span class="sig-paren">(</span>ForwardIt <em>first</em>, ForwardIt <em>last</em>, Compare <em>comp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv231min_element_and_is_sorted_until9ForwardIt9ForwardIt7Compare" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is a fused algorithm which computes the smallest element in
 a range of elements and returns the corresponding iterator as well as another
-one corresponding to one past the last sorted element. It should perform
-<code class="docutils literal"><span class="pre">last</span> <span class="pre">-</span> <span class="pre">first</span></code> comparisons.</p>
-<p>If <code class="docutils literal"><span class="pre">comp</span></code> is omitted, the algorithm uses a default-constructed instance of
-<code class="docutils literal"><span class="pre">std::less&lt;&gt;</span></code>.</p>
+one corresponding to one past the last sorted element. The return type is an
+unnamed <code class="docutils literal"><span class="pre">struct</span></code> with the following structure:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span>
+<span class="p">{</span>
+    <span class="n">ForwardIt</span> <span class="n">min</span><span class="p">;</span>
+    <span class="n">ForwardIt</span> <span class="n">until</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The algorithm should perform exactly <code class="docutils literal"><span class="pre">last</span> <span class="pre">-</span> <span class="pre">first</span></code> comparisons. If <code class="docutils literal"><span class="pre">comp</span></code>
+is omitted, the algorithm uses a default-constructed instance of <code class="docutils literal"><span class="pre">std::less&lt;&gt;</span></code>.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="_CPPv231max_element_and_is_sorted_until9ForwardIt9ForwardIt7Compare">
-<span id="max_element_and_is_sorted_until__ForwardIt.ForwardIt.Compare"></span>std::pair&lt;ForwardIt, ForwardIt&gt; <code class="descclassname"></code><code class="descname">max_element_and_is_sorted_until</code><span class="sig-paren">(</span>ForwardIt <em>first</em>, ForwardIt <em>last</em>, Compare <em>comp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv231max_element_and_is_sorted_until9ForwardIt9ForwardIt7Compare" title="Permalink to this definition">¶</a></dt>
+<span id="max_element_and_is_sorted_until__ForwardIt.ForwardIt.Compare"></span>auto <code class="descclassname"></code><code class="descname">max_element_and_is_sorted_until</code><span class="sig-paren">(</span>ForwardIt <em>first</em>, ForwardIt <em>last</em>, Compare <em>comp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv231max_element_and_is_sorted_until9ForwardIt9ForwardIt7Compare" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is a fused algorithm which computes the greatest element in
 a range of elements and returns the corresponding iterator as well as another
-one corresponding to one past the last sorted element. It should perform
-<code class="docutils literal"><span class="pre">last</span> <span class="pre">-</span> <span class="pre">first</span></code> comparisons.</p>
-<p>If <code class="docutils literal"><span class="pre">comp</span></code> is omitted, the algorithm uses a default-constructed instance of
-<code class="docutils literal"><span class="pre">std::less&lt;&gt;</span></code>.</p>
+one corresponding to one past the last sorted element. The return type is an
+unnamed <code class="docutils literal"><span class="pre">struct</span></code> with the following structure:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">struct</span>
+<span class="p">{</span>
+    <span class="n">ForwardIt</span> <span class="n">max</span><span class="p">;</span>
+    <span class="n">ForwardIt</span> <span class="n">until</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The algorithm should perform exactly <code class="docutils literal"><span class="pre">last</span> <span class="pre">-</span> <span class="pre">first</span></code> comparisons. If <code class="docutils literal"><span class="pre">comp</span></code>
+is omitted, the algorithm uses a default-constructed instance of <code class="docutils literal"><span class="pre">std::less&lt;&gt;</span></code>.</p>
 </dd></dl>
 
 </div>
@@ -154,13 +166,15 @@ order. It has efficient specializations for some standard types.</p>
 </ul>
 </li>
 </ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to POLDER&#8217;s documentation!</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="compiler.html"
-                        title="next chapter">2. <code class="docutils literal"><span class="pre">compiler</span></code> &#8212; Implementation information</a></p>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to POLDER&#8217;s documentation!</a></li>
+      <li>Next: <a href="compiler.html" title="next chapter">2. <code class="docutils literal"><span class="pre">compiler</span></code> &#8212; Implementation information</a></li>
+  </ul></li>
+</ul>
+</div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -189,12 +203,12 @@ order. It has efficient specializations for some standard types.</p>
       &copy;2015, Morwenn.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
       |
       <a href="_sources/algorithm.txt"
-          rel="nofollow">Page source</a></li>
+          rel="nofollow">Page source</a>
     </div>
 
     
