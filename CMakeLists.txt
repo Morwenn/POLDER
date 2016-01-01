@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8.7)
 
+project(polder)
+
 # .a output directory
 set(LIBRARY_OUTPUT_PATH lib/)
 
@@ -25,36 +27,32 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 	if (COMPILE_MODE STREQUAL "Dynamic") # Build a dll
 
-		project(polder-d)
-
 		# Define POLDER_DYNAMIC and POLDER_EXPORTS
 		add_definitions(-DPOLDER_DYNAMIC -DPOLDER_EXPORTS)
 
 		# polder-d.dll and libpolder-d.a
 		add_library(
-			polder-d SHARED
+			polder SHARED
 			${source_files}
 		)
-		set_target_properties(polder-d PROPERTIES PREFIX "")
-		set_target_properties(polder-d PROPERTIES IMPORT_SUFFIX ".a")
+		set_target_properties(polder PROPERTIES PREFIX "")
+		set_target_properties(polder PROPERTIES IMPORT_SUFFIX "-d.a")
 
 	elseif (COMPILE_MODE STREQUAL "Static") # Build a static library
 
-		project(polder-d-s)
-
 		# libpolder-d-s.a
 		add_library(
-			polder-d-s STATIC
+			polder STATIC
 			${source_files}
 		)
+		set_target_properties(polder PROPERTIES PREFIX "")
+		set_target_properties(polder PROPERTIES IMPORT_SUFFIX "-d.a")
 
 	endif()
 
 elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
 
 	if (COMPILE_MODE STREQUAL "Dynamic") # Build a dll
-
-		project(polder)
 
 		# Define POLDER_DYNAMIC and POLDER_EXPORTS
 		add_definitions(-DPOLDER_DYNAMIC -DPOLDER_EXPORTS)
@@ -69,11 +67,9 @@ elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
 
 	elseif (COMPILE_MODE STREQUAL "Static") # Build a static library
 
-		project(polder-s)
-
 		# libpolder-s.a
 		add_library(
-			polder-s STATIC
+			polder STATIC
 			${source_files}
 		)
 
